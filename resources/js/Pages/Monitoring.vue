@@ -12,5 +12,7 @@ defineComponent({
 <template>
     <Navbar />
     <Sidebar />
-    <h1>MONITORING PAGE</h1>
+    <main class="main" id="main">
+        <h1>MONITORING PAGE</h1>
+    </main>
 </template>

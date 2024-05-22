@@ -41,16 +41,15 @@ Route::get('/register', function() {
     return inertia('Register');
 });
 
-Route::get('/error', function() {
-    return inertia('Error');
-});
-
-
 Route::get('/intake', function() {
-    return inertia('Intake');
+    return inertia('IntakeIndex');
 });
 
 
 Route::get('/monitoring', function() {
     return inertia('Monitoring');
+});
+
+Route::get('/intake/create', function(){
+    return inertia('IntakeCreate');
 });

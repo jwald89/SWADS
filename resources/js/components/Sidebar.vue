@@ -12,7 +12,7 @@ defineComponent({
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
-                <Link class="nav-link" href="dashboard">
+                <Link class="nav-link" href="/dashboard">
                     <i class="bi bi-grid"></i>
                     <span>DASHBOARD</span>
                 </Link>
@@ -55,8 +55,7 @@ defineComponent({
                     data-bs-toggle="collapse"
                     href="#"
                 >
-                    <i class="bi bi-journal-text"></i
-                    ><span>AICS MONITORING</span
+                    <i class="bi bi-journal-text"></i><span>PYAP INVENTORY</span
                     ><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul
@@ -70,56 +69,16 @@ defineComponent({
                             ><span>Form Elements</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="forms-layouts.html">
-                            <i class="bi bi-circle"></i
-                            ><span>Form Layouts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="forms-editors.html">
-                            <i class="bi bi-circle"></i
-                            ><span>Form Editors</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="forms-validation.html">
-                            <i class="bi bi-circle"></i
-                            ><span>Form Validation</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
             <!-- End Forms Nav -->
 
             <li class="nav-item">
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#tables-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
+                <Link href="/profile" class="nav-link collapsed">
                     <i class="bi bi-layout-text-window-reverse"></i
                     ><span>CERTIFICATE OF ELIGIBILITY</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="tables-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <a href="tables-general.html">
-                            <i class="bi bi-circle"></i
-                            ><span>General Tables</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tables-data.html">
-                            <i class="bi bi-circle"></i><span>Data Tables</span>
-                        </a>
-                    </li>
-                </ul>
+                    ><i class="bi ms-auto"></i>
+                </Link>
             </li>
             <!-- End Tables Nav -->
 
@@ -217,14 +176,6 @@ defineComponent({
                 </Link>
             </li>
             <!-- End Login Page Nav -->
-
-            <li class="nav-item">
-                <Link class="nav-link collapsed" href="error">
-                    <i class="bi bi-dash-circle"></i>
-                    <span>Error 404</span>
-                </Link>
-            </li>
-            <!-- End Error 404 Page Nav -->
         </ul>
     </aside>
     <!-- End Sidebar-->

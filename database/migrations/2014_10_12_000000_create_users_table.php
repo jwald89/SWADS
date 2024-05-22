@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('username', 50);
             $table->enum('role_type', UserTypes::values())->default(UserTypes::IS_ADMIN->value);
-            // $table->string('email')->unique()->nullable();
-            // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->timestamps();
         });
