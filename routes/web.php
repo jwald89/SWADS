@@ -47,7 +47,11 @@ Route::get('/intake', function() {
 
 
 Route::get('/monitoring', function() {
-    return inertia('Monitoring');
+    return inertia('MonitoringIndex');
+});
+
+Route::get('/monitoring/create', function() {
+    return inertia('MonitoringCreate');
 });
 
 Route::get('/intake/create', function(){

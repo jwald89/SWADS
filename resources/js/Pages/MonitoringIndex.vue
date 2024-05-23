@@ -17,7 +17,7 @@ defineComponent({
     <main class="main" id="main">
         <div class="card">
             <div class="card-header bg-dark text-white fw-bold">
-                Intake Lists
+                Monitoring Lists
             </div>
             <div class="card-body">
                 <div class="d-flex justify-space-around mt-4">
@@ -36,21 +36,21 @@ defineComponent({
                     <div class="col-lg-6 float-end">
                         <Link
                             class="btn btn-md btn-primary float-end"
-                            href="/intake/create"
+                            href="/monitoring/create"
                             >Create New</Link
                         >
                     </div>
                 </div>
 
                 <div class="table-responsive mt-4">
-                    <table class="table">
-                        <thead>
+                    <table class="table table-hover">
+                        <thead class="text-center">
                             <tr>
-                                <th>Date Created</th>
+                                <th>Kind of Assistance</th>
                                 <th>Name</th>
-                                <th>Gender</th>
-                                <th>Birth Date</th>
-                                <th>Address</th>
+                                <th>Beneficiary</th>
+                                <th>Sector</th>
+                                <th>Municipality</th>
                                 <th>Contact No.</th>
                                 <th>Action</th>
                             </tr>

@@ -10,6 +10,23 @@
                 <div class="card">
                     <div class="card-body">
                         <form class="row g-3 mt-3">
+                            <div class="col-md-12 mb-3">
+                                <div class="col-md-6 float-end">
+                                    <label for="category"
+                                        >Please select type of assistance
+                                        <span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="category"
+                                        name="category"
+                                    >
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <label for="lastName" class="form-label"
                                     >Last Name</label
@@ -36,8 +53,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="middleName" class="form-label"
-                                    >Middle Name</label
+                                    >Middle Name<span class="text-danger"
+                                        >*</span
+                                    ></label
                                 >
+                                <small> (type N/A if none.)</small>
                                 <input
                                     type="text"
                                     class="form-control"
@@ -49,7 +69,7 @@
                                 <label for="age" class="form-label">Age</label>
                                 <span class="text-danger">*</span>
                                 <input
-                                    type="email"
+                                    type="text"
                                     class="form-control"
                                     id="age"
                                     name="age"
@@ -57,7 +77,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="birthDate" class="form-label"
-                                    >Birth Date</label
+                                    >Date of Birth</label
                                 >
                                 <span class="text-danger">*</span>
                                 <input
@@ -72,24 +92,28 @@
                                     >Gender</label
                                 >
                                 <span class="text-danger">*</span>
-                                <input
-                                    type="password"
-                                    class="form-control"
+                                <select
+                                    type="text"
+                                    class="form-select"
                                     id="gender"
                                     name="gender"
-                                />
+                                >
+                                    <option value=""></option>
+                                </select>
                             </div>
                             <div class="col-md-3">
                                 <label for="civilStatus" class="form-label"
                                     >Civil Status</label
                                 >
                                 <span class="text-danger">*</span>
-                                <input
+                                <select
                                     type="password"
-                                    class="form-control"
+                                    class="form-select"
                                     id="civilStatus"
                                     name="civilStatus"
-                                />
+                                >
+                                    <option value=""></option>
+                                </select>
                             </div>
                             <div class="col-12">
                                 <label for="address" class="form-label"
@@ -140,15 +164,12 @@
                                 />
                             </div>
 
-                            <div class="text-center">
+                            <div class="mt-4">
                                 <button
-                                    type="submit"
-                                    class="btn btn-primary me-2"
+                                    type="button"
+                                    class="btn btn-primary float-end"
                                 >
-                                    Save
-                                </button>
-                                <button type="reset" class="btn btn-secondary">
-                                    Reset
+                                    Next
                                 </button>
                             </div>
                         </form>

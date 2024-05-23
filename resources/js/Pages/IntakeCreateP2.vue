@@ -36,7 +36,12 @@
                             />
                         </div>
                         <div class="col-md-4">
-                            <label for="middleName">Middle Name</label>
+                            <label for="middleName"
+                                >Middle Name<span class="text-danger"
+                                    >*</span
+                                ></label
+                            >
+                            <small> (type N/A if none.)</small>
                             <input
                                 type="text"
                                 class="form-control"
@@ -89,12 +94,12 @@
                             />
                         </div>
 
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary me-2">
-                                Save
-                            </button>
-                            <button type="reset" class="btn btn-secondary">
-                                Reset
+                        <div class="mt-4">
+                            <button
+                                type="button"
+                                class="btn btn-primary float-end"
+                            >
+                                Next
                             </button>
                         </div>
                     </form>

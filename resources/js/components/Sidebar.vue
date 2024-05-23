@@ -19,6 +19,8 @@ defineComponent({
             </li>
             <!-- End Dashboard Nav -->
 
+            <li class="nav-heading">Modules</li>
+
             <li class="nav-item">
                 <a
                     class="nav-link collapsed"
@@ -151,12 +153,12 @@ defineComponent({
             </li>
             <!-- End Icons Nav -->
 
-            <li class="nav-heading">Pages</li>
+            <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
                 <Link class="nav-link collapsed" href="profile">
                     <i class="bi bi-person"></i>
-                    <span>Profile</span>
+                    <span>Users</span>
                 </Link>
             </li>
             <!-- End Profile Page Nav -->
@@ -164,18 +166,20 @@ defineComponent({
             <li class="nav-item">
                 <Link class="nav-link collapsed" href="register">
                     <i class="bi bi-card-list"></i>
-                    <span>Register</span>
+                    <span>Municipals</span>
                 </Link>
             </li>
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="login">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Login</span>
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Types of Assistance</span>
                 </Link>
             </li>
-            <!-- End Login Page Nav -->
+            <!-- End Register Page Nav -->
+
+            <li class="nav-heading">Reports</li>
         </ul>
     </aside>
     <!-- End Sidebar-->
