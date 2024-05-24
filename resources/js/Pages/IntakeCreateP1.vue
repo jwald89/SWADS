@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <form class="row g-3 mt-3">
                             <div class="col-md-12 mb-3">
-                                <div class="col-md-6 float-end">
+                                <div class="col-md-4 float-end">
                                     <label for="category"
                                         >Please select type of assistance
                                         <span class="text-danger"

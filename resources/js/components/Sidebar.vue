@@ -166,7 +166,7 @@ defineComponent({
             <li class="nav-item">
                 <Link class="nav-link collapsed" href="register">
                     <i class="bi bi-card-list"></i>
-                    <span>Municipals</span>
+                    <span>Types of Assistance</span>
                 </Link>
             </li>
             <!-- End Register Page Nav -->
@@ -174,7 +174,48 @@ defineComponent({
             <li class="nav-item">
                 <Link class="nav-link collapsed" href="register">
                     <i class="bi bi-card-list"></i>
-                    <span>Types of Assistance</span>
+                    <span>Municipality</span>
+                </Link>
+            </li>
+
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Barangay</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Sector</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Staff Administered</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Liaison</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Office Charges</span>
                 </Link>
             </li>
             <!-- End Register Page Nav -->
