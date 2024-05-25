@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PersonalInformation extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name', 'nick_name', 'age', 'category', 'sex', 'civil_status', 'birthdate', 'job', 'contact_no'];
+
+    public function familyCompose()
+    {
+    }
 }

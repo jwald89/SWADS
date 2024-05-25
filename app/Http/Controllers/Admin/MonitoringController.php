@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MonitorController extends Controller
+class MonitoringController extends Controller
 {
     //
 }

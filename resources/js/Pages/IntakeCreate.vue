@@ -7,6 +7,16 @@ import IntakeCreateP2 from "../Pages/IntakeCreateP2.vue";
 import IntakeCreateP3 from "../Pages/IntakeCreateP3.vue";
 import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
 import { Link } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
+
+const civilStatus = usePage().props.civilStatus;
+
+const props = defineProps({
+    assistances: {
+        type: Object,
+        required: true,
+    },
+});
 
 defineComponent({
     Link,
@@ -102,7 +112,10 @@ defineComponent({
                     </li>
                 </ul>
                 <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-                    <IntakeCreateP1 />
+                    <IntakeCreateP1
+                        :assistances="assistances"
+                        :civilStatus="civilStatus"
+                    />
                     <IntakeCreateP2 />
                     <IntakeCreateP3 />
                     <IntakeCreateP4 />

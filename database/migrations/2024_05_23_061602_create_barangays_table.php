@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('barangays', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('mun_id')->nullable();
+            $table->foreignId('mun_id')->references('id')->on('municipalities');
+            $table->string('name');
             $table->timestamps();
         });
     }

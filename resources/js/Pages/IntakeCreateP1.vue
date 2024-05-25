@@ -1,3 +1,16 @@
+<script setup>
+defineProps({
+    assistances: {
+        type: Object,
+        required: true,
+    },
+    civilStatus: {
+        type: Object,
+        required: true,
+    },
+});
+</script>
+
 <template>
     <div
         class="tab-pane fade show active"
@@ -23,7 +36,12 @@
                                         id="category"
                                         name="category"
                                     >
-                                        <option value=""></option>
+                                        <option
+                                            v-for="assistance in assistances.data"
+                                            :key="assistance.id"
+                                        >
+                                            {{ assistance.name }}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -93,12 +111,12 @@
                                 >
                                 <span class="text-danger">*</span>
                                 <select
-                                    type="text"
                                     class="form-select"
                                     id="gender"
                                     name="gender"
                                 >
-                                    <option value=""></option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -107,12 +125,16 @@
                                 >
                                 <span class="text-danger">*</span>
                                 <select
-                                    type="password"
                                     class="form-select"
                                     id="civilStatus"
                                     name="civilStatus"
                                 >
-                                    <option value=""></option>
+                                    <option
+                                        v-for="civil in civilStatus"
+                                        :key="civil"
+                                    >
+                                        {{ civil }}
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-12">

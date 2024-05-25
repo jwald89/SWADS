@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Enums\GenderTypes;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,6 +14,24 @@ return new class extends Migration
     {
         Schema::create('monitorings', function (Blueprint $table) {
             $table->id();
+            $table->string('claimant');
+            $table->string('beneficiary');
+            $table->string('age');
+            $table->enum('sex', GenderTypes::values())->default(GenderTypes::IS_MALE->value);
+            $table->string('contact_no');
+            $table->string('sector');
+            $table->string('municipality');
+            $table->string('barangay');
+            $table->string('client_type');
+            $table->string('assistance_type');
+            $table->decimal('amount', 10, 3);
+            $table->string('charges');
+            $table->date('date_intake');
+            $table->string('staff_admin');
+            $table->string('liaison');
+            $table->date('status_date');
+            $table->text('remarks');
+            $table->string('status');
             $table->timestamps();
         });
     }

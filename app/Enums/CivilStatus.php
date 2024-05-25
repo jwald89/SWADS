@@ -4,11 +4,11 @@ namespace App\Enums;
 
 enum CivilStatus: string
 {
-    case SINGLE = 'single';
-    case MARRIED = 'married';
-    case WIDOWED = 'widowed';
-    case DIVORCED = 'divorced';
-    case SEPARATED = 'separated';
+    case Single = 'single';
+    case Married = 'married';
+    case Widowed = 'widowed';
+    case Divorced = 'divorced';
+    case Separated = 'separated';
 
     public static function values():array
     {

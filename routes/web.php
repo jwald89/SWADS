@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\IntakeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
 Route::get('/', function() {
     return inertia('LayoutApp');
 });
@@ -28,6 +30,15 @@ Route::get('/', function() {
 Route::get('/dashboard', function() {
     return inertia('Dashboard');
 });
+
+Route::controller(IntakeController::class)
+        ->group(function() {
+            Route::get('/intake', 'index');
+            Route::get('/intake/create', 'create');
+        });
+
+
+
 
 Route::get('/profile', function() {
     return inertia('Profile');
@@ -41,10 +52,6 @@ Route::get('/register', function() {
     return inertia('Register');
 });
 
-Route::get('/intake', function() {
-    return inertia('IntakeIndex');
-});
-
 
 Route::get('/monitoring', function() {
     return inertia('MonitoringIndex');
@@ -54,6 +61,3 @@ Route::get('/monitoring/create', function() {
     return inertia('MonitoringCreate');
 });
 
-Route::get('/intake/create', function(){
-    return inertia('IntakeCreate');
-});
