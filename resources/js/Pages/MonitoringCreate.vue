@@ -16,7 +16,10 @@ defineComponent({
     <Sidebar />
     <main class="main" id="main">
         <div class="card">
-            <div class="card-header bg-dark text-white">
+            <div
+                class="card-header text-white"
+                style="background-color: #581b98"
+            >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Create Record</h5>
@@ -50,13 +53,12 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <select
-                            class="form-select"
+                        <input
+                            type="text"
+                            class="form-control"
                             name="beneficiary"
                             id="beneficiary"
-                        >
-                            <option value=""></option>
-                        </select>
+                        />
                     </div>
                     <div class="col-md-2">
                         <label for="age"
@@ -67,13 +69,19 @@ defineComponent({
                             class="form-control"
                             id="age"
                             name="age"
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
                         <label for="gender"
                             >Gender<span class="text-danger">*</span></label
                         >
-                        <select class="form-select" name="gender" id="gender">
+                        <select
+                            class="form-select"
+                            name="gender"
+                            id="gender"
+                            disabled
+                        >
                             <option value=""></option>
                         </select>
                     </div>
@@ -87,6 +95,7 @@ defineComponent({
                             class="form-control"
                             name="contactNo"
                             id="contactNo"
+                            disabled
                         />
                     </div>
                     <div class="col-md-5">
@@ -108,6 +117,7 @@ defineComponent({
                             class="form-select"
                             name="muninicipal"
                             id="muninicipal"
+                            disabled
                         >
                             <option value=""></option>
                         </select>
@@ -121,6 +131,7 @@ defineComponent({
                             class="form-select"
                             name="barangay"
                             id="barangay"
+                            disabled
                         >
                             <option value=""></option>
                         </select>
@@ -148,6 +159,7 @@ defineComponent({
                             class="form-select"
                             name="assistanceType"
                             id="assistanceType"
+                            disabled
                         >
                             <option value=""></option>
                         </select>
@@ -185,6 +197,7 @@ defineComponent({
                             class="form-control"
                             id="intakeDate"
                             name="intakeDate"
+                            disabled
                         />
                     </div>
                     <div class="col-md-5">

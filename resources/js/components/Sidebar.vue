@@ -37,12 +37,20 @@ defineComponent({
                     data-bs-parent="#sidebar-nav"
                 >
                     <li>
-                        <Link href="/intake">
+                        <Link
+                            :class="{ 'bg-primary': $page.url == '/intake' }"
+                            href="/intake"
+                        >
                             <i class="bi bi-circle"></i><span>INTAKE</span>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/monitoring">
+                        <Link
+                            :class="{
+                                'bg-primary': $page.url == '/monitoring',
+                            }"
+                            href="/monitoring"
+                        >
                             <i class="bi bi-circle"></i><span>MONITORING</span>
                         </Link>
                     </li>
@@ -57,7 +65,7 @@ defineComponent({
                     data-bs-toggle="collapse"
                     href="#"
                 >
-                    <i class="bi bi-journal-text"></i><span>PYAP INVENTORY</span
+                    <i class="bi bi-journal-text"></i><span>SECTORAL DATA</span
                     ><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul
@@ -66,10 +74,10 @@ defineComponent({
                     data-bs-parent="#sidebar-nav"
                 >
                     <li>
-                        <a href="forms-elements.html">
+                        <Link href="/sectoral-data">
                             <i class="bi bi-circle"></i
-                            ><span>Form Elements</span>
-                        </a>
+                            ><span>Sectoral Data Index</span>
+                        </Link>
                     </li>
                 </ul>
             </li>
@@ -156,7 +164,11 @@ defineComponent({
             <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="profile">
+                <Link
+                    class="nav-link collapsed"
+                    :class="{ 'bg-primary': $page.url == '/profile' }"
+                    href="/profile"
+                >
                     <i class="bi bi-person"></i>
                     <span>Users</span>
                 </Link>

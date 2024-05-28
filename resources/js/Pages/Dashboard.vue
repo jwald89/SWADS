@@ -1,12 +1,10 @@
 <script setup>
-import LayoutApp from "../Pages/LayoutApp.vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import Footer from "@/components/Footer.vue";
 import { defineComponent } from "vue";
 
 defineComponent({
-    LayoutApp,
     Navbar,
     Sidebar,
     Footer,

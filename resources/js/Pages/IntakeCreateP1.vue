@@ -4,6 +4,14 @@ defineProps({
         type: Object,
         required: true,
     },
+    municipality: {
+        type: Object,
+        required: true,
+    },
+    barangays: {
+        type: Object,
+        required: true,
+    },
     civilStatus: {
         type: Object,
         required: true,
@@ -21,30 +29,50 @@ defineProps({
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
+                    <div class="card-body row g-3 mt-1">
+                        <div class="col-md-4 mb-2">
+                            <label for="classification">Classification</label>
+                            <select
+                                class="form-select"
+                                name="classification"
+                                id="classification"
+                            >
+                                <option value="non4ps">Non-poor 4Ps</option>
+                                <option value="for-peace">4Ps</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 float-end">
+                            <label for="category"
+                                >Please select type of assistance
+                                <span class="text-danger">*</span></label
+                            >
+                            <select
+                                class="form-select"
+                                id="category"
+                                name="category"
+                            >
+                                <option
+                                    v-for="assistance in assistances.data"
+                                    :key="assistance.id"
+                                >
+                                    {{ assistance.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dateIntake">Date</label>
+                            <input
+                                type="date"
+                                class="form-control"
+                                name="dateIntake"
+                                id="dateIntake"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-body">
-                        <form class="row g-3 mt-3">
-                            <div class="col-md-12 mb-3">
-                                <div class="col-md-4 float-end">
-                                    <label for="category"
-                                        >Please select type of assistance
-                                        <span class="text-danger"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <select
-                                        class="form-select"
-                                        id="category"
-                                        name="category"
-                                    >
-                                        <option
-                                            v-for="assistance in assistances.data"
-                                            :key="assistance.id"
-                                        >
-                                            {{ assistance.name }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
+                        <form class="row g-3 mt-1">
                             <div class="col-md-4">
                                 <label for="lastName" class="form-label"
                                     >Last Name</label
@@ -57,6 +85,7 @@ defineProps({
                                     name="lastName"
                                 />
                             </div>
+
                             <div class="col-md-4">
                                 <label for="firstName" class="form-label"
                                     >First Name</label
@@ -69,6 +98,7 @@ defineProps({
                                     name="firstName"
                                 />
                             </div>
+
                             <div class="col-md-4">
                                 <label for="middleName" class="form-label"
                                     >Middle Name<span class="text-danger"
@@ -83,7 +113,22 @@ defineProps({
                                     name="middleName"
                                 />
                             </div>
-                            <div class="col-md-3">
+
+                            <div class="col-md-4">
+                                <label for="nickName" class="form-label"
+                                    >Nick Name<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="nickName"
+                                    name="nickName"
+                                />
+                            </div>
+
+                            <div class="col-md-2">
                                 <label for="age" class="form-label">Age</label>
                                 <span class="text-danger">*</span>
                                 <input
@@ -93,6 +138,7 @@ defineProps({
                                     name="age"
                                 />
                             </div>
+
                             <div class="col-md-3">
                                 <label for="birthDate" class="form-label"
                                     >Date of Birth</label
@@ -105,6 +151,7 @@ defineProps({
                                     name="birthDate"
                                 />
                             </div>
+
                             <div class="col-md-3">
                                 <label for="gender" class="form-label"
                                     >Gender</label
@@ -119,11 +166,66 @@ defineProps({
                                     <option value="female">Female</option>
                                 </select>
                             </div>
+
                             <div class="col-md-3">
-                                <label for="civilStatus" class="form-label"
-                                    >Civil Status</label
+                                <label for="purok"
+                                    >Purok<span class="text-danger"
+                                        >*</span
+                                    ></label
                                 >
-                                <span class="text-danger">*</span>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="purok"
+                                    id="purok"
+                                />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="barangay"
+                                    >Barangay<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <select
+                                    class="form-select"
+                                    name="barangay"
+                                    id="barangay"
+                                >
+                                    <option
+                                        v-for="barangay in barangays.data"
+                                        :key="barangay.id"
+                                    >
+                                        {{ barangay.barangay }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="municipal"
+                                    >Municipality<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <select
+                                    class="form-select"
+                                    name="municipal"
+                                    id="municipal"
+                                >
+                                    <option
+                                        v-for="municipal in municipality.data"
+                                        :key="municipal.id"
+                                    >
+                                        {{ municipal.municipality }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="civilStatus"
+                                    >Civil Status<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
                                 <select
                                     class="form-select"
                                     id="civilStatus"
@@ -137,19 +239,7 @@ defineProps({
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12">
-                                <label for="address" class="form-label"
-                                    >Address</label
-                                >
-                                <span class="text-danger">*</span>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="address"
-                                    name="address"
-                                    placeholder="1234 Main St"
-                                />
-                            </div>
+
                             <div class="col-md-6">
                                 <label for="occupation" class="form-label"
                                     >Occupation</label

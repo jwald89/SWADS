@@ -1,22 +1,20 @@
 <script setup>
 import { defineComponent } from "vue";
+import Dashboard from "../Pages/Dashboard.vue";
 import { Link } from "@inertiajs/vue3";
 
 defineComponent({
+    Dashboard,
     Link,
 });
 </script>
 
 <template>
-    <header
-        id="header"
-        class="header fixed-top d-flex align-items-center"
-        style="background-color: #c5e3f6"
-    >
+    <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <Link href="/dashboard" class="logo d-flex align-items-center">
                 <!-- <img src="assets/img/logo.png" alt="" /> -->
-                <span class="d-none d-lg-block">PSMDS</span>
+                <span class="d-none d-lg-block">SwaDs</span>
             </Link>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -307,4 +305,243 @@ defineComponent({
         <!-- End Icons Navigation -->
     </header>
     <!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <Link class="nav-link" href="/dashboard">
+                    <i class="bi bi-grid"></i>
+                    <span>DASHBOARD</span>
+                </Link>
+            </li>
+            <!-- End Dashboard Nav -->
+
+            <li class="nav-heading">Modules</li>
+
+            <li class="nav-item">
+                <a
+                    class="nav-link collapsed"
+                    data-bs-target="#components-nav"
+                    data-bs-toggle="collapse"
+                    href="#"
+                >
+                    <i class="bi bi-menu-button-wide"></i><span>AICS</span
+                    ><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul
+                    id="components-nav"
+                    class="nav-content collapse"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <Link href="/intake">
+                            <i class="bi bi-circle"></i><span>INTAKE</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/monitoring">
+                            <i class="bi bi-circle"></i><span>MONITORING</span>
+                        </Link>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Components Nav -->
+
+            <li class="nav-item">
+                <a
+                    class="nav-link collapsed"
+                    data-bs-target="#forms-nav"
+                    data-bs-toggle="collapse"
+                    href="#"
+                >
+                    <i class="bi bi-journal-text"></i><span>SECTORAL DATA</span
+                    ><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul
+                    id="forms-nav"
+                    class="nav-content collapse"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <a href="forms-elements.html">
+                            <i class="bi bi-circle"></i
+                            ><span>Form Elements</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Forms Nav -->
+
+            <li class="nav-item">
+                <Link href="/profile" class="nav-link collapsed">
+                    <i class="bi bi-layout-text-window-reverse"></i
+                    ><span>CERTIFICATE OF ELIGIBILITY</span
+                    ><i class="bi ms-auto"></i>
+                </Link>
+            </li>
+            <!-- End Tables Nav -->
+
+            <li class="nav-item">
+                <a
+                    class="nav-link collapsed"
+                    data-bs-target="#charts-nav"
+                    data-bs-toggle="collapse"
+                    href="#"
+                >
+                    <i class="bi bi-bar-chart"></i><span>CHARTS</span
+                    ><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul
+                    id="charts-nav"
+                    class="nav-content collapse"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <a href="charts-chartjs.html">
+                            <i class="bi bi-circle"></i><span>Chart.js</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts-apexcharts.html">
+                            <i class="bi bi-circle"></i><span>ApexCharts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="charts-echarts.html">
+                            <i class="bi bi-circle"></i><span>ECharts</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Charts Nav -->
+
+            <li class="nav-item">
+                <a
+                    class="nav-link collapsed"
+                    data-bs-target="#icons-nav"
+                    data-bs-toggle="collapse"
+                    href="#"
+                >
+                    <i class="bi bi-person"></i><span>PROFILE</span
+                    ><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul
+                    id="icons-nav"
+                    class="nav-content collapse"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <a href="icons-bootstrap.html">
+                            <i class="bi bi-circle"></i
+                            ><span>Bootstrap Icons</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="icons-remix.html">
+                            <i class="bi bi-circle"></i><span>Remix Icons</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="icons-boxicons.html">
+                            <i class="bi bi-circle"></i><span>Boxicons</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Icons Nav -->
+
+            <li class="nav-heading">Maintenance</li>
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="profile">
+                    <i class="bi bi-person"></i>
+                    <span>Users</span>
+                </Link>
+            </li>
+            <!-- End Profile Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Types of Assistance</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Municipality</span>
+                </Link>
+            </li>
+
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Barangay</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Sector</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Staff Administered</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Liaison</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <Link class="nav-link collapsed" href="register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Office Charges</span>
+                </Link>
+            </li>
+            <!-- End Register Page Nav -->
+
+            <li class="nav-heading">Reports</li>
+        </ul>
+    </aside>
+    <!-- End Sidebar-->
+
+    <main class="main" id="main">
+        <slot />
+    </main>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright
+            <strong><span>Province of Surigao Del Sur</span></strong
+            >. All Rights Reserved
+        </div>
+        <div class="credits">Developed by <a href="">PADMO-ITU</a></div>
+    </footer>
+    <!-- End Footer -->
+
+    <a
+        href="#"
+        class="back-to-top d-flex align-items-center justify-content-center"
+    >
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
 </template>

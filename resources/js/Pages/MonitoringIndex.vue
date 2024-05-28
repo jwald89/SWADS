@@ -16,7 +16,10 @@ defineComponent({
     <Sidebar />
     <main class="main" id="main">
         <div class="card">
-            <div class="card-header bg-dark text-white fw-bold">
+            <div
+                class="card-header text-white fw-bold"
+                style="background-color: #581b98"
+            >
                 Monitoring Lists
             </div>
             <div class="card-body">
@@ -28,7 +31,7 @@ defineComponent({
                                 class="form-control"
                                 placeholder="Search here.."
                             />
-                            <button class="btn btn-success" type="button">
+                            <button class="btn btn-secondary" type="button">
                                 Search
                             </button>
                         </div>

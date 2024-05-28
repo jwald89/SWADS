@@ -14,9 +14,9 @@ use App\Http\Controllers\Admin\IntakeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Auth::routes();
 
@@ -61,3 +61,6 @@ Route::get('/monitoring/create', function() {
     return inertia('MonitoringCreate');
 });
 
+Route::get('/sectoral-data', function() {
+    return inertia('SectoralDataIndex');
+});

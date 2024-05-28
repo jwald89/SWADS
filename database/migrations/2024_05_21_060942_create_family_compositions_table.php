@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('applicant_id')->nullable();
             $table->foreign('applicant_id')->references('id')->on('personal_information');
-            $table->string('name', 100);
+            $table->string('lastname', 100);
+            $table->string('firstname', 100);
+            $table->string('middlename', 100);
             $table->string('age');
             $table->string('relationship');
             $table->string('educ_attainment')->nullable();

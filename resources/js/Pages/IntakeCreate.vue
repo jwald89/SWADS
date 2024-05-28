@@ -16,6 +16,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    municipality: {
+        type: Object,
+        required: true,
+    },
+    barangays: {
+        type: Object,
+        required: true,
+    },
 });
 
 defineComponent({
@@ -34,7 +42,10 @@ defineComponent({
     <Sidebar />
     <main class="main" id="main">
         <div class="card">
-            <div class="card-header bg-dark text-white">
+            <div
+                class="card-header text-white"
+                style="background-color: #581b98"
+            >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Create Intake</h5>
@@ -115,6 +126,8 @@ defineComponent({
                     <IntakeCreateP1
                         :assistances="assistances"
                         :civilStatus="civilStatus"
+                        :municipality="municipality"
+                        :barangays="barangays"
                     />
                     <IntakeCreateP2 />
                     <IntakeCreateP3 />
