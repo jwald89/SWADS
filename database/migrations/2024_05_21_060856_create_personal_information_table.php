@@ -15,24 +15,27 @@ return new class extends Migration
     {
         Schema::create('personal_information', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->nullable();
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id')->references('id')->on('users')->nullable();
             $table->string('classification');
             $table->string('category');
             $table->date('date_intake');
-            $table->string('lastname', 100);
-            $table->string('firstname', 100);
-            $table->string('middlename', 100);
-            $table->string('nick_name', 100);
+            $table->string('last_name');
+            $table->string('first_name');
+            $table->string('middle_name');
+            $table->string('extn_name')->nullable();
+            $table->string('nick_name');
             $table->string('age');
             $table->date('birthdate');
             $table->enum('sex', GenderTypes::values())->default(GenderTypes::IS_MALE->value);
-            $table->string('purok');
+            $table->string('purok')->nullable();
+            $table->string('street')->nullable();
             $table->string('barangay');
             $table->string('municipality');
             $table->enum('civil_stats', CivilStatus::values())->default(CivilStatus::Single->value);
             $table->string('job')->nullable();
             $table->string('contact_no')->nullable();
+            $table->string('income')->nullable();
             $table->timestamps();
         });
     }

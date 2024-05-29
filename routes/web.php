@@ -22,7 +22,6 @@ use App\Http\Controllers\Admin\IntakeController;
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
 Route::get('/', function() {
     return inertia('LayoutApp');
 });
@@ -34,11 +33,9 @@ Route::get('/dashboard', function() {
 Route::controller(IntakeController::class)
         ->group(function() {
             Route::get('/intake', 'index');
-            Route::get('/intake/create', 'create');
+            Route::get('/intake/create', 'create')->name('intake.create');
+            Route::post('/intake/create-post', 'store')->name('intake.post');
         });
-
-
-
 
 Route::get('/profile', function() {
     return inertia('Profile');

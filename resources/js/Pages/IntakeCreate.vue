@@ -1,13 +1,47 @@
 <script setup>
-import { defineComponent } from "vue";
+import { defineComponent, reactive, provide } from "vue";
+import axios from "axios";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import IntakeCreateP1 from "../Pages/IntakeCreateP1.vue";
 import IntakeCreateP2 from "../Pages/IntakeCreateP2.vue";
 import IntakeCreateP3 from "../Pages/IntakeCreateP3.vue";
 import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
-import { Link } from "@inertiajs/vue3";
-import { usePage } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
+
+const form = reactive({
+    classification: "",
+    category: "",
+    date_intake: "",
+    last_name: "",
+    first_name: "",
+    middle_name: "",
+    extn_name: "",
+    nick_name: "",
+    purok: "",
+    street: "",
+    barangay: "",
+    municipality: "",
+    age: "",
+    birthdate: "",
+    sex: "",
+    civil_stats: "",
+    job: "",
+    contact_no: "",
+    income: "",
+});
+
+const submitPersonalDetails = async () => {
+    try {
+        const response = await axios.post("/intake/create-post", form);
+        console.log("working..");
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
+
+provide("personalData", form);
+provide("submitForm", submitPersonalDetails);
 
 const civilStatus = usePage().props.civilStatus;
 

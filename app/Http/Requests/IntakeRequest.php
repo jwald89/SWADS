@@ -22,13 +22,19 @@ class IntakeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'classification' => 'required',
+            'category' => 'required',
+            'dateIntake' => 'required',
             'firstName' => 'required',
             'lastName' => 'required',
+            'nickName' => 'required',
+            'barangay' => 'required',
+            'municipality' => 'required',
             'age' => 'required',
             'birthDate' => 'required',
             'gender' => 'required',
             'civilStatus' => 'required',
-            'address' => 'required'
+            'contactNo' => 'required'
         ];
     }
 }
