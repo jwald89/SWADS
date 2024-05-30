@@ -1,5 +1,6 @@
 // import './bootstrap';
-
+import "vue-select/dist/vue-select.css";
+import "vue3-toastify/dist/index.css";
 import {
     createApp,
     h

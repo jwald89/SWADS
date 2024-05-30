@@ -8,6 +8,7 @@ import IntakeCreateP2 from "../Pages/IntakeCreateP2.vue";
 import IntakeCreateP3 from "../Pages/IntakeCreateP3.vue";
 import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
 import { Link, usePage } from "@inertiajs/vue3";
+import { toast } from "vue3-toastify";
 
 const form = reactive({
     classification: "",
@@ -34,6 +35,9 @@ const form = reactive({
 const submitPersonalDetails = async () => {
     try {
         const response = await axios.post("/intake/create-post", form);
+        toast.success("Successfully updated.", {
+            autoClose: 1000,
+        });
         console.log("working..");
     } catch (error) {
         console.error("Error submitting form:", error);
@@ -166,11 +170,6 @@ defineComponent({
                     <IntakeCreateP2 />
                     <IntakeCreateP3 />
                     <IntakeCreateP4 />
-                </div>
-                <div class="mt-4 float-end">
-                    <button type="button" class="btn btn-md btn-success">
-                        Submit
-                    </button>
                 </div>
             </div>
         </div>

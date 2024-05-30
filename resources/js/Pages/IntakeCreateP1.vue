@@ -1,5 +1,6 @@
 <script setup>
-import { inject } from "vue";
+import { defineComponent, inject } from "vue";
+import vSelect from "vue-select";
 
 const form = inject("personalData");
 const submitForm = inject("submitForm");
@@ -21,6 +22,10 @@ defineProps({
         type: Object,
         required: true,
     },
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -60,20 +65,15 @@ defineProps({
                                     >Please select type of assistance
                                     <span class="text-danger">*</span></label
                                 >
-                                <select
-                                    class="form-select"
+                                <v-select
                                     name="category"
                                     id="category"
+                                    :options="assistances.data"
                                     v-model="form.category"
+                                    :reduce="(data) => data.name"
+                                    label="name"
                                 >
-                                    <option value="" default></option>
-                                    <option
-                                        v-for="assistance in assistances.data"
-                                        :key="assistance.id"
-                                    >
-                                        {{ assistance.name }}
-                                    </option>
-                                </select>
+                                </v-select>
                             </div>
                             <div class="col-md-3">
                                 <label for="dateIntake"
@@ -162,13 +162,17 @@ defineProps({
                                                 <label for="extension"
                                                     >Extension</label
                                                 >
+                                                <small>
+                                                    (Jr. Sr. I II III
+                                                    etc.)</small
+                                                >
                                                 <input
                                                     type="text"
                                                     class="form-control"
                                                     name="extension"
                                                     id="extension"
                                                     v-model="form.extn_name"
-                                                    placeholder="Sr. Jr. III etc."
+                                                    placeholder="Suffix"
                                                 />
                                             </div>
                                             <div class="col-md-6">
@@ -242,20 +246,17 @@ defineProps({
                                                 ></label
                                             >
                                             <div class="col-sm-10">
-                                                <select
-                                                    class="form-select"
+                                                <v-select
                                                     name="barangay"
                                                     id="barangay"
+                                                    :options="barangays.data"
                                                     v-model="form.barangay"
+                                                    :reduce="
+                                                        (data) => data.barangay
+                                                    "
+                                                    label="barangay"
                                                 >
-                                                    <option default></option>
-                                                    <option
-                                                        v-for="barangay in barangays.data"
-                                                        :key="barangay.id"
-                                                    >
-                                                        {{ barangay.barangay }}
-                                                    </option>
-                                                </select>
+                                                </v-select>
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -268,22 +269,18 @@ defineProps({
                                                 ></label
                                             >
                                             <div class="col-sm-10">
-                                                <select
-                                                    class="form-select"
+                                                <v-select
                                                     name="municipal"
                                                     id="municipal"
+                                                    :options="municipality.data"
                                                     v-model="form.municipality"
+                                                    :reduce="
+                                                        (data) =>
+                                                            data.municipality
+                                                    "
+                                                    label="municipality"
                                                 >
-                                                    <option default></option>
-                                                    <option
-                                                        v-for="municipal in municipality.data"
-                                                        :key="municipal.id"
-                                                    >
-                                                        {{
-                                                            municipal.municipality
-                                                        }}
-                                                    </option>
-                                                </select>
+                                                </v-select>
                                             </div>
                                         </div>
                                     </form>
