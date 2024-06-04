@@ -1,13 +1,37 @@
 <script setup>
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
+import axios from "axios";
 import { Link } from "@inertiajs/vue3";
+
+const personalData = defineProps({
+    perInfos: {
+        type: Object,
+    },
+    famComps: {
+        type: Object,
+    },
+});
+
+const getData = async () => {
+    try {
+        const response = await axios.get("/intake");
+        personalData.value = response.data.data;
+        console.log("Data fetched successfully.");
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
 
 defineComponent({
     Link,
     Navbar,
     Sidebar,
+});
+
+onMounted(() => {
+    getData();
 });
 </script>
 
@@ -47,9 +71,9 @@ defineComponent({
 
                 <div class="table-responsive mt-4">
                     <table class="table">
-                        <thead>
+                        <thead class="text-center">
                             <tr>
-                                <th>Date Created</th>
+                                <th>Kind of Assistance</th>
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Birth Date</th>
@@ -58,7 +82,43 @@ defineComponent({
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody
+                            class="text-center"
+                            v-for="detail in perInfos"
+                            :key="detail.id"
+                        >
+                            <tr>
+                                <td>{{ detail.category }}</td>
+                                <td>
+                                    {{ detail.last_name }},
+                                    {{ detail.first_name }}
+                                    {{ detail.middle_name }}
+                                </td>
+                                <td>{{ detail.sex }}</td>
+                                <td>{{ detail.birthdate }}</td>
+                                <td>
+                                    {{ detail.purok }} {{ detail.street }} st.,
+                                    {{ detail.barangay }},
+                                    {{ detail.municipality }}
+                                </td>
+                                <td>{{ detail.contact_no }}</td>
+                                <td>
+                                    <Link
+                                        :href="`/intake/${detail.id}/edit`"
+                                        class="btn btn-sm btn-primary me-2"
+                                        >Edit</Link
+                                    >
+                                    <Link
+                                        :href="`/intake/${detail.id}/edit`"
+                                        class="btn btn-sm btn-info me-2"
+                                        >Show</Link
+                                    >
+                                    <button class="btn btn-sm btn-danger">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

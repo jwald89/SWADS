@@ -1,13 +1,33 @@
 <script setup>
-import { defineComponent } from "vue";
+import { defineComponent, ref, watch } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
+import axios from "axios";
 import { Link } from "@inertiajs/vue3";
+import vSelect from "vue-select";
+
+const props = defineProps({
+    dataMonitors: {
+        type: Object,
+        required: true,
+    },
+    sectors: {
+        type: Object,
+        required: true,
+    },
+});
+
+const claimant = ref();
+
+watch(claimant, function () {
+    console.log(claimant.value);
+});
 
 defineComponent({
     Link,
     Navbar,
     Sidebar,
+    vSelect,
 });
 </script>
 
@@ -34,18 +54,21 @@ defineComponent({
                 </div>
             </div>
             <div class="card-body">
+                {{ claimant }}
                 <form class="row g-3 mt-3" action="">
                     <div class="col-md-6">
                         <label for="claimant"
                             >Claimant<span class="text-danger">*</span></label
                         >
-                        <select
-                            class="form-select"
+                        <v-select
                             name="claimant"
                             id="claimant"
+                            v-model="claimant"
+                            :options="dataMonitors.data"
+                            :reduce="(data) => data"
+                            label="fullname"
                         >
-                            <option value=""></option>
-                        </select>
+                        </v-select>
                     </div>
                     <div class="col-md-6">
                         <label for="beneficiary"
@@ -76,14 +99,13 @@ defineComponent({
                         <label for="gender"
                             >Gender<span class="text-danger">*</span></label
                         >
-                        <select
-                            class="form-select"
+                        <input
+                            type="text"
+                            class="form-control"
                             name="gender"
                             id="gender"
                             disabled
-                        >
-                            <option value=""></option>
-                        </select>
+                        />
                     </div>
                     <div class="col-md-3">
                         <label for="contactNo"
@@ -102,39 +124,41 @@ defineComponent({
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <select class="form-select" name="sector" id="sector">
-                            <option value=""></option>
-                        </select>
+                        <v-select
+                            name="sector"
+                            id="sector"
+                            :options="sectors.data"
+                            label="name"
+                        >
+                        </v-select>
                     </div>
 
                     <div class="col-md-4">
-                        <label for="muninicipal"
+                        <label for="municipal"
                             >Municipality<span class="text-danger"
                                 >*</span
                             ></label
                         >
-                        <select
-                            class="form-select"
-                            name="muninicipal"
-                            id="muninicipal"
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="municipal"
+                            id="municipal"
                             disabled
-                        >
-                            <option value=""></option>
-                        </select>
+                        />
                     </div>
 
                     <div class="col-md-4">
                         <label for="barangay"
                             >Barangay<span class="text-danger">*</span></label
                         >
-                        <select
-                            class="form-select"
+                        <input
+                            type="text"
+                            class="form-control"
                             name="barangay"
                             id="barangay"
                             disabled
-                        >
-                            <option value=""></option>
-                        </select>
+                        />
                     </div>
                     <div class="col-md-4">
                         <label for="clientType"
@@ -155,14 +179,13 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <select
-                            class="form-select"
+                        <input
+                            type="text"
+                            class="form-control"
                             name="assistanceType"
                             id="assistanceType"
                             disabled
-                        >
-                            <option value=""></option>
-                        </select>
+                        />
                     </div>
                     <div class="col-md-2">
                         <label for="amount"

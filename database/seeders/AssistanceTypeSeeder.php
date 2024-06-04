@@ -16,47 +16,36 @@ class AssistanceTypeSeeder extends Seeder
         $data = [
             [
                 'name' => 'Medical',
-                'sub_name' => '',
             ],
             [
                 'name' => 'Burial',
-                'sub_name' => '',
             ],
             [
                 'name' => 'Educational',
-                'sub_name' => ''
             ],
             [
                 'name' => 'Financial',
-                'sub_name' => ''
             ],
             [
                 'name' => 'Livelihood',
-                'sub_name' => ''
             ],
             [
                 'name' => 'Transportation',
-                'sub_name' => ''
             ],
             [
-                'name' => 'Financial',
-                'sub_name' => 'Solo Parent'
+                'name' => 'Financial/ Solo Parent',
             ],
             [
-                'name' => 'Financial',
-                'sub_name' => 'Mentally ill'
+                'name' => 'Financial/ Mentally ill',
             ],
             [
-                'name' => 'Financial',
-                'sub_name' => 'Special Case'
+                'name' => 'Financial/ Special Case',
             ],
             [
-                'name' => 'Financial',
-                'sub_name' => 'Repatriated'
+                'name' => 'Financial/ Repatriated',
             ],
             [
-                'name' => 'Financial',
-                'sub_name' => 'VAWC'
+                'name' => 'Financial/ VAWC',
             ],
         ];
 

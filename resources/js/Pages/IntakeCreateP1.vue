@@ -3,7 +3,7 @@ import { defineComponent, inject } from "vue";
 import vSelect from "vue-select";
 
 const form = inject("personalData");
-const submitForm = inject("submitForm");
+const submitForm = inject("submitFormP1");
 
 defineProps({
     assistances: {
@@ -22,6 +22,7 @@ defineProps({
         type: Object,
         required: true,
     },
+    errors: Object,
 });
 
 defineComponent({
@@ -41,7 +42,7 @@ defineComponent({
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body row g-3 mt-1">
-                            <div class="col-md-4 mb-2">
+                            <div class="col-md-4">
                                 <label for="classification"
                                     >Classification<span class="text-danger"
                                         >*</span
@@ -60,7 +61,7 @@ defineComponent({
                                     <option value="4Ps">4Ps</option>
                                 </select>
                             </div>
-                            <div class="col-md-5 float-end">
+                            <div class="col-md-5">
                                 <label for="category"
                                     >Please select type of assistance
                                     <span class="text-danger">*</span></label
@@ -355,7 +356,6 @@ defineComponent({
                                         <option
                                             v-for="civil in civilStatus"
                                             :key="civil"
-                                            value="{{ civil }}"
                                         >
                                             {{ civil }}
                                         </option>

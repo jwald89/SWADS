@@ -9,5 +9,5 @@ class FamilyComposition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'age', 'relationship', 'educ_attainment', 'remarks'];
+    protected $fillable = ['lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks'];
 }

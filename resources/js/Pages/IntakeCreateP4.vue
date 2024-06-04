@@ -18,6 +18,15 @@
                         >
                 Remarks/ Recommendation</textarea
                         >
+
+                        <div class="mt-4">
+                            <button
+                                type="button"
+                                class="btn btn-primary float-end"
+                            >
+                                Save
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import {
     h
 } from 'vue'
 import {
-    createInertiaApp
+    createInertiaApp,
 } from '@inertiajs/vue3'
 
 createInertiaApp({

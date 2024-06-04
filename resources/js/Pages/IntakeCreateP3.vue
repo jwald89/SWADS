@@ -23,7 +23,7 @@
                                 type="button"
                                 class="btn btn-primary float-end"
                             >
-                                Next
+                                Save
                             </button>
                         </div>
                     </form>

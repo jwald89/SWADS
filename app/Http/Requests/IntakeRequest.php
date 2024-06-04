@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CivilStatus;
+use App\Enums\GenderTypes;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IntakeRequest extends FormRequest
@@ -22,19 +24,25 @@ class IntakeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'classification' => 'required',
-            'category' => 'required',
-            'dateIntake' => 'required',
-            'firstName' => 'required',
-            'lastName' => 'required',
-            'nickName' => 'required',
-            'barangay' => 'required',
-            'municipality' => 'required',
-            'age' => 'required',
-            'birthDate' => 'required',
-            'gender' => 'required',
-            'civilStatus' => 'required',
-            'contactNo' => 'required'
+            'classification' => 'required|string',
+            'category' => 'required|string',
+            'date_intake' => 'required|date',
+            'last_name' => 'required|string|max:100',
+            'first_name' => 'required|string|max:100',
+            'middle_name' => 'required|string|max:100',
+            'nick_name' => 'required|string|max:100',
+            'extn_name' => 'required|string|max:100',
+            'age' => 'required|string',
+            'birthdate' => 'required|date',
+            'sex' => 'required|in:' . implode(',', GenderTypes::values()),
+            'purok' => 'required|string',
+            'street' => 'required|string',
+            'barangay' => 'required|string',
+            'municipality' => 'required|string',
+            // 'civil_stats' => 'required|in:' . implode(',', CivilStatus::values()),
+            'job' => 'nullable|string',
+            'contact_no' => 'nullable|string',
+            'income' => 'nullable|string',
         ];
     }
 }

@@ -10,7 +10,7 @@ import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { toast } from "vue3-toastify";
 
-const form = reactive({
+const personalForm = reactive({
     classification: "",
     category: "",
     date_intake: "",
@@ -34,18 +34,52 @@ const form = reactive({
 
 const submitPersonalDetails = async () => {
     try {
-        const response = await axios.post("/intake/create-post", form);
+        const response = await axios.post(
+            "/intake/create-post/p1",
+            personalForm
+        );
         toast.success("Successfully updated.", {
             autoClose: 1000,
         });
         console.log("working..");
     } catch (error) {
+        toast.error("Please fill in the blanks!", {
+            autoClose: 2000,
+        });
         console.error("Error submitting form:", error);
     }
 };
 
-provide("personalData", form);
-provide("submitForm", submitPersonalDetails);
+provide("personalData", personalForm);
+provide("submitFormP1", submitPersonalDetails);
+
+const familyForm = reactive({
+    lastname: "",
+    firstname: "",
+    middlename: "",
+    age: "",
+    relationship: "",
+    educ_attainment: "",
+    remarks: "",
+});
+
+const submitFamCompositions = async () => {
+    try {
+        const response = await axios.post("/intake/create-post/p2", familyForm);
+        toast.success("Successfully updated.", {
+            autoClose: 2000,
+        });
+        console.log("working..");
+    } catch (error) {
+        toast.error("Please fill in the blanks!", {
+            autoClose: 2000,
+        });
+        console.error("Error submitting form:", error);
+    }
+};
+
+provide("familyComposition", familyForm);
+provide("submitFormP2", submitFamCompositions);
 
 const civilStatus = usePage().props.civilStatus;
 
