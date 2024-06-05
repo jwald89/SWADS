@@ -57,7 +57,6 @@ class IntakeController extends Controller
     }
 
 
-
     public function storeP2(Request $request)
     {
         $famComps = FamilyComposition::create($request->all());

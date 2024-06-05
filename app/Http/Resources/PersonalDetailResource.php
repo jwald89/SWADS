@@ -20,6 +20,7 @@ class PersonalDetailResource extends JsonResource
             'fullname' => $this->last_name .', '. $this->first_name .' '. $this->middle_name,
             'age' => $this->age,
             'gender' => $this->sex,
+            'contact_no' => $this->contact_no,
             'barangay' => $this->barangay,
             'municipality' => $this->municipality,
             'category' => $this->category,

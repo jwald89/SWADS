@@ -1,10 +1,11 @@
 <script setup>
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref, watch, reactive } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
+import { toast } from "vue3-toastify";
 
 const props = defineProps({
     dataMonitors: {
@@ -18,9 +19,64 @@ const props = defineProps({
 });
 
 const claimant = ref();
+const age = ref();
+const gender = ref();
+const contactNo = ref();
+const barangay = ref();
+const municipality = ref();
+const assistance_type = ref();
+const dateIntake = ref();
+
+const monitorForm = reactive({
+    beneficiary: "",
+    sector: "",
+    client_type: "",
+    amount: "",
+    charges: "",
+    staff_admin: "",
+    liaison: "",
+    status_date: "",
+    remarks: "",
+    status: "",
+    claimant: "",
+    age: "",
+    gender: "",
+    contact_no: "",
+    barangay: "",
+    municipality: "",
+    assistance_type: "",
+    date_intake: "",
+});
+
+const submitForm = async () => {
+    try {
+        const response = await axios.post(
+            "/monitoring/create-post",
+            monitorForm
+        );
+
+        toast.success("Successfully updated.", {
+            autoClose: 1000,
+        });
+
+        console.log("working..");
+    } catch (error) {
+        toast.error("Please fill in the blanks!", {
+            autoClose: 2000,
+        });
+        console.error("Error submitting form:", error);
+    }
+};
 
 watch(claimant, function () {
-    console.log(claimant.value);
+    monitorForm.claimant = claimant.value.fullname;
+    monitorForm.age = claimant.value.age;
+    monitorForm.gender = claimant.value.gender;
+    monitorForm.contact_no = claimant.value.contact_no;
+    monitorForm.barangay = claimant.value.barangay;
+    monitorForm.municipality = claimant.value.municipality;
+    monitorForm.assistance_type = claimant.value.category;
+    monitorForm.date_intake = claimant.value.date_intake;
 });
 
 defineComponent({
@@ -54,8 +110,7 @@ defineComponent({
                 </div>
             </div>
             <div class="card-body">
-                {{ claimant }}
-                <form class="row g-3 mt-3" action="">
+                <form class="row g-3 mt-3" @submit.prevent="submitForm">
                     <div class="col-md-6">
                         <label for="claimant"
                             >Claimant<span class="text-danger">*</span></label
@@ -81,6 +136,7 @@ defineComponent({
                             class="form-control"
                             name="beneficiary"
                             id="beneficiary"
+                            v-model="monitorForm.beneficiary"
                         />
                     </div>
                     <div class="col-md-2">
@@ -92,7 +148,7 @@ defineComponent({
                             class="form-control"
                             id="age"
                             name="age"
-                            disabled
+                            v-model="monitorForm.age"
                         />
                     </div>
                     <div class="col-md-2">
@@ -104,7 +160,7 @@ defineComponent({
                             class="form-control"
                             name="gender"
                             id="gender"
-                            disabled
+                            v-model="monitorForm.gender"
                         />
                     </div>
                     <div class="col-md-3">
@@ -117,7 +173,7 @@ defineComponent({
                             class="form-control"
                             name="contactNo"
                             id="contactNo"
-                            disabled
+                            v-model="monitorForm.contact_no"
                         />
                     </div>
                     <div class="col-md-5">
@@ -128,7 +184,9 @@ defineComponent({
                             name="sector"
                             id="sector"
                             :options="sectors.data"
+                            :reduce="(data) => data.name"
                             label="name"
+                            v-model="monitorForm.sector"
                         >
                         </v-select>
                     </div>
@@ -144,7 +202,7 @@ defineComponent({
                             class="form-control"
                             name="municipal"
                             id="municipal"
-                            disabled
+                            v-model="monitorForm.municipality"
                         />
                     </div>
 
@@ -157,7 +215,7 @@ defineComponent({
                             class="form-control"
                             name="barangay"
                             id="barangay"
-                            disabled
+                            v-model="monitorForm.barangay"
                         />
                     </div>
                     <div class="col-md-4">
@@ -171,6 +229,7 @@ defineComponent({
                             class="form-control"
                             name="clientType"
                             id="clientType"
+                            v-model="monitorForm.client_type"
                         />
                     </div>
                     <div class="col-md-4">
@@ -184,7 +243,7 @@ defineComponent({
                             class="form-control"
                             name="assistanceType"
                             id="assistanceType"
-                            disabled
+                            v-model="monitorForm.assistance_type"
                         />
                     </div>
                     <div class="col-md-2">
@@ -196,6 +255,7 @@ defineComponent({
                             class="form-control"
                             id="amount"
                             name="amount"
+                            v-model="monitorForm.amount"
                         />
                     </div>
                     <div class="col-md-3">
@@ -207,6 +267,7 @@ defineComponent({
                             class="form-control"
                             id="charges"
                             name="charges"
+                            v-model="monitorForm.charges"
                         />
                     </div>
                     <div class="col-md-3">
@@ -216,11 +277,11 @@ defineComponent({
                             ></label
                         >
                         <input
-                            type="date"
+                            type="text"
                             class="form-control"
                             id="intakeDate"
                             name="intakeDate"
-                            disabled
+                            v-model="monitorForm.date_intake"
                         />
                     </div>
                     <div class="col-md-5">
@@ -229,16 +290,26 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <select class="form-select" name="staff" id="staff">
-                            <option value=""></option>
+                        <select
+                            class="form-select"
+                            name="staff"
+                            id="staff"
+                            v-model="monitorForm.staff_admin"
+                        >
+                            <option value="sample">sample</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label for="liaison"
                             >Liaison<span class="text-danger">*</span></label
                         >
-                        <select class="form-select" name="liaison" id="staff">
-                            <option value=""></option>
+                        <select
+                            class="form-select"
+                            name="liaison"
+                            id="staff"
+                            v-model="monitorForm.liaison"
+                        >
+                            <option value="sample">Sample</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -252,6 +323,7 @@ defineComponent({
                             class="form-control"
                             id="dateStatus"
                             name="dateStatus"
+                            v-model="monitorForm.status_date"
                         />
                     </div>
                     <div class="col-md-8">
@@ -264,6 +336,7 @@ defineComponent({
                             id="remarks"
                             name="remarks"
                             rows="1"
+                            v-model="monitorForm.remarks"
                         >
                         </textarea>
                     </div>
@@ -276,11 +349,12 @@ defineComponent({
                             class="form-control"
                             id="status"
                             name="status"
+                            v-model="monitorForm.status"
                         />
                     </div>
                     <div class="mt-4">
                         <button
-                            type="button"
+                            type="submit"
                             class="btn btn-md btn-success float-end"
                         >
                             Submit

@@ -43,6 +43,7 @@ Route::controller(MonitoringController::class)
         ->group(function() {
             Route::get('/monitoring', 'index');
             Route::get('/monitoring/create', 'create');
+            Route::post('/monitoring/create-post', 'store');
         });
 
 Route::get('/profile', function() {
@@ -57,14 +58,6 @@ Route::get('/register', function() {
     return inertia('Register');
 });
 
-
-// Route::get('/monitoring', function() {
-//     return inertia('MonitoringIndex');
-// });
-
-// Route::get('/monitoring/create', function() {
-//     return inertia('MonitoringCreate');
-// });
 
 Route::get('/sectoral-data', function() {
     return inertia('SectoralDataIndex');

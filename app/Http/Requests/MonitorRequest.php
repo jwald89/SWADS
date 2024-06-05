@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\AssistanceType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MonitorRequest extends FormRequest
@@ -22,13 +23,23 @@ class MonitorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'claimant' => 'required',
+            // 'claimant' => 'required',
             'beneficiary' => 'required',
-            'age' => 'required',
-            'gender' => 'required',
-            'contactNo' => 'required|max 11',
+            // 'age' => 'required',
+            // 'sex' => 'required',
+            // 'contact_no' => 'required|max 11',
             'sector' => 'required',
-
+            // 'municipality' => 'required',
+            // 'barangay' => 'required',
+            'client_type' => 'required',
+            // 'assistance_type' => 'required',
+            'amount' => 'required',
+            'charges' => 'required',
+            // 'date_intake' => 'required',
+            'staff_admin' => 'required',
+            'liaison' => 'required',
+            'status_date' => 'required',
+            'remarks' => 'required'
         ];
     }
 }
