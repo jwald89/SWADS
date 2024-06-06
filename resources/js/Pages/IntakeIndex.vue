@@ -113,9 +113,6 @@ onMounted(() => {
                                         class="btn btn-sm btn-info me-2"
                                         >Show</Link
                                     >
-                                    <button class="btn btn-sm btn-danger">
-                                        Delete
-                                    </button>
                                 </td>
                             </tr>
                         </tbody>

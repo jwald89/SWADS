@@ -16,6 +16,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    admins: {
+        type: Object,
+        required: true,
+    },
 });
 
 const claimant = ref();
@@ -290,14 +294,15 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <select
-                            class="form-select"
+                        <v-select
                             name="staff"
                             id="staff"
+                            :options="admins.data"
                             v-model="monitorForm.staff_admin"
+                            :reduce="(data) => data.fullname"
+                            label="fullname"
                         >
-                            <option value="sample">sample</option>
-                        </select>
+                        </v-select>
                     </div>
                     <div class="col-md-4">
                         <label for="liaison"

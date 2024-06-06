@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\MonitoringController;
+use App\Http\Controllers\Admin\SectoralDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,12 @@ Route::controller(MonitoringController::class)
             Route::post('/monitoring/create-post', 'store');
         });
 
+
+Route::controller(SectoralDataController::class)
+        ->group(function() {
+            Route::get('/sectoral-data', 'index');
+        });
+
 Route::get('/profile', function() {
     return inertia('Profile');
 });
@@ -56,9 +63,4 @@ Route::get('/login', function() {
 
 Route::get('/register', function() {
     return inertia('Register');
-});
-
-
-Route::get('/sectoral-data', function() {
-    return inertia('SectoralDataIndex');
 });

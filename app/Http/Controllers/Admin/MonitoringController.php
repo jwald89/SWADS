@@ -8,25 +8,33 @@ use Illuminate\Http\Request;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MonitorRequest;
+use App\Http\Resources\AdministerResource;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\PersonalDetailResource;
+use App\Models\StaffAdministered;
 use Illuminate\Contracts\Queue\Monitor;
 
 class MonitoringController extends Controller
 {
     public function index()
     {
-        return inertia('MonitoringIndex');
+        $monitoringData = Monitoring::get();
+
+        return inertia('MonitoringIndex', [
+            'monitorings' => $monitoringData
+        ]);
     }
 
     public function create()
     {
         $dataMonitors = PersonalDetailResource::collection(PersonalInformation::all());
         $sectors = SectorResource::collection(Sector::all());
+        $admins = AdministerResource::collection(StaffAdministered::all());
 
         return inertia('MonitoringCreate', [
             'dataMonitors' => $dataMonitors,
             'sectors' => $sectors,
+            'admins' => $admins,
         ]);
     }
 

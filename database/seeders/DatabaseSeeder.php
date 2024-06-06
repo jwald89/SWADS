@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             AssistanceTypeSeeder::class,
             SectorSeeder::class,
             MunicipalitySeeder::class,
+            AdministerSeeder::class,
         ]);
     }
 }

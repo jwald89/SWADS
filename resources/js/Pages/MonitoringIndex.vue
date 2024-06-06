@@ -4,6 +4,12 @@ import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import { Link } from "@inertiajs/vue3";
 
+const props = defineProps({
+    monitorings: {
+        type: Object,
+    },
+});
+
 defineComponent({
     Link,
     Navbar,
@@ -49,16 +55,41 @@ defineComponent({
                     <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
-                                <th>Kind of Assistance</th>
+                                <th>Assistance Type</th>
                                 <th>Name</th>
-                                <th>Beneficiary</th>
+                                <th>Date of Intake</th>
                                 <th>Sector</th>
                                 <th>Municipality</th>
-                                <th>Contact No.</th>
+                                <th>Amount</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody
+                            class="text-center"
+                            v-for="monitoring in monitorings"
+                            :key="monitoring.id"
+                        >
+                            <tr>
+                                <td>{{ monitoring.assistance_type }}</td>
+                                <td>{{ monitoring.claimant }}</td>
+                                <td>{{ monitoring.date_intake }}</td>
+                                <td>{{ monitoring.sector }}</td>
+                                <td>{{ monitoring.municipality }}</td>
+                                <td>{{ monitoring.amount }}</td>
+                                <td>
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-primary me-2"
+                                        >Edit</Link
+                                    >
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-info me-2"
+                                        >Details</Link
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
