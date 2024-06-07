@@ -59,40 +59,22 @@ defineComponent({
             <!-- End Components Nav -->
 
             <li class="nav-item">
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#forms-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
-                    <i class="bi bi-journal-text"></i><span>SECTORAL DATA</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="forms-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <Link href="/sectoral-data">
-                            <i class="bi bi-circle"></i
-                            ><span>Sectoral Data Index</span>
-                        </Link>
-                    </li>
-                </ul>
+                <Link class="nav-link" href="/sectoral-data">
+                    <i class="bi bi-journal-text"></i><span>SECTORAL DATA</span>
+                </Link>
             </li>
             <!-- End Forms Nav -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <Link href="/profile" class="nav-link collapsed">
                     <i class="bi bi-layout-text-window-reverse"></i
                     ><span>CERTIFICATE OF ELIGIBILITY</span
                     ><i class="bi ms-auto"></i>
                 </Link>
-            </li>
+            </li> -->
             <!-- End Tables Nav -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#charts-nav"
@@ -112,21 +94,11 @@ defineComponent({
                             <i class="bi bi-circle"></i><span>Chart.js</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="charts-apexcharts.html">
-                            <i class="bi bi-circle"></i><span>ApexCharts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="charts-echarts.html">
-                            <i class="bi bi-circle"></i><span>ECharts</span>
-                        </a>
-                    </li>
                 </ul>
-            </li>
+            </li> -->
             <!-- End Charts Nav -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#icons-nav"
@@ -147,18 +119,8 @@ defineComponent({
                             ><span>Bootstrap Icons</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="icons-remix.html">
-                            <i class="bi bi-circle"></i><span>Remix Icons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="icons-boxicons.html">
-                            <i class="bi bi-circle"></i><span>Boxicons</span>
-                        </a>
-                    </li>
                 </ul>
-            </li>
+            </li> -->
             <!-- End Icons Nav -->
 
             <li class="nav-heading">Maintenance</li>

@@ -120,6 +120,7 @@ defineComponent({
                             >Claimant<span class="text-danger">*</span></label
                         >
                         <v-select
+                            class="fw-bold"
                             name="claimant"
                             id="claimant"
                             v-model="claimant"
@@ -149,7 +150,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="age"
                             name="age"
                             v-model="monitorForm.age"
@@ -161,7 +162,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="gender"
                             id="gender"
                             v-model="monitorForm.gender"
@@ -174,7 +175,7 @@ defineComponent({
                             ></label
                         >
                         <input
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="contactNo"
                             id="contactNo"
                             v-model="monitorForm.contact_no"
@@ -185,6 +186,7 @@ defineComponent({
                             >Sector<span class="text-danger">*</span></label
                         >
                         <v-select
+                            class="fw-bold"
                             name="sector"
                             id="sector"
                             :options="sectors.data"
@@ -203,7 +205,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="municipal"
                             id="municipal"
                             v-model="monitorForm.municipality"
@@ -216,7 +218,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="barangay"
                             id="barangay"
                             v-model="monitorForm.barangay"
@@ -228,13 +230,17 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <input
+                        <select
                             type="text"
-                            class="form-control"
+                            class="form-select"
                             name="clientType"
                             id="clientType"
                             v-model="monitorForm.client_type"
-                        />
+                        >
+                            <option value="walk-in">Walk-in</option>
+                            <option value="referred">Referred</option>
+                            <option value="reach-out">Reach-out</option>
+                        </select>
                     </div>
                     <div class="col-md-4">
                         <label for="assistanceType"
@@ -244,7 +250,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="assistanceType"
                             id="assistanceType"
                             v-model="monitorForm.assistance_type"
@@ -266,13 +272,37 @@ defineComponent({
                         <label for="charges"
                             >Charges<span class="text-danger">*</span></label
                         >
-                        <input
+                        <select
                             type="text"
                             class="form-control"
                             id="charges"
                             name="charges"
                             v-model="monitorForm.charges"
-                        />
+                        >
+                            <option value="PGO">PGO</option>
+                            <option value="PVGO">PVGO</option>
+                            <option value="SB">SB</option>
+                            <option value="SP">SP</option>
+                            <option value="CWS">CWS</option>
+                            <option value="PSWDO">PSWDO</option>
+                            <option value="PSWDO (Distaster)">
+                                PSWDO (Disaster)
+                            </option>
+                            <option value="PSWDO (Senior Citizen)">
+                                PSWDO (Senior Citizen)
+                            </option>
+                            <option value="PSWDO (PWD)">PSWDO (PWD)</option>
+                            <option value="PSWDO (Children)">
+                                PSWDO (Children)
+                            </option>
+                            <option value="PSWDO (GAD)">PSWDO (GAD)</option>
+                            <option value="PSWDO (E-CLIP)">
+                                PSWDO (E-CLIP)
+                            </option>
+                            <option value="PSWDO (Mentally ill)">
+                                PSWDO (Mentally ill)
+                            </option>
+                        </select>
                     </div>
                     <div class="col-md-3">
                         <label for="intakeDate"
@@ -282,7 +312,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="intakeDate"
                             name="intakeDate"
                             v-model="monitorForm.date_intake"
@@ -314,7 +344,17 @@ defineComponent({
                             id="staff"
                             v-model="monitorForm.liaison"
                         >
-                            <option value="sample">Sample</option>
+                            <option value="Shiela Ann G. Laurente">
+                                Shiela Ann G. Laurente
+                            </option>
+                            <option value="Haide Pangilinan">
+                                Haide Pangilinan
+                            </option>
+                            <option value="Mary Jane Umali">
+                                Mary Jane Umali
+                            </option>
+                            <option value="C/O PGO">C/O PGO</option>
+                            <option value="C/O PVGO">C/O PVGO</option>
                         </select>
                     </div>
                     <div class="col-md-3">

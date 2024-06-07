@@ -9,5 +9,10 @@ class Referral extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content'];
+    protected $fillable = ['id', 'applicant_id', 'content'];
+
+    public function personalInfo()
+    {
+        return $this->belongsTo(PersonalInformation::class, 'id', 'applicant_id');
+    }
 }

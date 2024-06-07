@@ -22,6 +22,10 @@ defineProps({
         type: Object,
         required: true,
     },
+    gender: {
+        type: Object,
+        required: true,
+    },
     errors: Object,
 });
 
@@ -332,12 +336,16 @@ defineComponent({
                                     >
                                     <select
                                         class="form-select"
-                                        id="gender"
-                                        name="gender"
+                                        id="sex"
+                                        name="sex"
                                         v-model="form.sex"
                                     >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                        <option
+                                            v-for="gen in gender"
+                                            :key="gen"
+                                        >
+                                            {{ gen }}
+                                        </option>
                                     </select>
                                 </div>
 

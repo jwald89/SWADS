@@ -9,5 +9,10 @@ class FamilyComposition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks'];
+    protected $fillable = ['id', 'applicant_id', 'lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks'];
+
+    public function personalInfo()
+    {
+        return $this->belongsTo(PersonalInformation::class, 'id', 'applicant_id');
+    }
 }

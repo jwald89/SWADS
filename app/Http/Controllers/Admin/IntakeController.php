@@ -39,7 +39,8 @@ class IntakeController extends Controller
             'barangays' => $barangays,
             'assistances' => $assistances,
             'municipality' => $municipality,
-            'civilStatus' => CivilStatus::names()
+            'civilStatus' => CivilStatus::names(),
+            'gender' => GenderTypes::names(),
         ]);
     }
 

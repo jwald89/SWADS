@@ -82,6 +82,7 @@ provide("familyComposition", familyForm);
 provide("submitFormP2", submitFamCompositions);
 
 const civilStatus = usePage().props.civilStatus;
+const gender = usePage().props.gender;
 
 const props = defineProps({
     assistances: {
@@ -200,6 +201,7 @@ defineComponent({
                         :civilStatus="civilStatus"
                         :municipality="municipality"
                         :barangays="barangays"
+                        :gender="gender"
                     />
                     <IntakeCreateP2 />
                     <IntakeCreateP3 />

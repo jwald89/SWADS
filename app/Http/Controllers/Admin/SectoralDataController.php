@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Enums\Month;
+use App\Models\Sector;
+use App\Models\Municipality;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\SectorResource;
+use App\Http\Resources\MunicipalityResource;
 
 class SectoralDataController extends Controller
 {
@@ -12,7 +17,14 @@ class SectoralDataController extends Controller
      */
     public function index()
     {
-        return inertia('SectoralDataIndex');
+        $municipalities = MunicipalityResource::collection(Municipality::all());
+        $sectors = SectorResource::collection(Sector::all());
+
+        return inertia('SectoralDataIndex', [
+            'municipalities' => $municipalities,
+            'sectors' => $sectors,
+            'months' => Month::names(),
+        ]);
     }
 
     /**

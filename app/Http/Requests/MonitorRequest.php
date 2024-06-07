@@ -23,23 +23,14 @@ class MonitorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'claimant' => 'required',
+            'claimant' => 'required',
             'beneficiary' => 'required',
-            // 'age' => 'required',
-            // 'sex' => 'required',
-            // 'contact_no' => 'required|max 11',
             'sector' => 'required',
-            // 'municipality' => 'required',
-            // 'barangay' => 'required',
             'client_type' => 'required',
-            // 'assistance_type' => 'required',
             'amount' => 'required',
             'charges' => 'required',
-            // 'date_intake' => 'required',
             'staff_admin' => 'required',
             'liaison' => 'required',
-            'status_date' => 'required',
-            'remarks' => 'required'
         ];
     }
 }

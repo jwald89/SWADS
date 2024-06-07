@@ -32,6 +32,7 @@ Route::get('/dashboard', function() {
     return inertia('Dashboard');
 });
 
+// Intake Controller
 Route::controller(IntakeController::class)
         ->group(function() {
             Route::get('/intake', 'index');
@@ -40,6 +41,7 @@ Route::controller(IntakeController::class)
             Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');
         });
 
+// Monitoring Controller
 Route::controller(MonitoringController::class)
         ->group(function() {
             Route::get('/monitoring', 'index');
@@ -47,11 +49,13 @@ Route::controller(MonitoringController::class)
             Route::post('/monitoring/create-post', 'store');
         });
 
-
+// Sectoral Data Controller
 Route::controller(SectoralDataController::class)
         ->group(function() {
             Route::get('/sectoral-data', 'index');
         });
+
+
 
 Route::get('/profile', function() {
     return inertia('Profile');

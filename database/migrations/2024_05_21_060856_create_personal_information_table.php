@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('personal_information', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('classification');
             $table->string('category');
             $table->date('date_intake');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('nick_name');
             $table->string('age');
             $table->date('birthdate');
-            $table->enum('sex', GenderTypes::values())->default(GenderTypes::IS_MALE->value);
+            $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
             $table->string('purok')->nullable();
             $table->string('street')->nullable();
             $table->string('barangay');

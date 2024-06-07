@@ -31,18 +31,13 @@ class IntakeRequest extends FormRequest
             'first_name' => 'required|string|max:100',
             'middle_name' => 'required|string|max:100',
             'nick_name' => 'required|string|max:100',
-            'extn_name' => 'required|string|max:100',
             'age' => 'required|string',
             'birthdate' => 'required|date',
-            'sex' => 'required|in:' . implode(',', GenderTypes::values()),
-            'purok' => 'required|string',
-            'street' => 'required|string',
+            'sex' => 'required',
             'barangay' => 'required|string',
             'municipality' => 'required|string',
-            // 'civil_stats' => 'required|in:' . implode(',', CivilStatus::values()),
-            'job' => 'nullable|string',
+            'civil_stats' => 'required',
             'contact_no' => 'nullable|string',
-            'income' => 'nullable|string',
         ];
     }
 }

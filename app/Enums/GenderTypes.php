@@ -4,8 +4,8 @@ namespace App\Enums;
 
 enum GenderTypes: string
 {
-    case IS_MALE = 'male';
-    case IS_FEMALE = 'female';
+    case Male = 'male';
+    case Female = 'female';
 
     public static function values():array
     {

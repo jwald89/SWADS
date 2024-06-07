@@ -111,7 +111,7 @@ onMounted(() => {
                                     <Link
                                         :href="`/intake/${detail.id}/edit`"
                                         class="btn btn-sm btn-info me-2"
-                                        >Show</Link
+                                        >Details</Link
                                     >
                                 </td>
                             </tr>

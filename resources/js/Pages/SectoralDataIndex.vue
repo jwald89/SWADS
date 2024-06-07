@@ -1,5 +1,23 @@
 <script setup>
 import Layout from "../Shared/Layout.vue";
+import vSelect from "vue-select";
+import { defineComponent } from "vue";
+
+const props = defineProps({
+    municipalities: {
+        type: Object,
+    },
+    sectors: {
+        type: Object,
+    },
+    months: {
+        type: Object,
+    },
+});
+
+defineComponent({
+    vSelect,
+});
 </script>
 
 <template>
@@ -11,30 +29,49 @@ import Layout from "../Shared/Layout.vue";
             >
                 Sectoral Data
             </div>
-            <div class="card-body p-4 mt-4">
-                <div class="col-md-4">
-                    <select class="form-select" name="" id="">
-                        <option value="">Children</option>
-                        <option value="">Former Rebel</option>
-                        <option value="">Men</option>
-                        <option value="">PWD</option>
-                        <option value="">Senior Citizen</option>
-                        <option value="">Solo Parent</option>
-                        <option value="">Women</option>
-                        <option value="">Youth</option>
-                    </select>
+            <div class="card-body p-4 m-2">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="">Filter the sector type</label>
+                        <v-select
+                            class="fw-bold"
+                            :options="sectors.data"
+                            :reduce="(data) => data"
+                            label="name"
+                        ></v-select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Filter the municipality</label>
+                        <v-select
+                            class="fw-bold"
+                            :options="municipalities.data"
+                            :reduce="(data) => data"
+                            label="municipality"
+                        ></v-select>
+                    </div>
+                    <div class="col-md-2 offset-md-2">
+                        <label for="">Month</label>
+                        <v-select class="fw-bold" :options="months"></v-select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="">Year</label>
+                        <select name="" id="" class="form-select">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="table-responsive mt-5">
                     <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
-                                <th>Assistance Type</th>
                                 <th>Name</th>
-                                <th>Date of Intake</th>
-                                <th>Sector</th>
+                                <th>Age</th>
+                                <th>Date of Birth</th>
                                 <th>Municipality</th>
-                                <th>Amount</th>
+                                <th>Date Created</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

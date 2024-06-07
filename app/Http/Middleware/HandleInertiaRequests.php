@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\CivilStatus;
-use Illuminate\Http\Request;
+use App\Enums\Month;
 use Inertia\Middleware;
+use App\Enums\CivilStatus;
+use App\Enums\GenderTypes;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -38,6 +40,8 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'civilStatus' => CivilStatus::values(),
+            'months' => Month::values(),
+            'gender' => GenderTypes::values(),
         ]);
     }
 }
