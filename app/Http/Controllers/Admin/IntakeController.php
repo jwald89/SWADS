@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Remark;
 use App\Models\Barangay;
+use App\Models\Referral;
 use App\Enums\CivilStatus;
 use App\Enums\GenderTypes;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Models\AssistanceType;
+use App\Models\FamilyComposition;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IntakeRequest;
 use App\Http\Resources\BarangayResource;
 use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
-use App\Models\FamilyComposition;
 
 class IntakeController extends Controller
 {
@@ -44,6 +46,7 @@ class IntakeController extends Controller
         ]);
     }
 
+    // Personal Information store process
     public function storeP1(IntakeRequest $request)
     {
         $personalInformation = PersonalInformation::create($request->all());
@@ -57,7 +60,7 @@ class IntakeController extends Controller
         ]);
     }
 
-
+    // Family Compositions store process
     public function storeP2(Request $request)
     {
         $famComps = FamilyComposition::create($request->all());
@@ -67,6 +70,30 @@ class IntakeController extends Controller
         return response()->json([
             'message' => 'Personal information created successfully.',
             'data' => json_decode($famCompJson, true),
+        ]);
+    }
+
+    // Referrals store process
+    public function storeP3(Request $request)
+    {
+        $referrals = Referral::create($request->all());
+        $refJson = $referrals->toJson();
+
+        return response()->json([
+            'message' => 'You have successfully created!',
+            'referrals' => json_decode($refJson, true),
+        ]);
+    }
+
+    // Remarks store process
+    public function storeP4(Request $request)
+    {
+        $remarks = Remark::create($request->all());
+        $remJson = $remarks->toJson();
+
+        return response()->json([
+            'message' => "You have successfully created!",
+            'remarks' => json_decode($remJson, true),
         ]);
     }
 }

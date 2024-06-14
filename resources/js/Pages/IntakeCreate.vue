@@ -10,7 +10,9 @@ import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { toast } from "vue3-toastify";
 
+// initialize the data from the Personal Information model
 const personalForm = reactive({
+    id: "",
     classification: "",
     category: "",
     date_intake: "",
@@ -32,6 +34,7 @@ const personalForm = reactive({
     income: "",
 });
 
+// create a store method for Personal Information form
 const submitPersonalDetails = async () => {
     try {
         const response = await axios.post(
@@ -50,9 +53,11 @@ const submitPersonalDetails = async () => {
     }
 };
 
+// inherit the code to the child file
 provide("personalData", personalForm);
 provide("submitFormP1", submitPersonalDetails);
 
+// initialize the data from the Family Compositions model
 const familyForm = reactive({
     lastname: "",
     firstname: "",
@@ -63,6 +68,7 @@ const familyForm = reactive({
     remarks: "",
 });
 
+// create a store method for Family Compositions form
 const submitFamCompositions = async () => {
     try {
         const response = await axios.post("/intake/create-post/p2", familyForm);
@@ -78,9 +84,61 @@ const submitFamCompositions = async () => {
     }
 };
 
+// inherit the code to the child file
 provide("familyComposition", familyForm);
 provide("submitFormP2", submitFamCompositions);
 
+// initialize the data from the Referral model
+const refForm = reactive({
+    content: "",
+});
+
+// create a store method for Referral form
+const submitRef = async () => {
+    try {
+        const response = await axios.post("/intake/create-post/p3", refForm);
+        toast.success("Successfully updated.", {
+            autoClose: 200,
+        });
+        console.log("working..");
+    } catch (err) {
+        toast.error("Please fill in the blank!", {
+            autoColse: 2000,
+        });
+        console.log("Error submittinng form: ", err);
+    }
+};
+
+// inherit the code to the child file
+provide("referralForm", refForm);
+provide("submitFormP3", submitRef);
+
+// initialize the data from the Remark model
+const remForm = reactive({
+    content: "",
+});
+
+// create a store method for Remark form
+const submitRem = async () => {
+    try {
+        await axios.post("/intake/create-post/p4", remForm);
+        toast.success("Successfully updated.", {
+            autoClose: 200,
+        });
+        console.log("working..");
+    } catch (err) {
+        toast.error("Please fill in the blank!", {
+            autoClose: 200,
+        });
+        console.log("Error submittingn form: ", err);
+    }
+};
+
+// inherit the code to the child file
+provide("remarkForm", remForm);
+provide("submitFormP4", submitRem);
+
+// initialize to inherit the data to the child file
 const civilStatus = usePage().props.civilStatus;
 const gender = usePage().props.gender;
 
@@ -203,7 +261,7 @@ defineComponent({
                         :barangays="barangays"
                         :gender="gender"
                     />
-                    <IntakeCreateP2 />
+                    <IntakeCreateP2 :personal_id="personal_id" />
                     <IntakeCreateP3 />
                     <IntakeCreateP4 />
                 </div>

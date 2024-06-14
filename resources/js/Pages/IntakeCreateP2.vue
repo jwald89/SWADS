@@ -3,6 +3,13 @@ import { inject } from "vue";
 
 const form = inject("familyComposition");
 const submitForm = inject("submitFormP2");
+
+defineProps({
+    personal_id: {
+        type: Object,
+        required: true,
+    },
+});
 </script>
 
 <template>
@@ -16,6 +23,18 @@ const submitForm = inject("submitFormP2");
             <div class="card">
                 <div class="card-body mt-4">
                     <form class="row g-3" @submit.prevent="submitForm">
+                        <div class="col-md-4">
+                            <label for="lastName"
+                                >Id<span class="text-danger">*</span></label
+                            >
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Family name"
+                            />
+                        </div>
                         <div class="col-md-4">
                             <label for="lastName"
                                 >Last name<span class="text-danger"

@@ -1,3 +1,10 @@
+<script setup>
+import { inject } from "vue";
+
+const form = inject("remarkForm");
+const submitForm = inject("submitFormP4");
+</script>
+
 <template>
     <div
         class="tab-pane fade"
@@ -8,20 +15,21 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body mt-4">
-                    <form class="row g-3">
+                    <form class="row g-3" @submit.prevent="submitForm">
                         <label for="recommendation">Textarea:</label>
                         <textarea
                             class="form-control"
                             rows="5"
                             id="recommendation"
                             name="recommendation"
+                            v-model="form.content"
                         >
                 Remarks/ Recommendation</textarea
                         >
 
                         <div class="mt-4">
                             <button
-                                type="button"
+                                type="submit"
                                 class="btn btn-primary float-end"
                             >
                                 Save
