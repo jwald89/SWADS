@@ -51,13 +51,7 @@ class IntakeController extends Controller
     {
         $personalInformation = PersonalInformation::create($request->all());
 
-        // Convert the personal_information record to JSON
-        $personalInformationJson = $personalInformation->toJson();
-
-        return response()->json([
-            'message' => 'Personal information created successfully.',
-            'data' => json_decode($personalInformationJson, true),
-        ]);
+        return response()->json($personalInformation, 201);
     }
 
     // Family Compositions store process
@@ -65,11 +59,9 @@ class IntakeController extends Controller
     {
         $famComps = FamilyComposition::create($request->all());
 
-        $famCompJson = $famComps->toJson();
-
         return response()->json([
             'message' => 'Personal information created successfully.',
-            'data' => json_decode($famCompJson, true),
+            'data' => $famComps,
         ]);
     }
 
@@ -77,11 +69,10 @@ class IntakeController extends Controller
     public function storeP3(Request $request)
     {
         $referrals = Referral::create($request->all());
-        $refJson = $referrals->toJson();
 
         return response()->json([
             'message' => 'You have successfully created!',
-            'referrals' => json_decode($refJson, true),
+            'referrals' => $referrals,
         ]);
     }
 
@@ -89,11 +80,10 @@ class IntakeController extends Controller
     public function storeP4(Request $request)
     {
         $remarks = Remark::create($request->all());
-        $remJson = $remarks->toJson();
 
         return response()->json([
             'message' => "You have successfully created!",
-            'remarks' => json_decode($remJson, true),
+            'remarks' => $remarks,
         ]);
     }
 }

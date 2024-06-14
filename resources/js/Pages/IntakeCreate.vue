@@ -40,9 +40,11 @@ const submitPersonalDetails = async () => {
             "/intake/create-post/p1",
             personalForm
         );
+        console.log("New record ID:", response.data.id);
         toast.success("Successfully updated.", {
             autoClose: 1000,
         });
+        localStorage.setItem("applicant_id", response.data.id);
         console.log("working..");
     } catch (error) {
         toast.error("Please fill in the blanks!", {
@@ -58,6 +60,7 @@ provide("submitFormP1", submitPersonalDetails);
 
 // initialize the data from the Family Compositions model
 const familyForm = reactive({
+    applicant_id: "",
     lastname: "",
     firstname: "",
     middlename: "",
@@ -70,6 +73,9 @@ const familyForm = reactive({
 // create a store method for Family Compositions form
 const submitFamCompositions = async () => {
     try {
+        const applicantId = localStorage.getItem("applicant_id");
+        familyForm.applicant_id = applicantId;
+
         const response = await axios.post("/intake/create-post/p2", familyForm);
         toast.success("Successfully updated.", {
             autoClose: 2000,
@@ -89,12 +95,16 @@ provide("submitFormP2", submitFamCompositions);
 
 // initialize the data from the Referral model
 const refForm = reactive({
+    applicant_id: "",
     content: "",
 });
 
 // create a store method for Referral form
 const submitRef = async () => {
     try {
+        const applicantId = localStorage.getItem("applicant_id");
+        refForm.applicant_id = applicantId;
+
         const response = await axios.post("/intake/create-post/p3", refForm);
         toast.success("Successfully updated.", {
             autoClose: 200,
@@ -114,16 +124,21 @@ provide("submitFormP3", submitRef);
 
 // initialize the data from the Remark model
 const remForm = reactive({
+    applicant_id: "",
     content: "",
 });
 
 // create a store method for Remark form
 const submitRem = async () => {
     try {
+        const applicantId = localStorage.getItem("applicant_id");
+        remForm.applicant_id = applicantId;
+
         await axios.post("/intake/create-post/p4", remForm);
         toast.success("Successfully updated.", {
             autoClose: 200,
         });
+        localStorage.clear();
         console.log("working..");
     } catch (err) {
         toast.error("Please fill in the blank!", {
