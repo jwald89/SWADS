@@ -12,7 +12,6 @@ import { toast } from "vue3-toastify";
 
 // initialize the data from the Personal Information model
 const personalForm = reactive({
-    id: "",
     classification: "",
     category: "",
     date_intake: "",
@@ -261,7 +260,7 @@ defineComponent({
                         :barangays="barangays"
                         :gender="gender"
                     />
-                    <IntakeCreateP2 :personal_id="personal_id" />
+                    <IntakeCreateP2 />
                     <IntakeCreateP3 />
                     <IntakeCreateP4 />
                 </div>
