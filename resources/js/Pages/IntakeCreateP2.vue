@@ -66,7 +66,7 @@ const submitForm = inject("submitFormP2");
                                 >Age<span class="text-danger">*</span></label
                             >
                             <input
-                                type="text"
+                                type="number"
                                 class="form-control"
                                 id="age"
                                 name="age"

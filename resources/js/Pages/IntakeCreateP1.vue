@@ -304,7 +304,7 @@ defineComponent({
                                         ></label
                                     >
                                     <input
-                                        type="text"
+                                        type="number"
                                         class="form-control"
                                         name="age"
                                         id="age"

@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
@@ -109,7 +109,7 @@ onMounted(() => {
                                         >Edit</Link
                                     >
                                     <Link
-                                        :href="`/intake/${detail.id}/edit`"
+                                        :href="`/intake/show/${detail.id}`"
                                         class="btn btn-sm btn-info me-2"
                                         >Details</Link
                                     >

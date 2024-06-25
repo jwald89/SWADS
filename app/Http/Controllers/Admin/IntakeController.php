@@ -59,10 +59,11 @@ class IntakeController extends Controller
     {
         $famComps = FamilyComposition::create($request->all());
 
-        return response()->json([
-            'message' => 'Personal information created successfully.',
-            'data' => $famComps,
-        ]);
+        // return response()->json([
+        //     'message' => 'Personal information created successfully.',
+        //     'data' => $famComps,
+        // ]);
+        return response()->json($famComps, 201);
     }
 
     // Referrals store process
@@ -84,6 +85,15 @@ class IntakeController extends Controller
         return response()->json([
             'message' => "You have successfully created!",
             'remarks' => $remarks,
+        ]);
+    }
+
+    public function show($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        return inertia('ShowIntake', [
+            'intakes' => $intakes
         ]);
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('lastname', 100);
             $table->string('firstname', 100);
             $table->string('middlename', 100);
-            $table->string('age');
+            $table->integer('age');
             $table->string('relationship');
             $table->string('educ_attainment')->nullable();
             $table->string('remarks')->nullable();

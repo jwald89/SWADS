@@ -80,6 +80,16 @@ const submitFamCompositions = async () => {
         toast.success("Successfully updated.", {
             autoClose: 2000,
         });
+
+        localStorage.setItem("id", response.data.id);
+        localStorage.setItem("lastname", familyForm.lastname);
+        localStorage.setItem("firstname", familyForm.firstname);
+        localStorage.setItem("middlename", familyForm.middlename);
+        localStorage.setItem("age", familyForm.age);
+        localStorage.setItem("relationship", familyForm.relationship);
+        localStorage.setItem("educ_attainment", familyForm.educ_attainment);
+        localStorage.setItem("remarks", familyForm.remarks);
+
         console.log("working..");
     } catch (error) {
         toast.error("Please fill in the blanks!", {

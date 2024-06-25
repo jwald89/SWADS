@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('extn_name')->nullable();
             $table->string('nick_name');
-            $table->string('age');
+            $table->integer('age');
             $table->date('birthdate');
             $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
             $table->string('purok')->nullable();

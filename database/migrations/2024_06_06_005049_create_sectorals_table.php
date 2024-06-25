@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('age');
-            $table->enum('sex', GenderTypes::values())->default(GenderTypes::IS_MALE->value);
+            $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
             $table->string('nationality')->nullable();
             $table->string('religion')->nullable();
             $table->string('ethnicity')->nullable();

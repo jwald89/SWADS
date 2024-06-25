@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('claimant');
             $table->string('beneficiary');
             $table->string('age');
-            $table->enum('sex', GenderTypes::values())->default(GenderTypes::IS_MALE->value);
+            $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
             $table->string('contact_no');
             $table->string('sector');
             $table->string('municipality');

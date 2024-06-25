@@ -31,7 +31,7 @@ class IntakeRequest extends FormRequest
             'first_name' => 'required|string|max:100',
             'middle_name' => 'required|string|max:100',
             'nick_name' => 'required|string|max:100',
-            'age' => 'required|string',
+            'age' => 'required|integer',
             'birthdate' => 'required|date',
             'sex' => 'required',
             'barangay' => 'required|string',
