@@ -104,7 +104,7 @@ onMounted(() => {
                                 <td>{{ detail.contact_no }}</td>
                                 <td>
                                     <Link
-                                        :href="`/intake/${detail.id}/edit`"
+                                        :href="`/intake/edit/${detail.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         >Edit</Link
                                     >

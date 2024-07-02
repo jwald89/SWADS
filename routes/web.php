@@ -42,6 +42,11 @@ Route::controller(IntakeController::class)
             Route::post('/intake/create-post/p3', 'storeP3')->name('intake.post3');
             Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');
             Route::get('/intake/show/{id}', 'show')->name('intake.show');
+            Route::get('/intake/edit/{id}', 'edit')->name('intake.edit');
+            Route::post('/intake/edit/p1/{id}', 'editP1')->name('intake.editP1');
+            Route::post('/intake/edit/p2/{id}', 'editP2')->name('intake.editP2');
+            Route::post('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
+            Route::post('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
         });
 
 // Monitoring Controller

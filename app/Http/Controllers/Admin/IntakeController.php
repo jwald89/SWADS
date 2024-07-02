@@ -96,4 +96,53 @@ class IntakeController extends Controller
             'intakes' => $intakes
         ]);
     }
+
+    public function edit($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        return inertia('EditIntake', [
+            'intakes' => $intakes
+        ]);
+    }
+
+    // Personal Information store process
+    public function editP1($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        return inertia('EditIntake', [
+            'intakes' => $intakes
+        ]);
+    }
+
+    // Family Compositions store process
+    public function editP2($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        return inertia('EditIntake', [
+            'intakes' => $intakes
+        ]);
+    }
+
+    // Referrals store process
+    public function editP3($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        return inertia('EditIntake', [
+            'intakes' => $intakes
+        ]);
+    }
+
+    // Remarks store process
+    public function editP4($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        return inertia('EditIntake', [
+            'intakes' => $intakes
+        ]);
+    }
 }
