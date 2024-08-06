@@ -1,5 +1,6 @@
 <script setup>
 import { inject } from "vue";
+const intakes = inject("intakeData");
 </script>
 
 <template>
@@ -12,7 +13,11 @@ import { inject } from "vue";
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body mt-4">
-                    <form class="row g-3">
+                    <form
+                        class="row g-3"
+                        v-for="famCompose in intakes.fam_compose"
+                        :key="famCompose.id"
+                    >
                         <div class="col-md-4">
                             <label for="lastName"
                                 >Last name<span class="text-danger"
@@ -25,6 +30,7 @@ import { inject } from "vue";
                                 id="lastName"
                                 name="lastName"
                                 placeholder="Family name"
+                                v-model="famCompose.lastname"
                             />
                         </div>
                         <div class="col-md-4">
@@ -39,6 +45,7 @@ import { inject } from "vue";
                                 id="firstName"
                                 name="firstName"
                                 placeholder="Given name"
+                                v-model="famCompose.firstname"
                             />
                         </div>
                         <div class="col-md-4">
@@ -53,6 +60,7 @@ import { inject } from "vue";
                                 id="middleName"
                                 name="middleName"
                                 placeholder="Middle name"
+                                v-model="famCompose.middlename"
                             />
                         </div>
                         <div class="col-md-5">
@@ -65,6 +73,7 @@ import { inject } from "vue";
                                 id="age"
                                 name="age"
                                 placeholder="age"
+                                v-model="famCompose.age"
                             />
                         </div>
                         <div class="col-md-7">
@@ -78,6 +87,7 @@ import { inject } from "vue";
                                 class="form-control"
                                 id="relationship"
                                 name="relationship"
+                                v-model="famCompose.relationship"
                             />
                         </div>
                         <div class="col-12">
@@ -89,6 +99,7 @@ import { inject } from "vue";
                                 class="form-control"
                                 id="educationalBg"
                                 name="educationalBg"
+                                v-model="famCompose.educ_attainment"
                             />
                         </div>
                         <div class="col-md-12">
@@ -98,6 +109,7 @@ import { inject } from "vue";
                                 class="form-control"
                                 id="remarks"
                                 name="remarks"
+                                v-model="famCompose.remarks"
                             />
                         </div>
 

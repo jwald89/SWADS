@@ -9,6 +9,16 @@ import EditIntake4 from "../Pages/EditIntake4.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { toast } from "vue3-toastify";
 
+const props = defineProps({
+    intakes: {
+        type: Object,
+    },
+});
+
+// inherit the code to the child file
+provide("intakeData", props.intakes);
+// provide("submitFormP1", submitPersonalDetails);
+
 defineComponent({
     LayoutApp,
     EditIntake1,
@@ -102,13 +112,7 @@ defineComponent({
                     </li>
                 </ul>
                 <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-                    <EditIntake1
-                        :assistances="assistances"
-                        :civilStatus="civilStatus"
-                        :municipality="municipality"
-                        :barangays="barangays"
-                        :gender="gender"
-                    />
+                    <EditIntake1 />
                     <EditIntake2 />
                     <EditIntake3 />
                     <EditIntake4 />

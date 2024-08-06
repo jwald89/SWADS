@@ -48,7 +48,7 @@ onMounted(() => {
             </div>
             <div class="card-body">
                 <div class="d-flex justify-space-around mt-4">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="input-group mb-3">
                             <input
                                 type="text"
@@ -60,7 +60,7 @@ onMounted(() => {
                             </button>
                         </div>
                     </div>
-                    <div class="col-lg-6 float-end">
+                    <div class="col-lg-8 float-end">
                         <Link
                             class="btn btn-md btn-primary float-end"
                             href="/intake/create"
@@ -113,6 +113,12 @@ onMounted(() => {
                                         class="btn btn-sm btn-info me-2"
                                         >Details</Link
                                     >
+                                    <a
+                                        :href="`/intake/print/${detail.id}`"
+                                        class="btn btn-sm btn-warning"
+                                    >
+                                        Print
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

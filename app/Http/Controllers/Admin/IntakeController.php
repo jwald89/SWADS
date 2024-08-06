@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use PDF;
 use App\Models\Remark;
 use App\Models\Barangay;
 use App\Models\Referral;
@@ -11,10 +12,13 @@ use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Models\AssistanceType;
 use App\Models\FamilyComposition;
+use Illuminate\Support\Facades\DB;
 use App\Models\PersonalInformation;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IntakeRequest;
 use App\Http\Resources\BarangayResource;
+
 use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
 
@@ -144,5 +148,41 @@ class IntakeController extends Controller
         return inertia('EditIntake', [
             'intakes' => $intakes
         ]);
+    }
+
+    public function print($id)
+    {
+        $intakes = DB::table('personal_information')
+            ->select('id', 'classification', 'category', 'date_intake', 'first_name', 'middle_name', 'last_name', 'nick_name', 'extn_name', 'age', 'birthdate', 'sex', 'purok', 'street', 'barangay', 'municipality', 'civil_stats', 'job', 'contact_no', 'income')
+            ->where('id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $famCompose = DB::table('family_compositions')
+            // ->leftJoin('personal_information', 'family_compositions.applicant_id', '=', 'personal_information.id')
+            ->select('id', 'lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks')
+            ->where('applicant_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $referrals = DB::table('referrals')
+            ->select('id', 'content')
+            ->where('applicant_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $remarks = DB::table('remarks')
+            ->select('id', 'content')
+            ->where('applicant_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $pdf = App::make('snappy.pdf.wrapper');
+
+        $pdf->loadView('intakes-sheet', compact('intakes', 'famCompose', 'referrals', 'remarks'))
+            ->setPaper('letter')
+            ->setOrientation('portrait');
+
+        return $pdf->inline();
     }
 }

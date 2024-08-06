@@ -47,6 +47,7 @@ Route::controller(IntakeController::class)
             Route::post('/intake/edit/p2/{id}', 'editP2')->name('intake.editP2');
             Route::post('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
             Route::post('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
+            Route::get('/intake/print/{id}', 'print')->name('intake.print');
         });
 
 // Monitoring Controller

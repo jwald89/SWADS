@@ -2,33 +2,37 @@
 import { defineComponent, inject } from "vue";
 import vSelect from "vue-select";
 
-defineProps({
-    assistances: {
-        type: Object,
-        required: true,
-    },
-    municipality: {
-        type: Object,
-        required: true,
-    },
-    barangays: {
-        type: Object,
-        required: true,
-    },
-    civilStatus: {
-        type: Object,
-        required: true,
-    },
-    gender: {
-        type: Object,
-        required: true,
-    },
-    errors: Object,
-});
+const intakes = inject("intakeData");
 
-defineComponent({
-    vSelect,
-});
+// console.log(intakes);
+
+// defineProps({
+//     assistances: {
+//         type: Object,
+//         required: true,
+//     },
+//     municipality: {
+//         type: Object,
+//         required: true,
+//     },
+//     barangays: {
+//         type: Object,
+//         required: true,
+//     },
+//     civilStatus: {
+//         type: Object,
+//         required: true,
+//     },
+//     gender: {
+//         type: Object,
+//         required: true,
+//     },
+//     errors: Object,
+// });
+
+// defineComponent({
+//     vSelect,
+// });
 </script>
 
 <template>
@@ -54,7 +58,9 @@ defineComponent({
                                     name="classification"
                                     id="classification"
                                 >
-                                    <option value="" default></option>
+                                    <option value="" default>
+                                        {{ intakes.classification }}
+                                    </option>
                                     <option value="non-poor 4Ps">
                                         Non-poor 4Ps
                                     </option>
@@ -70,6 +76,7 @@ defineComponent({
                                     name="category"
                                     id="category"
                                     label="name"
+                                    v-model="intakes.category"
                                 >
                                 </v-select>
                             </div>
@@ -84,6 +91,7 @@ defineComponent({
                                     class="form-control"
                                     name="date_intake"
                                     id="dateIntake"
+                                    v-model="intakes.date_intake"
                                 />
                             </div>
                         </div>
@@ -110,6 +118,7 @@ defineComponent({
                                                     name="lastName"
                                                     id="lastName"
                                                     placeholder="Family name"
+                                                    v-model="intakes.last_name"
                                                 />
                                             </div>
                                         </div>
@@ -129,6 +138,7 @@ defineComponent({
                                                     name="firstName"
                                                     id="firstName"
                                                     placeholder="Given name"
+                                                    v-model="intakes.first_name"
                                                 />
                                             </div>
                                         </div>
@@ -148,6 +158,9 @@ defineComponent({
                                                     name="middleName"
                                                     id="middleName"
                                                     placeholder="Middle name"
+                                                    v-model="
+                                                        intakes.middle_name
+                                                    "
                                                 />
                                             </div>
                                         </div>
@@ -166,6 +179,7 @@ defineComponent({
                                                     name="extension"
                                                     id="extension"
                                                     placeholder="Suffix"
+                                                    v-model="intakes.extn_name"
                                                 />
                                             </div>
                                             <div class="col-md-6">
@@ -181,6 +195,7 @@ defineComponent({
                                                     name="nickName"
                                                     id="nickName"
                                                     placeholder="Nickname"
+                                                    v-model="intakes.nick_name"
                                                 />
                                             </div>
                                         </div>
@@ -207,6 +222,7 @@ defineComponent({
                                                     name="purok"
                                                     id="purok"
                                                     placeholder="Purok"
+                                                    v-model="intakes.purok"
                                                 />
                                             </div>
                                         </div>
@@ -223,6 +239,7 @@ defineComponent({
                                                     name="street"
                                                     id="street"
                                                     placeholder="Sample St.,"
+                                                    v-model="intakes.street"
                                                 />
                                             </div>
                                         </div>
@@ -240,6 +257,7 @@ defineComponent({
                                                     name="barangay"
                                                     id="barangay"
                                                     label="barangay"
+                                                    v-model="intakes.barangay"
                                                 >
                                                 </v-select>
                                             </div>
@@ -258,6 +276,9 @@ defineComponent({
                                                     name="municipal"
                                                     id="municipal"
                                                     label="municipality"
+                                                    v-model="
+                                                        intakes.municipality
+                                                    "
                                                 >
                                                 </v-select>
                                             </div>
@@ -283,6 +304,7 @@ defineComponent({
                                         name="age"
                                         id="age"
                                         placeholder="Age"
+                                        v-model="intakes.age"
                                     />
                                 </div>
 
@@ -297,6 +319,7 @@ defineComponent({
                                         class="form-control"
                                         name="birthDate"
                                         id="birthDate"
+                                        v-model="intakes.birthdate"
                                     />
                                 </div>
 
@@ -311,7 +334,7 @@ defineComponent({
                                         id="sex"
                                         name="sex"
                                     >
-                                        <option></option>
+                                        <option>{{ intakes.sex }}</option>
                                     </select>
                                 </div>
 
@@ -326,7 +349,9 @@ defineComponent({
                                         id="civil_stats"
                                         name="civil_stats"
                                     >
-                                        <option></option>
+                                        <option>
+                                            {{ intakes.civil_stats }}
+                                        </option>
                                     </select>
                                 </div>
 
@@ -341,6 +366,7 @@ defineComponent({
                                         id="occupation"
                                         name="occupation"
                                         placeholder="Job"
+                                        v-model="intakes.job"
                                     />
                                 </div>
                                 <div class="col-md-4">
@@ -354,6 +380,7 @@ defineComponent({
                                         id="contactNo"
                                         name="contact_no"
                                         placeholder="Mobile number or Tel number"
+                                        v-model="intakes.contact_no"
                                     />
                                 </div>
                                 <div class="col-md-2">
@@ -367,6 +394,7 @@ defineComponent({
                                         id="income"
                                         name="income"
                                         placeholder="Amount"
+                                        v-model="intakes.income"
                                     />
                                 </div>
 

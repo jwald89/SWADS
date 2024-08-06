@@ -1,6 +1,7 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, defineProps, onMounted, watchEffect, ref } from "vue";
+import { defineComponent, defineProps, ref } from "vue";
+import { Link } from "@inertiajs/vue3";
 import axios from "axios";
 
 const props = defineProps({
@@ -12,18 +13,25 @@ const props = defineProps({
 const intakes = ref(props.intakes);
 
 defineComponent({
+    Link,
     LayoutApp,
 });
 </script>
 
 <template>
     <LayoutApp>
+        <div class="clearfix mb-2">
+            <div class="float-end">
+                <Link href="/intake" class="btn btn-sm btn-primary">Back</Link>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body p-4">
                 <div class="row">
                     <div class="row row-cols-12">
                         <div
-                            class="col border fw-bold p-2 text-center text-uppercase"
+                            class="col border fw-bold p-2 text-center text-uppercase text-white"
+                            style="background-color: #581b98"
                         >
                             Identifying Data
                         </div>
@@ -98,59 +106,58 @@ defineComponent({
                     </div>
                     <div class="row row-cols-12 mt-3">
                         <div
-                            class="col border fw-bold p-2 text-center text-uppercase"
+                            class="col border fw-bold p-2 text-center text-uppercase text-white"
+                            style="background-color: #581b98"
                         >
                             Family Composition
                         </div>
 
-                        <div
-                            class="mb-2"
-                            v-for="famCompose in intakes.fam_compose"
-                            :key="famCompose.id"
-                        >
-                            <div class="row row-cols-6">
-                                <div class="col-3 border fw-bold p-2">
-                                    Fullname
-                                </div>
-                                <div class="col-9 border p-2">
-                                    {{
-                                        famCompose.lastname +
-                                        ", " +
-                                        famCompose.firstname +
-                                        " " +
-                                        famCompose.middlename
-                                    }}
-                                </div>
-                            </div>
-                            <div class="row row-cols-4">
-                                <div class="col border fw-bold p-2">Age</div>
-                                <div class="col border p-2">
-                                    {{ famCompose.age }}
-                                </div>
-                                <div class="col border fw-bold p-2">
-                                    Relationship
-                                </div>
-                                <div class="col border p-2">
-                                    {{ famCompose.relationship }}
-                                </div>
-                            </div>
-                            <div class="row row-cols-4">
-                                <div class="col border fw-bold p-2">
-                                    Education Attainment
-                                </div>
-                                <div class="col border p-2">
-                                    {{ famCompose.educ_attainment }}
-                                </div>
-                                <div class="col border fw-bold p-2">Remark</div>
-                                <div class="col border p-2">
-                                    {{ famCompose.remarks }}
-                                </div>
-                            </div>
+                        <div class="table-response px-1">
+                            <table class="table table-bordered">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Age</th>
+                                        <th>Relationship</th>
+                                        <th>Educational Attainment</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    v-for="famCompose in intakes.fam_compose"
+                                    :key="famCompose.id"
+                                >
+                                    <tr>
+                                        <td>
+                                            {{
+                                                famCompose.lastname +
+                                                ", " +
+                                                famCompose.firstname +
+                                                " " +
+                                                famCompose.middlename
+                                            }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ famCompose.age }} years old
+                                        </td>
+                                        <td class="text-center">
+                                            {{ famCompose.relationship }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ famCompose.educ_attainment }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ famCompose.remarks }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="row row-cols-12 mt-3">
                         <div
-                            class="col border fw-bold p-2 text-center text-uppercase"
+                            class="col border fw-bold p-2 text-center text-uppercase text-white"
+                            style="background-color: #581b98"
                         >
                             Circumstances of Referral
                         </div>
@@ -169,7 +176,8 @@ defineComponent({
                     </div>
                     <div class="row row-cols-12 mt-3">
                         <div
-                            class="col border fw-bold p-2 text-center text-uppercase"
+                            class="col border fw-bold p-2 text-center text-uppercase text-white"
+                            style="background-color: #581b98"
                         >
                             Remarks/ Recommendations
                         </div>
