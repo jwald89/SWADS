@@ -74,6 +74,30 @@ Route::get('/login', function() {
     return inertia('Login');
 });
 
-Route::get('/register', function() {
-    return inertia('Register');
+Route::get('/type-assistance', function() {
+    return inertia('TypeAssistance');
+});
+
+Route::get('/municipality', function() {
+    return inertia('Municipality');
+});
+
+Route::get('/barangay', function() {
+    return inertia('Barangay');
+});
+
+Route::get('/sector', function() {
+    return inertia('Sector');
+});
+
+Route::get('/staff-admin', function() {
+    return inertia('StaffAdmin');
+});
+
+Route::get('/liaison', function() {
+    return inertia('Liaison');
+});
+
+Route::get('/office-charges', function() {
+    return inertia('OfficeCharges');
 });

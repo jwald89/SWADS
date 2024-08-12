@@ -428,7 +428,7 @@ defineComponent({
             <!-- End Profile Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="type-assistance">
                     <i class="bi bi-card-list"></i>
                     <span>Types of Assistance</span>
                 </Link>
@@ -436,7 +436,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="municipality">
                     <i class="bi bi-card-list"></i>
                     <span>Municipality</span>
                 </Link>
@@ -445,7 +445,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="barangay">
                     <i class="bi bi-card-list"></i>
                     <span>Barangay</span>
                 </Link>
@@ -453,7 +453,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="sector">
                     <i class="bi bi-card-list"></i>
                     <span>Sector</span>
                 </Link>
@@ -461,7 +461,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="staff-admin">
                     <i class="bi bi-card-list"></i>
                     <span>Staff Administered</span>
                 </Link>
@@ -469,7 +469,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="liaison">
                     <i class="bi bi-card-list"></i>
                     <span>Liaison</span>
                 </Link>
@@ -477,7 +477,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="office-charges">
                     <i class="bi bi-card-list"></i>
                     <span>Office Charges</span>
                 </Link>

@@ -16,7 +16,7 @@ defineComponent({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Users</h5>
+                        <h5 class="fw-bold">Liaison</h5>
                     </div>
                     <div class="col-lg-6"></div>
                 </div>

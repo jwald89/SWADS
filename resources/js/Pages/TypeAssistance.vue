@@ -1,9 +1,11 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
+import Footer from "@/components/Footer.vue";
 import { defineComponent } from "vue";
 
 defineComponent({
     LayoutApp,
+    Footer,
 });
 </script>
 
@@ -16,7 +18,7 @@ defineComponent({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Users</h5>
+                        <h5 class="fw-bold">Type Assistance</h5>
                     </div>
                     <div class="col-lg-6"></div>
                 </div>
