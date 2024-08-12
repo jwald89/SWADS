@@ -1,20 +1,23 @@
 <script setup>
-import Navbar from "@/components/Navbar.vue";
-import Sidebar from "@/components/Sidebar.vue";
+// import Navbar from "@/components/Navbar.vue";
+// import Sidebar from "@/components/Sidebar.vue";
+import LayoutApp from "../Shared/Layout.vue";
 import Footer from "@/components/Footer.vue";
 import { defineComponent } from "vue";
 
 defineComponent({
-    Navbar,
-    Sidebar,
+    // Navbar,
+    // Sidebar,
     Footer,
+    LayoutApp,
 });
 </script>
 
 <template>
-    <Navbar />
-    <Sidebar />
-    <main id="main" class="main">
+    <!-- <Navbar />
+    <Sidebar /> -->
+    <LayoutApp>
+        <!-- <main id="main" class="main"> -->
         <section class="section dashboard">
             <div class="row">
                 <!-- Left side columns -->
@@ -796,7 +799,8 @@ defineComponent({
                 <!-- End Right side columns -->
             </div>
         </section>
-    </main>
+        <!-- </main> -->
+    </LayoutApp>
 
     <Footer />
 </template>

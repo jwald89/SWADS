@@ -14,8 +14,13 @@ defineComponent({
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <Link href="/dashboard" class="logo d-flex align-items-center">
-                <!-- <img src="assets/img/logo.png" alt="" /> -->
-                <span class="d-none d-lg-block">SwaDs</span>
+                <div>
+                    <img
+                        src="/public/assets/img/psmds-logo.png"
+                        style="width: 210px"
+                    />
+                </div>
+                <!-- <span class="d-none d-lg-block">SwaDs</span> -->
             </Link>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -383,7 +388,7 @@ defineComponent({
             </li>
             <!-- End Tables Nav -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#charts-nav"
@@ -414,10 +419,10 @@ defineComponent({
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <!-- End Charts Nav -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#icons-nav"
@@ -449,7 +454,7 @@ defineComponent({
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> -->
             <!-- End Icons Nav -->
 
             <li class="nav-heading">Maintenance</li>

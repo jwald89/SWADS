@@ -1,7 +1,8 @@
 <script setup>
 import { defineComponent, ref, watch, reactive } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import Sidebar from "@/components/Sidebar.vue";
+import LayoutApp from "../Shared/Layout.vue";
+// import Navbar from "@/components/Navbar.vue";
+// import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
@@ -85,16 +86,18 @@ watch(claimant, function () {
 
 defineComponent({
     Link,
-    Navbar,
-    Sidebar,
+    LayoutApp,
+    // Navbar,
+    // Sidebar,
     vSelect,
 });
 </script>
 
 <template>
-    <Navbar />
+    <!-- <Navbar />
     <Sidebar />
-    <main class="main" id="main">
+    <main class="main" id="main"> -->
+    <LayoutApp>
         <div class="card">
             <div
                 class="card-header text-white"
@@ -408,5 +411,6 @@ defineComponent({
                 </form>
             </div>
         </div>
-    </main>
+        <!-- </main> -->
+    </LayoutApp>
 </template>

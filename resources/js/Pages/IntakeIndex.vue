@@ -1,7 +1,8 @@
 <script setup>
-import { defineComponent, onMounted } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import Sidebar from "@/components/Sidebar.vue";
+import { defineComponent, onMounted, ref } from "vue";
+import LayoutApp from "../Shared/Layout.vue";
+// import Navbar from "@/components/Navbar.vue";
+// import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 
@@ -26,8 +27,9 @@ const getData = async () => {
 
 defineComponent({
     Link,
-    Navbar,
-    Sidebar,
+    // Navbar,
+    // Sidebar,
+    LayoutApp,
 });
 
 onMounted(() => {
@@ -36,9 +38,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <Navbar />
-    <Sidebar />
-    <main class="main" id="main">
+    <!-- <Navbar />
+    <Sidebar /> -->
+    <LayoutApp>
+        <!-- <main class="main" id="main"> -->
         <div class="card">
             <div
                 class="card-header text-white fw-bold"
@@ -97,7 +100,8 @@ onMounted(() => {
                                 <td>{{ detail.sex }}</td>
                                 <td>{{ detail.birthdate }}</td>
                                 <td>
-                                    {{ detail.purok }} {{ detail.street }} st.,
+                                    {{ detail.purok }}
+                                    {{ detail.street }} st.,
                                     {{ detail.barangay }},
                                     {{ detail.municipality }}
                                 </td>
@@ -126,5 +130,6 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-    </main>
+        <!-- </main> -->
+    </LayoutApp>
 </template>

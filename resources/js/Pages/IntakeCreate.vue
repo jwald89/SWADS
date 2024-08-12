@@ -1,8 +1,9 @@
 <script setup>
 import { defineComponent, reactive, provide } from "vue";
 import axios from "axios";
-import Navbar from "@/components/Navbar.vue";
-import Sidebar from "@/components/Sidebar.vue";
+import LayoutApp from "../Shared/Layout.vue";
+// import Navbar from "@/components/Navbar.vue";
+// import Sidebar from "@/components/Sidebar.vue";
 import IntakeCreateP1 from "../Pages/IntakeCreateP1.vue";
 import IntakeCreateP2 from "../Pages/IntakeCreateP2.vue";
 import IntakeCreateP3 from "../Pages/IntakeCreateP3.vue";
@@ -183,8 +184,9 @@ const props = defineProps({
 
 defineComponent({
     Link,
-    Navbar,
-    Sidebar,
+    LayoutApp,
+    // Navbar,
+    // Sidebar,
     IntakeCreateP1,
     IntakeCreateP2,
     IntakeCreateP3,
@@ -193,9 +195,10 @@ defineComponent({
 </script>
 
 <template>
-    <Navbar />
-    <Sidebar />
-    <main class="main" id="main">
+    <!-- <Navbar />
+    <Sidebar /> -->
+    <LayoutApp>
+        <!-- <main class="main" id="main"> -->
         <div class="card">
             <div
                 class="card-header text-white"
@@ -291,5 +294,6 @@ defineComponent({
                 </div>
             </div>
         </div>
-    </main>
+        <!-- </main> -->
+    </LayoutApp>
 </template>

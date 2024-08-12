@@ -1,7 +1,8 @@
 <script setup>
 import { defineComponent } from "vue";
-import Navbar from "@/components/Navbar.vue";
-import Sidebar from "@/components/Sidebar.vue";
+// import Navbar from "@/components/Navbar.vue";
+// import Sidebar from "@/components/Sidebar.vue";
+import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -12,15 +13,17 @@ const props = defineProps({
 
 defineComponent({
     Link,
-    Navbar,
-    Sidebar,
+    // Navbar,
+    // Sidebar,
+    LayoutApp,
 });
 </script>
 
 <template>
-    <Navbar />
-    <Sidebar />
-    <main class="main" id="main">
+    <!-- <Navbar />
+    <Sidebar /> -->
+    <LayoutApp>
+        <!-- <main class="main" id="main"> -->
         <div class="card">
             <div
                 class="card-header text-white fw-bold"
@@ -94,5 +97,6 @@ defineComponent({
                 </div>
             </div>
         </div>
-    </main>
+        <!-- </main> -->
+    </LayoutApp>
 </template>
