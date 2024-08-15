@@ -180,8 +180,11 @@ class IntakeController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
 
         $pdf->loadView('intakes-sheet', compact('intakes', 'famCompose', 'referrals', 'remarks'))
-            ->setPaper('legal')
-            ->setOrientation('portrait');
+            ->setPaper('A4')
+            ->setOption('enable-local-file-access', true)
+            ->setOrientation('portrait')
+            ->setOption('margin-top', 5)
+            ->setOption('margin-bottom', 0);
 
         return $pdf->inline();
     }

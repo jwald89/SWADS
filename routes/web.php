@@ -66,6 +66,7 @@ Route::controller(SectoralDataController::class)
 
 
 
+
 Route::get('/profile', function() {
     return inertia('Profile');
 });

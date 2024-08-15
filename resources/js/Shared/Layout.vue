@@ -277,19 +277,6 @@ defineComponent({
                         </li>
 
                         <li>
-                            <a
-                                class="dropdown-item d-flex align-items-center"
-                                href="pages-faq.html"
-                            >
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li>
                             <form action="/logout" method="POST">
                                 <button
                                     type="submit"
@@ -420,7 +407,7 @@ defineComponent({
             <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="profile">
+                <Link class="nav-link collapsed" href="/profile">
                     <i class="bi bi-person"></i>
                     <span>Users</span>
                 </Link>
@@ -428,7 +415,7 @@ defineComponent({
             <!-- End Profile Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="type-assistance">
+                <Link class="nav-link collapsed" href="/type-assistance">
                     <i class="bi bi-card-list"></i>
                     <span>Types of Assistance</span>
                 </Link>
@@ -436,7 +423,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="municipality">
+                <Link class="nav-link collapsed" href="/municipality">
                     <i class="bi bi-card-list"></i>
                     <span>Municipality</span>
                 </Link>
@@ -445,7 +432,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="barangay">
+                <Link class="nav-link collapsed" href="/barangay">
                     <i class="bi bi-card-list"></i>
                     <span>Barangay</span>
                 </Link>
@@ -453,7 +440,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="sector">
+                <Link class="nav-link collapsed" href="/sector">
                     <i class="bi bi-card-list"></i>
                     <span>Sector</span>
                 </Link>
@@ -461,7 +448,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="staff-admin">
+                <Link class="nav-link collapsed" href="/staff-admin">
                     <i class="bi bi-card-list"></i>
                     <span>Staff Administered</span>
                 </Link>
@@ -469,7 +456,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="liaison">
+                <Link class="nav-link collapsed" href="/liaison">
                     <i class="bi bi-card-list"></i>
                     <span>Liaison</span>
                 </Link>
@@ -477,7 +464,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="office-charges">
+                <Link class="nav-link collapsed" href="/office-charges">
                     <i class="bi bi-card-list"></i>
                     <span>Office Charges</span>
                 </Link>
