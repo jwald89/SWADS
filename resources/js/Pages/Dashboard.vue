@@ -60,7 +60,7 @@ defineComponent({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Sales <span>| Today</span>
+                                        Sector's Overview <span>| Today</span>
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -123,7 +123,7 @@ defineComponent({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Revenue <span>| This Month</span>
+                                        Total Amt. of Assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -188,7 +188,7 @@ defineComponent({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Customers <span>| This Year</span>
+                                        Total No. of Assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -214,9 +214,9 @@ defineComponent({
                         </div>
                         <!-- End Customers Card -->
 
-                        <!-- Reports -->
+                        <!-- Recent Assistance -->
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card top-selling overflow-auto">
                                 <div class="filter">
                                     <a
                                         class="icon"
@@ -249,19 +249,72 @@ defineComponent({
                                     </ul>
                                 </div>
 
-                                <div class="card-body">
+                                <div class="card-body pb-0">
                                     <h5 class="card-title">
-                                        Reports <span>/Today</span>
+                                        Recent Assistance <span>| Today</span>
                                     </h5>
 
-                                    <!-- Line Chart -->
-                                    <div id="reportsChart"></div>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Preview</th>
+                                                <th scope="col">Product</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Sold</th>
+                                                <th scope="col">Revenue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="#">
+                                                        <!-- <img
+                                                            src="assets/img/product-1.jpg"
+                                                            alt=""
+                                                    /> -->
+                                                    </a>
+                                                </th>
+                                                <td>
+                                                    <a
+                                                        href="#"
+                                                        class="text-primary fw-bold"
+                                                        >Ut inventore ipsa
+                                                        voluptas nulla</a
+                                                    >
+                                                </td>
+                                                <td>$64</td>
+                                                <td class="fw-bold">124</td>
+                                                <td>$5,828</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="#">
+                                                        <!-- <img
+                                                            src="assets/img/product-2.jpg"
+                                                            alt=""
+                                                    /> -->
+                                                    </a>
+                                                </th>
+                                                <td>
+                                                    <a
+                                                        href="#"
+                                                        class="text-primary fw-bold"
+                                                        >Exercitationem
+                                                        similique doloremque</a
+                                                    >
+                                                </td>
+                                                <td>$46</td>
+                                                <td class="fw-bold">98</td>
+                                                <td>$4,508</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Reports -->
+                        <!-- End Recent Assistance -->
 
-                        <!-- Recent Sales -->
+                        <!-- Assistance Status -->
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
                                 <div class="filter">
@@ -298,7 +351,7 @@ defineComponent({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Recent Sales <span>| Today</span>
+                                        Assistance Status <span>| Today</span>
                                     </h5>
 
                                     <table
@@ -423,11 +476,11 @@ defineComponent({
                                 </div>
                             </div>
                         </div>
-                        <!-- End Recent Sales -->
+                        <!-- End Assistance Status -->
 
-                        <!-- Top Selling -->
+                        <!-- Reports -->
                         <div class="col-12">
-                            <div class="card top-selling overflow-auto">
+                            <div class="card">
                                 <div class="filter">
                                     <a
                                         class="icon"
@@ -460,70 +513,17 @@ defineComponent({
                                     </ul>
                                 </div>
 
-                                <div class="card-body pb-0">
+                                <div class="card-body">
                                     <h5 class="card-title">
-                                        Top Selling <span>| Today</span>
+                                        Reports <span>/Today</span>
                                     </h5>
 
-                                    <table class="table table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Preview</th>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Sold</th>
-                                                <th scope="col">Revenue</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th scope="row">
-                                                    <a href="#">
-                                                        <!-- <img
-                                                            src="assets/img/product-1.jpg"
-                                                            alt=""
-                                                    /> -->
-                                                    </a>
-                                                </th>
-                                                <td>
-                                                    <a
-                                                        href="#"
-                                                        class="text-primary fw-bold"
-                                                        >Ut inventore ipsa
-                                                        voluptas nulla</a
-                                                    >
-                                                </td>
-                                                <td>$64</td>
-                                                <td class="fw-bold">124</td>
-                                                <td>$5,828</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">
-                                                    <a href="#">
-                                                        <!-- <img
-                                                            src="assets/img/product-2.jpg"
-                                                            alt=""
-                                                    /> -->
-                                                    </a>
-                                                </th>
-                                                <td>
-                                                    <a
-                                                        href="#"
-                                                        class="text-primary fw-bold"
-                                                        >Exercitationem
-                                                        similique doloremque</a
-                                                    >
-                                                </td>
-                                                <td>$46</td>
-                                                <td class="fw-bold">98</td>
-                                                <td>$4,508</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <!-- Line Chart -->
+                                    <div id="reportsChart"></div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Top Selling -->
+                        <!-- End Reports -->
                     </div>
                 </div>
                 <!-- End Left side columns -->
@@ -687,7 +687,7 @@ defineComponent({
                     </div>
                     <!-- End Budget Report -->
 
-                    <!-- Website Traffic -->
+                    <!-- Municipality Report -->
                     <div class="card">
                         <div class="filter">
                             <a class="icon" href="#" data-bs-toggle="dropdown"
@@ -718,7 +718,8 @@ defineComponent({
 
                         <div class="card-body pb-0">
                             <h5 class="card-title">
-                                Website Traffic <span>| Today</span>
+                                Municipality Report
+                                <span>| Today</span>
                             </h5>
 
                             <div
@@ -729,72 +730,6 @@ defineComponent({
                         </div>
                     </div>
                     <!-- End Website Traffic -->
-
-                    <!-- News & Updates Traffic -->
-                    <div class="card">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"
-                                ><i class="bi bi-three-dots"></i
-                            ></a>
-                            <ul
-                                class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                            >
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="#">Today</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#"
-                                        >This Month</a
-                                    >
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#"
-                                        >This Year</a
-                                    >
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="card-body pb-0">
-                            <h5 class="card-title">
-                                News &amp; Updates <span>| Today</span>
-                            </h5>
-
-                            <div class="news">
-                                <div class="post-item clearfix">
-                                    <!-- <img src="assets/img/news-1.jpg" alt="" /> -->
-                                    <h4>
-                                        <a href="#"
-                                            >Nihil blanditiis at in nihil
-                                            autem</a
-                                        >
-                                    </h4>
-                                    <p>
-                                        Sit recusandae non aspernatur
-                                        laboriosam. Quia enim eligendi sed ut
-                                        harum...
-                                    </p>
-                                </div>
-
-                                <div class="post-item clearfix">
-                                    <!-- <img src="assets/img/news-2.jpg" alt="" /> -->
-                                    <h4>
-                                        <a href="#">Quidem autem et impedit</a>
-                                    </h4>
-                                    <p>
-                                        Illo nemo neque maiores vitae officiis
-                                        cum eum turos elan dries werona nande...
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- End sidebar recent posts-->
-                        </div>
-                    </div>
-                    <!-- End News & Updates -->
                 </div>
                 <!-- End Right side columns -->
             </div>
@@ -802,5 +737,5 @@ defineComponent({
         <!-- </main> -->
     </LayoutApp>
 
-    <Footer />
+    <!-- <Footer /> -->
 </template>

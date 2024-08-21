@@ -91,17 +91,52 @@ onMounted(() => {
                             :key="detail.id"
                         >
                             <tr>
-                                <td>{{ detail.category }}</td>
                                 <td>
-                                    {{ detail.last_name }},
-                                    {{ detail.first_name }}
-                                    {{ detail.middle_name }}
+                                    {{
+                                        detail.category
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        detail.category.slice(1)
+                                    }}
                                 </td>
-                                <td>{{ detail.sex }}</td>
+                                <td>
+                                    {{
+                                        detail.last_name
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        detail.last_name.slice(1)
+                                    }},
+                                    {{
+                                        detail.first_name
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        detail.first_name.slice(1)
+                                    }}
+                                    {{
+                                        detail.middle_name
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        detail.middle_name.slice(1)
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        detail.sex.charAt(0).toUpperCase() +
+                                        detail.sex.slice(1)
+                                    }}
+                                </td>
                                 <td>{{ detail.birthdate }}</td>
                                 <td>
-                                    {{ detail.purok }}
-                                    {{ detail.street }} st.,
+                                    {{
+                                        detail.purok
+                                            ? "Prk. " + detail.purok + ","
+                                            : ""
+                                    }}
+                                    {{
+                                        detail.street
+                                            ? detail.street + " St.,"
+                                            : ""
+                                    }}
                                     {{ detail.barangay }},
                                     {{ detail.municipality }}
                                 </td>
