@@ -76,7 +76,7 @@ onMounted(() => {
                     <table class="table">
                         <thead class="text-center">
                             <tr>
-                                <th>Kind of Assistance</th>
+                                <th>Assistance</th>
                                 <th>Name</th>
                                 <th>Gender</th>
                                 <th>Birth Date</th>
@@ -154,9 +154,16 @@ onMounted(() => {
                                     >
                                     <a
                                         :href="`/intake/print/${detail.id}`"
-                                        class="btn btn-sm btn-warning"
+                                        class="btn btn-sm btn-warning me-2"
+                                        target="_blank"
                                     >
                                         Print
+                                    </a>
+                                    <a
+                                        :href="`/intake/export/${detail.id}`"
+                                        class="btn btn-sm btn-success"
+                                    >
+                                        Export
                                     </a>
                                 </td>
                             </tr>

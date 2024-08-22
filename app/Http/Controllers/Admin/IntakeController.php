@@ -21,6 +21,7 @@ use App\Http\Resources\BarangayResource;
 
 use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class IntakeController extends Controller
 {
@@ -150,6 +151,7 @@ class IntakeController extends Controller
         ]);
     }
 
+    // Printing process
     public function print($id)
     {
         $intakes = DB::table('personal_information')
@@ -187,5 +189,53 @@ class IntakeController extends Controller
             ->setOption('margin-bottom', 0);
 
         return $pdf->inline();
+    }
+
+    // Exporting process
+    public function export($id)
+    {
+        $intakes = PersonalInformation::findOrFail($id);
+
+        $templateProcessor = new TemplateProcessor('word-template/intake-sheet.docx');
+        $templateProcessor->setValue('first_name', strtoupper($intakes->first_name));
+        $templateProcessor->setValue('middle_name', strtoupper(substr($intakes->middle_name, 0, 1)));
+        $templateProcessor->setValue('last_name', strtoupper($intakes->last_name));
+        $templateProcessor->setValue('nick_name', strtoupper($intakes->nick_name));
+        $templateProcessor->setValue('date_intake', \Carbon\Carbon::parse($intakes->date_intake)->format('j F Y'));
+        $templateProcessor->setValue('category', ucwords($intakes->category));
+        $templateProcessor->setValue('age', $intakes->age);
+        $templateProcessor->setValue('sex', ucwords($intakes->sex));
+        $templateProcessor->setValue('civil_stats', ucwords($intakes->civil_stats));
+        $templateProcessor->setValue('barangay', $intakes->barangay);
+        $templateProcessor->setValue('municipality', $intakes->municipality);
+        $templateProcessor->setValue('birthdate', \Carbon\Carbon::parse($intakes->birthdate)->format('F j, Y'));
+        $templateProcessor->setValue('job', $intakes->job);
+        $templateProcessor->setValue('income', number_format($intakes->income));
+        $templateProcessor->setValue('contact_no', $intakes->contact_no);
+
+        $families = FamilyComposition::where('applicant_id', $id)->get();  // Adjust the condition as needed
+        $templateProcessor->cloneRow('firstname', $families->count());
+
+        foreach ($families as $index => $family) {
+            $rowIndex = $index + 1;
+            $templateProcessor->setValue('firstname#' . $rowIndex, $family->firstname);
+            $templateProcessor->setValue('middlename#' . $rowIndex, substr($family->middlename, 0, 1));
+            $templateProcessor->setValue('lastname#' . $rowIndex, $family->lastname);
+            $templateProcessor->setValue('age#' . $rowIndex, $family->age);
+            $templateProcessor->setValue('relationship#' . $rowIndex, $family->relationship);
+            $templateProcessor->setValue('educ_attainment#' . $rowIndex, $family->educ_attainment);
+            $templateProcessor->setValue('remarks#' . $rowIndex, $family->remarks);
+        }
+
+        $referral = Referral::findOrFail($id);
+        $templateProcessor->setValue('content', ucwords($referral->content));
+
+        $remarks = Remark::findOrFail($id);
+        $templateProcessor->setValue('remark', ucwords($remarks->content));
+
+        $fileName = $intakes->last_name;
+        $templateProcessor->saveAs($fileName. '.docx');
+
+        return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
     }
 }
