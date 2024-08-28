@@ -2,8 +2,6 @@
 import { defineComponent, reactive, provide } from "vue";
 import axios from "axios";
 import LayoutApp from "../Shared/Layout.vue";
-// import Navbar from "@/components/Navbar.vue";
-// import Sidebar from "@/components/Sidebar.vue";
 import IntakeCreateP1 from "../Pages/IntakeCreateP1.vue";
 import IntakeCreateP2 from "../Pages/IntakeCreateP2.vue";
 import IntakeCreateP3 from "../Pages/IntakeCreateP3.vue";
@@ -34,8 +32,51 @@ const personalForm = reactive({
     income: "",
 });
 
+// initialize error in form submission
+const errors = reactive({});
+
 // create a store method for Personal Information form
 const submitPersonalDetails = async () => {
+    if (personalForm.classification) {
+        errors.classification = "";
+    }
+    if (personalForm.category) {
+        errors.category = "";
+    }
+    if (personalForm.date_intake) {
+        errors.date_intake = "";
+    }
+    if (personalForm.last_name) {
+        errors.last_name = "";
+    }
+    if (personalForm.first_name) {
+        errors.first_name = "";
+    }
+    if (personalForm.middle_name) {
+        errors.middle_name = "";
+    }
+    if (personalForm.nick_name) {
+        errors.nick_name = "";
+    }
+    if (personalForm.barangay) {
+        errors.barangay = "";
+    }
+    if (personalForm.municipality) {
+        errors.municipality = "";
+    }
+    if (personalForm.age) {
+        errors.age = "";
+    }
+    if (personalForm.birthdate) {
+        errors.birthdate = "";
+    }
+    if (personalForm.sex) {
+        errors.sex = "";
+    }
+    if (personalForm.civil_stats) {
+        errors.civil_stats = "";
+    }
+
     try {
         const response = await axios.post(
             "/intake/create-post/p1",
@@ -48,9 +89,18 @@ const submitPersonalDetails = async () => {
         localStorage.setItem("applicant_id", response.data.id);
         console.log("working..");
     } catch (error) {
-        toast.error("Please fill in the blanks!", {
-            autoClose: 2000,
-        });
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+            toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        }
+
         console.error("Error submitting form:", error);
     }
 };
@@ -73,6 +123,28 @@ const familyForm = reactive({
 
 // create a store method for Family Compositions form
 const submitFamCompositions = async () => {
+    if (familyForm.lastname) {
+        errors.lastname = "";
+    }
+    if (familyForm.firstname) {
+        errors.firstname = "";
+    }
+    if (familyForm.middlename) {
+        errors.middlename = "";
+    }
+    if (familyForm.age) {
+        errors.age = "";
+    }
+    if (familyForm.relationship) {
+        errors.relationship = "";
+    }
+    if (familyForm.educ_attainment) {
+        errors.educ_attainment = "";
+    }
+    if (familyForm.remarks) {
+        errors.remarks = "";
+    }
+
     try {
         const applicantId = localStorage.getItem("applicant_id");
         familyForm.applicant_id = applicantId;
@@ -93,9 +165,17 @@ const submitFamCompositions = async () => {
 
         console.log("working..");
     } catch (error) {
-        toast.error("Please fill in the blanks!", {
-            autoClose: 2000,
-        });
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+            toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        }
         console.error("Error submitting form:", error);
     }
 };
@@ -112,6 +192,10 @@ const refForm = reactive({
 
 // create a store method for Referral form
 const submitRef = async () => {
+    if (refForm.content) {
+        errors.content = "";
+    }
+
     try {
         const applicantId = localStorage.getItem("applicant_id");
         refForm.applicant_id = applicantId;
@@ -121,11 +205,19 @@ const submitRef = async () => {
             autoClose: 200,
         });
         console.log("working..");
-    } catch (err) {
-        toast.error("Please fill in the blank!", {
-            autoColse: 2000,
-        });
-        console.log("Error submittinng form: ", err);
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+            toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        }
+        console.error("Error submitting form:", error);
     }
 };
 
@@ -141,6 +233,10 @@ const remForm = reactive({
 
 // create a store method for Remark form
 const submitRem = async () => {
+    if (remForm.content) {
+        errors.content = "";
+    }
+
     try {
         const applicantId = localStorage.getItem("applicant_id");
         remForm.applicant_id = applicantId;
@@ -151,17 +247,26 @@ const submitRem = async () => {
         });
         localStorage.clear();
         console.log("working..");
-    } catch (err) {
-        toast.error("Please fill in the blank!", {
-            autoClose: 200,
-        });
-        console.log("Error submittingn form: ", err);
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+            toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        }
+        console.log("Error submitting form: ", error);
     }
 };
 
 // inherit the code to the child file
 provide("remarkForm", remForm);
 provide("submitFormP4", submitRem);
+provide("formErrors", errors);
 
 // initialize to inherit the data to the child file
 const civilStatus = usePage().props.civilStatus;
@@ -185,8 +290,6 @@ const props = defineProps({
 defineComponent({
     Link,
     LayoutApp,
-    // Navbar,
-    // Sidebar,
     IntakeCreateP1,
     IntakeCreateP2,
     IntakeCreateP3,
@@ -195,10 +298,7 @@ defineComponent({
 </script>
 
 <template>
-    <!-- <Navbar />
-    <Sidebar /> -->
     <LayoutApp>
-        <!-- <main class="main" id="main"> -->
         <div class="card">
             <div
                 class="card-header text-white"
@@ -294,6 +394,5 @@ defineComponent({
                 </div>
             </div>
         </div>
-        <!-- </main> -->
     </LayoutApp>
 </template>

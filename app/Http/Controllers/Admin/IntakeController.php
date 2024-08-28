@@ -62,18 +62,28 @@ class IntakeController extends Controller
     // Family Compositions store process
     public function storeP2(Request $request)
     {
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'middlename' => 'required|string|max:255',
+            'age' => 'required',
+            'relationship' => 'required|string|max:255',
+            'educ_attainment' => 'required|string|max:255',
+            'remarks' => 'required|string|max:255',
+        ]);
+
         $famComps = FamilyComposition::create($request->all());
 
-        // return response()->json([
-        //     'message' => 'Personal information created successfully.',
-        //     'data' => $famComps,
-        // ]);
         return response()->json($famComps, 201);
     }
 
     // Referrals store process
     public function storeP3(Request $request)
     {
+        $request->validate([
+            'content' => 'required'
+        ]);
+
         $referrals = Referral::create($request->all());
 
         return response()->json([
@@ -85,6 +95,10 @@ class IntakeController extends Controller
     // Remarks store process
     public function storeP4(Request $request)
     {
+        $request->validate([
+            'content' => 'required'
+        ]);
+
         $remarks = Remark::create($request->all());
 
         return response()->json([

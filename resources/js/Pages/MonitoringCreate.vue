@@ -1,8 +1,6 @@
 <script setup>
 import { defineComponent, ref, watch, reactive } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
-// import Navbar from "@/components/Navbar.vue";
-// import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
@@ -32,6 +30,8 @@ const municipality = ref();
 const assistance_type = ref();
 const dateIntake = ref();
 
+const errors = reactive({});
+
 const monitorForm = reactive({
     beneficiary: "",
     sector: "",
@@ -54,6 +54,31 @@ const monitorForm = reactive({
 });
 
 const submitForm = async () => {
+    if (monitorForm.claimant) {
+        errors.claimant = "";
+    }
+    if (monitorForm.beneficiary) {
+        errors.beneficiary = "";
+    }
+    if (monitorForm.sector) {
+        errors.sector = "";
+    }
+    if (monitorForm.client_type) {
+        errors.client_type = "";
+    }
+    if (monitorForm.amount) {
+        errors.amount = "";
+    }
+    if (monitorForm.charges) {
+        errors.charges = "";
+    }
+    if (monitorForm.staff_admin) {
+        errors.staff_admin = "";
+    }
+    if (monitorForm.liaison) {
+        errors.liaison = "";
+    }
+
     try {
         const response = await axios.post(
             "/monitoring/create-post",
@@ -66,9 +91,17 @@ const submitForm = async () => {
 
         console.log("working..");
     } catch (error) {
-        toast.error("Please fill in the blanks!", {
-            autoClose: 2000,
-        });
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+            toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        }
         console.error("Error submitting form:", error);
     }
 };
@@ -87,16 +120,11 @@ watch(claimant, function () {
 defineComponent({
     Link,
     LayoutApp,
-    // Navbar,
-    // Sidebar,
     vSelect,
 });
 </script>
 
 <template>
-    <!-- <Navbar />
-    <Sidebar />
-    <main class="main" id="main"> -->
     <LayoutApp>
         <div class="card">
             <div
@@ -130,8 +158,14 @@ defineComponent({
                             :options="dataMonitors.data"
                             :reduce="(data) => data"
                             label="fullname"
+                            :class="{
+                                'form-control is-invalid': errors.claimant,
+                            }"
                         >
                         </v-select>
+                        <small v-if="errors.claimant" class="text-danger">{{
+                            errors.claimant
+                        }}</small>
                     </div>
                     <div class="col-md-6">
                         <label for="beneficiary"
@@ -145,7 +179,11 @@ defineComponent({
                             name="beneficiary"
                             id="beneficiary"
                             v-model="monitorForm.beneficiary"
+                            :class="{ 'is-invalid': errors.beneficiary }"
                         />
+                        <small v-if="errors.beneficiary" class="text-danger">{{
+                            errors.beneficiary
+                        }}</small>
                     </div>
                     <div class="col-md-2">
                         <label for="age"
@@ -196,8 +234,14 @@ defineComponent({
                             :reduce="(data) => data.name"
                             label="name"
                             v-model="monitorForm.sector"
+                            :class="{
+                                'form-control is-invalid': errors.sector,
+                            }"
                         >
                         </v-select>
+                        <small v-if="errors.sector" class="text-danger">{{
+                            errors.sector
+                        }}</small>
                     </div>
 
                     <div class="col-md-4">
@@ -239,11 +283,15 @@ defineComponent({
                             name="clientType"
                             id="clientType"
                             v-model="monitorForm.client_type"
+                            :class="{ 'is-invalid': errors.client_type }"
                         >
                             <option value="walk-in">Walk-in</option>
                             <option value="referred">Referred</option>
                             <option value="reach-out">Reach-out</option>
                         </select>
+                        <small v-if="errors.client_type" class="text-danger">{{
+                            errors.client_type
+                        }}</small>
                     </div>
                     <div class="col-md-4">
                         <label for="assistanceType"
@@ -264,12 +312,16 @@ defineComponent({
                             >Amount<span class="text-danger">*</span></label
                         >
                         <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             id="amount"
                             name="amount"
                             v-model="monitorForm.amount"
+                            :class="{ 'is-invalid': errors.amount }"
                         />
+                        <small v-if="errors.amount" class="text-danger">{{
+                            errors.amount
+                        }}</small>
                     </div>
                     <div class="col-md-3">
                         <label for="charges"
@@ -281,6 +333,7 @@ defineComponent({
                             id="charges"
                             name="charges"
                             v-model="monitorForm.charges"
+                            :class="{ 'is-invalid': errors.charges }"
                         >
                             <option value="PGO">PGO</option>
                             <option value="PVGO">PVGO</option>
@@ -306,6 +359,9 @@ defineComponent({
                                 PSWDO (Mentally ill)
                             </option>
                         </select>
+                        <small v-if="errors.charges" class="text-danger">{{
+                            errors.charges
+                        }}</small>
                     </div>
                     <div class="col-md-3">
                         <label for="intakeDate"
@@ -334,8 +390,14 @@ defineComponent({
                             v-model="monitorForm.staff_admin"
                             :reduce="(data) => data.fullname"
                             label="fullname"
+                            :class="{
+                                'form-control is-invalid': errors.staff_admin,
+                            }"
                         >
                         </v-select>
+                        <small v-if="errors.staff_admin" class="text-danger">{{
+                            errors.staff_admin
+                        }}</small>
                     </div>
                     <div class="col-md-4">
                         <label for="liaison"
@@ -346,6 +408,7 @@ defineComponent({
                             name="liaison"
                             id="staff"
                             v-model="monitorForm.liaison"
+                            :class="{ 'is-invalid': errors.liaison }"
                         >
                             <option value="Shiela Ann G. Laurente">
                                 Shiela Ann G. Laurente
@@ -359,6 +422,9 @@ defineComponent({
                             <option value="C/O PGO">C/O PGO</option>
                             <option value="C/O PVGO">C/O PVGO</option>
                         </select>
+                        <small v-if="errors.liaison" class="text-danger">{{
+                            errors.liaison
+                        }}</small>
                     </div>
                     <div class="col-md-3">
                         <label for="dateStatus"
@@ -411,6 +477,5 @@ defineComponent({
                 </form>
             </div>
         </div>
-        <!-- </main> -->
     </LayoutApp>
 </template>

@@ -29,9 +29,9 @@ return new class extends Migration
             $table->date('date_intake');
             $table->string('staff_admin');
             $table->string('liaison');
-            $table->date('status_date');
-            $table->text('remarks');
-            $table->string('status');
+            $table->date('status_date')->nullable();
+            $table->text('remarks')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

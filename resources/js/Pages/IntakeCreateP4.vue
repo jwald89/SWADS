@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from "vue";
 
+const errors = inject("formErrors");
 const form = inject("remarkForm");
 const submitForm = inject("submitFormP4");
 </script>
@@ -23,10 +24,13 @@ const submitForm = inject("submitFormP4");
                             id="recommendation"
                             name="recommendation"
                             v-model="form.content"
+                            :class="{ 'is-invalid': errors.content }"
                         >
                 Remarks/ Recommendation</textarea
                         >
-
+                        <small v-if="errors.content" class="text-danger">{{
+                            errors.content
+                        }}</small>
                         <div class="mt-4">
                             <button
                                 type="submit"

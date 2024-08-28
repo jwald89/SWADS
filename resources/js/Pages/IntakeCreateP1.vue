@@ -4,6 +4,7 @@ import vSelect from "vue-select";
 
 const form = inject("personalData");
 const submitForm = inject("submitFormP1");
+const errors = inject("formErrors");
 
 defineProps({
     assistances: {
@@ -57,6 +58,9 @@ defineComponent({
                                     name="classification"
                                     id="classification"
                                     v-model="form.classification"
+                                    :class="{
+                                        'is-invalid': errors.classification,
+                                    }"
                                 >
                                     <option value="" default></option>
                                     <option value="non-poor 4Ps">
@@ -64,6 +68,11 @@ defineComponent({
                                     </option>
                                     <option value="4Ps">4Ps</option>
                                 </select>
+                                <small
+                                    v-if="errors.classification"
+                                    class="text-danger"
+                                    >{{ errors.classification }}</small
+                                >
                             </div>
                             <div class="col-md-5">
                                 <label for="category"
@@ -77,8 +86,17 @@ defineComponent({
                                     v-model="form.category"
                                     :reduce="(data) => data.name"
                                     label="name"
+                                    :class="{
+                                        'form-control is-invalid':
+                                            errors.category,
+                                    }"
                                 >
                                 </v-select>
+                                <small
+                                    v-if="errors.category"
+                                    class="text-danger"
+                                    >{{ errors.category }}</small
+                                >
                             </div>
                             <div class="col-md-3">
                                 <label for="dateIntake"
@@ -92,7 +110,15 @@ defineComponent({
                                     name="date_intake"
                                     id="dateIntake"
                                     v-model="form.date_intake"
+                                    :class="{
+                                        'is-invalid': errors.date_intake,
+                                    }"
                                 />
+                                <small
+                                    v-if="errors.date_intake"
+                                    class="text-danger"
+                                    >{{ errors.date_intake }}</small
+                                >
                             </div>
                         </div>
                     </div>
@@ -119,7 +145,18 @@ defineComponent({
                                                     id="lastName"
                                                     v-model="form.last_name"
                                                     placeholder="Family name"
+                                                    :class="{
+                                                        'is-invalid':
+                                                            errors.last_name,
+                                                    }"
                                                 />
+                                                <small
+                                                    v-if="errors.last_name"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.last_name
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -139,7 +176,18 @@ defineComponent({
                                                     id="firstName"
                                                     v-model="form.first_name"
                                                     placeholder="Given name"
+                                                    :class="{
+                                                        'is-invalid':
+                                                            errors.first_name,
+                                                    }"
                                                 />
+                                                <small
+                                                    v-if="errors.first_name"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.first_name
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -159,7 +207,18 @@ defineComponent({
                                                     id="middleName"
                                                     v-model="form.middle_name"
                                                     placeholder="Middle name"
+                                                    :class="{
+                                                        'is-invalid':
+                                                            errors.middle_name,
+                                                    }"
                                                 />
+                                                <small
+                                                    v-if="errors.middle_name"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.middle_name
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                         <div class="row">
@@ -194,7 +253,18 @@ defineComponent({
                                                     id="nickName"
                                                     v-model="form.nick_name"
                                                     placeholder="Nickname"
+                                                    :class="{
+                                                        'is-invalid':
+                                                            errors.nick_name,
+                                                    }"
                                                 />
+                                                <small
+                                                    v-if="errors.nick_name"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.nick_name
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                     </form>
@@ -260,8 +330,19 @@ defineComponent({
                                                         (data) => data.barangay
                                                     "
                                                     label="barangay"
+                                                    :class="{
+                                                        'form-control is-invalid':
+                                                            errors.barangay,
+                                                    }"
                                                 >
                                                 </v-select>
+                                                <small
+                                                    v-if="errors.barangay"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.barangay
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -284,8 +365,19 @@ defineComponent({
                                                             data.municipality
                                                     "
                                                     label="municipality"
+                                                    :class="{
+                                                        'form-control is-invalid':
+                                                            errors.municipality,
+                                                    }"
                                                 >
                                                 </v-select>
+                                                <small
+                                                    v-if="errors.municipality"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.municipality
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                     </form>
@@ -310,7 +402,13 @@ defineComponent({
                                         id="age"
                                         v-model="form.age"
                                         placeholder="Age"
+                                        :class="{ 'is-invalid': errors.age }"
                                     />
+                                    <small
+                                        v-if="errors.age"
+                                        class="text-danger"
+                                        >{{ errors.age }}</small
+                                    >
                                 </div>
 
                                 <div class="col-md-3">
@@ -325,7 +423,15 @@ defineComponent({
                                         name="birthDate"
                                         id="birthDate"
                                         v-model="form.birthdate"
+                                        :class="{
+                                            'is-invalid': errors.birthdate,
+                                        }"
                                     />
+                                    <small
+                                        v-if="errors.birthdate"
+                                        class="text-danger"
+                                        >{{ errors.birthdate }}</small
+                                    >
                                 </div>
 
                                 <div class="col-md-3">
@@ -339,6 +445,7 @@ defineComponent({
                                         id="sex"
                                         name="sex"
                                         v-model="form.sex"
+                                        :class="{ 'is-invalid': errors.sex }"
                                     >
                                         <option
                                             v-for="gen in gender"
@@ -347,6 +454,11 @@ defineComponent({
                                             {{ gen }}
                                         </option>
                                     </select>
+                                    <small
+                                        v-if="errors.sex"
+                                        class="text-danger"
+                                        >{{ errors.sex }}</small
+                                    >
                                 </div>
 
                                 <div class="col-md-3">
@@ -360,6 +472,9 @@ defineComponent({
                                         id="civil_stats"
                                         name="civil_stats"
                                         v-model="form.civil_stats"
+                                        :class="{
+                                            'is-invalid': errors.civil_stats,
+                                        }"
                                     >
                                         <option
                                             v-for="civil in civilStatus"
@@ -368,6 +483,11 @@ defineComponent({
                                             {{ civil }}
                                         </option>
                                     </select>
+                                    <small
+                                        v-if="errors.civil_stats"
+                                        class="text-danger"
+                                        >{{ errors.civil_stats }}</small
+                                    >
                                 </div>
 
                                 <div class="col-md-6">
@@ -386,9 +506,7 @@ defineComponent({
                                 </div>
                                 <div class="col-md-4">
                                     <label for="contactNo" class="form-label"
-                                        >Contact No.<span class="text-danger"
-                                            >*</span
-                                        ></label
+                                        >Contact No.</label
                                     >
                                     <input
                                         class="form-control"

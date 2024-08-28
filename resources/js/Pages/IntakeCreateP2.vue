@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from "vue";
 
+const errors = inject("formErrors");
 const form = inject("familyComposition");
 const submitForm = inject("submitFormP2");
 </script>
@@ -29,7 +30,11 @@ const submitForm = inject("submitFormP2");
                                 name="lastName"
                                 placeholder="Family name"
                                 v-model="form.lastname"
+                                :class="{ 'is-invalid': errors.lastname }"
                             />
+                            <small v-if="errors.lastname" class="text-danger">{{
+                                errors.lastname
+                            }}</small>
                         </div>
                         <div class="col-md-4">
                             <label for="firstName"
@@ -44,7 +49,13 @@ const submitForm = inject("submitFormP2");
                                 name="firstName"
                                 placeholder="Given name"
                                 v-model="form.firstname"
+                                :class="{ 'is-invalid': errors.firstname }"
                             />
+                            <small
+                                v-if="errors.firstname"
+                                class="text-danger"
+                                >{{ errors.firstname }}</small
+                            >
                         </div>
                         <div class="col-md-4">
                             <label for="middleName"
@@ -59,7 +70,13 @@ const submitForm = inject("submitFormP2");
                                 name="middleName"
                                 placeholder="Middle name"
                                 v-model="form.middlename"
+                                :class="{ 'is-invalid': errors.middlename }"
                             />
+                            <small
+                                v-if="errors.middlename"
+                                class="text-danger"
+                                >{{ errors.middlename }}</small
+                            >
                         </div>
                         <div class="col-md-5">
                             <label for="age"
@@ -72,7 +89,11 @@ const submitForm = inject("submitFormP2");
                                 name="age"
                                 placeholder="age"
                                 v-model="form.age"
+                                :class="{ 'is-invalid': errors.age }"
                             />
+                            <small v-if="errors.age" class="text-danger">{{
+                                errors.age
+                            }}</small>
                         </div>
                         <div class="col-md-7">
                             <label for="relationship"
@@ -86,7 +107,13 @@ const submitForm = inject("submitFormP2");
                                 id="relationship"
                                 name="relationship"
                                 v-model="form.relationship"
+                                :class="{ 'is-invalid': errors.relationship }"
                             />
+                            <small
+                                v-if="errors.relationship"
+                                class="text-danger"
+                                >{{ errors.relationship }}</small
+                            >
                         </div>
                         <div class="col-12">
                             <label for="educationalBg"
@@ -98,7 +125,15 @@ const submitForm = inject("submitFormP2");
                                 id="educationalBg"
                                 name="educationalBg"
                                 v-model="form.educ_attainment"
+                                :class="{
+                                    'is-invalid': errors.educ_attainment,
+                                }"
                             />
+                            <small
+                                v-if="errors.educ_attainment"
+                                class="text-danger"
+                                >{{ errors.educ_attainment }}</small
+                            >
                         </div>
                         <div class="col-md-12">
                             <label for="remarks">Remarks</label>
@@ -108,7 +143,11 @@ const submitForm = inject("submitFormP2");
                                 id="remarks"
                                 name="remarks"
                                 v-model="form.remarks"
+                                :class="{ 'is-invalid': errors.remarks }"
                             />
+                            <small v-if="errors.remarks" class="text-danger">{{
+                                errors.remarks
+                            }}</small>
                         </div>
 
                         <div class="mt-4">
