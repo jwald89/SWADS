@@ -1,7 +1,5 @@
 <script setup>
 import { defineComponent } from "vue";
-// import Navbar from "@/components/Navbar.vue";
-// import Sidebar from "@/components/Sidebar.vue";
 import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 
@@ -13,17 +11,12 @@ const props = defineProps({
 
 defineComponent({
     Link,
-    // Navbar,
-    // Sidebar,
     LayoutApp,
 });
 </script>
 
 <template>
-    <!-- <Navbar />
-    <Sidebar /> -->
     <LayoutApp>
-        <!-- <main class="main" id="main"> -->
         <div class="card">
             <div
                 class="card-header text-white fw-bold"
@@ -64,6 +57,7 @@ defineComponent({
                                 <th>Sector</th>
                                 <th>Municipality</th>
                                 <th>Amount</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -79,6 +73,9 @@ defineComponent({
                                 <td>{{ monitoring.sector }}</td>
                                 <td>{{ monitoring.municipality }}</td>
                                 <td>{{ monitoring.amount }}</td>
+                                <td class="badge rounded-pill text-bg-warning">
+                                    {{ monitoring.status }}
+                                </td>
                                 <td>
                                     <Link
                                         href=""
@@ -97,6 +94,5 @@ defineComponent({
                 </div>
             </div>
         </div>
-        <!-- </main> -->
     </LayoutApp>
 </template>

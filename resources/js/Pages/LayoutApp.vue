@@ -1,8 +1,22 @@
 <script setup>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import Dashboard from "./Dashboard.vue";
 import { Link } from "@inertiajs/vue3";
 import Content from "../components/Content.vue";
+import axios from "axios";
+
+const errorMessage = ref("");
+
+const logout = () => {
+    try {
+        axios.post(`/logout`).then((response) => {
+            window.location.href = "/login-page";
+        });
+    } catch (error) {
+        errorMessage.value = "An error occurred during logout.";
+        console.error("Error during logout:", error);
+    }
+};
 
 defineComponent({
     Dashboard,
@@ -292,7 +306,11 @@ defineComponent({
                         </li>
 
                         <li>
-                            <form action="/logout" method="POST">
+                            <!-- <form
+                                action="{{ route('logout.post') }}"
+                                method="POST"
+                            >
+                                @csrf
                                 <button
                                     type="submit"
                                     class="dropdown-item d-flex align-items-center"
@@ -300,7 +318,19 @@ defineComponent({
                                     <i class="bi bi-box-arrow-right"></i>
                                     <span>Sign Out</span>
                                 </button>
-                            </form>
+                            </form> -->
+
+                            <button
+                                type="button"
+                                @click="logout()"
+                                class="dropdown-item d-flex align-items-center"
+                            >
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </button>
+                            <p v-if="errorMessage" class="error-message">
+                                {{ errorMessage }}
+                            </p>
                         </li>
                     </ul>
                     <!-- End Profile Dropdown Items -->
@@ -379,88 +409,10 @@ defineComponent({
             </li>
             <!-- End Forms Nav -->
 
-            <li class="nav-item">
-                <Link href="/profile" class="nav-link collapsed">
-                    <i class="bi bi-layout-text-window-reverse"></i
-                    ><span>CERTIFICATE OF ELIGIBILITY</span
-                    ><i class="bi ms-auto"></i>
-                </Link>
-            </li>
-            <!-- End Tables Nav -->
-
-            <!-- <li class="nav-item">
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#charts-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
-                    <i class="bi bi-bar-chart"></i><span>CHARTS</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="charts-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <a href="charts-chartjs.html">
-                            <i class="bi bi-circle"></i><span>Chart.js</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="charts-apexcharts.html">
-                            <i class="bi bi-circle"></i><span>ApexCharts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="charts-echarts.html">
-                            <i class="bi bi-circle"></i><span>ECharts</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> -->
-            <!-- End Charts Nav -->
-
-            <!-- <li class="nav-item">
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#icons-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
-                    <i class="bi bi-person"></i><span>PROFILE</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="icons-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <a href="icons-bootstrap.html">
-                            <i class="bi bi-circle"></i
-                            ><span>Bootstrap Icons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="icons-remix.html">
-                            <i class="bi bi-circle"></i><span>Remix Icons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="icons-boxicons.html">
-                            <i class="bi bi-circle"></i><span>Boxicons</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> -->
-            <!-- End Icons Nav -->
-
             <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="profile">
+                <Link class="nav-link collapsed" href="/user-registration">
                     <i class="bi bi-person"></i>
                     <span>Users</span>
                 </Link>
@@ -468,32 +420,32 @@ defineComponent({
             <!-- End Profile Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="/type-assistance">
                     <i class="bi bi-card-list"></i>
                     <span>Types of Assistance</span>
                 </Link>
             </li>
             <!-- End Register Page Nav -->
 
-            <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+            <!-- <li class="nav-item">
+                <Link class="nav-link collapsed" href="/municipality">
                     <i class="bi bi-card-list"></i>
                     <span>Municipality</span>
                 </Link>
-            </li>
+            </li> -->
 
             <!-- End Register Page Nav -->
 
-            <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+            <!-- <li class="nav-item">
+                <Link class="nav-link collapsed" href="/barangay">
                     <i class="bi bi-card-list"></i>
                     <span>Barangay</span>
                 </Link>
-            </li>
+            </li> -->
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="/sector">
                     <i class="bi bi-card-list"></i>
                     <span>Sector</span>
                 </Link>
@@ -501,7 +453,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="/staff-admin">
                     <i class="bi bi-card-list"></i>
                     <span>Staff Administered</span>
                 </Link>
@@ -509,7 +461,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="/liaison">
                     <i class="bi bi-card-list"></i>
                     <span>Liaison</span>
                 </Link>
@@ -517,7 +469,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="register">
+                <Link class="nav-link collapsed" href="/office-charges">
                     <i class="bi bi-card-list"></i>
                     <span>Office Charges</span>
                 </Link>

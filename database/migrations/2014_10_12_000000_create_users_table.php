@@ -14,11 +14,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('mun_id');
             $table->string('first_name');
             $table->string('middle_init');
             $table->string('last_name');
             $table->string('username', 50);
-            $table->enum('role_type', UserTypes::values())->default(UserTypes::IS_ADMIN->value);
+            // $table->enum('role_type', UserTypes::values())->default(UserTypes::IS_ADMIN->value);
+            $table->enum('role_type', UserTypes::values())->nullable();
             $table->string('password');
             $table->timestamps();
         });

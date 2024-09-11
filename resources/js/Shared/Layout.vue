@@ -2,11 +2,23 @@
 import { defineComponent } from "vue";
 import Dashboard from "../Pages/Dashboard.vue";
 import { Link } from "@inertiajs/vue3";
+import axios from "axios";
 
 defineComponent({
     Dashboard,
     Link,
 });
+
+const logout = () => {
+    try {
+        axios.post(`/logout`).then((response) => {
+            window.location.href = "/login-page";
+        });
+    } catch (error) {
+        errorMessage.value = "An error occurred during logout.";
+        console.error("Error during logout:", error);
+    }
+};
 </script>
 
 <template>
@@ -277,15 +289,13 @@ defineComponent({
                         </li>
 
                         <li>
-                            <form action="/logout" method="POST">
-                                <button
-                                    type="submit"
-                                    class="dropdown-item d-flex align-items-center"
-                                >
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
-                                </button>
-                            </form>
+                            <button
+                                @click="logout"
+                                class="dropdown-item d-flex align-items-center"
+                            >
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </button>
                         </li>
                     </ul>
                     <!-- End Profile Dropdown Items -->
@@ -345,64 +355,6 @@ defineComponent({
                 </Link>
             </li>
             <!-- End Forms Nav -->
-
-            <!-- <li class="nav-item">
-                <Link href="/profile" class="nav-link collapsed">
-                    <i class="bi bi-layout-text-window-reverse"></i
-                    ><span>CERTIFICATE OF ELIGIBILITY</span
-                    ><i class="bi ms-auto"></i>
-                </Link>
-            </li> -->
-            <!-- End Tables Nav -->
-
-            <!-- <li class="nav-item">
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#charts-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
-                    <i class="bi bi-bar-chart"></i><span>CHARTS</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="charts-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <a href="charts-chartjs.html">
-                            <i class="bi bi-circle"></i><span>Chart.js</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> -->
-            <!-- End Charts Nav -->
-
-            <!-- <li class="nav-item">
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#icons-nav"
-                    data-bs-toggle="collapse"
-                    href="#"
-                >
-                    <i class="bi bi-person"></i><span>PROFILE</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="icons-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <a href="icons-bootstrap.html">
-                            <i class="bi bi-circle"></i
-                            ><span>Bootstrap Icons</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> -->
-            <!-- End Icons Nav -->
 
             <li class="nav-heading">Maintenance</li>
 

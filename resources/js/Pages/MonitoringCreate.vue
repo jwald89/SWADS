@@ -95,7 +95,7 @@ const submitForm = async () => {
             const validationErrors = error.response.data.errors;
             for (const key in validationErrors) {
                 if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                    errors[key] = validationErrors[key][0];
                 }
             }
             toast.error("Please fill in the blanks error!", {
@@ -195,6 +195,7 @@ defineComponent({
                             id="age"
                             name="age"
                             v-model="monitorForm.age"
+                            readonly
                         />
                     </div>
                     <div class="col-md-2">
@@ -207,6 +208,7 @@ defineComponent({
                             name="gender"
                             id="gender"
                             v-model="monitorForm.gender"
+                            readonly
                         />
                     </div>
                     <div class="col-md-3">
@@ -220,6 +222,7 @@ defineComponent({
                             name="contactNo"
                             id="contactNo"
                             v-model="monitorForm.contact_no"
+                            readonly
                         />
                     </div>
                     <div class="col-md-5">
@@ -256,6 +259,7 @@ defineComponent({
                             name="municipal"
                             id="municipal"
                             v-model="monitorForm.municipality"
+                            readonly
                         />
                     </div>
 
@@ -269,6 +273,7 @@ defineComponent({
                             name="barangay"
                             id="barangay"
                             v-model="monitorForm.barangay"
+                            readonly
                         />
                     </div>
                     <div class="col-md-4">
@@ -305,6 +310,7 @@ defineComponent({
                             name="assistanceType"
                             id="assistanceType"
                             v-model="monitorForm.assistance_type"
+                            readonly
                         />
                     </div>
                     <div class="col-md-2">
@@ -375,6 +381,7 @@ defineComponent({
                             id="intakeDate"
                             name="intakeDate"
                             v-model="monitorForm.date_intake"
+                            readonly
                         />
                     </div>
                     <div class="col-md-5">

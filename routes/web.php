@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\IntakeController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SectoralDataController;
+use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,40 +19,46 @@ use App\Http\Controllers\Admin\SectoralDataController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/login-page', function() {
+    return view('login');
+});
+
+Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout.post');
+
+Route::post('/login-post', [AuthController::class, 'login'])->name('login.post');
 
 Route::get('/', function() {
     return inertia('LayoutApp');
-});
+})->name('home')->middleware('auth');
 
 Route::get('/dashboard', function() {
     return inertia('Dashboard');
-});
+})->middleware('auth');
 
 // Intake Controller
-Route::controller(IntakeController::class)
-        ->group(function() {
-            Route::get('/intake', 'index');
-            Route::get('/intake/create', 'create')->name('intake.create');
-            Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1');
-            Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');
-            Route::post('/intake/create-post/p3', 'storeP3')->name('intake.post3');
-            Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');
-            Route::get('/intake/show/{id}', 'show')->name('intake.show');
-            Route::get('/intake/edit/{id}', 'edit')->name('intake.edit');
-            Route::post('/intake/edit/p1/{id}', 'editP1')->name('intake.editP1');
-            Route::post('/intake/edit/p2/{id}', 'editP2')->name('intake.editP2');
-            Route::post('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
-            Route::post('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
-            Route::get('/intake/print/{id}', 'print')->name('intake.print');
-            Route::get('/intake/export/{id}', 'export')->name('intake.export');
-        });
+Route::group(['middleware' => 'auth'], function() {
+    Route::controller(IntakeController::class)
+            ->group(function() {
+                Route::get('/intake', 'index');
+                Route::get('/intake/create', 'create')->name('intake.create');
+                Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1');
+                Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');
+                Route::post('/intake/create-post/p3', 'storeP3')->name('intake.post3');
+                Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');
+                Route::get('/intake/show/{id}', 'show')->name('intake.show');
+                Route::get('/intake/edit/{id}', 'edit')->name('intake.edit');
+                Route::post('/intake/edit/p1/{id}', 'editP1')->name('intake.editP1');
+                Route::post('/intake/edit/p2/{id}', 'editP2')->name('intake.editP2');
+                Route::post('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
+                Route::post('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
+                Route::get('/intake/print/{id}', 'print')->name('intake.print');
+                Route::get('/intake/export/{id}', 'export')->name('intake.export');
+            });
+});
 
 // Monitoring Controller
 Route::controller(MonitoringController::class)
@@ -67,14 +76,15 @@ Route::controller(SectoralDataController::class)
 
 
 
-
-Route::get('/profile', function() {
-    return inertia('Profile');
-});
+Route::controller(RegisterController::class)
+        ->group(function() {
+            Route::get('/user-registration', 'index')->name('user.index');
+            Route::post('/user/post', 'store')->name('user.store');
+        });
 
 Route::get('/login', function() {
-    return inertia('Login');
-});
+    return redirect()->to('/login-page');
+})->name('login');
 
 Route::get('/type-assistance', function() {
     return inertia('TypeAssistance');

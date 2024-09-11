@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Enums\UserTypes;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Models\Municipality;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\MunicipalityResource;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -49,9 +53,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_init' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'mun_id' => 'nullable',
+            'role_type' => 'required'
         ]);
     }
 
@@ -64,9 +72,47 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'luna_name' => $data['luna_name'],
+            'first_name' => $data['first_name'],
+            'middle_init' => $data['middle_init'],
+            'username' => $data['name'],
             'password' => Hash::make($data['password']),
+            'mun_id' => $data['mun_id'],
+            'role_type' => $data['role_type'],
+            // 'email' => $data['email'],
         ]);
+    }
+
+    public function index()
+    {
+        $municipality = MunicipalityResource::collection(Municipality::all());
+
+        return inertia('UserRegistration', [
+            'municipality' => $municipality,
+            'role_type' => UserTypes::names(),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_init' => 'required',
+            'username' => 'required',
+            'password' => 'required|string',
+            'mun_id' => 'nullable',
+            'role_type' => 'required'
+        ]);
+
+        // Hash the password directly
+        $hashedPassword = Hash::make($request->input('password'));
+
+        $userData = $request->all();
+        $userData['password'] = $hashedPassword;
+
+        $user = User::create($userData);
+
+        return response()->json($user, 201);
     }
 }
