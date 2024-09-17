@@ -15,10 +15,10 @@ defineComponent({
     >
         <div class="d-flex align-items-center justify-content-between">
             <Link href="/dashboard" class="logo d-flex align-items-center">
-                <div>
+                <div class="mt-4">
                     <img
-                        src="/public/assets/img/psmds-logo.png"
-                        style="width: 210px"
+                        src="/public/assets/img/pdms-logo.png"
+                        style="max-height: 110px"
                     />
                 </div>
             </Link>

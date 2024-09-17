@@ -25,10 +25,10 @@ const logout = () => {
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <Link href="/dashboard" class="logo d-flex align-items-center">
-                <div>
+                <div class="mt-4">
                     <img
-                        src="/public/assets/img/psmds-logo.png"
-                        style="width: 210px"
+                        src="/public/assets/img/pdms-logo.png"
+                        style="max-height: 110px"
                     />
                 </div>
             </Link>
@@ -271,19 +271,7 @@ const logout = () => {
                             <h6>Administrator</h6>
                             <span>Web Designer</span>
                         </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
 
-                        <li>
-                            <a
-                                class="dropdown-item d-flex align-items-center"
-                                href="users-profile.html"
-                            >
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
@@ -294,7 +282,7 @@ const logout = () => {
                                 class="dropdown-item d-flex align-items-center"
                             >
                                 <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
+                                <span>Log Out</span>
                             </button>
                         </li>
                     </ul>
@@ -359,7 +347,7 @@ const logout = () => {
             <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="/profile">
+                <Link class="nav-link collapsed" href="/user-registration">
                     <i class="bi bi-person"></i>
                     <span>Users</span>
                 </Link>

@@ -22,6 +22,9 @@ use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 // Auth::routes();
 
+Route::get('/login', function() {
+    return redirect()->to('/login-page');
+})->name('login');
 
 Route::get('/login-page', function() {
     return view('login');
@@ -39,8 +42,8 @@ Route::get('/dashboard', function() {
     return inertia('Dashboard');
 })->middleware('auth');
 
-// Intake Controller
 Route::group(['middleware' => 'auth'], function() {
+    // Intake Controller
     Route::controller(IntakeController::class)
             ->group(function() {
                 Route::get('/intake', 'index');
@@ -57,59 +60,63 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
                 Route::get('/intake/print/{id}', 'print')->name('intake.print');
                 Route::get('/intake/export/{id}', 'export')->name('intake.export');
-            });
+    });
+
+    // Monitoring Controller
+    Route::controller(MonitoringController::class)
+            ->group(function() {
+                Route::get('/monitoring', 'index');
+                Route::get('/monitoring/create', 'create');
+                Route::post('/monitoring/create-post', 'store');
+    });
+
+    // Sectoral Data Controller
+    Route::controller(SectoralDataController::class)
+            ->group(function() {
+                Route::get('/sectoral-data', 'index');
+    });
+
+    // Type Assistance Controller
+    Route::get('/type-assistance', function() {
+        return inertia('TypeAssistance');
+    });
+
+    // Municipality Controller
+    Route::get('/municipality', function() {
+        return inertia('Municipality');
+    });
+
+    // Barangay Controller
+    Route::get('/barangay', function() {
+        return inertia('Barangay');
+    });
+
+    // Sector Controller
+    Route::get('/sector', function() {
+        return inertia('Sector');
+    });
+
+    // Staff Administrator Controller
+    Route::get('/staff-admin', function() {
+        return inertia('StaffAdmin');
+    });
+
+    // Liaison Controller
+    Route::get('/liaison', function() {
+        return inertia('Liaison');
+    });
+
+    // Office Charges Controller
+    Route::get('/office-charges', function() {
+        return inertia('OfficeCharges');
+    });
 });
-
-// Monitoring Controller
-Route::controller(MonitoringController::class)
-        ->group(function() {
-            Route::get('/monitoring', 'index');
-            Route::get('/monitoring/create', 'create');
-            Route::post('/monitoring/create-post', 'store');
-        });
-
-// Sectoral Data Controller
-Route::controller(SectoralDataController::class)
-        ->group(function() {
-            Route::get('/sectoral-data', 'index');
-        });
-
 
 
 Route::controller(RegisterController::class)
         ->group(function() {
             Route::get('/user-registration', 'index')->name('user.index');
             Route::post('/user/post', 'store')->name('user.store');
-        });
-
-Route::get('/login', function() {
-    return redirect()->to('/login-page');
-})->name('login');
-
-Route::get('/type-assistance', function() {
-    return inertia('TypeAssistance');
 });
 
-Route::get('/municipality', function() {
-    return inertia('Municipality');
-});
 
-Route::get('/barangay', function() {
-    return inertia('Barangay');
-});
-
-Route::get('/sector', function() {
-    return inertia('Sector');
-});
-
-Route::get('/staff-admin', function() {
-    return inertia('StaffAdmin');
-});
-
-Route::get('/liaison', function() {
-    return inertia('Liaison');
-});
-
-Route::get('/office-charges', function() {
-    return inertia('OfficeCharges');
-});

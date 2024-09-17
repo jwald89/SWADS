@@ -73,7 +73,9 @@ defineComponent({
                                 <td>{{ monitoring.sector }}</td>
                                 <td>{{ monitoring.municipality }}</td>
                                 <td>{{ monitoring.amount }}</td>
-                                <td class="badge rounded-pill text-bg-warning">
+                                <td
+                                    class="badge rounded-pill text-bg-warning mt-2"
+                                >
                                     {{ monitoring.status }}
                                 </td>
                                 <td>

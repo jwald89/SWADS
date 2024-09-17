@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, inject } from "vue";
+import { defineComponent, inject, ref } from "vue";
 import vSelect from "vue-select";
 
 const form = inject("personalData");
@@ -29,6 +29,31 @@ defineProps({
     },
     errors: Object,
 });
+
+const birthdate = ref(form.birthdate);
+const age = ref(form.age);
+
+const calculateAge = () => {
+    if (birthdate.value) {
+        const birthDate = new Date(birthdate.value);
+        const currentYear = new Date().getFullYear();
+        let calculatedAge = currentYear - birthDate.getFullYear();
+        const monthDifference = new Date().getMonth() - birthDate.getMonth();
+
+        // Adjust age if the birth date hasn't occurred yet this year
+        if (
+            monthDifference < 0 ||
+            (monthDifference === 0 && new Date() < birthDate)
+        ) {
+            calculatedAge--;
+        }
+        form.age = calculatedAge;
+        form.birthdate = birthdate.value;
+        age.value = calculatedAge;
+    } else {
+        age.value = null; // Reset age if no date is selected
+    }
+};
 
 defineComponent({
     vSelect,
@@ -390,28 +415,6 @@ defineComponent({
                         <div class="card-body">
                             <div class="row g-3 mt-1">
                                 <div class="col-md-3">
-                                    <label for="age" class="form-label"
-                                        >Age<span class="text-danger"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        name="age"
-                                        id="age"
-                                        v-model="form.age"
-                                        placeholder="Age"
-                                        :class="{ 'is-invalid': errors.age }"
-                                    />
-                                    <small
-                                        v-if="errors.age"
-                                        class="text-danger"
-                                        >{{ errors.age }}</small
-                                    >
-                                </div>
-
-                                <div class="col-md-3">
                                     <label for="birthDate" class="form-label"
                                         >Date of Birth<span class="text-danger"
                                             >*</span
@@ -422,7 +425,8 @@ defineComponent({
                                         class="form-control"
                                         name="birthDate"
                                         id="birthDate"
-                                        v-model="form.birthdate"
+                                        v-model="birthdate"
+                                        @keyup="calculateAge"
                                         :class="{
                                             'is-invalid': errors.birthdate,
                                         }"
@@ -431,6 +435,28 @@ defineComponent({
                                         v-if="errors.birthdate"
                                         class="text-danger"
                                         >{{ errors.birthdate }}</small
+                                    >
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="age" class="form-label"
+                                        >Age<span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        name="age"
+                                        id="age"
+                                        v-model="age"
+                                        placeholder="Age"
+                                        :class="{ 'is-invalid': errors.age }"
+                                    />
+                                    <small
+                                        v-if="errors.age"
+                                        class="text-danger"
+                                        >{{ errors.age }}</small
                                     >
                                 </div>
 

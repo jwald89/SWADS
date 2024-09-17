@@ -19,6 +19,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    status: {
+        type: Object,
+        required: true,
+    },
 });
 
 const claimant = ref();
@@ -222,7 +226,6 @@ defineComponent({
                             name="contactNo"
                             id="contactNo"
                             v-model="monitorForm.contact_no"
-                            readonly
                         />
                     </div>
                     <div class="col-md-5">
@@ -465,13 +468,20 @@ defineComponent({
                         <label for="status"
                             >Status<span class="text-danger">*</span></label
                         >
-                        <input
+                        <select
                             type="text"
                             class="form-control"
                             id="status"
                             name="status"
                             v-model="monitorForm.status"
-                        />
+                        >
+                            <option
+                                v-for="statusType in status"
+                                :key="statusType"
+                            >
+                                {{ statusType }}
+                            </option>
+                        </select>
                     </div>
                     <div class="mt-4">
                         <button

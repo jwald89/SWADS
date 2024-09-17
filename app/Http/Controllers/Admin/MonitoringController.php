@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Sector;
+use App\Enums\StatusType;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
+use App\Models\StaffAdministered;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MonitorRequest;
-use App\Http\Resources\AdministerResource;
 use App\Http\Resources\SectorResource;
-use App\Http\Resources\PersonalDetailResource;
-use App\Models\StaffAdministered;
 use Illuminate\Contracts\Queue\Monitor;
+use App\Http\Resources\AdministerResource;
+use App\Http\Resources\PersonalDetailResource;
 
 class MonitoringController extends Controller
 {
@@ -35,6 +36,7 @@ class MonitoringController extends Controller
             'dataMonitors' => $dataMonitors,
             'sectors' => $sectors,
             'admins' => $admins,
+            'status' => StatusType::names(),
         ]);
     }
 

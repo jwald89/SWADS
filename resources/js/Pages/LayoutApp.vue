@@ -28,13 +28,12 @@ defineComponent({
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <Link href="/dashboard" class="logo d-flex align-items-center">
-                <div>
+                <div class="mt-4">
                     <img
-                        src="/public/assets/img/psmds-logo.png"
-                        style="width: 210px"
+                        src="/public/assets/img/pdms-logo.png"
+                        style="max-height: 110px"
                     />
                 </div>
-                <!-- <span class="d-none d-lg-block">SwaDs</span> -->
             </Link>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
@@ -275,58 +274,19 @@ defineComponent({
                             <h6>Administrator</h6>
                             <span>Web Designer</span>
                         </li>
+
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
 
                         <li>
-                            <a
-                                class="dropdown-item d-flex align-items-center"
-                                href="users-profile.html"
-                            >
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li>
-                            <a
-                                class="dropdown-item d-flex align-items-center"
-                                href="pages-faq.html"
-                            >
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li>
-                            <!-- <form
-                                action="{{ route('logout.post') }}"
-                                method="POST"
-                            >
-                                @csrf
-                                <button
-                                    type="submit"
-                                    class="dropdown-item d-flex align-items-center"
-                                >
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
-                                </button>
-                            </form> -->
-
                             <button
                                 type="button"
                                 @click="logout()"
                                 class="dropdown-item d-flex align-items-center"
                             >
                                 <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
+                                <span>Log Out</span>
                             </button>
                             <p v-if="errorMessage" class="error-message">
                                 {{ errorMessage }}

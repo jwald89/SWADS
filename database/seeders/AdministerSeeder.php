@@ -15,25 +15,39 @@ class AdministerSeeder extends Seeder
     {
         $data =[
             [
-                'fullname' => 'Sheila T. Arizobal'
+                'lastname' => 'Arizobal',
+                'firstname' => 'Sheila',
+                'middlename' => 'T.'
             ],
             [
-                'fullname' => 'Junie A. Bapor, Jr.'
+                'lastname' => 'Bapor, Jr.',
+                'firstname' => 'Junie',
+                'middlename' => 'A.'
             ],
             [
-                'fullname' => 'Pia B. Curada'
+                'lastname' => 'Curada',
+                'firstname' => 'Pia',
+                'middlename' => 'B.'
             ],
             [
-                'fullname' => 'Jimmy N. De Julian'
+                'lastname' => 'De Julian',
+                'firstname' => 'Jimmy',
+                'middlename' => 'N.',
             ],
             [
-                'fullname' => 'Maria Paula S. Gallardo'
+                'lastname' => 'Gallardo',
+                'firstname' => 'Maria Paula',
+                'middlename' => 'S.',
             ],
             [
-                'fullname' => 'Bryan P. Mojica'
+                'lastname' => 'Mojica',
+                'firstname' => 'Bryan',
+                'middlename' => 'P.',
             ],
             [
-                'fullname' => 'Paul D. Solis'
+                'lastname' => 'Solis',
+                'firstname' => 'Paul',
+                'middlename' => 'D.',
             ],
         ];
 
