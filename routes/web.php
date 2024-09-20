@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\IntakeController;
-use App\Http\Controllers\Auth\RegisterController;
+// use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SectoralDataController;
+use App\Http\Controllers\Admin\UserRegisterController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 /*
@@ -43,6 +44,15 @@ Route::get('/dashboard', function() {
 })->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function() {
+
+    // Register User Controller
+    Route::controller(UserRegisterController::class)
+            ->group(function() {
+                Route::get('/user-registration/index', 'index')->name('user.index');
+                Route::get('/user-registration/create', 'createUser')->name('user.create');
+                Route::post('/user/post', 'store')->name('user.store');
+    });
+
     // Intake Controller
     Route::controller(IntakeController::class)
             ->group(function() {
@@ -110,13 +120,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/office-charges', function() {
         return inertia('OfficeCharges');
     });
+
 });
 
 
-Route::controller(RegisterController::class)
-        ->group(function() {
-            Route::get('/user-registration', 'index')->name('user.index');
-            Route::post('/user/post', 'store')->name('user.store');
-});
+
 
 

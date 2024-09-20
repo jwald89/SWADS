@@ -4,6 +4,7 @@ import { defineComponent, reactive } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
 import vSelect from "vue-select";
+import { Link } from "@inertiajs/vue3";
 
 defineProps({
     municipality: {
@@ -68,12 +69,15 @@ defineComponent({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Users</h5>
+                        <h5 class="fw-bold">Create Users</h5>
                     </div>
                     <div class="col-lg-6">
-                        <button class="btn btn-sm btn-light float-end">
+                        <Link
+                            class="btn btn-sm btn-light float-end"
+                            href="/user-registration/index"
+                        >
                             Back
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

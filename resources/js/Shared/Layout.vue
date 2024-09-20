@@ -4,6 +4,14 @@ import Dashboard from "../Pages/Dashboard.vue";
 import { Link } from "@inertiajs/vue3";
 import axios from "axios";
 
+function greet(event) {
+    alert(`Hello ${name.value}!`);
+    // `event` is the native DOM event
+    if (event) {
+        alert(event.target.tagName);
+    }
+}
+
 defineComponent({
     Dashboard,
     Link,
@@ -32,7 +40,7 @@ const logout = () => {
                     />
                 </div>
             </Link>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
+            <i @click="greet" class="bi bi-list toggle-sidebar-btn"></i>
         </div>
         <!-- End Logo -->
 
@@ -347,7 +355,10 @@ const logout = () => {
             <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="/user-registration">
+                <Link
+                    class="nav-link collapsed"
+                    href="/user-registration/index"
+                >
                     <i class="bi bi-person"></i>
                     <span>Users</span>
                 </Link>

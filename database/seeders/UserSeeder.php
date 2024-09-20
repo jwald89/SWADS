@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Municipality;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -14,7 +15,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'mun_id' => '19',
+            'mun_id' => Municipality::get()->random()->id,
             'first_name' => 'John',
             'middle_init' => 'S',
             'last_name' => 'Doe',

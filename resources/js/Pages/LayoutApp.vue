@@ -372,7 +372,10 @@ defineComponent({
             <li class="nav-heading">Maintenance</li>
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="/user-registration">
+                <Link
+                    class="nav-link collapsed"
+                    href="/user-registration/index"
+                >
                     <i class="bi bi-person"></i>
                     <span>Users</span>
                 </Link>
