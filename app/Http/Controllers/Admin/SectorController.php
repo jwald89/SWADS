@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Sector;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SectorController extends Controller
 {
@@ -12,7 +13,11 @@ class SectorController extends Controller
      */
     public function index()
     {
-        //
+        $data = Sector::get();
+
+        return inertia('Sector', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -20,7 +25,7 @@ class SectorController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('CreateSector');
     }
 
     /**
@@ -28,7 +33,13 @@ class SectorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $data = Sector::create($request->all());
+
+        return response()->json($data, 201);
     }
 
     /**

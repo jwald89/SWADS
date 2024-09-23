@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 // use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\IntakeController;
+use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
@@ -107,8 +108,11 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     // Sector Controller
-    Route::get('/sector', function() {
-        return inertia('Sector');
+    Route::controller(SectorController::class)
+            ->group(function() {
+                Route::get('/sector', 'index');
+                Route::get('/sector/create', 'create')->name('sector.create');
+                Route::post('/sector/post', 'store')->name('sector.store');
     });
 
     // Staff Administrator Controller
