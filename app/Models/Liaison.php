@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Liaison extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['lastname', 'firstname', 'middlename'];
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Liaison;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class LiaisonController extends Controller
 {
@@ -12,7 +13,11 @@ class LiaisonController extends Controller
      */
     public function index()
     {
-        //
+        $data = Liaison::get();
+
+        return inertia('Liaison', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -20,7 +25,7 @@ class LiaisonController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('CreateLiaison');
     }
 
     /**
@@ -28,7 +33,15 @@ class LiaisonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'lastname' => 'required',
+            'firstname' => 'required',
+            'middlename' => 'required'
+        ]);
+
+        $data = Liaison::create($request->all());
+
+        return response()->json($data, 201);
     }
 
     /**

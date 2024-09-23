@@ -6,9 +6,10 @@ use App\Http\Controllers\AuthController;
 // use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\SectorController;
+use App\Http\Controllers\Admin\LiaisonController;
 use App\Http\Controllers\Admin\MonitoringController;
-use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\StaffAdminController;
+use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
@@ -125,9 +126,13 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     // Liaison Controller
-    Route::get('/liaison', function() {
-        return inertia('Liaison');
+    Route::controller(LiaisonController::class)
+            ->group(function() {
+                Route::get('/liaison', 'index');
+                Route::get('/liaison/create', 'create')->name('liaison.create');
+                Route::post('/liaison/post', 'store')->name('liaison.store');
     });
+
 
     // Office Charges Controller
     Route::get('/office-charges', function() {
