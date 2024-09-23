@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AssistanceType extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['id', 'name'];
+
 }

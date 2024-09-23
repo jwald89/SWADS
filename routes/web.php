@@ -1,12 +1,14 @@
 <?php
 
+use App\Models\AssistanceType;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\IntakeController;
 // use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
+use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 /*
@@ -87,8 +89,11 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     // Type Assistance Controller
-    Route::get('/type-assistance', function() {
-        return inertia('TypeAssistance');
+    Route::controller(TypeAssistanceController::class)
+            ->group(function() {
+                Route::get('/type-assistance', 'index');
+                Route::get('/type-assistance/create', 'create')->name('assistance.create');
+                Route::post('/type-assistance/post', 'store')->name('assistance.post');
     });
 
     // Municipality Controller

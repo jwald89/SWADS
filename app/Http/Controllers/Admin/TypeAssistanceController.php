@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AssistanceType;
 use Illuminate\Http\Request;
 
 class TypeAssistanceController extends Controller
@@ -12,7 +13,11 @@ class TypeAssistanceController extends Controller
      */
     public function index()
     {
-        //
+        $assistanceType = AssistanceType::get();
+
+        return inertia('TypeAssistance', [
+            'assistanceType' => $assistanceType
+        ]);
     }
 
     /**
@@ -20,7 +25,7 @@ class TypeAssistanceController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('CreateTypeAssistance');
     }
 
     /**
@@ -28,7 +33,13 @@ class TypeAssistanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        $data = AssistanceType::create($request->all());
+
+        return response()->json($data, 201);
     }
 
     /**
