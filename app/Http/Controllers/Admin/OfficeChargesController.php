@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Office;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class OfficeChargesController extends Controller
 {
@@ -12,7 +13,11 @@ class OfficeChargesController extends Controller
      */
     public function index()
     {
-        //
+        $offices = Office::get();
+
+        return inertia('OfficeCharges', [
+            'offices' => $offices
+        ]);
     }
 
     /**
@@ -20,7 +25,7 @@ class OfficeChargesController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('CreateOffice');
     }
 
     /**
@@ -28,7 +33,14 @@ class OfficeChargesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'acronym' => 'required',
+            'description' => 'required',
+        ]);
+
+        $data = Office::create($request->all());
+
+        return response()->json($data, 201);
     }
 
     /**

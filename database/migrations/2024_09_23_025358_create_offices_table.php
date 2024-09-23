@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('mun_id')->nullable();
-            $table->foreign('mun_id')->references('id')->on('municipalities');
+        Schema::create('offices', function (Blueprint $table) {
+            $table->id();
+            $table->string('acronym');
+            $table->string('description');
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(Blueprint $table): void
+    public function down(): void
     {
-        $table->dropColumn('mun_id');
+        Schema::dropIfExists('offices');
     }
 };

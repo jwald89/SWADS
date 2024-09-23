@@ -8,14 +8,13 @@ import { Link } from "@inertiajs/vue3";
 const errors = reactive({});
 
 const data = reactive({
-    lastname: "",
-    firstname: "",
-    middlename: "",
+    acronym: "",
+    description: "",
 });
 
 const submitData = async () => {
     try {
-        const response = await axios.post("/liaison/post", data);
+        const response = await axios.post("/office-charges/post", data);
         toast.success("Successfully created!", {
             autoClose: 1000,
         });
@@ -49,12 +48,12 @@ defineComponent({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Liaison</h5>
+                        <h5 class="fw-bold">Create Office</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/liaison"
+                            href="/office-charges"
                         >
                             Back
                         </Link>
@@ -64,45 +63,31 @@ defineComponent({
             <div class="p-4">
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Lastname</label>
+                        <label for="">Acronym</label>
                         <input
                             type="text"
                             class="form-control form-control-md"
-                            name="lastname"
-                            id="lastname"
-                            v-model="data.lastname"
-                            :class="{ 'is-invalid': errors.lastname }"
+                            name="acronym"
+                            id="acronym"
+                            v-model="data.acronym"
+                            :class="{ 'is-invalid': errors.acronym }"
                         />
-                        <small v-if="errors.lastname" class="text-danger">{{
-                            errors.lastname
+                        <small v-if="errors.acronym" class="text-danger">{{
+                            errors.acronym
                         }}</small>
                     </div>
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Firstname</label>
+                        <label for="">Description</label>
                         <input
                             type="text"
                             class="form-control form-control-md"
-                            name="firstname"
-                            id="firstname"
-                            v-model="data.firstname"
-                            :class="{ 'is-invalid': errors.firstname }"
+                            name="description"
+                            id="description"
+                            v-model="data.description"
+                            :class="{ 'is-invalid': errors.description }"
                         />
-                        <small v-if="errors.firstname" class="text-danger">{{
-                            errors.firstname
-                        }}</small>
-                    </div>
-                    <div class="form-group mt-4 mb-4">
-                        <label for="">Middlename</label>
-                        <input
-                            type="text"
-                            class="form-control form-control-md"
-                            name="middlename"
-                            id="middlename"
-                            v-model="data.middlename"
-                            :class="{ 'is-invalid': errors.middlename }"
-                        />
-                        <small v-if="errors.middlename" class="text-danger">{{
-                            errors.middlename
+                        <small v-if="errors.description" class="text-danger">{{
+                            errors.description
                         }}</small>
                     </div>
                     <div class="float-end">

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\StaffAdminController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
+use App\Http\Controllers\Admin\OfficeChargesController;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
@@ -135,9 +136,13 @@ Route::group(['middleware' => 'auth'], function() {
 
 
     // Office Charges Controller
-    Route::get('/office-charges', function() {
-        return inertia('OfficeCharges');
-    });
+    Route::controller(OfficeChargesController::class)
+        ->group(function() {
+            Route::get('/office-charges', 'index');
+            Route::get('/office-charges/create', 'create')->name('office.create');
+            Route::post('/office-charges/post', 'store')->name('office.store');
+        });
+
 
 });
 
