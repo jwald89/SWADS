@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\StaffAdministered;
 use Illuminate\Http\Request;
 
 class StaffAdminController extends Controller
@@ -12,7 +13,11 @@ class StaffAdminController extends Controller
      */
     public function index()
     {
-        //
+        $data = StaffAdministered::get();
+
+        return inertia('StaffAdmin', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -20,7 +25,7 @@ class StaffAdminController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('CreateStaff');
     }
 
     /**
@@ -28,7 +33,15 @@ class StaffAdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'lastname' => 'required',
+            'firstname' => 'required',
+            'middlename' => 'required'
+        ]);
+
+        $data = StaffAdministered::create($request->all());
+
+        return response()->json($data, 201);
     }
 
     /**

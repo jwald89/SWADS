@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SectoralDataController;
+use App\Http\Controllers\Admin\StaffAdminController;
 use App\Http\Controllers\Admin\UserRegisterController;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
@@ -116,8 +117,11 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     // Staff Administrator Controller
-    Route::get('/staff-admin', function() {
-        return inertia('StaffAdmin');
+    Route::controller(StaffAdminController::class)
+            ->group(function() {
+                Route::get('/staff-admin', 'index');
+                Route::get('/staff-admin/create', 'create')->name('staff.create');
+                Route::post('/staff-admin/post', 'store')->name('staff.store');
     });
 
     // Liaison Controller
