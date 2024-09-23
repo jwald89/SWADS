@@ -1,6 +1,13 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
 import { defineComponent } from "vue";
+import { Link } from "@inertiajs/vue3";
+
+defineProps({
+    data: {
+        type: Object,
+    },
+});
 
 defineComponent({
     LayoutApp,
@@ -18,10 +25,51 @@ defineComponent({
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Municipality</h5>
                     </div>
-                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">
+                        <Link
+                            href="/municipality/create"
+                            class="btn btn-sm btn-light float-end"
+                        >
+                            Create
+                        </Link>
+                    </div>
                 </div>
             </div>
-            <div class="card-body mt-4"></div>
+            <div class="card-body p-4">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="text-center">
+                            <tr>
+                                <th>No.</th>
+                                <th>Municipality</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody
+                            class="text-center"
+                            v-for="(municipal, index) in data"
+                            :key="index"
+                        >
+                            <tr>
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ municipal.municipality }}</td>
+                                <td>
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-primary me-2"
+                                        >Edit</Link
+                                    >
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-info me-2"
+                                        >Details</Link
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </LayoutApp>
 </template>

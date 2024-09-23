@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\LiaisonController;
 use App\Http\Controllers\Admin\MonitoringController;
+use App\Http\Controllers\Admin\MunicipalityController;
 use App\Http\Controllers\Admin\StaffAdminController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
@@ -101,9 +102,12 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     // Municipality Controller
-    Route::get('/municipality', function() {
-        return inertia('Municipality');
-    });
+    Route::controller(MunicipalityController::class)
+            ->group(function() {
+                Route::get('/municipality', 'index');
+                Route::get('/municipality/create', 'create')->name('municipality.create');
+                Route::post('/municipality/post', 'store')->name('municipality.store');
+            });
 
     // Barangay Controller
     Route::get('/barangay', function() {

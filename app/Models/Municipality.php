@@ -10,6 +10,7 @@ class Municipality extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['id', 'municipality'];
 
     public function user()
     {

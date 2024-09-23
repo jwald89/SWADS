@@ -34,9 +34,6 @@ const submitUserData = async () => {
             autoClose: 1000,
         });
     } catch (error) {
-        // toast.error("Please fill in the blanks error!", {
-        //     autoClose: 2000,
-        // });
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
             for (const key in validationErrors) {
