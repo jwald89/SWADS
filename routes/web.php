@@ -7,9 +7,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\LiaisonController;
+use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\MonitoringController;
-use App\Http\Controllers\Admin\MunicipalityController;
 use App\Http\Controllers\Admin\StaffAdminController;
+use App\Http\Controllers\Admin\MunicipalityController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
 use App\Http\Controllers\Admin\OfficeChargesController;
@@ -106,12 +107,15 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/municipality', 'index');
                 Route::get('/municipality/create', 'create')->name('municipality.create');
-                Route::post('/municipality/post', 'store')->name('municipality.store');
+                Route::post('/municipality/post', 'store')->name('municipality.post');
             });
 
     // Barangay Controller
-    Route::get('/barangay', function() {
-        return inertia('Barangay');
+    Route::controller(BarangayController::class)
+            ->group(function() {
+                Route::get('/barangay', 'index');
+                Route::get('/barangay/create', 'create')->name('barangay.create');
+                Route::post('/barangay/post', 'store')->name('barangay.post');
     });
 
     // Sector Controller
@@ -119,7 +123,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/sector', 'index');
                 Route::get('/sector/create', 'create')->name('sector.create');
-                Route::post('/sector/post', 'store')->name('sector.store');
+                Route::post('/sector/post', 'store')->name('sector.post');
     });
 
     // Staff Administrator Controller
@@ -127,7 +131,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/staff-admin', 'index');
                 Route::get('/staff-admin/create', 'create')->name('staff.create');
-                Route::post('/staff-admin/post', 'store')->name('staff.store');
+                Route::post('/staff-admin/post', 'store')->name('staff.post');
     });
 
     // Liaison Controller
@@ -135,7 +139,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/liaison', 'index');
                 Route::get('/liaison/create', 'create')->name('liaison.create');
-                Route::post('/liaison/post', 'store')->name('liaison.store');
+                Route::post('/liaison/post', 'store')->name('liaison.post');
     });
 
 
@@ -144,7 +148,7 @@ Route::group(['middleware' => 'auth'], function() {
         ->group(function() {
             Route::get('/office-charges', 'index');
             Route::get('/office-charges/create', 'create')->name('office.create');
-            Route::post('/office-charges/post', 'store')->name('office.store');
+            Route::post('/office-charges/post', 'store')->name('office.post');
         });
 
 

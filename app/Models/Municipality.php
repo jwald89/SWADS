@@ -16,4 +16,9 @@ class Municipality extends Model
     {
         return $this->hasMany(User::class, 'mun_id', 'id');
     }
+
+    public function barangay()
+    {
+        return $this->hasMany(Barangay::class, 'municipality_id', 'id');
+    }
 }
