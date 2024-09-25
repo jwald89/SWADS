@@ -64,7 +64,9 @@ defineComponent({
             <div class="p-4">
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Lastname</label>
+                        <label for=""
+                            >Lastname<span class="text-danger">*</span></label
+                        >
                         <input
                             type="text"
                             class="form-control form-control-md"
@@ -78,7 +80,9 @@ defineComponent({
                         }}</small>
                     </div>
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Firstname</label>
+                        <label for=""
+                            >Firstname<span class="text-danger">*</span></label
+                        >
                         <input
                             type="text"
                             class="form-control form-control-md"
@@ -92,7 +96,9 @@ defineComponent({
                         }}</small>
                     </div>
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Middlename</label>
+                        <label for=""
+                            >Middlename<span class="text-danger">*</span></label
+                        >
                         <input
                             type="text"
                             class="form-control form-control-md"

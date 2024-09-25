@@ -27,7 +27,7 @@ defineComponent({
                     </div>
                     <div class="col-lg-6">
                         <Link
-                            href="/sector/create"
+                            href="/sectors/create"
                             class="btn btn-sm btn-light float-end"
                             >Create</Link
                         >

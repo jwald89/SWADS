@@ -121,9 +121,9 @@ Route::group(['middleware' => 'auth'], function() {
     // Sector Controller
     Route::controller(SectorController::class)
             ->group(function() {
-                Route::get('/sector', 'index');
-                Route::get('/sector/create', 'create')->name('sector.create');
-                Route::post('/sector/post', 'store')->name('sector.post');
+                Route::get('/sectors', 'index');
+                Route::get('/sectors/create', 'create')->name('sector.create');
+                Route::post('/sectors/post', 'store')->name('sector.post');
     });
 
     // Staff Administrator Controller
@@ -145,11 +145,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     // Office Charges Controller
     Route::controller(OfficeChargesController::class)
-        ->group(function() {
-            Route::get('/office-charges', 'index');
-            Route::get('/office-charges/create', 'create')->name('office.create');
-            Route::post('/office-charges/post', 'store')->name('office.post');
-        });
+            ->group(function() {
+                Route::get('/office-charges', 'index');
+                Route::get('/office-charges/create', 'create')->name('office.create');
+                Route::post('/office-charges/post', 'store')->name('office.post');
+    });
 
 
 });

@@ -13,7 +13,7 @@ const data = reactive({
 
 const submitData = async () => {
     try {
-        const response = await axios.post("/sector/post", data);
+        const response = await axios.post("/sectors/post", data);
         toast.success("Successfully created!", {
             autoClose: 1000,
         });
@@ -52,7 +52,7 @@ defineComponent({
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/sector"
+                            href="/sectors"
                         >
                             Back
                         </Link>
@@ -62,7 +62,9 @@ defineComponent({
             <div class="p-4">
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Name</label>
+                        <label for=""
+                            >Name<span class="text-danger">*</span></label
+                        >
                         <input
                             type="text"
                             class="form-control form-control-md"

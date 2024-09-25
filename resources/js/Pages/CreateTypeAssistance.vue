@@ -62,7 +62,9 @@ defineComponent({
             <div class="p-4">
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
-                        <label for="">Name</label>
+                        <label for=""
+                            >Name<span class="text-danger">*</span></label
+                        >
                         <input
                             type="text"
                             class="form-control form-control-md"

@@ -408,7 +408,7 @@ defineComponent({
             <!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <Link class="nav-link collapsed" href="/sector">
+                <Link class="nav-link collapsed" href="/sectors">
                     <i class="bi bi-card-list"></i>
                     <span>Sector</span>
                 </Link>
