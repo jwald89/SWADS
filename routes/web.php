@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/intake', 'index');
                 Route::get('/intake/create', 'create')->name('intake.create');
-                Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1');
+                Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1')->middleware('validate.client.record');;
                 Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');
                 Route::post('/intake/create-post/p3', 'storeP3')->name('intake.post3');
                 Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');

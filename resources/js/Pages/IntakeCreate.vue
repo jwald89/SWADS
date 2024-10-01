@@ -96,9 +96,17 @@ const submitPersonalDetails = async () => {
                     errors[key] = validationErrors[key][0]; // Capture the first error message for each field
                 }
             }
-            toast.error("Please fill in the blanks error!", {
-                autoClose: 2000,
-            });
+
+            const errorMsg = error.response.data.error;
+            if (errorMsg) {
+                toast.error(errorMsg, {
+                    autoClose: 10000,
+                });
+            } else {
+                toast.error("Please fill in the blanks error!", {
+                    autoClose: 2000,
+                });
+            }
         }
 
         console.error("Error submitting form:", error);
@@ -288,7 +296,6 @@ const props = defineProps({
 });
 
 defineComponent({
-    Link,
     LayoutApp,
     IntakeCreateP1,
     IntakeCreateP2,
