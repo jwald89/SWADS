@@ -177,7 +177,7 @@ const submitFamCompositions = async () => {
             const validationErrors = error.response.data.errors;
             for (const key in validationErrors) {
                 if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                    errors[key] = validationErrors[key][0];
                 }
             }
             toast.error("Please fill in the blanks error!", {

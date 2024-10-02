@@ -63,16 +63,17 @@ class IntakeController extends Controller
     public function storeP2(Request $request)
     {
         $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'middlename' => 'required|string|max:255',
-            'age' => 'required',
-            'relationship' => 'required|string|max:255',
-            'educ_attainment' => 'required|string|max:255',
-            'remarks' => 'required|string|max:255',
+            '*.firstname' => 'required|string|max:255',
+            '*.lastname' => 'required|string|max:255',
+            '*.middlename' => 'required|string|max:255',
+            '*.age' => 'required',
+            '*.relationship' => 'required|string|max:255',
+            '*.educ_attainment' => 'required|string|max:255',
+            '*.remarks' => 'required|string|max:255',
         ]);
 
-        $famComps = FamilyComposition::create($request->all());
+
+        $famComps = array_map(fn ($r) => FamilyComposition::create($r), $request->all());
 
         return response()->json($famComps, 201);
     }
@@ -211,41 +212,41 @@ class IntakeController extends Controller
         $intakes = PersonalInformation::findOrFail($id);
 
         $templateProcessor = new TemplateProcessor('word-template/intake-sheet.docx');
-        $templateProcessor->setValue('first_name', strtoupper($intakes->first_name));
-        $templateProcessor->setValue('middle_name', strtoupper(substr($intakes->middle_name, 0, 1)));
-        $templateProcessor->setValue('last_name', strtoupper($intakes->last_name));
-        $templateProcessor->setValue('nick_name', strtoupper($intakes->nick_name));
-        $templateProcessor->setValue('date_intake', \Carbon\Carbon::parse($intakes->date_intake)->format('j F Y'));
-        $templateProcessor->setValue('category', ucwords($intakes->category));
-        $templateProcessor->setValue('age', $intakes->age);
-        $templateProcessor->setValue('sex', ucwords($intakes->sex));
-        $templateProcessor->setValue('civil_stats', ucwords($intakes->civil_stats));
-        $templateProcessor->setValue('barangay', $intakes->barangay);
-        $templateProcessor->setValue('municipality', $intakes->municipality);
-        $templateProcessor->setValue('birthdate', \Carbon\Carbon::parse($intakes->birthdate)->format('F j, Y'));
-        $templateProcessor->setValue('job', $intakes->job);
-        $templateProcessor->setValue('income', number_format($intakes->income));
-        $templateProcessor->setValue('contact_no', $intakes->contact_no);
+        $templateProcessor->setValue('first_name', strtoupper($intakes?->first_name ?? ''));
+        $templateProcessor->setValue('middle_name', strtoupper(substr($intakes?->middle_name ?? '', 0, 1)));
+        $templateProcessor->setValue('last_name', strtoupper($intakes?->last_name ?? ''));
+        $templateProcessor->setValue('nick_name', strtoupper($intakes?->nick_name ?? ''));
+        $templateProcessor->setValue('date_intake', \Carbon\Carbon::parse($intakes?->date_intake ?? '')->format('j F Y'));
+        $templateProcessor->setValue('category', ucwords($intakes?->category ?? ''));
+        $templateProcessor->setValue('age', $intakes?->age ?? '');
+        $templateProcessor->setValue('sex', ucwords($intakes?->sex ?? ''));
+        $templateProcessor->setValue('civil_stats', ucwords($intakes?->civil_stats ?? ''));
+        $templateProcessor->setValue('barangay', $intakes?->barangay ?? '');
+        $templateProcessor->setValue('municipality', $intakes?->municipality ?? '');
+        $templateProcessor->setValue('birthdate', \Carbon\Carbon::parse($intakes?->birthdate ?? '')->format('F j, Y'));
+        $templateProcessor->setValue('job', $intakes?->job ?? '');
+        $templateProcessor->setValue('income', number_format($intakes?->income ?? ''));
+        $templateProcessor->setValue('contact_no', $intakes->contact_no ?? '');
 
         $families = FamilyComposition::where('applicant_id', $id)->get();  // Adjust the condition as needed
         $templateProcessor->cloneRow('firstname', $families->count());
 
         foreach ($families as $index => $family) {
             $rowIndex = $index + 1;
-            $templateProcessor->setValue('firstname#' . $rowIndex, $family->firstname);
-            $templateProcessor->setValue('middlename#' . $rowIndex, substr($family->middlename, 0, 1));
-            $templateProcessor->setValue('lastname#' . $rowIndex, $family->lastname);
-            $templateProcessor->setValue('age#' . $rowIndex, $family->age);
-            $templateProcessor->setValue('relationship#' . $rowIndex, $family->relationship);
-            $templateProcessor->setValue('educ_attainment#' . $rowIndex, $family->educ_attainment);
-            $templateProcessor->setValue('remarks#' . $rowIndex, $family->remarks);
+            $templateProcessor->setValue('firstname#' . $rowIndex, $family?->firstname ?? '');
+            $templateProcessor->setValue('middlename#' . $rowIndex, substr($family?->middlename ?? '', 0, 1));
+            $templateProcessor->setValue('lastname#' . $rowIndex, $family?->lastname ?? '');
+            $templateProcessor->setValue('age#' . $rowIndex, $family?->age ?? '');
+            $templateProcessor->setValue('relationship#' . $rowIndex, $family?->relationship ?? '');
+            $templateProcessor->setValue('educ_attainment#' . $rowIndex, $family?->educ_attainment ?? '');
+            $templateProcessor->setValue('remarks#' . $rowIndex, $family?->remarks ?? '');
         }
 
-        $referral = Referral::findOrFail($id);
-        $templateProcessor->setValue('content', ucwords($referral->content));
+        $referral = Referral::find($id);
+        $templateProcessor->setValue('content', ucwords($referral?->content ?? ''));
 
-        $remarks = Remark::findOrFail($id);
-        $templateProcessor->setValue('remark', ucwords($remarks->content));
+        $remarks = Remark::find($id);
+        $templateProcessor->setValue('remark', ucwords($remarks?->content ?? ''));
 
         $fileName = $intakes->last_name;
         $templateProcessor->saveAs($fileName. '.docx');
