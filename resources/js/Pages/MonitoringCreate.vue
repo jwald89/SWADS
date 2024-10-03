@@ -1,11 +1,12 @@
 <script setup>
-import { defineComponent, ref, watch, reactive } from "vue";
+import { defineComponent, ref, watch, reactive, onMounted } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
 import { toast } from "vue3-toastify";
 
+// Props from Inertia
 const props = defineProps({
     dataMonitors: {
         type: Object,
@@ -19,23 +20,25 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    liaisons: {
+        type: Object,
+        required: true,
+    },
+    offices: {
+        type: Object,
+        required: true,
+    },
     status: {
         type: Object,
         required: true,
     },
 });
 
-const claimant = ref();
-const age = ref();
-const gender = ref();
-const contactNo = ref();
-const barangay = ref();
-const municipality = ref();
-const assistance_type = ref();
-const dateIntake = ref();
-
+const claimant = ref(null);
 const errors = reactive({});
+const filteredMonitors = ref([]); // Clone initial options
 
+// Monitor form reactive object
 const monitorForm = reactive({
     beneficiary: "",
     sector: "",
@@ -56,6 +59,31 @@ const monitorForm = reactive({
     assistance_type: "",
     date_intake: "",
 });
+
+// Fetch records from the Monitoring table to filter out existing claimants
+const fetchMonitoringRecords = async () => {
+    try {
+        // Make an API call to get records from the Monitoring table
+        const response = await axios.get("/api/monitoring-records");
+        const savedRecords = response.data; // Records already saved in Monitoring table
+
+        // Log saved records for debugging
+        console.log("Existing Monitoring Records:", savedRecords);
+
+        // Filter out names already present in Monitoring table from `dataMonitors`
+        filteredMonitors.value = props.dataMonitors.data.filter(
+            (monitor) =>
+                !savedRecords.some(
+                    (record) => record.claimant === monitor.fullname
+                )
+        );
+
+        // Log the filtered list to verify results
+        console.log("Filtered Monitors After Removal:", filteredMonitors.value);
+    } catch (error) {
+        console.error("Error fetching monitoring records:", error);
+    }
+};
 
 const submitForm = async () => {
     if (monitorForm.claimant) {
@@ -121,6 +149,8 @@ watch(claimant, function () {
     monitorForm.date_intake = claimant.value.date_intake;
 });
 
+onMounted(fetchMonitoringRecords);
+
 defineComponent({
     Link,
     LayoutApp,
@@ -159,7 +189,7 @@ defineComponent({
                             name="claimant"
                             id="claimant"
                             v-model="claimant"
-                            :options="dataMonitors.data"
+                            :options="filteredMonitors"
                             :reduce="(data) => data"
                             label="fullname"
                             :class="{
@@ -413,7 +443,19 @@ defineComponent({
                         <label for="liaison"
                             >Liaison<span class="text-danger">*</span></label
                         >
-                        <select
+                        <v-select
+                            name="liaison"
+                            id="liaison"
+                            :options="liaisons.data"
+                            v-model="monitorForm.liaison"
+                            :reduce="(data) => data.fullname"
+                            label="fullname"
+                            :class="{
+                                'form-control is-invalid': errors.liaison,
+                            }"
+                        >
+                        </v-select>
+                        <!-- <select
                             class="form-select"
                             name="liaison"
                             id="staff"
@@ -431,7 +473,7 @@ defineComponent({
                             </option>
                             <option value="C/O PGO">C/O PGO</option>
                             <option value="C/O PVGO">C/O PVGO</option>
-                        </select>
+                        </select> -->
                         <small v-if="errors.liaison" class="text-danger">{{
                             errors.liaison
                         }}</small>
@@ -468,7 +510,19 @@ defineComponent({
                         <label for="status"
                             >Status<span class="text-danger">*</span></label
                         >
-                        <select
+                        <v-select
+                            name="offices"
+                            id="offices"
+                            :options="offices.data"
+                            v-model="monitorForm.status"
+                            :reduce="(data) => data.acronym"
+                            label="acronym"
+                            :class="{
+                                'form-control is-invalid': errors.status,
+                            }"
+                        >
+                        </v-select>
+                        <!-- <select
                             type="text"
                             class="form-control"
                             id="status"
@@ -481,7 +535,7 @@ defineComponent({
                             >
                                 {{ statusType }}
                             </option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class="mt-4">
                         <button

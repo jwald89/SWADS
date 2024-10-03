@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BarangayController;
+use App\Http\Controllers\Admin\MonitoringController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/api/barangays', [BarangayController::class, 'index']);
+
+Route::get('/monitoring-records', [MonitoringController::class, 'getMonitoringRecords']);

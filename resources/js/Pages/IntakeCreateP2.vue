@@ -31,25 +31,6 @@ const resetForm = () => {
 };
 
 // Save the form data to local storage
-// const saveToLocalStorage = async () => {
-//     if (Object.values(errors).some((error) => error)) {
-//         toast.error("Please correct the form errors before saving.", {
-//             autoClose: 2000,
-//         });
-//         return;
-//     }
-
-//     const newEntry = { ...form };
-//     familyList.value.push(newEntry);
-//     localStorage.setItem(
-//         "familyCompositions",
-//         JSON.stringify(familyList.value)
-//     );
-//     toast.success("Data saved to local storage!", { autoClose: 2000 });
-//     resetForm();
-// };
-
-// Save the form data to local storage
 const saveToLocalStorage = async () => {
     // Check if any required field in the form is empty
     const requiredFields = [
@@ -128,8 +109,8 @@ const finalSubmit = async () => {
             console.log("SUCCESSFULLY ADDED! ", familyCompositions);
         } else {
             toast.error(
-                "No family data found in local storage. Please save at least one entry.",
-                { autoClose: 2000 }
+                "No family data found. Please save at least one entry.",
+                { autoClose: 8000 }
             );
             return;
         }

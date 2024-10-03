@@ -9,5 +9,5 @@ class Office extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['acronym', 'description'];
+    protected $fillable = ['id', 'acronym', 'description'];
 }
