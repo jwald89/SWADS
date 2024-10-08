@@ -27,11 +27,11 @@ class IntakeController extends Controller
 {
     public function index()
     {
-        $perInfos = PersonalInformation::get();
+        $perInfos = PersonalInformation::paginate(2);
         $famComps = FamilyComposition::get();
 
         return inertia('IntakeIndex', [
-            'perInfos' => $perInfos,
+            'intake' => $perInfos,
             'famComps' => $famComps
         ]);
     }

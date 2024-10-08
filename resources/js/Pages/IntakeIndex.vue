@@ -1,13 +1,12 @@
 <script setup>
 import { defineComponent, onMounted, ref } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
-// import Navbar from "@/components/Navbar.vue";
-// import Sidebar from "@/components/Sidebar.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
+import Pagination from "../components/Pagination.vue";
 
 const personalData = defineProps({
-    perInfos: {
+    intake: {
         type: Object,
     },
     famComps: {
@@ -26,10 +25,8 @@ const getData = async () => {
 };
 
 defineComponent({
-    Link,
-    // Navbar,
-    // Sidebar,
     LayoutApp,
+    Pagination,
 });
 
 onMounted(() => {
@@ -38,10 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <!-- <Navbar />
-    <Sidebar /> -->
     <LayoutApp>
-        <!-- <main class="main" id="main"> -->
         <div class="card">
             <div
                 class="card-header text-white fw-bold"
@@ -87,7 +81,7 @@ onMounted(() => {
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="detail in perInfos"
+                            v-for="detail in intake.data"
                             :key="detail.id"
                         >
                             <tr>
@@ -169,9 +163,9 @@ onMounted(() => {
                             </tr>
                         </tbody>
                     </table>
+                    <pagination :records="intake" :link="intake.path" />
                 </div>
             </div>
         </div>
-        <!-- </main> -->
     </LayoutApp>
 </template>

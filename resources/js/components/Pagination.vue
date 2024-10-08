@@ -1,51 +1,67 @@
-<template>
-    <div>
-        <ul class="pagination">
-            <li v-if="links.prev" @click="changePage(links.prev.url)">
-                &laquo; Previous
-            </li>
-            <li
-                v-for="link in links.links"
-                :key="link.url"
-                @click="changePage(link.url)"
-                :class="{ active: link.active }"
-            >
-                {{ link.label }}
-            </li>
-            <li v-if="links.next" @click="changePage(links.next.url)">
-                Next &raquo;
-            </li>
-        </ul>
-    </div>
-</template>
+<script setup>
+import { defineProps } from "vue";
+import { router } from "@inertiajs/vue3";
+const props = defineProps({
+    records: {
+        required: true,
+    },
+    link: {
+        required: true,
+    },
+});
 
-<script>
-export default {
-    props: {
-        links: {
-            type: Object,
-            required: true,
-        },
-    },
-    methods: {
-        changePage(url) {
-            const page = new URL(url).searchParams.get("page");
-            this.$emit("page-changed", page);
-        },
-    },
+const fetchRecords = (url) => {
+    if (url) {
+        router.visit(url, {
+            preserveScroll: true,
+            preserveState: true,
+        });
+    }
 };
 </script>
-
-<style>
-.pagination {
-    display: flex;
-    list-style: none;
-}
-.pagination li {
-    margin: 0 5px;
-    cursor: pointer;
-}
-.pagination li.active {
-    font-weight: bold;
-}
-</style>
+<template>
+    <div>
+        <nav aria-label="Page navigation" v-if="records?.data?.length !== 0">
+            <ul class="pagination justify-content-end me-2">
+                <li
+                    class="page-item"
+                    :class="{ disabled: !records.prev_page_url }"
+                >
+                    <a
+                        class="page-link"
+                        href="#"
+                        @click="fetchRecords(records.prev_page_url)"
+                    >
+                        Previous
+                    </a>
+                </li>
+                <li
+                    class="page-item"
+                    v-for="page in records.last_page"
+                    :key="page"
+                    :class="{ active: page === records.current_page }"
+                >
+                    <a
+                        class="page-link"
+                        href="#"
+                        @click="fetchRecords(`${link}?page=${page}`)"
+                    >
+                        {{ page }}
+                    </a>
+                </li>
+                <li
+                    class="page-item"
+                    :class="{ disabled: !records.next_page_url }"
+                >
+                    <a
+                        class="page-link"
+                        href="#"
+                        @click="fetchRecords(records.next_page_url)"
+                    >
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</template>

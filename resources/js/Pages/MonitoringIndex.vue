@@ -2,16 +2,18 @@
 import { defineComponent } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
+import Pagination from "../components/Pagination.vue";
 
 const props = defineProps({
-    monitorings: {
+    monitoring: {
         type: Object,
+        requried: true,
     },
 });
 
 defineComponent({
-    Link,
     LayoutApp,
+    Pagination,
 });
 </script>
 
@@ -63,28 +65,28 @@ defineComponent({
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="monitoring in monitorings"
-                            :key="monitoring.id"
+                            v-for="data in monitoring.data"
+                            :key="data.id"
                         >
                             <tr>
-                                <td>{{ monitoring.assistance_type }}</td>
-                                <td>{{ monitoring.claimant }}</td>
-                                <td>{{ monitoring.date_intake }}</td>
-                                <td>{{ monitoring.sector }}</td>
-                                <td>{{ monitoring.municipality }}</td>
+                                <td>{{ data.assistance_type }}</td>
+                                <td>{{ data.claimant }}</td>
+                                <td>{{ data.date_intake }}</td>
+                                <td>{{ data.sector }}</td>
+                                <td>{{ data.municipality }}</td>
                                 <td>
                                     {{
                                         new Intl.NumberFormat("en-US", {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
-                                        }).format(monitoring.amount)
+                                        }).format(data.amount)
                                     }}
                                 </td>
 
                                 <td
                                     class="badge rounded-pill text-bg-warning mt-2"
                                 >
-                                    {{ monitoring.status }}
+                                    {{ data.status }}
                                 </td>
                                 <td>
                                     <Link
@@ -101,6 +103,7 @@ defineComponent({
                             </tr>
                         </tbody>
                     </table>
+                    <pagination :records="monitoring" :link="monitoring.path" />
                 </div>
             </div>
         </div>

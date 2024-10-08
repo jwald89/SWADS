@@ -23,10 +23,10 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        $monitoringData = Monitoring::get();
+        $monitoringData = Monitoring::orderBy('created_at', 'ASC');
 
         return inertia('MonitoringIndex', [
-            'monitorings' => $monitoringData
+            'monitoring' => $monitoringData->paginate(2)
         ]);
     }
 
