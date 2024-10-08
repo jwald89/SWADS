@@ -60,6 +60,28 @@ const monitorForm = reactive({
     date_intake: "",
 });
 
+const resetForm = () => {
+    // Clear all the fields by setting them to their initial empty values
+    monitorForm.beneficiary = "";
+    monitorForm.sector = "";
+    monitorForm.client_type = "";
+    monitorForm.age = "";
+    monitorForm.amount = "";
+    monitorForm.charges = "";
+    monitorForm.liaison = "";
+    monitorForm.status_date = "";
+    monitorForm.remarks = "";
+    monitorForm.claimant = "";
+    monitorForm.age = "";
+    monitorForm.gender = "";
+    monitorForm.contact_no = "";
+    monitorForm.barangay = "";
+    monitorForm.municipality = "";
+    monitorForm.assistance_type = "";
+    monitorForm.date_intake = "";
+    monitorForm.status = "";
+};
+
 // Fetch records from the Monitoring table to filter out existing claimants
 const fetchMonitoringRecords = async () => {
     try {
@@ -110,6 +132,9 @@ const submitForm = async () => {
     if (monitorForm.liaison) {
         errors.liaison = "";
     }
+    if (monitorForm.status) {
+        errors.status = "";
+    }
 
     try {
         const response = await axios.post(
@@ -120,6 +145,9 @@ const submitForm = async () => {
         toast.success("Successfully updated.", {
             autoClose: 1000,
         });
+
+        // Clear the form after saving
+        resetForm();
 
         console.log("working..");
     } catch (error) {
@@ -455,25 +483,6 @@ defineComponent({
                             }"
                         >
                         </v-select>
-                        <!-- <select
-                            class="form-select"
-                            name="liaison"
-                            id="staff"
-                            v-model="monitorForm.liaison"
-                            :class="{ 'is-invalid': errors.liaison }"
-                        >
-                            <option value="Shiela Ann G. Laurente">
-                                Shiela Ann G. Laurente
-                            </option>
-                            <option value="Haide Pangilinan">
-                                Haide Pangilinan
-                            </option>
-                            <option value="Mary Jane Umali">
-                                Mary Jane Umali
-                            </option>
-                            <option value="C/O PGO">C/O PGO</option>
-                            <option value="C/O PVGO">C/O PVGO</option>
-                        </select> -->
                         <small v-if="errors.liaison" class="text-danger">{{
                             errors.liaison
                         }}</small>
@@ -522,6 +531,9 @@ defineComponent({
                             }"
                         >
                         </v-select>
+                        <small v-if="errors.status" class="text-danger">{{
+                            errors.status
+                        }}</small>
                         <!-- <select
                             type="text"
                             class="form-control"

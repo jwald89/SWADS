@@ -13,7 +13,7 @@ defineComponent({
     Link,
     LayoutApp,
 });
-</script>   
+</script>
 
 <template>
     <LayoutApp>
@@ -72,7 +72,15 @@ defineComponent({
                                 <td>{{ monitoring.date_intake }}</td>
                                 <td>{{ monitoring.sector }}</td>
                                 <td>{{ monitoring.municipality }}</td>
-                                <td>{{ monitoring.amount }}</td>
+                                <td>
+                                    {{
+                                        new Intl.NumberFormat("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        }).format(monitoring.amount)
+                                    }}
+                                </td>
+
                                 <td
                                     class="badge rounded-pill text-bg-warning mt-2"
                                 >

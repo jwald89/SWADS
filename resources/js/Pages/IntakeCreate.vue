@@ -76,6 +76,12 @@ const submitPersonalDetails = async () => {
     if (personalForm.civil_stats) {
         errors.civil_stats = "";
     }
+    if (personalForm.job) {
+        errors.job = "";
+    }
+    if (personalForm.income) {
+        errors.income = "";
+    }
 
     try {
         const response = await axios.post(

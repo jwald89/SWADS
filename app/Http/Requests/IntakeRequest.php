@@ -37,7 +37,9 @@ class IntakeRequest extends FormRequest
             'barangay' => 'required|string',
             'municipality' => 'required|string',
             'civil_stats' => 'required',
+            'job' => 'required|string',
             'contact_no' => 'nullable|string',
+            'income' => 'required'
         ];
     }
 }

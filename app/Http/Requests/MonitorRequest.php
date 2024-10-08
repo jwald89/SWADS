@@ -24,13 +24,14 @@ class MonitorRequest extends FormRequest
     {
         return [
             'claimant' => 'required',
-            'beneficiary' => 'required',
+            'beneficiary' => 'required|string',
             'sector' => 'required',
             'client_type' => 'required',
             'amount' => 'required',
             'charges' => 'required',
             'staff_admin' => 'required',
             'liaison' => 'required',
+            'status' => 'required'
         ];
     }
 }

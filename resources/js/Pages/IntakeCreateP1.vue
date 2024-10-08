@@ -520,7 +520,7 @@ defineComponent({
                                     <label for="occupation" class="form-label"
                                         >Occupation</label
                                     >
-                                    <small> (optional)</small>
+                                    <span class="text-danger">*</span>
                                     <input
                                         type="text"
                                         class="form-control"
@@ -528,7 +528,13 @@ defineComponent({
                                         name="occupation"
                                         v-model="form.job"
                                         placeholder="Job"
+                                        :class="{ 'is-invalid': errors.job }"
                                     />
+                                    <small
+                                        v-if="errors.job"
+                                        class="text-danger"
+                                        >{{ errors.job }}</small
+                                    >
                                 </div>
                                 <div class="col-md-4">
                                     <label for="contactNo" class="form-label"
@@ -546,7 +552,7 @@ defineComponent({
                                     <label for="income" class="form-label"
                                         >Income</label
                                     >
-                                    <small> (optional)</small>
+                                    <span class="text-danger">*</span>
                                     <input
                                         type="text"
                                         class="form-control"
@@ -554,7 +560,13 @@ defineComponent({
                                         name="income"
                                         v-model="form.income"
                                         placeholder="Amount"
+                                        :class="{ 'is-invalid': errors.income }"
                                     />
+                                    <small
+                                        v-if="errors.income"
+                                        class="text-danger"
+                                        >{{ errors.income }}</small
+                                    >
                                 </div>
 
                                 <div class="mt-4">
