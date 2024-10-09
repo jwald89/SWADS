@@ -2,15 +2,17 @@
 import LayoutApp from "../Shared/Layout.vue";
 import { defineComponent } from "vue";
 import { Link } from "@inertiajs/vue3";
+import Pagination from "../components/Pagination.vue";
 
 defineProps({
-    barangays: {
+    barangay: {
         type: Object,
     },
 });
 
 defineComponent({
     LayoutApp,
+    Pagination,
 });
 </script>
 
@@ -47,16 +49,16 @@ defineComponent({
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="barangay in barangays"
-                            :key="barangay.id"
+                            v-for="(brgy, index) in barangay.data"
+                            :key="index"
                         >
                             <tr>
-                                <td>{{ barangay.id }}</td>
+                                <td>{{ index + 1 }}</td>
                                 <td>
-                                    {{ barangay.barangay }}
+                                    {{ brgy.barangay }}
                                     <small class="text-primary"
                                         >|
-                                        {{ barangay.municipal.municipality }}
+                                        {{ brgy.municipal.municipality }}
                                     </small>
                                 </td>
                                 <td>
@@ -74,6 +76,7 @@ defineComponent({
                             </tr>
                         </tbody>
                     </table>
+                    <pagination :records="barangay" :link="barangay.path" />
                 </div>
             </div>
         </div>

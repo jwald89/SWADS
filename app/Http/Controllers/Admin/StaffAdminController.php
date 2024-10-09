@@ -13,10 +13,10 @@ class StaffAdminController extends Controller
      */
     public function index()
     {
-        $data = StaffAdministered::get();
+        $data = StaffAdministered::paginate(10);
 
         return inertia('StaffAdmin', [
-            'data' => $data
+            'staff' => $data
         ]);
     }
 

@@ -13,10 +13,10 @@ class SectorController extends Controller
      */
     public function index()
     {
-        $data = Sector::get();
+        $sectors = Sector::paginate(10);
 
         return inertia('Sector', [
-            'data' => $data
+            'sectors' => $sectors
         ]);
     }
 

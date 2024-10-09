@@ -2,9 +2,10 @@
 import LayoutApp from "../Shared/Layout.vue";
 import { defineComponent } from "vue";
 import { Link } from "@inertiajs/vue3";
+import Pagination from "../components/Pagination.vue";
 
 defineProps({
-    data: {
+    sectors: {
         type: Object,
     },
 });
@@ -46,7 +47,7 @@ defineComponent({
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="(sector, index) in data"
+                            v-for="(sector, index) in sectors.data"
                             :key="index"
                         >
                             <tr>
@@ -67,6 +68,7 @@ defineComponent({
                             </tr>
                         </tbody>
                     </table>
+                    <pagination :records="sectors" :link="sectors.path" />
                 </div>
             </div>
         </div>

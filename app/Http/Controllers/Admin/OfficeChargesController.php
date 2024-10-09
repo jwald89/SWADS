@@ -13,7 +13,7 @@ class OfficeChargesController extends Controller
      */
     public function index()
     {
-        $offices = Office::get();
+        $offices = Office::paginate(10);
 
         return inertia('OfficeCharges', [
             'offices' => $offices

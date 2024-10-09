@@ -13,10 +13,10 @@ class MunicipalityController extends Controller
      */
     public function index()
     {
-        $data = Municipality::get();
+        $data = Municipality::paginate(10);
 
         return inertia('Municipality', [
-            'data' => $data
+            'municipality' => $data
         ]);
     }
 

@@ -13,7 +13,7 @@ class TypeAssistanceController extends Controller
      */
     public function index()
     {
-        $assistanceType = AssistanceType::get();
+        $assistanceType = AssistanceType::paginate(10);
 
         return inertia('TypeAssistance', [
             'assistanceType' => $assistanceType

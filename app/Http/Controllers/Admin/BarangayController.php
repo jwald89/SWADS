@@ -16,10 +16,10 @@ class BarangayController extends Controller
      */
     public function index()
     {
-        $barangays = Barangay::with(['municipal'])->get();
+        $barangays = Barangay::with(['municipal']);
 
         return inertia('Barangay', [
-            'barangays' => $barangays
+            'barangay' => $barangays->paginate(15)
         ]);
     }
 

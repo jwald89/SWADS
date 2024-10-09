@@ -59,7 +59,7 @@ class UserRegisterController extends Controller
 
     public function index()
     {
-        $users = User::with(['municipality'])->get();
+        $users = User::with(['municipality'])->paginate(10);
 
         return inertia('UserRegistrationIndex', [
             'users' => $users

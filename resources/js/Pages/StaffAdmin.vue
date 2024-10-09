@@ -2,15 +2,17 @@
 import LayoutApp from "../Shared/Layout.vue";
 import { defineComponent } from "vue";
 import { Link } from "@inertiajs/vue3";
+import Pagination from "../components/Pagination.vue";
 
 defineProps({
-    data: {
+    staff: {
         type: Object,
     },
 });
 
 defineComponent({
     LayoutApp,
+    Pagination,
 });
 </script>
 
@@ -49,7 +51,7 @@ defineComponent({
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="(staff, index) in data"
+                            v-for="(staff, index) in staff.data"
                             :key="index"
                         >
                             <tr>
@@ -72,6 +74,7 @@ defineComponent({
                             </tr>
                         </tbody>
                     </table>
+                    <pagination :records="staff" :link="staff.path" />
                 </div>
             </div>
         </div>

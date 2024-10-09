@@ -13,7 +13,7 @@ class LiaisonController extends Controller
      */
     public function index()
     {
-        $data = Liaison::get();
+        $data = Liaison::paginate(10);
 
         return inertia('Liaison', [
             'data' => $data
