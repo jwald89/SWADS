@@ -13,10 +13,13 @@ class MunicipalityController extends Controller
      */
     public function index()
     {
-        $data = Municipality::paginate(10);
+        $data = Municipality::when(request()->search !== '', function($query) {
+            return $query->where('municipality', 'like', '%' . request()->search . '%');
+        })->paginate(10);
 
         return inertia('Municipality', [
-            'municipality' => $data
+            'municipality' => $data,
+            'search' => request()->search ?? ''
         ]);
     }
 

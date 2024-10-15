@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use PDF;
 use App\Models\Remark;
 use App\Models\Barangay;
 use App\Models\Referral;
@@ -27,11 +26,27 @@ class IntakeController extends Controller
 {
     public function index()
     {
-        $perInfos = PersonalInformation::paginate(10);
+        $perInfos = PersonalInformation::when(request()->search !== '', function ($query) {
+            return $query->whereAny([
+                         'first_name',
+                         'middle_name',
+                         'last_name',
+                         'sex',
+                         'category',
+                     ],
+                     'like', '%' . request()->search . '%')
+                        ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . request()->search . '%'])
+                          ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . request()->search . '%'])
+                          ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . request()->search . '%']);
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate(5);
+
         $famComps = FamilyComposition::get();
 
         return inertia('IntakeIndex', [
             'intake' => $perInfos,
+            'search' => request()->search ?? '',
             'famComps' => $famComps
         ]);
     }

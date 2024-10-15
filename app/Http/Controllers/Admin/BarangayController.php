@@ -16,10 +16,18 @@ class BarangayController extends Controller
      */
     public function index()
     {
-        $barangays = Barangay::with(['municipal']);
+        $barangays = Barangay::with(['municipal'])
+                    ->when(request()->search !== '', function($query){
+                        return $query->whereAny([
+                            'barangay',
+                        ],
+                        'like', '%' . request()->search . '%');
+                    })->orderBy('created_at', 'DESC')
+                    ->paginate(10);
 
         return inertia('Barangay', [
-            'barangay' => $barangays->paginate(15)
+            'barangay' => $barangays,
+            'search' => request()->search ?? ''
         ]);
     }
 

@@ -1,18 +1,25 @@
 <script setup>
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
-import { Link } from "@inertiajs/vue3";
+import { debounce } from "lodash";
+import { Link, router } from "@inertiajs/vue3";
 import Pagination from "../components/Pagination.vue";
 
 const personalData = defineProps({
     intake: {
         type: Object,
     },
+    search: {
+        type: String,
+        default: "",
+    },
     famComps: {
         type: Object,
     },
 });
+
+const search = ref(personalData.search || "");
 
 const getData = async () => {
     try {
@@ -32,6 +39,13 @@ defineComponent({
 onMounted(() => {
     getData();
 });
+
+watch(
+    search,
+    debounce(() => {
+        router.visit(`/intake?search=${search.value}`);
+    }, 500)
+);
 </script>
 
 <template>
@@ -46,15 +60,14 @@ onMounted(() => {
             <div class="card-body">
                 <div class="d-flex justify-space-around mt-4">
                     <div class="col-lg-4">
-                        <div class="input-group mb-3">
+                        <div class="mb-3">
                             <input
                                 type="text"
-                                class="form-control"
+                                v-model="search"
+                                class="form-control border border-dark"
+                                autofocus
                                 placeholder="Search here.."
                             />
-                            <button class="btn btn-secondary" type="button">
-                                Search
-                            </button>
                         </div>
                     </div>
                     <div class="col-lg-8 float-end">
@@ -70,12 +83,12 @@ onMounted(() => {
                     <table class="table">
                         <thead class="text-center">
                             <tr>
-                                <th>Assistance</th>
+                                <th>Date Intake</th>
                                 <th>Name</th>
+                                <th>Assistance</th>
                                 <th>Gender</th>
                                 <th>Birth Date</th>
                                 <th>Address</th>
-                                <th>Contact No.</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -86,12 +99,7 @@ onMounted(() => {
                         >
                             <tr>
                                 <td>
-                                    {{
-                                        detail.category
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        detail.category.slice(1)
-                                    }}
+                                    {{ detail.date_intake }}
                                 </td>
                                 <td>
                                     {{
@@ -115,6 +123,14 @@ onMounted(() => {
                                 </td>
                                 <td>
                                     {{
+                                        detail.category
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        detail.category.slice(1)
+                                    }}
+                                </td>
+                                <td>
+                                    {{
                                         detail.sex.charAt(0).toUpperCase() +
                                         detail.sex.slice(1)
                                     }}
@@ -134,7 +150,6 @@ onMounted(() => {
                                     {{ detail.barangay }},
                                     {{ detail.municipality }}
                                 </td>
-                                <td>{{ detail.contact_no }}</td>
                                 <td>
                                     <Link
                                         :href="`/intake/edit/${detail.id}`"

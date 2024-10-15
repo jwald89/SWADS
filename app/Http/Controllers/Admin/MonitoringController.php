@@ -23,10 +23,21 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        $monitoringData = Monitoring::orderBy('created_at', 'ASC');
+        $monitoringData = Monitoring::when(request()->search !== '', function($query){
+            return $query->whereAny([
+                'claimant',
+                'assistance_type',
+                'sector',
+                'client_type',
+                'municipality'
+            ],
+            'like', '%' . request()->search . '%');
+        })->orderBy('created_at', 'DESC')
+        ->paginate(5);
 
         return inertia('MonitoringIndex', [
-            'monitoring' => $monitoringData->paginate(10)
+            'monitoring' => $monitoringData,
+            'search' => request()->search ?? ''
         ]);
     }
 

@@ -1,7 +1,8 @@
 <script setup>
-import { defineComponent } from "vue";
+import { defineComponent, watch, ref } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
+import { debounce } from "lodash";
 import Pagination from "../components/Pagination.vue";
 
 const props = defineProps({
@@ -9,12 +10,25 @@ const props = defineProps({
         type: Object,
         requried: true,
     },
+    search: {
+        type: String,
+        default: "",
+    },
 });
+
+const search = ref(props.search || "");
 
 defineComponent({
     LayoutApp,
     Pagination,
 });
+
+watch(
+    search,
+    debounce(() => {
+        router.visit(`/monitoring?search=${search.value}`);
+    }, 500)
+);
 </script>
 
 <template>
@@ -29,15 +43,14 @@ defineComponent({
             <div class="card-body">
                 <div class="d-flex justify-space-around mt-4">
                     <div class="col-lg-6">
-                        <div class="input-group mb-3">
+                        <div class="mb-3">
                             <input
                                 type="text"
-                                class="form-control"
+                                v-model="search"
+                                class="form-control border border-dark"
+                                autofocus
                                 placeholder="Search here.."
                             />
-                            <button class="btn btn-secondary" type="button">
-                                Search
-                            </button>
                         </div>
                     </div>
                     <div class="col-lg-6 float-end">

@@ -1,19 +1,33 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { defineComponent, watch, ref } from "vue";
+import { Link, router } from "@inertiajs/vue3";
+import { debounce } from "lodash";
 import Pagination from "../components/Pagination.vue";
 
-defineProps({
+const props = defineProps({
     barangay: {
         type: Object,
     },
+    search: {
+        type: String,
+        default: "",
+    },
 });
+
+const search = ref(props.search || "");
 
 defineComponent({
     LayoutApp,
     Pagination,
 });
+
+watch(
+    search,
+    debounce(() => {
+        router.visit(`/barangay?search=${search.value}`);
+    }, 500)
+);
 </script>
 
 <template>
@@ -38,6 +52,15 @@ defineComponent({
                 </div>
             </div>
             <div class="card-body p-4">
+                <div class="col col-lg-4 mb-3">
+                    <input
+                        type="text"
+                        v-model="search"
+                        class="form-control border border-dark"
+                        autofocus
+                        placeholder="Search here.."
+                    />
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead class="text-center">

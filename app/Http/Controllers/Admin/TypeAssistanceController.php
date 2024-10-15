@@ -13,10 +13,13 @@ class TypeAssistanceController extends Controller
      */
     public function index()
     {
-        $assistanceType = AssistanceType::paginate(10);
+        $assistanceType = AssistanceType::when(request()->search !== '', function($query) {
+            return $query->where('name', 'like', '%' . request()->search . '%');
+        })->paginate(10);
 
         return inertia('TypeAssistance', [
-            'assistanceType' => $assistanceType
+            'assistanceType' => $assistanceType,
+            'search' => request()->search ?? ''
         ]);
     }
 

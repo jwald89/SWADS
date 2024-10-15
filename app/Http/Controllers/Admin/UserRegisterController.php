@@ -59,10 +59,26 @@ class UserRegisterController extends Controller
 
     public function index()
     {
-        $users = User::with(['municipality'])->paginate(10);
+        $users = User::with(['municipality'])
+                ->when(request()->search !== '', function($query){
+                    return $query->whereAny([
+                        'first_name',
+                        'middle_init',
+                        'last_name',
+                        'role_type',
+                        'username',
+                    ],
+                    'like', '%' . request()->search . '%')
+                    ->orWhereRaw("CONCAT(first_name, ' ', middle_init) like ?", ['%' . request()->search . '%'])
+                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . request()->search . '%'])
+                    ->orWhereRaw("CONCAT(first_name, ' ', middle_init, ' ', last_name) like ?", ['%' . request()->search . '%']);
+                })
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
 
         return inertia('UserRegistrationIndex', [
-            'users' => $users
+            'users' => $users,
+            'search' => request()->search ?? ''
         ]);
     }
 

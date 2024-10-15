@@ -13,10 +13,14 @@ class SectorController extends Controller
      */
     public function index()
     {
-        $sectors = Sector::paginate(10);
+        $sectors = Sector::when(request()->search !== '', function($query) {
+            return $query->where('name', 'like', '%' . request()->search . '%');
+        })->orderBy('created_at', 'DESC')
+        ->paginate(10);
 
         return inertia('Sector', [
-            'sectors' => $sectors
+            'sectors' => $sectors,
+            'search' => request()->search ?? ''
         ]);
     }
 

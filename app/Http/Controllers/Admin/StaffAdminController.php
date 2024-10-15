@@ -13,10 +13,22 @@ class StaffAdminController extends Controller
      */
     public function index()
     {
-        $data = StaffAdministered::paginate(10);
+        $data = StaffAdministered::when(request()->search !== "", function($query) {
+            return $query->whereAny([
+                'firstname',
+                'middlename',
+                'lastname',
+            ],
+            'like', '%' . request()->search . '%')
+                ->orWhereRaw("CONCAT(firstname, ' ', middlename) like ?", ['%' . request()->search . '%'])
+                ->orWhereRaw("CONCAT(firstname, ' ', lastname) like ?", ['%' . request()->search . '%'])
+                ->orWhereRaw("CONCAT(firstname, ' ', middlename, ' ', lastname) like ?", ['%' . request()->search . '%']);
+                })->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         return inertia('StaffAdmin', [
-            'staff' => $data
+            'staff' => $data,
+            'search' => request()->search ?? ''
         ]);
     }
 

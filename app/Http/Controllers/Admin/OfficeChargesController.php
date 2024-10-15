@@ -13,10 +13,17 @@ class OfficeChargesController extends Controller
      */
     public function index()
     {
-        $offices = Office::paginate(10);
+        $offices = Office::when(request()->search !== "", function($query) {
+            return $query->whereAny([
+                'acronym',
+                'description'
+            ], 'like', '%' . request()->search . '%');
+        })->orderBy('created_at', 'DESC')
+        ->paginate(10);
 
         return inertia('OfficeCharges', [
-            'offices' => $offices
+            'offices' => $offices,
+            'search' => request()->saerch ?? ''
         ]);
     }
 

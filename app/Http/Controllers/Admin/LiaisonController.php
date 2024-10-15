@@ -13,10 +13,22 @@ class LiaisonController extends Controller
      */
     public function index()
     {
-        $data = Liaison::paginate(10);
+        $data = Liaison::when(request()->search !== "", function($query) {
+            return $query->whereAny([
+                'firstname',
+                'middlename',
+                'lastname',
+            ],
+            'like', '%' . request()->search . '%')
+                ->orWhereRaw("CONCAT(firstname, ' ', middlename) like ?", ['%' . request()->search . '%'])
+                ->orWhereRaw("CONCAT(firstname, ' ', lastname) like ?", ['%' . request()->search . '%'])
+                ->orWhereRaw("CONCAT(firstname, ' ', middlename, ' ', lastname) like ?", ['%' . request()->search . '%']);
+                })->orderBy('created_at', 'DESC')
+            ->paginate(10);
 
         return inertia('Liaison', [
-            'data' => $data
+            'data' => $data,
+            'search' => request()->search ?? ''
         ]);
     }
 
