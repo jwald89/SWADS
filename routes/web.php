@@ -14,38 +14,19 @@ use App\Http\Controllers\Admin\MunicipalityController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
 use App\Http\Controllers\Admin\OfficeChargesController;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
+use App\Http\Controllers\AuthenticatedController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-// Auth::routes();
-
-Route::get('/login', function() {
-    return redirect()->to('/login-page');
-})->name('login');
-
-Route::get('/login-page', function() {
-    return view('login');
-});
+Route::redirect('/login', '/login-page')->name('login');
+Route::get('/login-page', fn() => view('login'));
 
 Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout.post');
-
 Route::post('/login-post', [AuthController::class, 'login'])->name('login.post');
 
-Route::get('/', function() {
-    return inertia('LayoutApp');
-})->name('home')->middleware('auth');
+Route::get('/', AuthenticatedController::class)->name('home');
+
 
 Route::get('/dashboard', function() {
     return inertia('Dashboard');
@@ -64,7 +45,9 @@ Route::group(['middleware' => 'auth'], function() {
     // Intake Controller
     Route::controller(IntakeController::class)
             ->group(function() {
-                Route::get('/intake', 'index');
+                Route::get('/intake', 'index')->middleware([
+                    EnsureFeaturesAreActive::using('allowed-multiple-roles'),
+                ]);
                 Route::get('/intake/create', 'create')->name('intake.create');
                 Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1')->middleware('validate.client.record');
                 Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');

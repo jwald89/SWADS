@@ -42,6 +42,8 @@ class HandleInertiaRequests extends Middleware
             'civilStatus' => CivilStatus::values(),
             'months' => Month::values(),
             'gender' => GenderTypes::values(),
+            'role_type' => auth()->user()?->role_type,
+            'fullname' => auth()->user()?->last_name  . ', ' . auth()->user()?->first_name,
         ]);
     }
 }

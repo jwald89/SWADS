@@ -1,11 +1,13 @@
 <script setup>
 import { defineComponent, ref } from "vue";
 import Dashboard from "./Dashboard.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 import Content from "../components/Content.vue";
 import axios from "axios";
 
 const errorMessage = ref("");
+
+const page = usePage();
 
 const logout = () => {
     try {
@@ -377,7 +379,7 @@ defineComponent({
                     href="/user-registration/index"
                 >
                     <i class="bi bi-person"></i>
-                    <span>Users</span>
+                    <span>Users </span>
                 </Link>
             </li>
             <!-- End Profile Page Nav -->
