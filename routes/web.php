@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(UserRegisterController::class)
             ->group(function() {
                 Route::get('/user-registration/index', 'index')->name('user.index');
-                Route::get('/user-registration/create', 'createUser')->name('user.create');
+                Route::get('/user-registration/create', 'createUser')->name('user.create')->middleware([EnsureFeaturesAreActive::using('administrator')]);
                 Route::post('/user/post', 'store')->name('user.store');
     });
 

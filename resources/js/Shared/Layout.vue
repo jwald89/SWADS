@@ -44,7 +44,7 @@ defineComponent({
 <template>
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
-            <Link href="/dashboard" class="logo d-flex align-items-center">
+            <Link href="" class="logo d-flex align-items-center">
                 <div class="mt-4">
                     <img
                         src="/public/assets/img/pdms-logo.png"
@@ -320,17 +320,35 @@ defineComponent({
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="hasAccess(['admin'])">
                 <Link class="nav-link" href="/dashboard">
                     <i class="bi bi-grid"></i>
                     <span>DASHBOARD</span>
+                </Link>
+            </li>
+            <li class="nav-item" v-if="hasAccess(['user'])">
+                <Link class="nav-link" href="/user/dashboard">
+                    <i class="bi bi-grid"></i>
+                    <span>DASHBOARD USER</span>
+                </Link>
+            </li>
+            <li class="nav-item" v-if="hasAccess(['liaison'])">
+                <Link class="nav-link" href="/liaison/dashboard">
+                    <i class="bi bi-grid"></i>
+                    <span>DASHBOARD LIAISON</span>
+                </Link>
+            </li>
+            <li class="nav-item" v-if="hasAccess(['municipal'])">
+                <Link class="nav-link" href="/municipal/dashboard">
+                    <i class="bi bi-grid"></i>
+                    <span>DASHBOARD MUNICIPAL</span>
                 </Link>
             </li>
             <!-- End Dashboard Nav -->
 
             <li class="nav-heading">Modules</li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="hasAccess(['admin', 'user'])">
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#components-nav"
@@ -350,7 +368,7 @@ defineComponent({
                     }"
                     data-bs-parent="#sidebar-nav"
                 >
-                    <li v-if="hasAccess(['admin', 'user'])">
+                    <li>
                         <Link href="/intake">
                             <i class="bi bi-circle"></i
                             ><span
@@ -378,6 +396,19 @@ defineComponent({
             </li>
             <!-- End Components Nav -->
 
+            <!-- LIAISON -->
+            <li class="nav-item" v-if="hasAccess(['liaison'])">
+                <Link class="nav-link" href="/monitoring">
+                    <i class="bi bi-menu-button-wide"></i
+                    ><span
+                        :class="{
+                            'text-primary': currentRoute.includes('monitoring'),
+                        }"
+                        >MONITORING</span
+                    >
+                </Link>
+            </li>
+
             <li
                 class="nav-item"
                 v-if="hasAccess(['admin', 'user', 'municipal'])"
@@ -386,6 +417,7 @@ defineComponent({
                     <i class="bi bi-journal-text"></i><span>SECTORAL DATA</span>
                 </Link>
             </li>
+
             <!-- End Forms Nav -->
             <div v-if="hasAccess(['admin'])">
                 <li class="nav-heading">Maintenance</li>
