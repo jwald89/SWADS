@@ -32,7 +32,7 @@ class SectoralDataController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('CreateSectoral');
     }
 
     /**
@@ -40,7 +40,7 @@ class SectoralDataController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

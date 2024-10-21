@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(SectoralDataController::class)
             ->group(function() {
                 Route::get('/sectoral-data', 'index');
+                Route::get('/sectoral/create', 'create')->name('sectoral.create');
     });
 
     // Type Assistance Controller

@@ -2,6 +2,7 @@
 import Layout from "../Shared/Layout.vue";
 import vSelect from "vue-select";
 import { defineComponent } from "vue";
+import { Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     municipalities: {
@@ -27,7 +28,22 @@ defineComponent({
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                Sectoral Data
+                <div class="col-lg-12 d-flex">
+                    <div class="col-lg-6">
+                        Sectoral Data
+                        <span class="h6">
+                            - Inventory of “Pag-asa Youth Association of the
+                            Philippines” (PYAP)</span
+                        >
+                    </div>
+                    <div class="col-lg-6 float-end">
+                        <Link
+                            href="/sectoral/create"
+                            class="btn btn-sm btn-light float-end"
+                            >Create</Link
+                        >
+                    </div>
+                </div>
             </div>
             <div class="card-body p-4 m-2">
                 <div class="row">

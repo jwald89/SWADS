@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nationality')->nullable();
             $table->string('religion')->nullable();
             $table->string('ethnicity')->nullable();
+            $table->string('purok');
             $table->string('barangay');
             $table->string('municipality');
             $table->date('birthdate');
@@ -31,10 +32,8 @@ return new class extends Migration
             $table->enum('civil_status', CivilStatus::values())->default(CivilStatus::Single->value);
             $table->string('contact_no');
             $table->string('fb_accnt')->nullable();
-            $table->date('sch_attend_from')->nullable();
-            $table->date('sch_attend_to')->nullable();
-            $table->date('month')->nullable();
-            $table->date('year')->nullable();
+            $table->date('school_last_attend')->nullable();
+            $table->date('month_year')->nullable();
             $table->string('skills')->nullable();
             $table->string('interest_hobby')->nullable();
             $table->string('work_exp')->nullable();
