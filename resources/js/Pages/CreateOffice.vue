@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, reactive } from "vue";
+import { reactive } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
 import { Link } from "@inertiajs/vue3";
@@ -33,10 +33,6 @@ const submitData = async () => {
         }
     }
 };
-
-defineComponent({
-    LayoutApp,
-});
 </script>
 
 <template>

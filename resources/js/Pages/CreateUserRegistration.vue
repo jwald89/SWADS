@@ -51,7 +51,6 @@ const submitUserData = async () => {
 };
 
 defineComponent({
-    LayoutApp,
     vSelect,
     roleTypes,
 });

@@ -180,8 +180,6 @@ watch(claimant, function () {
 onMounted(fetchMonitoringRecords);
 
 defineComponent({
-    Link,
-    LayoutApp,
     vSelect,
 });
 </script>

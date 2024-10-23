@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('sectorals', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
@@ -33,7 +35,7 @@ return new class extends Migration
             $table->string('contact_no');
             $table->string('fb_accnt')->nullable();
             $table->date('school_last_attend')->nullable();
-            $table->date('month_year')->nullable();
+            $table->string('month_year')->nullable();
             $table->string('skills')->nullable();
             $table->string('interest_hobby')->nullable();
             $table->string('work_exp')->nullable();

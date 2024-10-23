@@ -9,7 +9,7 @@ class Remark extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'applicant_id', 'content'];
+    protected $fillable = ['id', 'user_id', 'applicant_id', 'content'];
 
     public function personalInfo()
     {

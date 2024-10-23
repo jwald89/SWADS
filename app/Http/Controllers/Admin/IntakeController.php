@@ -16,14 +16,16 @@ use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IntakeRequest;
-use App\Http\Resources\BarangayResource;
+use Illuminate\Support\Facades\Auth;
 
+use App\Http\Resources\BarangayResource;
+use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
-use PhpOffice\PhpWord\TemplateProcessor;
 
 class IntakeController extends Controller
 {
+    // Personal Information data table display
     public function index()
     {
         $perInfos = PersonalInformation::when(request()->search !== '', function ($query) {
@@ -51,6 +53,7 @@ class IntakeController extends Controller
         ]);
     }
 
+    // Personal Information form display
     public function create()
     {
         $assistances = AssistanceResource::collection(AssistanceType::all());
@@ -69,7 +72,12 @@ class IntakeController extends Controller
     // Personal Information store process
     public function storeP1(IntakeRequest $request)
     {
-        $personalInformation = PersonalInformation::create($request->all());
+        $userId = Auth::id();
+        // $personalInformation = PersonalInformation::create($request->all());
+        $personalInformation = PersonalInformation::create(
+            array_merge($request->all(), ['user_id' => $userId])
+        );
+
 
         return response()->json($personalInformation, 201);
     }
@@ -87,8 +95,12 @@ class IntakeController extends Controller
             '*.remarks' => 'required|string|max:255',
         ]);
 
-
-        $famComps = array_map(fn ($r) => FamilyComposition::create($r), $request->all());
+        $userId = Auth::id();
+        // $famComps = array_map(fn ($r) => FamilyComposition::create($r), $request->all());
+        foreach ($request->all() as $familyComposition) {
+            $familyComposition['user_id'] = $userId;
+            $famComps[] = FamilyComposition::create($familyComposition);
+        }
 
         return response()->json($famComps, 201);
     }
@@ -100,7 +112,11 @@ class IntakeController extends Controller
             'content' => 'required'
         ]);
 
-        $referrals = Referral::create($request->all());
+        $userId = Auth::id();
+        // $referrals = Referral::create($request->all());
+        $referrals = Referral::create(
+            array_merge($request->all(), ['user_id' => $userId])
+        );
 
         return response()->json([
             'message' => 'You have successfully created!',
@@ -115,7 +131,11 @@ class IntakeController extends Controller
             'content' => 'required'
         ]);
 
-        $remarks = Remark::create($request->all());
+        $userId = Auth::id();
+        // $remarks = Remark::create($request->all());
+        $remarks = Remark::create(
+            array_merge($request->all(), ['user_id' => $userId])
+        );
 
         return response()->json([
             'message' => "You have successfully created!",
@@ -123,6 +143,7 @@ class IntakeController extends Controller
         ]);
     }
 
+    // Personal Information show the detail process
     public function show($id)
     {
         $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);

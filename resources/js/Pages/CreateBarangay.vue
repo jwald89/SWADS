@@ -1,7 +1,6 @@
-//
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, reactive } from "vue";
+import { reactive } from "vue";
 import vSelect from "vue-select";
 import axios from "axios";
 import { toast } from "vue3-toastify";
@@ -46,7 +45,6 @@ const submitData = async () => {
 };
 
 defineComponent({
-    LayoutApp,
     vSelect,
 });
 </script>

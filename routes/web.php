@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/sectoral-data', 'index');
                 Route::get('/sectoral/create', 'create')->name('sectoral.create');
+                Route::post('/sectoral-data/create-post', 'store');
     });
 
     // Type Assistance Controller

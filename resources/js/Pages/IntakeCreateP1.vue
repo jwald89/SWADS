@@ -474,10 +474,10 @@ defineComponent({
                                         :class="{ 'is-invalid': errors.sex }"
                                     >
                                         <option
-                                            v-for="gen in gender"
-                                            :key="gen"
+                                            v-for="sex in gender"
+                                            :key="sex"
                                         >
-                                            {{ gen }}
+                                            {{ sex }}
                                         </option>
                                     </select>
                                     <small

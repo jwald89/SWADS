@@ -9,7 +9,7 @@ class PersonalInformation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'classification', 'category', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'contact_no', 'income'];
+    protected $fillable = ['id', 'user_id', 'classification', 'category', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'contact_no', 'income'];
 
 
     public function famCompose()

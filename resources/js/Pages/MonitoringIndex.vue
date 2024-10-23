@@ -1,7 +1,7 @@
 <script setup>
 import { defineComponent, watch, ref } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
-import { Link, router } from "@inertiajs/vue3";
+import { Link, router, usePage } from "@inertiajs/vue3";
 import { debounce } from "lodash";
 import Pagination from "../components/Pagination.vue";
 
@@ -15,6 +15,13 @@ const props = defineProps({
         default: "",
     },
 });
+
+const page = usePage();
+
+const hasAccess = (type) => {
+    type = type.map((t) => t.toUpperCase());
+    return type.includes(page.props.role_type);
+};
 
 const search = ref(props.search || "");
 
@@ -53,7 +60,10 @@ watch(
                             />
                         </div>
                     </div>
-                    <div class="col-lg-6 float-end">
+                    <div
+                        class="col-lg-6 float-end"
+                        v-if="hasAccess(['admin', 'user'])"
+                    >
                         <Link
                             class="btn btn-md btn-primary float-end"
                             href="/monitoring/create"
