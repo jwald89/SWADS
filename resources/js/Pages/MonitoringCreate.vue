@@ -142,7 +142,7 @@ const submitForm = async () => {
             monitorForm
         );
 
-        toast.success("Successfully updated.", {
+        toast.success("Successfully created.", {
             autoClose: 1000,
         });
 

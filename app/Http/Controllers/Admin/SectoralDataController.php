@@ -57,7 +57,6 @@ class SectoralDataController extends Controller
     {
         $userId = Auth::id();
 
-
         $sectoralData = Sectoral::create(
             array_merge($request->all(), ['user_id' => $userId])
         );

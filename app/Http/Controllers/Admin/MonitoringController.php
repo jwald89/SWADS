@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\StaffAdministered;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MonitorRequest;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
@@ -68,12 +69,12 @@ class MonitoringController extends Controller
 
     public function store(MonitorRequest $request)
     {
-        $data = Monitoring::create($request->all());
-        $dataJson = $data->toJson();
+        $userId = Auth::id();
 
-        return response()->json([
-            'message' => 'Personal information created successfully.',
-            'data' => json_decode($dataJson, true),
-        ]);
+        $data = Monitoring::create(
+            array_merge($request->all(), ['user_id' => $userId])
+        );
+
+        return response()->json($data, 201);
     }
 }

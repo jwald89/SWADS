@@ -29,6 +29,7 @@ class SectoralDataRequest extends FormRequest
             'sex' => 'required',
             'nationality' => 'required',
             'religion' => 'required',
+            'purok' => 'required',
             'barangay' => 'required',
             'municipality' => 'required',
             'birthdate' => 'required',

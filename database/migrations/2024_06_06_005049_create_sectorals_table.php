@@ -25,14 +25,14 @@ return new class extends Migration
             $table->string('nationality')->nullable();
             $table->string('religion')->nullable();
             $table->string('ethnicity')->nullable();
-            $table->string('purok');
+            $table->string('purok')->nullable();
             $table->string('barangay');
             $table->string('municipality');
             $table->date('birthdate');
             $table->string('place_birth');
-            $table->string('physical_disability');
+            $table->string('physical_disability')->nullable();
             $table->enum('civil_status', CivilStatus::values())->default(CivilStatus::Single->value);
-            $table->string('contact_no');
+            $table->string('contact_no')->nullable();
             $table->string('fb_accnt')->nullable();
             $table->date('school_last_attend')->nullable();
             $table->string('month_year')->nullable();
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->integer('fam_members')->nullable();
             $table->string('ISY_OSY')->nullable();
             $table->string('position')->nullable();
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
