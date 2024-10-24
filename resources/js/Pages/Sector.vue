@@ -24,7 +24,10 @@ defineComponent({
 watch(
     search,
     debounce(() => {
-        router.visit(`/sectors?search=${search.value}`);
+        router.visit(`/sectors?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     }, 500)
 );
 </script>

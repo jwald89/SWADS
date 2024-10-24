@@ -25,7 +25,10 @@ defineComponent({
 watch(
     search,
     debounce(() => {
-        router.visit(`/barangay?search=${search.value}`);
+        router.visit(`/barangay?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     }, 500)
 );
 </script>

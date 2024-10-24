@@ -25,7 +25,10 @@ defineComponent({
 watch(
     search,
     debounce(() => {
-        router.visit(`/staff-admin?search=${search.value}`);
+        router.visit(`/staff-admin?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     })
 );
 </script>

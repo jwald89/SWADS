@@ -25,7 +25,10 @@ defineComponent({
 watch(
     search,
     debounce(() => {
-        router.visit(`/office-charges?search=${search.value}`);
+        router.visit(`/office-charges?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     }, 500)
 );
 </script>

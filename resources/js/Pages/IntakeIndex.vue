@@ -40,6 +40,7 @@ const getData = async () => {
     try {
         const response = await axios.get("/intake");
         personalData.value = response.data.data;
+        console.log("test");
         console.log("Data fetched successfully.");
     } catch (error) {
         console.error("Error submitting form:", error);
@@ -58,7 +59,10 @@ onMounted(() => {
 watch(
     search,
     debounce(() => {
-        router.visit(`/intake?search=${search.value}`);
+        router.visit(`/intake?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     }, 500)
 );
 </script>

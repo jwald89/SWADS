@@ -48,7 +48,10 @@ defineComponent({
 watch(
     search,
     debounce(() => {
-        router.visit(`/monitoring?search=${search.value}`);
+        router.visit(`/monitoring?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     }, 500)
 );
 </script>
