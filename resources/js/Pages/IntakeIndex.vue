@@ -19,6 +19,21 @@ const personalData = defineProps({
     },
 });
 
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Custom formatting: Day, 3-letter month, and year
+    const options = { year: "numeric", month: "short", day: "numeric" };
+
+    // Format the date using toLocaleDateString
+    let formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Add a period after the 3-letter month
+    formattedDate = formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
+
+    return formattedDate;
+};
+
 const search = ref(personalData.search || "");
 
 const getData = async () => {
@@ -83,42 +98,36 @@ watch(
                     <table class="table">
                         <thead class="text-center">
                             <tr>
-                                <th>Date Intake</th>
+                                <th>No.</th>
                                 <th>Name</th>
                                 <th>Assistance</th>
                                 <th>Gender</th>
                                 <th>Birth Date</th>
                                 <th>Address</th>
+                                <th>Date Intake</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="detail in intake.data"
-                            :key="detail.id"
+                            v-for="(detail, index) in intake.data"
+                            :key="index"
                         >
                             <tr>
+                                <td>{{ index + 1 }}</td>
                                 <td>
-                                    {{ detail.date_intake }}
-                                </td>
-                                <td>
-                                    {{
-                                        detail.last_name
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        detail.last_name.slice(1)
-                                    }},
                                     {{
                                         detail.first_name
                                             .charAt(0)
                                             .toUpperCase() +
                                         detail.first_name.slice(1)
                                     }}
+                                    {{ detail.middle_name.substr(0, 1) }}.
                                     {{
-                                        detail.middle_name
+                                        detail.last_name
                                             .charAt(0)
                                             .toUpperCase() +
-                                        detail.middle_name.slice(1)
+                                        detail.last_name.slice(1)
                                     }}
                                 </td>
                                 <td>
@@ -135,7 +144,7 @@ watch(
                                         detail.sex.slice(1)
                                     }}
                                 </td>
-                                <td>{{ detail.birthdate }}</td>
+                                <td>{{ formatDate(detail.birthdate) }}</td>
                                 <td>
                                     {{
                                         detail.purok
@@ -149,6 +158,9 @@ watch(
                                     }}
                                     {{ detail.barangay }},
                                     {{ detail.municipality }}
+                                </td>
+                                <td>
+                                    {{ formatDate(detail.date_intake) }}
                                 </td>
                                 <td>
                                     <Link

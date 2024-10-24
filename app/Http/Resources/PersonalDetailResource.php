@@ -14,10 +14,10 @@ class PersonalDetailResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
+
         return [
             'id' => $this->id,
-            'fullname' => $this->last_name .', '. $this->first_name .' '. $this->middle_name,
+            'fullname' => $this->first_name .' '. substr($this->middle_name, 0, 1) .'. '. $this->last_name,
             'age' => $this->age,
             'gender' => $this->sex,
             'contact_no' => $this->contact_no,

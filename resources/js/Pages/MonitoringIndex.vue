@@ -25,6 +25,21 @@ const hasAccess = (type) => {
 
 const search = ref(props.search || "");
 
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Custom formatting: Day, 3-letter month, and year
+    const options = { year: "numeric", month: "short", day: "numeric" };
+
+    // Format the date using toLocaleDateString
+    let formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Add a period after the 3-letter month
+    formattedDate = formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
+
+    return formattedDate;
+};
+
 defineComponent({
     LayoutApp,
     Pagination,
@@ -76,6 +91,7 @@ watch(
                     <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
+                                <th>No.</th>
                                 <th>Assistance Type</th>
                                 <th>Name</th>
                                 <th>Date of Intake</th>
@@ -88,13 +104,14 @@ watch(
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="data in monitoring.data"
-                            :key="data.id"
+                            v-for="(data, index) in monitoring.data"
+                            :key="index"
                         >
                             <tr>
+                                <td>{{ index + 1 }}</td>
                                 <td>{{ data.assistance_type }}</td>
                                 <td>{{ data.claimant }}</td>
-                                <td>{{ data.date_intake }}</td>
+                                <td>{{ formatDate(data.date_intake) }}</td>
                                 <td>{{ data.sector }}</td>
                                 <td>{{ data.municipality }}</td>
                                 <td>

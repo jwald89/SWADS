@@ -26,11 +26,13 @@ class SectoralDataController extends Controller
     {
         $municipalities = MunicipalityResource::collection(Municipality::all());
         $sectors = SectorResource::collection(Sector::all());
+        $data = Sectoral::get();
 
         return inertia('SectoralDataIndex', [
             'municipalities' => $municipalities,
             'sectors' => $sectors,
             'months' => Month::names(),
+            'data' => $data
         ]);
     }
 

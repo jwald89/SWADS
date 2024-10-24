@@ -14,7 +14,25 @@ const props = defineProps({
     months: {
         type: Object,
     },
+    data: {
+        type: Object,
+    },
 });
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Custom formatting: Day, 3-letter month, and year
+    const options = { year: "numeric", month: "short", day: "numeric" };
+
+    // Format the date using toLocaleDateString
+    let formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Add a period after the 3-letter month
+    formattedDate = formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
+
+    return formattedDate;
+};
 
 defineComponent({
     vSelect,
@@ -83,6 +101,7 @@ defineComponent({
                     <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
+                                <th>No.</th>
                                 <th>Name</th>
                                 <th>Age</th>
                                 <th>Date of Birth</th>
@@ -91,6 +110,38 @@ defineComponent({
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tbody
+                            class="text-center"
+                            v-for="(sector, index) in data"
+                            :key="index"
+                        >
+                            <tr>
+                                <td>{{ index + 1 }}</td>
+                                <td>
+                                    {{ sector.first_name }}
+                                    {{ sector.middle_name.substr(0, 1) }}.
+                                    {{ sector.last_name }}
+                                </td>
+                                <td>{{ sector.age }}</td>
+                                <td>{{ formatDate(sector.birthdate) }}</td>
+                                <td>{{ sector.municipality }}</td>
+                                <td>
+                                    {{ formatDate(sector.created_at) }}
+                                </td>
+                                <td>
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-primary me-2"
+                                        >Edit</Link
+                                    >
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-info me-2"
+                                        >Details</Link
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
