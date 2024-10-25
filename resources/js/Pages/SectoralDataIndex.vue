@@ -118,9 +118,29 @@ defineComponent({
                             <tr>
                                 <td>{{ index + 1 }}</td>
                                 <td>
-                                    {{ sector.first_name }}
-                                    {{ sector.middle_name.substr(0, 1) }}.
-                                    {{ sector.last_name }}
+                                    {{
+                                        sector.first_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                    {{
+                                        sector.middle_name
+                                            .substr(0, 1)
+                                            .toUpperCase()
+                                    }}.
+                                    {{
+                                        sector.last_name
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                        sector.last_name.slice(1)
+                                    }}
                                 </td>
                                 <td>{{ sector.age }}</td>
                                 <td>{{ formatDate(sector.birthdate) }}</td>

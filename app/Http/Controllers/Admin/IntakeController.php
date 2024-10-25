@@ -38,11 +38,11 @@ class IntakeController extends Controller
                      ],
                      'like', '%' . request()->search . '%')
                         ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . request()->search . '%'])
-                          ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . request()->search . '%'])
-                          ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . request()->search . '%']);
+                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . request()->search . '%'])
+                        ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . request()->search . '%']);
             })
             ->orderBy('created_at', 'DESC')
-            ->paginate(5);
+            ->paginate(10);
 
         $famComps = FamilyComposition::get();
 

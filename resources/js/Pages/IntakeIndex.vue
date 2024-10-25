@@ -122,11 +122,21 @@ watch(
                                 <td>
                                     {{
                                         detail.first_name
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        detail.first_name.slice(1)
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
                                     }}
-                                    {{ detail.middle_name.substr(0, 1) }}.
+                                    {{
+                                        detail.middle_name
+                                            .substr(0, 1)
+                                            .toUpperCase()
+                                    }}.
                                     {{
                                         detail.last_name
                                             .charAt(0)

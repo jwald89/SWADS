@@ -113,7 +113,20 @@ watch(
                             <tr>
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.assistance_type }}</td>
-                                <td>{{ data.claimant }}</td>
+                                <td>
+                                    {{
+                                        data.claimant
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                </td>
                                 <td>{{ formatDate(data.date_intake) }}</td>
                                 <td>{{ data.sector }}</td>
                                 <td>{{ data.municipality }}</td>

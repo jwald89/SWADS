@@ -34,7 +34,7 @@ class MonitoringController extends Controller
             ],
             'like', '%' . request()->search . '%');
         })->orderBy('created_at', 'DESC')
-        ->paginate(5);
+        ->paginate(10);
 
         return inertia('MonitoringIndex', [
             'monitoring' => $monitoringData,
