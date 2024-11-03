@@ -530,8 +530,33 @@ defineComponent({
                 </li>
             </div>
             <!-- End Register Page Nav -->
-
-            <li class="nav-heading">Reports</li>
+            <div>
+                <li class="nav-heading">Reports</li>
+                <li class="nav-item">
+                    <Link class="nav-link collapsed" href="#">
+                        <i class="bi bi-card-list"></i>
+                        <span>Intake Sheets & COE Served</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link class="nav-link collapsed" href="#">
+                        <i class="bi bi-card-list"></i>
+                        <span>AICS Per Municipality</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link class="nav-link collapsed" href="#">
+                        <i class="bi bi-card-list"></i>
+                        <span>AICS Served Per Sectoral Group</span>
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link class="nav-link collapsed" href="#">
+                        <i class="bi bi-card-list"></i>
+                        <span>AICS Per Sectoral Group</span>
+                    </Link>
+                </li>
+            </div>
         </ul>
     </aside>
     <!-- End Sidebar-->

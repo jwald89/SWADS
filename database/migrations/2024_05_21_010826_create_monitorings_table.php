@@ -34,6 +34,8 @@ return new class extends Migration
             $table->date('status_date')->nullable();
             $table->text('remarks')->nullable();
             $table->string('status')->nullable();
+            $table->string('created_by')->references('id')->on('users');
+            $table->string('modified_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

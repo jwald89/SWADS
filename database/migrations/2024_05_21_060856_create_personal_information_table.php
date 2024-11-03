@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('job')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('income')->nullable();
+            $table->string('created_by')->references('id')->on('users');
+            $table->string('modified_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

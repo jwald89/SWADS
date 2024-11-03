@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->date('date_created');
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
@@ -44,6 +45,8 @@ return new class extends Migration
             $table->string('ISY_OSY')->nullable();
             $table->string('position')->nullable();
             $table->string('status')->nullable();
+            $table->string('created_by')->references('id')->on('users');
+            $table->string('modified_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

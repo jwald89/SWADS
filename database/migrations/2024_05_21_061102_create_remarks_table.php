@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('applicant_id')->nullable();
             $table->foreign('applicant_id')->references('id')->on('personal_information');
             $table->longText('content');
+            $table->string('created_by')->references('id')->on('users');
+            $table->string('modified_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

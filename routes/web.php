@@ -4,9 +4,11 @@ use App\Models\AssistanceType;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 // use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\LiaisonController;
+use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\StaffAdminController;
@@ -17,7 +19,6 @@ use App\Http\Controllers\Admin\OfficeChargesController;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
-use App\Http\Controllers\AuthenticatedController;
 
 Route::redirect('/login', '/login-page')->name('login');
 Route::get('/login-page', fn() => view('login'));
@@ -28,9 +29,16 @@ Route::post('/login-post', [AuthController::class, 'login'])->name('login.post')
 Route::get('/', AuthenticatedController::class)->name('home');
 
 
-Route::get('/dashboard', function() {
-    return inertia('Dashboard');
-})->middleware('auth');
+// Route::get('/dashboard', function() {
+//     return inertia('Dashboard');
+// })->middleware('auth');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::controller(DashboardController::class)
+    ->group(function() {
+        Route::get('/dashboard', 'index');
+    });
+});
 
 Route::group(['middleware' => 'auth'], function() {
 

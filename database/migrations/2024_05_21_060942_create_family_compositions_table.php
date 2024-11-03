@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('relationship');
             $table->string('educ_attainment')->nullable();
             $table->string('remarks')->nullable();
+            $table->string('created_by')->references('id')->on('users');
+            $table->string('modified_by')->references('id')->on('users');
             $table->timestamps();
         });
     }
