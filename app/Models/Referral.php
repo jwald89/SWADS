@@ -9,7 +9,7 @@ class Referral extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'user_id', 'applicant_id', 'content'];
+    protected $fillable = ['id', 'applicant_id', 'content', 'created_by'];
 
     public function personalInfo()
     {

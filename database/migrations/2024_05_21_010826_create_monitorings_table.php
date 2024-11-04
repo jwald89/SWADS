@@ -14,9 +14,8 @@ return new class extends Migration
     {
         Schema::create('monitorings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->string('claimant');
+            $table->date('date_entry')->nullable();
             $table->string('beneficiary');
             $table->string('age');
             $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
@@ -34,8 +33,11 @@ return new class extends Migration
             $table->date('status_date')->nullable();
             $table->text('remarks')->nullable();
             $table->string('status')->nullable();
-            $table->string('created_by')->references('id')->on('users');
-            $table->string('modified_by')->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
             $table->timestamps();
         });
     }

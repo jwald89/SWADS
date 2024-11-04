@@ -106,7 +106,7 @@ defineComponent({
                                 <th>Age</th>
                                 <th>Date of Birth</th>
                                 <th>Municipality</th>
-                                <th>Date Created</th>
+                                <th>Date Encoded</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -145,7 +145,7 @@ defineComponent({
                                 <td>{{ sector.age }}</td>
                                 <td>{{ formatDate(sector.birthdate) }}</td>
                                 <td>{{ sector.municipality }}</td>
-                                <td>
+                                <td class="text-primary">
                                     {{ formatDate(sector.created_at) }}
                                 </td>
                                 <td>

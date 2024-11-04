@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('personal_information', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->string('classification');
             $table->string('category');
             $table->date('date_intake');
@@ -36,8 +34,11 @@ return new class extends Migration
             $table->string('job')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('income')->nullable();
-            $table->string('created_by')->references('id')->on('users');
-            $table->string('modified_by')->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
             $table->timestamps();
         });
     }

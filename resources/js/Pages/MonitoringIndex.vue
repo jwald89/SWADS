@@ -127,7 +127,9 @@ watch(
                                             .join(" ")
                                     }}
                                 </td>
-                                <td>{{ formatDate(data.date_intake) }}</td>
+                                <td class="text-primary">
+                                    {{ formatDate(data.date_intake) }}
+                                </td>
                                 <td>{{ data.sector }}</td>
                                 <td>{{ data.municipality }}</td>
                                 <td>

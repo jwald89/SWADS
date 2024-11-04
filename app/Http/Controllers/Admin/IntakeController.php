@@ -75,7 +75,7 @@ class IntakeController extends Controller
         $userId = Auth::id();
         // $personalInformation = PersonalInformation::create($request->all());
         $personalInformation = PersonalInformation::create(
-            array_merge($request->all(), ['user_id' => $userId])
+            array_merge($request->all(), ['created_by' => $userId])
         );
 
 
@@ -98,7 +98,7 @@ class IntakeController extends Controller
         $userId = Auth::id();
         // $famComps = array_map(fn ($r) => FamilyComposition::create($r), $request->all());
         foreach ($request->all() as $familyComposition) {
-            $familyComposition['user_id'] = $userId;
+            $familyComposition['created_by'] = $userId;
             $famComps[] = FamilyComposition::create($familyComposition);
         }
 
@@ -115,7 +115,7 @@ class IntakeController extends Controller
         $userId = Auth::id();
         // $referrals = Referral::create($request->all());
         $referrals = Referral::create(
-            array_merge($request->all(), ['user_id' => $userId])
+            array_merge($request->all(), ['created_by' => $userId])
         );
 
         return response()->json([
@@ -134,7 +134,7 @@ class IntakeController extends Controller
         $userId = Auth::id();
         // $remarks = Remark::create($request->all());
         $remarks = Remark::create(
-            array_merge($request->all(), ['user_id' => $userId])
+            array_merge($request->all(), ['created_by' => $userId])
         );
 
         return response()->json([

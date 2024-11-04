@@ -60,7 +60,7 @@ class SectoralDataController extends Controller
         $userId = Auth::id();
 
         $sectoralData = Sectoral::create(
-            array_merge($request->all(), ['user_id' => $userId])
+            array_merge($request->all(), ['created_by' => $userId])
         );
 
         return response()->json($sectoralData, 201);

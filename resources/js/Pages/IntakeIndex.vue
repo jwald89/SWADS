@@ -173,7 +173,7 @@ watch(
                                     {{ detail.barangay }},
                                     {{ detail.municipality }}
                                 </td>
-                                <td>
+                                <td class="text-primary">
                                     {{ formatDate(detail.date_intake) }}
                                 </td>
                                 <td>

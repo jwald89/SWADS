@@ -72,7 +72,7 @@ class MonitoringController extends Controller
         $userId = Auth::id();
 
         $data = Monitoring::create(
-            array_merge($request->all(), ['user_id' => $userId])
+            array_merge($request->all(), ['created_by' => $userId])
         );
 
         return response()->json($data, 201);

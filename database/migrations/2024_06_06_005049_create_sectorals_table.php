@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('sectorals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->date('date_created');
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
+            $table->date('date_entry')->nullable();
+            $table->string('sector')->nullable();
             $table->string('age');
             $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
             $table->string('nationality')->nullable();
@@ -45,8 +44,11 @@ return new class extends Migration
             $table->string('ISY_OSY')->nullable();
             $table->string('position')->nullable();
             $table->string('status')->nullable();
-            $table->string('created_by')->references('id')->on('users');
-            $table->string('modified_by')->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
             $table->timestamps();
         });
     }
