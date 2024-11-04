@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('monitorings', function (Blueprint $table) {
             $table->id();
             $table->string('claimant');
-            $table->date('date_entry')->nullable();
+            $table->date('date_encoded')->nullable();
             $table->string('beneficiary');
             $table->string('age');
             $table->enum('sex', GenderTypes::values())->default(GenderTypes::Male->value);
