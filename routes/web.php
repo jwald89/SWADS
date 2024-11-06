@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/monitoring', 'index');
                 Route::get('/monitoring/create', 'create');
                 Route::post('/monitoring/create-post', 'store');
+                Route::get('/monitoring/edit/{id}', 'edit');
     });
 
     // Sectoral Data Controller

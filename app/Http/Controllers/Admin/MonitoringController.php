@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Office;
 use App\Models\Sector;
 use App\Models\Liaison;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\StaffAdministered;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MonitorRequest;
 use App\Http\Resources\OfficeResource;
@@ -24,17 +26,24 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        $monitoringData = Monitoring::when(request()->search !== '', function($query){
-            return $query->whereAny([
-                'claimant',
-                'assistance_type',
-                'sector',
-                'client_type',
-                'municipality'
-            ],
-            'like', '%' . request()->search . '%');
-        })->orderBy('created_at', 'DESC')
-        ->paginate(10);
+        // $monitoringData = null;
+
+        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
+            $monitoringData = Monitoring::when(request()->search !== '', function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('claimant', 'like', '%' . request()->search . '%')
+                              ->orWhere('assistance_type', 'like', '%' . request()->search . '%')
+                              ->orWhere('sector', 'like', '%' . request()->search . '%')
+                              ->orWhere('client_type', 'like', '%' . request()->search . '%')
+                              ->orWhere('municipality', 'like', '%' . request()->search . '%');
+                    });
+                })
+                ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
+                    $query->where('liaison', '=', Auth::user()->id);
+                })
+                ->orderBy('created_at', 'DESC')
+                ->paginate(10);
+        }
 
         return inertia('MonitoringIndex', [
             'monitoring' => $monitoringData,
@@ -49,6 +58,7 @@ class MonitoringController extends Controller
         $admins = AdministerResource::collection(StaffAdministered::all());
         $liaisons = LiaisonResource::collection(Liaison::all());
         $offices = OfficeResource::collection(Office::all());
+        $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
 
         return inertia('MonitoringCreate', [
             'dataMonitors' => $dataMonitors,
@@ -57,6 +67,7 @@ class MonitoringController extends Controller
             'liaisons' => $liaisons,
             'offices' => $offices,
             'status' => StatusType::names(),
+            'users' => $users,
         ]);
     }
 
@@ -76,5 +87,16 @@ class MonitoringController extends Controller
         );
 
         return response()->json($data, 201);
+    }
+
+
+    public function edit($id)
+    {
+        $monitoring = Monitoring::with(['user'])->findOrFail($id);
+
+
+        return inertia('EditMonitoring', [
+            'dataMonitors' => $monitoring
+        ]);
     }
 }

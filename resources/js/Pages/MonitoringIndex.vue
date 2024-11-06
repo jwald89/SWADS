@@ -147,14 +147,25 @@ watch(
                                     {{ data.status }}
                                 </td>
                                 <td>
+                                    <!-- For ADMIN and USER role button -->
                                     <Link
-                                        href=""
+                                        :href="`/monitoring/edit/${data.id}`"
                                         class="btn btn-sm btn-primary me-2"
+                                        v-if="hasAccess(['admin', 'user'])"
                                         >Edit</Link
                                     >
+                                    <!-- For LIAISON role button -->
+                                    <Link
+                                        :href="`/liaison/edit-liaison/${data.id}`"
+                                        class="btn btn-sm btn-primary me-2"
+                                        v-if="hasAccess(['liaison'])"
+                                        >Update</Link
+                                    >
+                                    <!-- For ADMIN and USER role button -->
                                     <Link
                                         href=""
                                         class="btn btn-sm btn-info me-2"
+                                        v-if="hasAccess(['admin', 'user'])"
                                         >Details</Link
                                     >
                                 </td>

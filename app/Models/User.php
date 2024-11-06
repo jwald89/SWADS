@@ -5,11 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserTypes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Monitoring;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Pennant\Concerns\HasFeatures;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -53,5 +54,10 @@ class User extends Authenticatable
     public function municipality()
     {
         return $this->belongsTo(Municipality::class, 'mun_id', 'id');
+    }
+
+    public function monitoring()
+    {
+        return $this->hasMany(Monitoring::class, 'id', 'liaison');
     }
 }

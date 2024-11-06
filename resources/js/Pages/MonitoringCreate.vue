@@ -32,6 +32,9 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    users: {
+        type: Object,
+    },
 });
 
 const claimant = ref(null);
@@ -198,7 +201,7 @@ defineComponent({
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/monitoring"
+                            :href="`/monitoring`"
                             >Back</Link
                         >
                     </div>
@@ -472,9 +475,9 @@ defineComponent({
                         <v-select
                             name="liaison"
                             id="liaison"
-                            :options="liaisons.data"
+                            :options="users.data"
                             v-model="monitorForm.liaison"
-                            :reduce="(data) => data.fullname"
+                            :reduce="(data) => data.id"
                             label="fullname"
                             :class="{
                                 'form-control is-invalid': errors.liaison,
