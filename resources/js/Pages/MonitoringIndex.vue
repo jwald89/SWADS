@@ -84,7 +84,7 @@ watch(
                     >
                         <Link
                             class="btn btn-md btn-primary float-end"
-                            href="/monitoring/create"
+                            :href="`/monitoring/create`"
                             >Create New</Link
                         >
                     </div>

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserTypes;
+use App\Models\Sectoral;
 use App\Models\Monitoring;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -60,4 +61,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Monitoring::class, 'id', 'liaison');
     }
+
+    public function sectoral()
+    {
+        return $this->hasMany(Sectoral::class, 'mun_id', 'municipality');
+    }
+
 }

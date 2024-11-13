@@ -21,4 +21,9 @@ class Municipality extends Model
     {
         return $this->hasMany(Barangay::class, 'municipality_id', 'id');
     }
+
+    public function sectoral()
+    {
+        return $this->hasMany(Sectoral::class, 'id', 'municipality');
+    }
 }

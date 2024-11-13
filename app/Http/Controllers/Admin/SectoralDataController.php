@@ -24,9 +24,17 @@ class SectoralDataController extends Controller
      */
     public function index()
     {
+
+        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
+        {
+            $data = Sectoral::when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
+                $query->where('municipality', '=', Auth::user()->mun_id);
+            })->get();
+
+        }
+
         $municipalities = MunicipalityResource::collection(Municipality::all());
         $sectors = SectorResource::collection(Sector::all());
-        $data = Sectoral::get();
 
         return inertia('SectoralDataIndex', [
             'municipalities' => $municipalities,
@@ -43,12 +51,14 @@ class SectoralDataController extends Controller
     {
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
+        $sectors = SectorResource::collection(Sector::all());
 
         return inertia('CreateSectoral', [
             'municipality' => $municipality,
             'barangays' => $barangays,
             'civilStatus' => CivilStatus::names(),
             'gender' => GenderTypes::names(),
+            'sectors' => $sectors,
         ]);
     }
 
@@ -77,9 +87,13 @@ class SectoralDataController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $sectoral = Sectoral::with(['sector', 'municipality', 'barangay'])->findOrFail($id);
+
+        return inertia('EditSectoral', [
+            'sectoral' => $sectoral
+        ]);
     }
 
     /**

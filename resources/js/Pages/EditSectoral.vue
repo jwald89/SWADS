@@ -1,122 +1,13 @@
 <script setup>
-import { defineComponent, reactive } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
-import axios from "axios";
 import { Link } from "@inertiajs/vue3";
-import vSelect from "vue-select";
-import { toast } from "vue3-toastify";
 
-defineProps({
-    municipality: {
+// Props from Inertia
+const props = defineProps({
+    sectoral: {
         type: Object,
         required: true,
     },
-    barangays: {
-        type: Object,
-        required: true,
-    },
-    civilStatus: {
-        type: Object,
-        required: true,
-    },
-    gender: {
-        type: Object,
-        required: true,
-    },
-    sectors: {
-        type: Object,
-        required: true,
-    },
-    errors: Object,
-});
-
-const errors = reactive({});
-
-const sectoralForm = reactive({
-    first_name: "",
-    middle_name: "",
-    last_name: "",
-    age: "",
-    sex: "",
-    nationality: "",
-    religion: "",
-    barangay: "",
-    municipality: "",
-    birthdate: "",
-    place_birth: "",
-    civil_status: "",
-});
-
-const submitForm = async () => {
-    if (sectoralForm.first_name) {
-        errors.first_name = "";
-    }
-    if (sectoralForm.middle_name) {
-        errors.middle_name = "";
-    }
-    if (sectoralForm.last_name) {
-        errors.last_name = "";
-    }
-    if (sectoralForm.age) {
-        errors.age = "";
-    }
-    if (sectoralForm.sex) {
-        errors.sex = "";
-    }
-    if (sectoralForm.nationality) {
-        errors.nationality = "";
-    }
-    if (sectoralForm.religion) {
-        errors.religion = "";
-    }
-    if (sectoralForm.purok) {
-        errors.purok = "";
-    }
-    if (sectoralForm.barangay) {
-        errors.barangay = "";
-    }
-    if (sectoralForm.municipality) {
-        errors.municipality = "";
-    }
-    if (sectoralForm.birthdate) {
-        errors.birthdate = "";
-    }
-    if (sectoralForm.place_birth) {
-        errors.place_birth = "";
-    }
-    if (sectoralForm.civil_status) {
-        errors.civil_status = "";
-    }
-
-    try {
-        const response = await axios.post(
-            "/sectoral-data/create-post",
-            sectoralForm
-        );
-
-        toast.success("Successfully created.", {
-            autoClose: 1000,
-        });
-
-        console.log("working..");
-    } catch (error) {
-        if (error.response && error.response.status === 422) {
-            const validationErrors = error.response.data.errors;
-            for (const key in validationErrors) {
-                if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0];
-                }
-            }
-            toast.error("Please fill in the blanks error!", {
-                autoClose: 2000,
-            });
-        }
-        console.error("Error submitting form:", error);
-    }
-};
-
-defineComponent({
-    vSelect,
 });
 </script>
 
@@ -141,23 +32,17 @@ defineComponent({
                 </div>
             </div>
             <div class="card-body">
-                <form class="row g-3 mt-3" @submit.prevent="submitForm">
+                <form class="row g-3 mt-3">
                     <div class="col-md-6">
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <v-select
+                        <input
+                            class="form-control"
                             name="sector"
                             id="sector"
-                            :options="sectors.data"
-                            :reduce="(data) => data.id"
-                            label="name"
-                            v-model="sectoralForm.sector"
-                            :class="{
-                                'form-control is-invalid': errors.sector,
-                            }"
-                        >
-                        </v-select>
+                            v-model="sectoral.sector.name"
+                        />
                     </div>
                     <div class="col-md-6">
                         <label for="dateEncoded"
@@ -168,7 +53,7 @@ defineComponent({
                             class="form-control"
                             id="date_encoded"
                             name="date_encoded"
-                            v-model="sectoralForm.date_encoded"
+                            v-model="sectoral.date_encoded"
                         />
                     </div>
 
@@ -180,12 +65,8 @@ defineComponent({
                             class="form-control"
                             name="first_name"
                             id="first_name"
-                            v-model="sectoralForm.first_name"
-                            :class="{ 'is-invalid': errors.first_name }"
+                            v-model="sectoral.first_name"
                         />
-                        <small v-if="errors.first_name" class="text-danger">
-                            {{ errors.first_name }}
-                        </small>
                     </div>
                     <div class="col-md-4">
                         <label for="middlename"
@@ -196,12 +77,8 @@ defineComponent({
                             class="form-control"
                             name="middle_name"
                             id="middle_name"
-                            v-model="sectoralForm.middle_name"
-                            :class="{ 'is-invalid': errors.middle_name }"
+                            v-model="sectoral.middle_name"
                         />
-                        <small v-if="errors.middle_name" class="text-danger">
-                            {{ errors.middle_name }}
-                        </small>
                     </div>
                     <div class="col-md-4">
                         <label for="lastname"
@@ -212,12 +89,8 @@ defineComponent({
                             class="form-control"
                             id="last_name"
                             name="last_name"
-                            v-model="sectoralForm.last_name"
-                            :class="{ 'is-invalid': errors.last_name }"
+                            v-model="sectoral.last_name"
                         />
-                        <small v-if="errors.last_name" class="text-danger">
-                            {{ errors.last_name }}
-                        </small>
                     </div>
                     <div class="col-md-2">
                         <label for="age"
@@ -228,12 +101,8 @@ defineComponent({
                             class="form-control"
                             name="age"
                             id="age"
-                            v-model="sectoralForm.age"
-                            :class="{ 'is-invalid': errors.age }"
+                            v-model="sectoral.age"
                         />
-                        <small v-if="errors.age" class="text-danger">
-                            {{ errors.age }}
-                        </small>
                     </div>
                     <div class="col-md-2">
                         <label for="gender"
@@ -243,16 +112,12 @@ defineComponent({
                             class="form-select"
                             name="sex"
                             id="sex"
-                            v-model="sectoralForm.sex"
-                            :class="{ 'is-invalid': errors.sex }"
+                            v-model="sectoral.sex"
                         >
-                            <option v-for="sex in gender" :key="sex">
-                                {{ sex }}
+                            <option>
+                                {{ sectoral.sex }}
                             </option>
                         </select>
-                        <small v-if="errors.sex" class="text-danger">
-                            {{ errors.sex }}
-                        </small>
                     </div>
                     <div class="col-md-3">
                         <label for="nationality"
@@ -264,12 +129,8 @@ defineComponent({
                             class="form-control"
                             name="nationality"
                             id="nationality"
-                            v-model="sectoralForm.nationality"
-                            :class="{ 'is-invalid': errors.nationality }"
+                            v-model="sectoral.nationality"
                         />
-                        <small v-if="errors.nationality" class="text-danger">
-                            {{ errors.nationality }}
-                        </small>
                     </div>
                     <div class="col-md-2">
                         <label for="religion"
@@ -280,12 +141,8 @@ defineComponent({
                             class="form-control"
                             id="religion"
                             name="religion"
-                            v-model="sectoralForm.religion"
-                            :class="{ 'is-invalid': errors.religion }"
+                            v-model="sectoral.religion"
                         />
-                        <small v-if="errors.religion" class="text-danger">
-                            {{ errors.religion }}
-                        </small>
                     </div>
                     <div class="col-md-3">
                         <label for="ethnicity"
@@ -296,7 +153,7 @@ defineComponent({
                             class="form-control"
                             id="ethnicity"
                             name="ethnicity"
-                            v-model="sectoralForm.ethnicity"
+                            v-model="sectoral.ethnicity"
                         />
                     </div>
 
@@ -307,32 +164,19 @@ defineComponent({
                             class="form-control"
                             name="purok"
                             id="purok"
-                            v-model="sectoralForm.purok"
-                            :class="{ 'is-invalid': errors.purok }"
+                            v-model="sectoral.purok"
                         />
-                        <small v-if="errors.purok" class="text-danger">{{
-                            errors.purok
-                        }}</small>
                     </div>
                     <div class="col-md-3">
                         <label for="barangay"
                             >Barangay<span class="text-danger">*</span></label
                         >
-                        <v-select
+                        <input
                             name="barangay"
                             id="barangay"
-                            label="barangay"
-                            v-model="sectoralForm.barangay"
-                            :options="barangays.data"
-                            :reduce="(data) => data.id"
-                            :class="{
-                                'form-control is-invalid': errors.barangay,
-                            }"
-                        >
-                        </v-select>
-                        <small v-if="errors.barangay" class="text-danger">{{
-                            errors.barangay
-                        }}</small>
+                            class="form-control"
+                            v-model="sectoral.barangay.barangay"
+                        />
                     </div>
                     <div class="col-md-3">
                         <label for="municipal"
@@ -340,21 +184,12 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <v-select
+                        <input
                             name="municipality"
                             id="municipality"
-                            label="municipality"
-                            v-model="sectoralForm.municipality"
-                            :options="municipality.data"
-                            :reduce="(data) => data.id"
-                            :class="{
-                                'form-control is-invalid': errors.municipality,
-                            }"
-                        >
-                        </v-select>
-                        <small v-if="errors.municipality" class="text-danger">{{
-                            errors.municipality
-                        }}</small>
+                            class="form-control"
+                            v-model="sectoral.municipality.municipality"
+                        />
                     </div>
                     <div class="col-md-3">
                         <label for="birthdate"
@@ -365,12 +200,8 @@ defineComponent({
                             class="form-control"
                             id="birthdate"
                             name="birthdate"
-                            v-model="sectoralForm.birthdate"
-                            :class="{ 'is-invalid': errors.birthdate }"
+                            v-model="sectoral.birthdate"
                         />
-                        <small v-if="errors.birthdate" class="text-danger">
-                            {{ errors.birthdate }}
-                        </small>
                     </div>
                     <div class="col-md-3">
                         <label for="placeBirth"
@@ -383,12 +214,8 @@ defineComponent({
                             class="form-control"
                             name="place_birth"
                             id="place_birth"
-                            v-model="sectoralForm.place_birth"
-                            :class="{ 'is-invalid': errors.place_birth }"
+                            v-model="sectoral.place_birth"
                         />
-                        <small v-if="errors.place_birth" class="text-danger">
-                            {{ errors.place_birth }}
-                        </small>
                     </div>
 
                     <div class="col-md-3">
@@ -401,16 +228,12 @@ defineComponent({
                             class="form-select"
                             id="civil_status"
                             name="civil_status"
-                            v-model="sectoralForm.civil_status"
-                            :class="{ 'is-invalid': errors.civil_status }"
+                            v-model="sectoral.civil_status"
                         >
-                            <option v-for="civil in civilStatus" :key="civil">
-                                {{ civil }}
+                            <option>
+                                {{ sectoral.civil_status }}
                             </option>
                         </select>
-                        <small v-if="errors.civil_status" class="text-danger">
-                            {{ errors.civil_status }}
-                        </small>
                     </div>
                     <div class="col-md-3">
                         <label for="physical">Physical Disability</label>
@@ -419,7 +242,7 @@ defineComponent({
                             class="form-control"
                             id="physical_disability"
                             name="physical_disability"
-                            v-model="sectoralForm.physical_disability"
+                            v-model="sectoral.physical_disability"
                         />
                     </div>
                     <div class="col-md-3">
@@ -433,7 +256,7 @@ defineComponent({
                             class="form-control"
                             id="contact_no"
                             name="contact_no"
-                            v-model="sectoralForm.contact_no"
+                            v-model="sectoral.contact_no"
                         />
                     </div>
                     <div class="col-md-4">
@@ -447,7 +270,7 @@ defineComponent({
                             class="form-control"
                             id="fb_acct"
                             name="fb_acct"
-                            v-model="sectoralForm.fb_acct"
+                            v-model="sectoral.fb_acct"
                         />
                     </div>
                     <div class="col-md-5">
@@ -461,7 +284,7 @@ defineComponent({
                             class="form-control"
                             id="school_last_attend"
                             name="school_last_attend"
-                            v-model="sectoralForm.school_last_attended"
+                            v-model="sectoral.school_last_attended"
                         />
                     </div>
 
@@ -476,7 +299,7 @@ defineComponent({
                             class="form-control"
                             id="month_year"
                             name="month_year"
-                            v-model="sectoralForm.month_year"
+                            v-model="sectoral.month_year"
                         />
                     </div>
 
@@ -488,7 +311,7 @@ defineComponent({
                             class="form-control"
                             name="skills"
                             id="skills"
-                            v-model="sectoralForm.skills"
+                            v-model="sectoral.skills"
                         />
                     </div>
                     <div class="col-md-4">
@@ -501,7 +324,7 @@ defineComponent({
                             class="form-control"
                             name="interest_hobby"
                             id="interest_hobby"
-                            v-model="sectoralForm.interest_hobby"
+                            v-model="sectoral.interest_hobby"
                         />
                     </div>
 
@@ -516,7 +339,7 @@ defineComponent({
                             class="form-control"
                             id="work_exp"
                             name="work_exp"
-                            v-model="sectoralForm.work_exp"
+                            v-model="sectoral.work_exp"
                         />
                     </div>
                     <div class="col-md-3">
@@ -530,7 +353,7 @@ defineComponent({
                             class="form-control"
                             id="org_membership"
                             name="org_membership"
-                            v-model="sectoralForm.org_membership"
+                            v-model="sectoral.org_membership"
                         />
                     </div>
                     <div class="col-md-2">
@@ -544,7 +367,7 @@ defineComponent({
                             class="form-control"
                             id="fam_members"
                             name="fam_members"
-                            v-model="sectoralForm.fam_members"
+                            v-model="sectoral.fam_members"
                         />
                     </div>
                     <div class="col-md-2">
@@ -556,7 +379,7 @@ defineComponent({
                             class="form-control"
                             id="ISY_OSY"
                             name="ISY_OSY"
-                            v-model="sectoralForm.ISY_OSY"
+                            v-model="sectoral.ISY_OSY"
                         >
                             <option value="N/A">--- Select ---</option>
                             <option value="isy">ISY</option>
@@ -572,7 +395,7 @@ defineComponent({
                             class="form-control"
                             id="position"
                             name="position"
-                            v-model="sectoralForm.position"
+                            v-model="sectoral.position"
                         />
                     </div>
                     <div class="col-md-3">
@@ -584,7 +407,7 @@ defineComponent({
                             class="form-control"
                             id="status"
                             name="status"
-                            v-model="sectoralForm.status"
+                            v-model="sectoral.status"
                         >
                             <option value="N/A">--- Select ---</option>
                             <option value="active">Active</option>

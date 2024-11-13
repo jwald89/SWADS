@@ -16,7 +16,7 @@ class LiaisonResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'fullname' => $this->firstname .' '. ($this->middlename ? substr($this->middlename, 0, 1) .'. ' : '') . $this->lastname,
+            'fullname' => $this->first_name .' '. ($this->middle_init ? substr($this->middle_init, 0, 1) .'. ' : '') . $this->lastname,
         ];
     }
 }

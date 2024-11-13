@@ -2,7 +2,7 @@
 import Layout from "../Shared/Layout.vue";
 import vSelect from "vue-select";
 import { defineComponent } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 
 const props = defineProps({
     municipalities: {
@@ -18,6 +18,13 @@ const props = defineProps({
         type: Object,
     },
 });
+
+const page = usePage();
+
+const hasAccess = (type) => {
+    type = type.map((t) => t.toUpperCase());
+    return type.includes(page.props.role_type);
+};
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -74,7 +81,7 @@ defineComponent({
                             label="name"
                         ></v-select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" v-if="hasAccess(['admin', 'user'])">
                         <label for="">Filter the municipality</label>
                         <v-select
                             class="fw-bold"
@@ -83,6 +90,10 @@ defineComponent({
                             label="municipality"
                         ></v-select>
                     </div>
+                    <div
+                        class="div col-md-3"
+                        v-if="hasAccess(['municipal'])"
+                    ></div>
                     <div class="col-md-2 offset-md-2">
                         <label for="">Month</label>
                         <v-select class="fw-bold" :options="months"></v-select>
@@ -150,9 +161,16 @@ defineComponent({
                                 </td>
                                 <td>
                                     <Link
-                                        href=""
+                                        :href="`/sectoral/edit/${sector.id}`"
                                         class="btn btn-sm btn-primary me-2"
+                                        v-if="hasAccess(['admin', 'user'])"
                                         >Edit</Link
+                                    >
+                                    <Link
+                                        :href="`/municipal/edit-municipal/${sector.id}`"
+                                        class="btn btn-sm btn-primary me-2"
+                                        v-if="hasAccess(['municipal'])"
+                                        >Update</Link
                                     >
                                     <Link
                                         href=""

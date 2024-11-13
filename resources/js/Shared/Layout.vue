@@ -530,7 +530,7 @@ defineComponent({
                 </li>
             </div>
             <!-- End Register Page Nav -->
-            <div>
+            <div v-if="hasAccess(['admin'])">
                 <li class="nav-heading">Reports</li>
                 <li class="nav-item">
                     <Link class="nav-link collapsed" href="#">
