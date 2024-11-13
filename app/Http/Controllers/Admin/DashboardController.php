@@ -14,7 +14,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
         $totalAssistance = DB::table('personal_information')->count();
         $totalAmt = DB::table('monitorings')->sum('amount');
         $monitorData = DB::table('monitorings')

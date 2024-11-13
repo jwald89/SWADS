@@ -320,46 +320,54 @@ defineComponent({
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
+            <!-- Admin Dashboard -->
             <li class="nav-item" v-if="hasAccess(['admin'])">
-                <Link class="nav-link" href="/dashboard">
+                <Link class="nav-link" :href="`/dashboard`">
                     <i class="bi bi-grid"></i>
                     <span>DASHBOARD</span>
                 </Link>
             </li>
+
+            <!-- User Dashboard -->
             <li class="nav-item" v-if="hasAccess(['user'])">
-                <Link class="nav-link" href="/user/dashboard">
+                <Link class="nav-link" :href="`/user/dashboard`">
                     <i class="bi bi-grid"></i>
-                    <span>DASHBOARD USER</span>
+                    <span>DASHBOARD</span>
                 </Link>
             </li>
+
+            <!-- Liaison Dashboard -->
             <li class="nav-item" v-if="hasAccess(['liaison'])">
-                <Link class="nav-link" href="/liaison/dashboard">
+                <Link class="nav-link" :href="`/liaison/dashboard`">
                     <i class="bi bi-grid"></i>
-                    <span>DASHBOARD LIAISON</span>
+                    <span>DASHBOARD</span>
                 </Link>
             </li>
+
+            <!-- Municipality Dashboard -->
             <li class="nav-item" v-if="hasAccess(['municipal'])">
-                <Link class="nav-link" href="/municipal/dashboard">
+                <Link class="nav-link" :href="`/municipal/dashboard`">
                     <i class="bi bi-grid"></i>
-                    <span>DASHBOARD MUNICIPAL</span>
+                    <span>DASHBOARD</span>
                 </Link>
             </li>
             <!-- End Dashboard Nav -->
 
             <li class="nav-heading">Modules</li>
 
-            <li class="nav-item" v-if="hasAccess(['admin', 'user'])">
+            <!-- AICS MODULE -->
+            <div v-if="hasAccess(['admin', 'user'])">
                 <a
                     class="nav-link collapsed"
-                    data-bs-target="#components-nav"
+                    data-bs-target="#components-nav-1"
                     data-bs-toggle="collapse"
-                    href="#"
                 >
-                    <i class="bi bi-menu-button-wide"></i><span>AICS</span
-                    ><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span>AICS</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul
-                    id="components-nav"
+                    id="components-nav-1"
                     class="nav-content collapse"
                     :class="{
                         show:
@@ -369,9 +377,9 @@ defineComponent({
                     data-bs-parent="#sidebar-nav"
                 >
                     <li>
-                        <Link href="/intake">
-                            <i class="bi bi-circle"></i
-                            ><span
+                        <Link :href="`/intake`">
+                            <i class="bi bi-circle"></i>
+                            <span
                                 :class="{
                                     'text-primary':
                                         currentRoute.includes('intake'),
@@ -381,9 +389,9 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link href="/monitoring">
-                            <i class="bi bi-circle"></i
-                            ><span
+                        <Link :href="`/monitoring`">
+                            <i class="bi bi-circle"></i>
+                            <span
                                 :class="{
                                     'text-primary':
                                         currentRoute.includes('monitoring'),
@@ -393,14 +401,14 @@ defineComponent({
                         </Link>
                     </li>
                 </ul>
-            </li>
+            </div>
             <!-- End Components Nav -->
 
-            <!-- LIAISON -->
+            <!-- LIAISON ROLE ACCESS -->
             <li class="nav-item" v-if="hasAccess(['liaison'])">
-                <Link class="nav-link" href="/monitoring">
-                    <i class="bi bi-menu-button-wide"></i
-                    ><span
+                <Link class="nav-link" :href="`/monitoring`">
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span
                         :class="{
                             'text-primary': currentRoute.includes('monitoring'),
                         }"
@@ -409,153 +417,197 @@ defineComponent({
                 </Link>
             </li>
 
-            <li
-                class="nav-item"
-                v-if="hasAccess(['admin', 'user', 'municipal'])"
-            >
-                <Link class="nav-link" href="/sectoral-data">
-                    <i class="bi bi-journal-text"></i><span>SECTORAL DATA</span>
-                </Link>
-            </li>
-
-            <!-- End Forms Nav -->
-            <div v-if="hasAccess(['admin'])">
-                <li class="nav-heading">Maintenance</li>
+            <!-- SECTORAL DATA MODULE -->
+            <div v-if="hasAccess(['admin', 'user', 'municipal'])">
                 <li class="nav-item">
-                    <Link
-                        class="nav-link collapsed"
-                        href="/user-registration/index"
-                    >
-                        <i class="bi bi-person"></i>
-                        <span
-                            :class="{
-                                'text-primary': currentRoute.includes(
-                                    'user-registration/index'
-                                ),
-                            }"
-                            >Users</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Profile Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/type-assistance">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('type-assistance'),
-                            }"
-                            >Types of Assistance</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Register Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/municipality">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('municipality'),
-                            }"
-                            >Municipality</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Register Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/barangay">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('barangay'),
-                            }"
-                            >Barangay</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Register Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/sectors">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('sectors'),
-                            }"
-                            >Sector</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Register Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/staff-admin">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('staff-admin'),
-                            }"
-                            >Staff Administered</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Register Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/liaison">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('liaison'),
-                            }"
-                            >Liaison</span
-                        >
-                    </Link>
-                </li>
-                <!-- End Register Page Nav -->
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="/office-charges">
-                        <i class="bi bi-card-list"></i>
-                        <span
-                            :class="{
-                                'text-primary':
-                                    currentRoute.includes('office-charges'),
-                            }"
-                            >Office Charges</span
-                        >
+                    <Link class="nav-link" :href="`/sectoral-data`">
+                        <i class="bi bi-journal-text"></i>
+                        <span>SECTORAL DATA</span>
                     </Link>
                 </li>
             </div>
-            <!-- End Register Page Nav -->
+
+            <!-- MAINTENANCE MODULE -->
             <div v-if="hasAccess(['admin'])">
-                <li class="nav-heading">Reports</li>
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="#">
-                        <i class="bi bi-card-list"></i>
-                        <span>Intake Sheets & COE Served</span>
-                    </Link>
-                </li>
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="#">
-                        <i class="bi bi-card-list"></i>
-                        <span>AICS Per Municipality</span>
-                    </Link>
-                </li>
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="#">
-                        <i class="bi bi-card-list"></i>
-                        <span>AICS Served Per Sectoral Group</span>
-                    </Link>
-                </li>
-                <li class="nav-item">
-                    <Link class="nav-link collapsed" href="#">
-                        <i class="bi bi-card-list"></i>
-                        <span>AICS Per Sectoral Group</span>
-                    </Link>
-                </li>
+                <a
+                    class="nav-link collapsed"
+                    data-bs-target="#components-nav-2"
+                    data-bs-toggle="collapse"
+                >
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span>MAINTENANCE</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul
+                    id="components-nav-2"
+                    class="nav-content collapse"
+                    :class="{
+                        show:
+                            currentRoute.includes('user-registration/index') ||
+                            currentRoute.includes('type-assistance') ||
+                            currentRoute.includes('municipality') ||
+                            currentRoute.includes('barangay') ||
+                            currentRoute.includes('sectors') ||
+                            currentRoute.includes('staff-admin') ||
+                            currentRoute.includes('liaison') ||
+                            currentRoute.includes('office-charges'),
+                    }"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/user-registration/index`"
+                        >
+                            <i class="bi bi-person"></i>
+                            <span
+                                :class="{
+                                    'text-primary': currentRoute.includes(
+                                        'user-registration/index'
+                                    ),
+                                }"
+                                >Users
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/type-assistance`"
+                        >
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes(
+                                            'type-assistance'
+                                        ),
+                                }"
+                                >Types of Assistance
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/municipality`"
+                        >
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes('municipality'),
+                                }"
+                                >Municipality
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" :href="`/barangay`">
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes('barangay'),
+                                }"
+                                >Barangay
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" :href="`/sectors`">
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes('sectors'),
+                                }"
+                                >Sector
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" :href="`/staff-admin`">
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes('staff-admin'),
+                                }"
+                                >Staff Administered
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" :href="`/liaison`">
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes('liaison'),
+                                }"
+                                >Liaison
+                            </span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/office-charges`"
+                        >
+                            <i class="bi bi-card-list"></i>
+                            <span
+                                :class="{
+                                    'text-primary':
+                                        currentRoute.includes('office-charges'),
+                                }"
+                                >Office Charges
+                            </span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- REPORT MODULE -->
+            <div v-if="hasAccess(['admin'])">
+                <a
+                    class="nav-link collapsed"
+                    data-bs-target="#components-nav-3"
+                    data-bs-toggle="collapse"
+                >
+                    <i class="bi bi-menu-button-wide"></i><span>REPORTS</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul
+                    id="components-nav-3"
+                    class="nav-content collapse"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <Link class="nav-link collapsed" href="#">
+                            <i class="bi bi-card-list"></i>
+                            <span>Intake Sheets & COE Served</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" href="#">
+                            <i class="bi bi-card-list"></i>
+                            <span>AICS Per Municipality</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" href="#">
+                            <i class="bi bi-card-list"></i>
+                            <span>AICS Served Per Sectoral Group</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link class="nav-link collapsed" href="#">
+                            <i class="bi bi-card-list"></i>
+                            <span>AICS Per Sectoral Group</span>
+                        </Link>
+                    </li>
+                </ul>
             </div>
         </ul>
     </aside>
