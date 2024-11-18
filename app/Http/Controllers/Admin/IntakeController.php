@@ -78,7 +78,6 @@ class IntakeController extends Controller
             array_merge($request->all(), ['created_by' => $userId])
         );
 
-
         return response()->json($personalInformation, 201);
     }
 
@@ -157,50 +156,23 @@ class IntakeController extends Controller
     {
         $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
 
-        return inertia('EditIntake', [
-            'intakes' => $intakes
-        ]);
-    }
-
-    // Personal Information store process
-    public function editP1($id)
-    {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+        $assistances = AssistanceResource::collection(AssistanceType::all());
+        $municipality = MunicipalityResource::collection(Municipality::all());
+        $barangays = BarangayResource::collection(Barangay::all());
 
         return inertia('EditIntake', [
-            'intakes' => $intakes
+            'intakes' => $intakes,
+            'assistances' => $assistances,
+            'barangays' => $barangays,
+            'municipality' => $municipality,
         ]);
+
+        // return inertia('EditIntake', [
+        //     'intakes' => $intakes,
+        // ]);
     }
 
-    // Family Compositions store process
-    public function editP2($id)
-    {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
 
-        return inertia('EditIntake', [
-            'intakes' => $intakes
-        ]);
-    }
-
-    // Referrals store process
-    public function editP3($id)
-    {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
-
-        return inertia('EditIntake', [
-            'intakes' => $intakes
-        ]);
-    }
-
-    // Remarks store process
-    public function editP4($id)
-    {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
-
-        return inertia('EditIntake', [
-            'intakes' => $intakes
-        ]);
-    }
 
     // Printing process
     public function print($id)
@@ -288,5 +260,35 @@ class IntakeController extends Controller
         $templateProcessor->saveAs($fileName. '.docx');
 
         return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
+    }
+
+    // Update Intake Sheets
+    public function update(Request $request, $id)
+    {
+        $personalData = PersonalInformation::findOrFail($id);
+
+        // $personalData->update($request->all());
+
+        // return $personalData;
+
+        // Initialize an array for storing created family compositions
+        $famComps = [];
+
+        // Loop through the request data (assuming it contains family composition records)
+        foreach ($request->input('family_compositions', []) as $familyCompositionData) {
+            // Add the created_by field for each family composition
+            $familyCompositionData['created_by'] = $id;
+
+            // Create a new FamilyComposition record and add it to the array
+            $famComps[] = FamilyComposition::create($familyCompositionData);
+        }
+
+        // Update the personal data with the request data
+        $personalData->update($request->except('family_compositions'));  // Make sure to exclude the family_compositions key
+
+        return response()->json([
+            'personal_data' => $personalData,
+            'family_compositions' => $famComps
+        ]);
     }
 }

@@ -93,8 +93,10 @@ watch(
                         <Link
                             class="btn btn-md btn-primary float-end"
                             href="/intake/create"
-                            >Create New</Link
                         >
+                            <i class="bi bi-journal-plus"></i>
+                            Create New
+                        </Link>
                     </div>
                 </div>
 
@@ -139,9 +141,15 @@ watch(
                                     }}.
                                     {{
                                         detail.last_name
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        detail.last_name.slice(1)
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
                                     }}
                                 </td>
                                 <td>
@@ -180,25 +188,35 @@ watch(
                                     <Link
                                         :href="`/intake/edit/${detail.id}`"
                                         class="btn btn-sm btn-primary me-2"
-                                        >Edit</Link
+                                        title="Edit"
                                     >
+                                        <i class="bi bi-pencil-square"></i>
+                                        <!-- Edit -->
+                                    </Link>
                                     <Link
                                         :href="`/intake/show/${detail.id}`"
                                         class="btn btn-sm btn-info me-2"
-                                        >Details</Link
+                                        title="Details"
                                     >
+                                        <i class="bi bi-eye"></i>
+                                        <!-- Details -->
+                                    </Link>
                                     <a
                                         :href="`/intake/print/${detail.id}`"
                                         class="btn btn-sm btn-warning me-2"
                                         target="_blank"
+                                        title="Print"
                                     >
-                                        Print
+                                        <i class="bi bi-printer"></i>
+                                        <!-- Print -->
                                     </a>
                                     <a
                                         :href="`/intake/export/${detail.id}`"
                                         class="btn btn-sm btn-success"
+                                        title="Export"
                                     >
-                                        Export
+                                        <i class="bi bi-download"></i>
+                                        <!-- Export -->
                                     </a>
                                 </td>
                             </tr>

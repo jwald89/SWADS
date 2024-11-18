@@ -33,7 +33,8 @@ const intakes = inject("intakeData");
                                 type="submit"
                                 class="btn btn-primary float-end"
                             >
-                                Save
+                                <i class="bi bi-save"></i>
+                                Update
                             </button>
                         </div>
                     </form>

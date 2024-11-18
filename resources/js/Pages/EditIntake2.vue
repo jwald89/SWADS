@@ -1,6 +1,7 @@
 <script setup>
 import { inject } from "vue";
 const intakes = inject("intakeData");
+const submitForm = inject("submitFormP2");
 </script>
 
 <template>
@@ -11,13 +12,13 @@ const intakes = inject("intakeData");
         aria-labelledby="profile-tab"
     >
         <div class="col-lg-12">
-            <div class="card">
+            <div
+                class="card mb-2"
+                v-for="famCompose in intakes.fam_compose"
+                :key="famCompose.id"
+            >
                 <div class="card-body mt-4">
-                    <form
-                        class="row g-3"
-                        v-for="famCompose in intakes.fam_compose"
-                        :key="famCompose.id"
-                    >
+                    <form class="row g-3" @submit.prevent="submitForm">
                         <div class="col-md-4">
                             <label for="lastName"
                                 >Last name<span class="text-danger"
@@ -112,17 +113,18 @@ const intakes = inject("intakeData");
                                 v-model="famCompose.remarks"
                             />
                         </div>
-
-                        <div class="mt-4">
-                            <button
-                                type="submit"
-                                class="btn btn-primary float-end"
-                            >
-                                Save
-                            </button>
-                        </div>
                     </form>
                 </div>
+            </div>
+            <div class="mt-4">
+                <button
+                    type="submit"
+                    class="btn btn-primary float-end"
+                    @click="submitForm"
+                >
+                    <i class="bi bi-save"></i>
+                    Update
+                </button>
             </div>
         </div>
     </div>

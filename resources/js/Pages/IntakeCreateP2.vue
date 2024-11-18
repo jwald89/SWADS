@@ -311,6 +311,7 @@ onMounted(() => {
                                 type="submit"
                                 class="btn btn-success float-start"
                             >
+                                <i class="bi bi-person-plus"></i>
                                 Add Person
                             </button>
                         </div>
@@ -323,6 +324,7 @@ onMounted(() => {
                         @click="finalSubmit"
                         class="btn btn-primary float-end"
                     >
+                        <i class="bi bi-save"></i>
                         Save
                     </button>
                 </div>

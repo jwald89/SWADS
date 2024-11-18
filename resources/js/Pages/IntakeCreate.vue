@@ -302,7 +302,6 @@ const props = defineProps({
 });
 
 defineComponent({
-    LayoutApp,
     IntakeCreateP1,
     IntakeCreateP2,
     IntakeCreateP3,
@@ -324,9 +323,11 @@ defineComponent({
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/intake"
-                            >Back</Link
+                            :href="`/intake`"
                         >
+                            <i class="bi bi-backspace"></i>
+                            Back
+                        </Link>
                     </div>
                 </div>
             </div>

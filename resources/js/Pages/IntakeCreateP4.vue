@@ -36,6 +36,7 @@ const submitForm = inject("submitFormP4");
                                 type="submit"
                                 class="btn btn-primary float-end"
                             >
+                                <i class="bi bi-save"></i>
                                 Save
                             </button>
                         </div>

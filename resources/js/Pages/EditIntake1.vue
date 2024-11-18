@@ -2,37 +2,28 @@
 import { defineComponent, inject } from "vue";
 import vSelect from "vue-select";
 
+const submitForm = inject("submitFormP1");
 const intakes = inject("intakeData");
 
-// console.log(intakes);
+defineProps({
+    assistances: {
+        type: Object,
+        required: true,
+    },
+    municipality: {
+        type: Object,
+        required: true,
+    },
+    barangays: {
+        type: Object,
+        required: true,
+    },
+    // errors: Object,
+});
 
-// defineProps({
-//     assistances: {
-//         type: Object,
-//         required: true,
-//     },
-//     municipality: {
-//         type: Object,
-//         required: true,
-//     },
-//     barangays: {
-//         type: Object,
-//         required: true,
-//     },
-//     civilStatus: {
-//         type: Object,
-//         required: true,
-//     },
-//     gender: {
-//         type: Object,
-//         required: true,
-//     },
-//     errors: Object,
-// });
-
-// defineComponent({
-//     vSelect,
-// });
+defineComponent({
+    vSelect,
+});
 </script>
 
 <template>
@@ -42,7 +33,7 @@ const intakes = inject("intakeData");
         role="tabpanel"
         aria-labelledby="home-tab"
     >
-        <form>
+        <form @submit.prevent="submitForm">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -57,10 +48,8 @@ const intakes = inject("intakeData");
                                     class="form-select"
                                     name="classification"
                                     id="classification"
+                                    v-model="intakes.classification"
                                 >
-                                    <option value="" default>
-                                        {{ intakes.classification }}
-                                    </option>
                                     <option value="non-poor 4Ps">
                                         Non-poor 4Ps
                                     </option>
@@ -75,6 +64,8 @@ const intakes = inject("intakeData");
                                 <v-select
                                     name="category"
                                     id="category"
+                                    :options="assistances.data"
+                                    :reduce="(data) => data.name"
                                     label="name"
                                     v-model="intakes.category"
                                 >
@@ -255,6 +246,10 @@ const intakes = inject("intakeData");
                                             <div class="col-sm-10">
                                                 <v-select
                                                     name="barangay"
+                                                    :options="barangays.data"
+                                                    :reduce="
+                                                        (data) => data.barangay
+                                                    "
                                                     id="barangay"
                                                     label="barangay"
                                                     v-model="intakes.barangay"
@@ -274,6 +269,11 @@ const intakes = inject("intakeData");
                                             <div class="col-sm-10">
                                                 <v-select
                                                     name="municipal"
+                                                    :options="municipality.data"
+                                                    :reduce="
+                                                        (data) =>
+                                                            data.municipality
+                                                    "
                                                     id="municipal"
                                                     label="municipality"
                                                     v-model="
@@ -333,8 +333,10 @@ const intakes = inject("intakeData");
                                         class="form-select"
                                         id="sex"
                                         name="sex"
+                                        v-model="intakes.sex"
                                     >
-                                        <option>{{ intakes.sex }}</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                     </select>
                                 </div>
 
@@ -348,9 +350,16 @@ const intakes = inject("intakeData");
                                         class="form-select"
                                         id="civil_stats"
                                         name="civil_stats"
+                                        v-model="intakes.civil_stats"
                                     >
-                                        <option>
-                                            {{ intakes.civil_stats }}
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="widowed">Widowed</option>
+                                        <option value="divorced">
+                                            Divorced
+                                        </option>
+                                        <option value="separated">
+                                            Separated
                                         </option>
                                     </select>
                                 </div>
@@ -402,8 +411,10 @@ const intakes = inject("intakeData");
                                     <button
                                         type="submit"
                                         class="btn btn-primary float-end"
+                                        @click="submitForm"
                                     >
-                                        Save
+                                        <i class="bi bi-save"></i>
+                                        Update
                                     </button>
                                 </div>
                             </div>
