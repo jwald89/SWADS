@@ -202,8 +202,10 @@ defineComponent({
                         <Link
                             class="btn btn-sm btn-light float-end"
                             :href="`/monitoring`"
-                            >Back</Link
                         >
+                            <i class="bi bi-backspace"></i>
+                            Back
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -478,7 +480,7 @@ defineComponent({
                             :options="users.data"
                             v-model="monitorForm.liaison"
                             :reduce="(data) => data.id"
-                            label="fullname"
+                            label="id"
                             :class="{
                                 'form-control is-invalid': errors.liaison,
                             }"
@@ -555,6 +557,7 @@ defineComponent({
                             type="submit"
                             class="btn btn-md btn-success float-end"
                         >
+                            <i class="bi bi-save"></i>
                             Submit
                         </button>
                     </div>

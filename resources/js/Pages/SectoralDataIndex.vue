@@ -113,7 +113,7 @@ defineComponent({
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
-                                <th>Name</th>
+                                <th>Client</th>
                                 <th>Age</th>
                                 <th>Date of Birth</th>
                                 <th>Municipality</th>

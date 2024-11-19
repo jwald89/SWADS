@@ -85,8 +85,10 @@ watch(
                         <Link
                             class="btn btn-md btn-primary float-end"
                             :href="`/monitoring/create`"
-                            >Create New</Link
                         >
+                            <i class="bi bi-journal-plus"></i>
+                            Create New
+                        </Link>
                     </div>
                 </div>
 
@@ -96,7 +98,7 @@ watch(
                             <tr>
                                 <th>No.</th>
                                 <th>Assistance Type</th>
-                                <th>Name</th>
+                                <th>Client</th>
                                 <th>Date of Intake</th>
                                 <th>Sector</th>
                                 <th>Municipality</th>
@@ -152,22 +154,31 @@ watch(
                                         :href="`/monitoring/edit/${data.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['admin', 'user'])"
-                                        >Edit</Link
+                                        title="Edit"
                                     >
+                                        <i class="bi bi-pencil-square"></i>
+                                        <!-- Edit -->
+                                    </Link>
                                     <!-- For LIAISON role button -->
                                     <Link
                                         :href="`/liaison/edit-liaison/${data.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['liaison'])"
-                                        >Update</Link
+                                        title="Edit"
                                     >
+                                        <i class="bi bi-pencil-square"></i>
+                                        <!-- Update -->
+                                    </Link>
                                     <!-- For ADMIN and USER role button -->
                                     <Link
                                         href=""
                                         class="btn btn-sm btn-info me-2"
                                         v-if="hasAccess(['admin', 'user'])"
-                                        >Details</Link
+                                        title="Details"
                                     >
+                                        <i class="bi bi-eye"></i>
+                                        <!-- Details -->
+                                    </Link>
                                 </td>
                             </tr>
                         </tbody>

@@ -1,13 +1,6 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import {
-    defineComponent,
-    ref,
-    watch,
-    reactive,
-    onMounted,
-    computed,
-} from "vue";
+import { defineComponent, reactive, computed } from "vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
@@ -18,10 +11,72 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    sectors: {
+        type: Object,
+        required: true,
+    },
+    admins: {
+        type: Object,
+        required: true,
+    },
+    offices: {
+        type: Object,
+        required: true,
+    },
+    users: {
+        type: Object,
+        required: true,
+    },
 });
 
+console.log("OUTPUT: ", props.sectors);
+
+const submitData = async () => {
+    try {
+        const response = await axios.put(
+            `/monitoring/update/${props.dataMonitors.id}`,
+            props.dataMonitors
+        );
+
+        console.log("New record ID:", response.data.id);
+        toast.success("SUCCESS NA!.", {
+            autoClose: 1000,
+        });
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+
+            const errorMsg = error.response.data.error;
+            if (errorMsg) {
+                toast.error(errorMsg, {
+                    autoClose: 10000,
+                });
+            } else {
+                toast.error("Please fill in the blanks error!", {
+                    autoClose: 2000,
+                });
+            }
+        }
+
+        console.error("Error submitting form:", error);
+    }
+};
+
 const fullName = computed(() => {
-    return `${props.dataMonitors.user.first_name} ${props.dataMonitors.user.last_name}`;
+    return `${
+        props.dataMonitors.user.first_name
+    } ${props.dataMonitors.user.middle_init.charAt(0)}. ${
+        props.dataMonitors.user.last_name
+    }`;
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -40,13 +95,15 @@ const fullName = computed(() => {
                         <Link
                             class="btn btn-sm btn-light float-end"
                             :href="`/monitoring`"
-                            >Back</Link
                         >
+                            <i class="bi bi-backspace"></i>
+                            Back
+                        </Link>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form class="row g-3 mt-3">
+                <form class="row g-3 mt-3" @submit.prevent="submitData">
                     <div class="col-md-6">
                         <label for="claimant">Claimant</label>
                         <input
@@ -112,6 +169,8 @@ const fullName = computed(() => {
                         >
                         <v-select
                             name="sector"
+                            :options="sectors.data"
+                            :reduce="(data) => data.name"
                             id="sector"
                             label="name"
                             v-model="dataMonitors.sector"
@@ -231,16 +290,18 @@ const fullName = computed(() => {
                         />
                     </div>
                     <div class="col-md-5">
-                        <label for="staff"
+                        <label for="staff_admin"
                             >Staff Administered<span class="text-danger"
                                 >*</span
                             ></label
                         >
                         <v-select
-                            name="staff"
-                            id="staff"
-                            v-model="dataMonitors.staff_admin"
+                            name="staff_admin"
+                            :options="admins.data"
+                            :reduce="(data) => data.fullname"
+                            id="staff_admin"
                             label="fullname"
+                            v-model="dataMonitors.staff_admin"
                         >
                         </v-select>
                     </div>
@@ -250,6 +311,8 @@ const fullName = computed(() => {
                         >
                         <v-select
                             name="liaison"
+                            :options="users.data"
+                            :reduce="(data) => data.id"
                             id="liaison"
                             v-model="fullName"
                             label="fullname"
@@ -290,6 +353,8 @@ const fullName = computed(() => {
                         >
                         <v-select
                             name="offices"
+                            :options="offices.data"
+                            :reduce="(data) => data.acronym"
                             id="offices"
                             v-model="dataMonitors.status"
                             label="acronym"
@@ -301,7 +366,8 @@ const fullName = computed(() => {
                             type="submit"
                             class="btn btn-md btn-success float-end"
                         >
-                            Submit
+                            <i class="bi bi-save"></i>
+                            Update
                         </button>
                     </div>
                 </form>

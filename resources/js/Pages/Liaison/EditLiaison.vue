@@ -30,8 +30,10 @@ const fullName = computed(() => {
                         <Link
                             class="btn btn-sm btn-light float-end"
                             :href="`/monitoring`"
-                            >Back</Link
                         >
+                            <i class="bi bi-backspace"></i>
+                            Back
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -243,7 +245,8 @@ const fullName = computed(() => {
                             type="submit"
                             class="btn btn-md btn-success float-end"
                         >
-                            Submit
+                            <i class="bi bi-save"></i>
+                            Update
                         </button>
                     </div>
                 </form>

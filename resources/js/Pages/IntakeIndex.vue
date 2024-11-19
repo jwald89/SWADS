@@ -105,7 +105,7 @@ watch(
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
-                                <th>Name</th>
+                                <th>Client</th>
                                 <th>Assistance</th>
                                 <th>Gender</th>
                                 <th>Birth Date</th>

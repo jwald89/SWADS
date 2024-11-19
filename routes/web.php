@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/monitoring/create', 'create');
                 Route::post('/monitoring/create-post', 'store');
                 Route::get('/monitoring/edit/{id}', 'edit');
+                Route::put('/monitoring/update/{id}', 'update');
     });
 
     // Sectoral Data Controller
@@ -147,8 +148,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/office-charges/create', 'create')->name('office.create');
                 Route::post('/office-charges/post', 'store')->name('office.post');
     });
-
-
 });
 
 

@@ -93,10 +93,27 @@ class MonitoringController extends Controller
     public function edit($id)
     {
         $monitoring = Monitoring::with(['user'])->findOrFail($id);
-
+        $sectors = SectorResource::collection(Sector::all());
+        $admins = AdministerResource::collection(StaffAdministered::all());
+        $offices = OfficeResource::collection(Office::all());
+        $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
 
         return inertia('EditMonitoring', [
-            'dataMonitors' => $monitoring
+            'dataMonitors' => $monitoring,
+            'sectors' => $sectors,
+            'admins' => $admins,
+            'offices' => $offices,
+            'users' => $users
         ]);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $monitoring = Monitoring::with(['user'])->findOrFail($id);
+
+        $monitoring->update($request->all());
+
+        return $monitoring;
     }
 }

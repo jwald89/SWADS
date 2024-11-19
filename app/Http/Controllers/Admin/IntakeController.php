@@ -166,10 +166,6 @@ class IntakeController extends Controller
             'barangays' => $barangays,
             'municipality' => $municipality,
         ]);
-
-        // return inertia('EditIntake', [
-        //     'intakes' => $intakes,
-        // ]);
     }
 
 
