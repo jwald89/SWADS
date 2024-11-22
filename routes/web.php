@@ -87,9 +87,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(SectoralDataController::class)
             ->group(function() {
                 Route::get('/sectoral-data', 'index');
-                Route::get('/sectoral/create', 'create')->name('sectoral.create');
+                Route::get('/sectoral-data/create', 'create')->name('sectoral.create');
                 Route::post('/sectoral-data/create-post', 'store');
-                Route::get('/sectoral/edit/{id}', 'edit');
+                Route::get('/sectoral-data/edit/{id}', 'edit');
                 Route::put('/sectoral-data/update/{id}', 'update');
     });
 

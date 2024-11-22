@@ -8,7 +8,7 @@ import { toast } from "vue3-toastify";
 
 // Props from Inertia
 const props = defineProps({
-    dataMonitors: {
+    intakeData: {
         type: Object,
         required: true,
     },
@@ -43,6 +43,7 @@ const filteredMonitors = ref([]); // Clone initial options
 
 // Monitor form reactive object
 const monitorForm = reactive({
+    id: "",
     beneficiary: "",
     sector: "",
     client_type: "",
@@ -95,12 +96,17 @@ const fetchMonitoringRecords = async () => {
         // Log saved records for debugging
         console.log("Existing Monitoring Records:", savedRecords);
 
-        // Filter out names already present in Monitoring table from `dataMonitors`
-        filteredMonitors.value = props.dataMonitors.data.filter(
-            (monitor) =>
-                !savedRecords.some(
-                    (record) => record.claimant === monitor.fullname
-                )
+        // Extract claimant IDs from savedRecords for easier comparison
+        const savedClaimantIds = savedRecords.map((record) =>
+            parseInt(record.claimant)
+        );
+
+        // Log claimant IDs for debugging
+        console.log("Saved Claimant IDs:", savedClaimantIds);
+
+        // Filter out IDs already present in Monitoring table from `intakeData`
+        filteredMonitors.value = props.intakeData.data.filter(
+            (monitor) => !savedClaimantIds.includes(monitor.id)
         );
 
         // Log the filtered list to verify results
@@ -152,6 +158,8 @@ const submitForm = async () => {
         // Clear the form after saving
         resetForm();
 
+        location.reload();
+
         console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
@@ -170,7 +178,7 @@ const submitForm = async () => {
 };
 
 watch(claimant, function () {
-    monitorForm.claimant = claimant.value.fullname;
+    monitorForm.claimant = claimant.value.id;
     monitorForm.age = claimant.value.age;
     monitorForm.gender = claimant.value.gender;
     monitorForm.contact_no = claimant.value.contact_no;
@@ -298,7 +306,7 @@ defineComponent({
                             name="sector"
                             id="sector"
                             :options="sectors.data"
-                            :reduce="(data) => data.name"
+                            :reduce="(data) => data.id"
                             label="name"
                             v-model="monitorForm.sector"
                             :class="{
@@ -480,7 +488,7 @@ defineComponent({
                             :options="users.data"
                             v-model="monitorForm.liaison"
                             :reduce="(data) => data.id"
-                            label="id"
+                            label="fullname"
                             :class="{
                                 'form-control is-invalid': errors.liaison,
                             }"
@@ -537,20 +545,6 @@ defineComponent({
                         <small v-if="errors.status" class="text-danger">{{
                             errors.status
                         }}</small>
-                        <!-- <select
-                            type="text"
-                            class="form-control"
-                            id="status"
-                            name="status"
-                            v-model="monitorForm.status"
-                        >
-                            <option
-                                v-for="statusType in status"
-                                :key="statusType"
-                            >
-                                {{ statusType }}
-                            </option>
-                        </select> -->
                     </div>
                     <div class="mt-4">
                         <button

@@ -26,4 +26,9 @@ class PersonalInformation extends Model
     {
         return $this->hasMany(Remark::class, 'applicant_id', 'id');
     }
+
+    public function monitoring()
+    {
+        return $this->hasMany(Monitoring::class, 'claimant', 'id');
+    }
 }

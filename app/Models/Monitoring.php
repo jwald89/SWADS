@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Sector;
+use App\Models\PersonalInformation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,4 +18,15 @@ class Monitoring extends Model
     {
         return $this->belongsTo(User::class, 'liaison', 'id');
     }
+
+    public function intake()
+    {
+        return $this->belongsTo(PersonalInformation::class, 'claimant', 'id');
+    }
+
+    public function sector()
+    {
+        return $this->belongsTo(Sector::class, 'sector', 'id');
+    }
+
 }

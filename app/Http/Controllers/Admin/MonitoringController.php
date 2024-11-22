@@ -29,7 +29,7 @@ class MonitoringController extends Controller
         // $monitoringData = null;
 
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
-            $monitoringData = Monitoring::when(request()->search !== '', function ($query) {
+            $monitoringData = Monitoring::with(['intake', 'sector'])->when(request()->search !== '', function ($query) {
                     $query->where(function ($query) {
                         $query->where('claimant', 'like', '%' . request()->search . '%')
                               ->orWhere('assistance_type', 'like', '%' . request()->search . '%')
@@ -53,7 +53,7 @@ class MonitoringController extends Controller
 
     public function create()
     {
-        $dataMonitors = PersonalDetailResource::collection(PersonalInformation::all());
+        $intakeData = PersonalDetailResource::collection(PersonalInformation::all());
         $sectors = SectorResource::collection(Sector::all());
         $admins = AdministerResource::collection(StaffAdministered::all());
         $liaisons = LiaisonResource::collection(Liaison::all());
@@ -61,7 +61,7 @@ class MonitoringController extends Controller
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
 
         return inertia('MonitoringCreate', [
-            'dataMonitors' => $dataMonitors,
+            'intakeData' => $intakeData,
             'sectors' => $sectors,
             'admins' => $admins,
             'liaisons' => $liaisons,
@@ -92,7 +92,7 @@ class MonitoringController extends Controller
 
     public function edit($id)
     {
-        $monitoring = Monitoring::with(['user'])->findOrFail($id);
+        $monitoring = Monitoring::with(['user', 'intake'])->findOrFail($id);
         $sectors = SectorResource::collection(Sector::all());
         $admins = AdministerResource::collection(StaffAdministered::all());
         $offices = OfficeResource::collection(Office::all());

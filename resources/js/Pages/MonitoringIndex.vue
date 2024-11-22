@@ -117,7 +117,24 @@ watch(
                                 <td>{{ data.assistance_type }}</td>
                                 <td>
                                     {{
-                                        data.claimant
+                                        data.intake.first_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                    {{
+                                        data.intake.middle_name
+                                            .substr(0, 1)
+                                            .toUpperCase()
+                                    }}.
+                                    {{
+                                        data.intake.last_name
                                             .split(" ")
                                             .map(
                                                 (word) =>
@@ -132,7 +149,7 @@ watch(
                                 <td class="text-primary">
                                     {{ formatDate(data.date_intake) }}
                                 </td>
-                                <td>{{ data.sector }}</td>
+                                <td>{{ data.sector.name }}</td>
                                 <td>{{ data.municipality }}</td>
                                 <td>
                                     {{

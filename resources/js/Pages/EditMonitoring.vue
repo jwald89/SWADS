@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, reactive, computed } from "vue";
+import { defineComponent, watchEffect, computed } from "vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
@@ -65,12 +65,25 @@ const submitData = async () => {
     }
 };
 
-const fullName = computed(() => {
-    return `${
-        props.dataMonitors.user.first_name
-    } ${props.dataMonitors.user.middle_init.charAt(0)}. ${
-        props.dataMonitors.user.last_name
-    }`;
+const claimantName = computed(() => {
+    return `${props.dataMonitors.intake.first_name
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")} ${props.dataMonitors.intake.middle_name
+        .charAt(0)
+        .toUpperCase()}. ${props.dataMonitors.intake.last_name
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")}`;
+});
+
+watchEffect(() => {
+    props.dataMonitors.liaison = parseInt(props.dataMonitors.liaison);
+    props.dataMonitors.sector = parseInt(props.dataMonitors.sector);
 });
 
 defineComponent({
@@ -108,7 +121,7 @@ defineComponent({
                             class="form-control"
                             name="claimant"
                             id="claimant"
-                            v-model="dataMonitors.claimant"
+                            v-model="claimantName"
                             readonly
                         />
                     </div>
@@ -168,7 +181,7 @@ defineComponent({
                         <v-select
                             name="sector"
                             :options="sectors.data"
-                            :reduce="(data) => data.name"
+                            :reduce="(data) => data.id"
                             id="sector"
                             label="name"
                             v-model="dataMonitors.sector"
@@ -312,7 +325,7 @@ defineComponent({
                             :options="users.data"
                             :reduce="(data) => data.id"
                             id="liaison"
-                            v-model="fullName"
+                            v-model="dataMonitors.liaison"
                             label="fullname"
                         >
                         </v-select>

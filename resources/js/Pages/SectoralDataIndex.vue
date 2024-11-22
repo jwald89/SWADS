@@ -63,7 +63,7 @@ defineComponent({
                     </div>
                     <div class="col-lg-6 float-end">
                         <Link
-                            :href="`/sectoral/create`"
+                            :href="`/sectoral-data/create`"
                             class="btn btn-sm btn-light float-end"
                         >
                             <i class="bi bi-journal-plus"></i>
@@ -167,7 +167,7 @@ defineComponent({
                                 </td>
                                 <td>
                                     <Link
-                                        :href="`/sectoral/edit/${sectoral.id}`"
+                                        :href="`/sectoral-data/edit/${sectoral.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['admin', 'user'])"
                                         title="Edit"
