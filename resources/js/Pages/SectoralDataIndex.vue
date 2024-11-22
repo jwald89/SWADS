@@ -63,10 +63,12 @@ defineComponent({
                     </div>
                     <div class="col-lg-6 float-end">
                         <Link
-                            href="/sectoral/create"
+                            :href="`/sectoral/create`"
                             class="btn btn-sm btn-light float-end"
-                            >Create</Link
                         >
+                            <i class="bi bi-journal-plus"></i>
+                            Create New
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -113,6 +115,7 @@ defineComponent({
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
+                                <th>Sector</th>
                                 <th>Client</th>
                                 <th>Age</th>
                                 <th>Date of Birth</th>
@@ -123,14 +126,15 @@ defineComponent({
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="(sector, index) in data"
+                            v-for="(sectoral, index) in data"
                             :key="index"
                         >
                             <tr>
                                 <td>{{ index + 1 }}</td>
+                                <td>{{ sectoral.sector.name }}</td>
                                 <td>
                                     {{
-                                        sector.first_name
+                                        sectoral.first_name
                                             .split(" ")
                                             .map(
                                                 (word) =>
@@ -142,41 +146,52 @@ defineComponent({
                                             .join(" ")
                                     }}
                                     {{
-                                        sector.middle_name
+                                        sectoral.middle_name
                                             .substr(0, 1)
                                             .toUpperCase()
                                     }}.
                                     {{
-                                        sector.last_name
+                                        sectoral.last_name
                                             .charAt(0)
                                             .toUpperCase() +
-                                        sector.last_name.slice(1)
+                                        sectoral.last_name.slice(1)
                                     }}
                                 </td>
-                                <td>{{ sector.age }}</td>
-                                <td>{{ formatDate(sector.birthdate) }}</td>
-                                <td>{{ sector.municipality }}</td>
+                                <td>{{ sectoral.age }}</td>
+                                <td>{{ formatDate(sectoral.birthdate) }}</td>
+                                <td>
+                                    {{ sectoral.municipality.municipality }}
+                                </td>
                                 <td class="text-primary">
-                                    {{ formatDate(sector.created_at) }}
+                                    {{ formatDate(sectoral.date_encoded) }}
                                 </td>
                                 <td>
                                     <Link
-                                        :href="`/sectoral/edit/${sector.id}`"
+                                        :href="`/sectoral/edit/${sectoral.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['admin', 'user'])"
-                                        >Edit</Link
+                                        title="Edit"
                                     >
+                                        <i class="bi bi-pencil-square"></i>
+                                        <!-- Edit -->
+                                    </Link>
                                     <Link
-                                        :href="`/municipal/edit-municipal/${sector.id}`"
+                                        :href="`/municipal/edit-municipal/${sectoral.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['municipal'])"
-                                        >Update</Link
+                                        title="Update"
                                     >
+                                        <i class="bi bi-pencil-square"></i>
+                                        <!-- Update -->
+                                    </Link>
                                     <Link
                                         href=""
                                         class="btn btn-sm btn-info me-2"
-                                        >Details</Link
+                                        title="Details"
                                     >
+                                        <i class="bi bi-eye"></i>
+                                        <!-- Details -->
+                                    </Link>
                                 </td>
                             </tr>
                         </tbody>

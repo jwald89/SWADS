@@ -29,8 +29,6 @@ const props = defineProps({
     },
 });
 
-console.log("OUTPUT: ", props.sectors);
-
 const submitData = async () => {
     try {
         const response = await axios.put(
@@ -39,7 +37,7 @@ const submitData = async () => {
         );
 
         console.log("New record ID:", response.data.id);
-        toast.success("SUCCESS NA!.", {
+        toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
     } catch (error) {

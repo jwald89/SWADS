@@ -22,7 +22,10 @@ defineComponent({
     <LayoutApp>
         <div class="clearfix mb-2">
             <div class="float-end">
-                <Link href="/intake" class="btn btn-sm btn-primary">Back</Link>
+                <Link :href="`/intake`" class="btn btn-md btn-outline-dark">
+                    <i class="bi bi-backspace"></i>
+                    Back
+                </Link>
             </div>
         </div>
         <div class="card">

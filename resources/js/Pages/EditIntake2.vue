@@ -14,10 +14,14 @@ const submitForm = inject("submitFormP2");
         <div class="col-lg-12">
             <div
                 class="card mb-2"
-                v-for="famCompose in intakes.fam_compose"
-                :key="famCompose.id"
+                v-for="(famCompose, index) in intakes.fam_compose"
+                :key="famCompose.index"
             >
-                <div class="card-body mt-4">
+                <card-header class="bg-secondary px-2 py-1 text-light">
+                    Family Member No.
+                    <span class="badge text-bg-light">{{ index + 1 }}</span>
+                </card-header>
+                <div class="card-body mt-2">
                     <form class="row g-3" @submit.prevent="submitForm">
                         <div class="col-md-4">
                             <label for="lastName"

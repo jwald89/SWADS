@@ -34,7 +34,7 @@ return new class extends Migration
             $table->enum('civil_status', CivilStatus::values())->default(CivilStatus::Single->value);
             $table->string('contact_no')->nullable();
             $table->string('fb_accnt')->nullable();
-            $table->date('school_last_attend')->nullable();
+            $table->string('school_last_attend')->nullable();
             $table->string('month_year')->nullable();
             $table->string('skills')->nullable();
             $table->string('interest_hobby')->nullable();

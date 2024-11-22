@@ -27,7 +27,7 @@ class SectoralDataController extends Controller
 
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
-            $data = Sectoral::when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
+            $data = Sectoral::with('sector','municipality')->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
                 $query->where('municipality', '=', Auth::user()->mun_id);
             })->get();
 
@@ -89,10 +89,16 @@ class SectoralDataController extends Controller
      */
     public function edit($id)
     {
-        $sectoral = Sectoral::with(['sector', 'municipality', 'barangay'])->findOrFail($id);
+        $sectoral = Sectoral::findOrFail($id);
+        $sectors = SectorResource::collection(Sector::all());
+        $municipality = MunicipalityResource::collection(Municipality::all());
+        $barangays = BarangayResource::collection(Barangay::all());
 
         return inertia('EditSectoral', [
-            'sectoral' => $sectoral
+            'sectoral' => $sectoral,
+            'sectors' => $sectors,
+            'municipality' => $municipality,
+            'barangays' => $barangays
         ]);
     }
 
@@ -101,7 +107,11 @@ class SectoralDataController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $sectoral = Sectoral::findOrFail($id);
+
+        $sectoral->update($request->all());
+
+        return $sectoral;
     }
 
     /**

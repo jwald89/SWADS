@@ -22,6 +22,8 @@ class SectoralDataRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'sector' => 'required',
+            'date_encoded' => 'required',
             'first_name' => 'required',
             'middle_name' => 'required',
             'last_name' => 'required',
@@ -35,6 +37,7 @@ class SectoralDataRequest extends FormRequest
             'birthdate' => 'required',
             'place_birth' => 'required',
             'civil_status' => 'required',
+            'fam_members' => 'integer'
         ];
     }
 }

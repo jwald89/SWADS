@@ -1,6 +1,10 @@
 <script setup>
+import { defineComponent, watchEffect } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
+import axios from "axios";
+import vSelect from "vue-select";
+import { toast } from "vue3-toastify";
 
 // Props from Inertia
 const props = defineProps({
@@ -8,6 +12,56 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    sectors: {
+        type: Object,
+        required: true,
+    },
+    municipality: {
+        type: Object,
+        required: true,
+    },
+    barangays: {
+        type: Object,
+        required: true,
+    },
+});
+
+const submitForm = async () => {
+    try {
+        const response = await axios.put(
+            `/sectoral-data/update/${props.sectoral.id}`,
+            props.sectoral
+        );
+
+        toast.success("Record successfully updated.", {
+            autoClose: 1000,
+        });
+
+        console.log("working..");
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0];
+                }
+            }
+            toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        }
+        console.error("Error submitting form:", error);
+    }
+};
+
+watchEffect(() => {
+    props.sectoral.sector = parseInt(props.sectoral.sector);
+    props.sectoral.municipality = parseInt(props.sectoral.municipality);
+    props.sectoral.barangay = parseInt(props.sectoral.barangay);
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -20,29 +74,34 @@ const props = defineProps({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Sectoral Data</h5>
+                        <h5 class="fw-bold">Edit Sectoral Data</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/sectoral-data"
-                            >Back</Link
+                            :href="`/sectoral-data`"
                         >
+                            <i class="bi bi-backspace"></i>
+                            Back
+                        </Link>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form class="row g-3 mt-3">
+                <form class="row g-3 mt-3" @submit.prevent="submitForm">
                     <div class="col-md-6">
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <input
-                            class="form-control"
+                        <v-select
                             name="sector"
+                            :options="sectors.data"
+                            :reduce="(data) => data.id"
                             id="sector"
-                            v-model="sectoral.sector.name"
-                        />
+                            label="name"
+                            v-model="sectoral.sector"
+                        >
+                        </v-select>
                     </div>
                     <div class="col-md-6">
                         <label for="dateEncoded"
@@ -62,6 +121,7 @@ const props = defineProps({
                             >Firstname<span class="text-danger">*</span></label
                         >
                         <input
+                            type="text"
                             class="form-control"
                             name="first_name"
                             id="first_name"
@@ -114,9 +174,8 @@ const props = defineProps({
                             id="sex"
                             v-model="sectoral.sex"
                         >
-                            <option>
-                                {{ sectoral.sex }}
-                            </option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -145,9 +204,7 @@ const props = defineProps({
                         />
                     </div>
                     <div class="col-md-3">
-                        <label for="ethnicity"
-                            >Ethnicity<span class="text-danger">*</span></label
-                        >
+                        <label for="ethnicity">Ethnicity</label>
                         <input
                             type="text"
                             class="form-control"
@@ -171,25 +228,31 @@ const props = defineProps({
                         <label for="barangay"
                             >Barangay<span class="text-danger">*</span></label
                         >
-                        <input
+                        <v-select
                             name="barangay"
+                            :options="barangays.data"
+                            :reduce="(data) => data.id"
                             id="barangay"
-                            class="form-control"
-                            v-model="sectoral.barangay.barangay"
-                        />
+                            label="barangay"
+                            v-model="sectoral.barangay"
+                        >
+                        </v-select>
                     </div>
                     <div class="col-md-3">
-                        <label for="municipal"
+                        <label for="municipality"
                             >Municipality<span class="text-danger"
                                 >*</span
                             ></label
                         >
-                        <input
+                        <v-select
                             name="municipality"
+                            :options="municipality.data"
+                            :reduce="(data) => parseInt(data.id)"
                             id="municipality"
-                            class="form-control"
-                            v-model="sectoral.municipality.municipality"
-                        />
+                            label="municipality"
+                            v-model="sectoral.municipality"
+                        >
+                        </v-select>
                     </div>
                     <div class="col-md-3">
                         <label for="birthdate"
@@ -230,9 +293,11 @@ const props = defineProps({
                             name="civil_status"
                             v-model="sectoral.civil_status"
                         >
-                            <option>
-                                {{ sectoral.civil_status }}
-                            </option>
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="widowed">Widowed</option>
+                            <option value="divorced">Divorced</option>
+                            <option value="separated">Separated</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -260,40 +325,30 @@ const props = defineProps({
                         />
                     </div>
                     <div class="col-md-4">
-                        <label for="fbAcct"
-                            >Facebook Account<span class="text-danger"
-                                >*</span
-                            ></label
-                        >
+                        <label for="fbAcct">Facebook Account</label>
                         <input
                             type="text"
                             class="form-control"
                             id="fb_acct"
                             name="fb_acct"
-                            v-model="sectoral.fb_acct"
+                            v-model="sectoral.fb_accnt"
                         />
                     </div>
                     <div class="col-md-5">
                         <label for="schoolLastAttend"
-                            >School Last Attended<span class="text-danger"
-                                >*</span
-                            ></label
+                            >School Last Attended</label
                         >
                         <input
                             type="text"
                             class="form-control"
                             id="school_last_attend"
                             name="school_last_attend"
-                            v-model="sectoral.school_last_attended"
+                            v-model="sectoral.school_last_attend"
                         />
                     </div>
 
                     <div class="col-md-3">
-                        <label for="monthYear"
-                            >Month and Year<span class="text-danger"
-                                >*</span
-                            ></label
-                        >
+                        <label for="monthYear">Month and Year</label>
                         <input
                             type="text"
                             class="form-control"
@@ -304,9 +359,7 @@ const props = defineProps({
                     </div>
 
                     <div class="col-md-4">
-                        <label for="skills"
-                            >Skills<span class="text-danger">*</span></label
-                        >
+                        <label for="skills">Skills</label>
                         <input
                             class="form-control"
                             name="skills"
@@ -315,11 +368,7 @@ const props = defineProps({
                         />
                     </div>
                     <div class="col-md-4">
-                        <label for="interest"
-                            >Interest/Hobbies<span class="text-danger"
-                                >*</span
-                            ></label
-                        >
+                        <label for="interest">Interest/Hobbies</label>
                         <input
                             class="form-control"
                             name="interest_hobby"
@@ -329,11 +378,7 @@ const props = defineProps({
                     </div>
 
                     <div class="col-md-4">
-                        <label for="workExp"
-                            >Work Experience<span class="text-danger"
-                                >*</span
-                            ></label
-                        >
+                        <label for="workExp">Work Experience</label>
                         <input
                             type="text"
                             class="form-control"
@@ -343,11 +388,7 @@ const props = defineProps({
                         />
                     </div>
                     <div class="col-md-3">
-                        <label for="orgMembers"
-                            >Members of Organizations<span class="text-danger"
-                                >*</span
-                            ></label
-                        >
+                        <label for="orgMembers">Members of Organizations</label>
                         <input
                             type="text"
                             class="form-control"
@@ -381,15 +422,12 @@ const props = defineProps({
                             name="ISY_OSY"
                             v-model="sectoral.ISY_OSY"
                         >
-                            <option value="N/A">--- Select ---</option>
                             <option value="isy">ISY</option>
                             <option value="osy">OSY</option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <label for="position"
-                            >Position<span class="text-danger">*</span></label
-                        >
+                        <label for="position">Position</label>
                         <input
                             type="text"
                             class="form-control"
@@ -409,7 +447,6 @@ const props = defineProps({
                             name="status"
                             v-model="sectoral.status"
                         >
-                            <option value="N/A">--- Select ---</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                         </select>
@@ -419,7 +456,8 @@ const props = defineProps({
                             type="submit"
                             class="btn btn-md btn-success float-end"
                         >
-                            Submit
+                            <i class="bi bi-save"></i>
+                            Update
                         </button>
                     </div>
                 </form>

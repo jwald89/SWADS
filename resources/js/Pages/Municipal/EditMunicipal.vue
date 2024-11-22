@@ -20,7 +20,7 @@ const props = defineProps({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Sectoral Data</h5>
+                        <h5 class="fw-bold">Edit Sectoral Data</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link

@@ -90,6 +90,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/sectoral/create', 'create')->name('sectoral.create');
                 Route::post('/sectoral-data/create-post', 'store');
                 Route::get('/sectoral/edit/{id}', 'edit');
+                Route::put('/sectoral-data/update/{id}', 'update');
     });
 
     // Type Assistance Controller

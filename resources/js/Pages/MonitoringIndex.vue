@@ -98,7 +98,7 @@ watch(
                             <tr>
                                 <th>No.</th>
                                 <th>Assistance Type</th>
-                                <th>Client</th>
+                                <th>Claimant</th>
                                 <th>Date of Intake</th>
                                 <th>Sector</th>
                                 <th>Municipality</th>

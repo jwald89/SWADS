@@ -51,7 +51,7 @@ const submitPersonalDetails = async () => {
 
         console.log("SUBMIT COMPOSE: ", props.intakes.famCompose);
         console.log("New record ID:", response.data.id);
-        toast.success("SUCCESS NA!.", {
+        toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
     } catch (error) {
@@ -91,7 +91,7 @@ const submitFamilyCompose = async () => {
         );
 
         console.log("New record ID:", response.data.id);
-        toast.success("UPDATE NA!.", {
+        toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
     } catch (error) {
@@ -132,7 +132,7 @@ provide("submitFormP2", submitFamilyCompose);
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Update Intake</h5>
+                        <h5 class="fw-bold">Edit Intake</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
