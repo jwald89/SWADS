@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, reactive, provide } from "vue";
+import { defineComponent, reactive, provide, ref } from "vue";
 import axios from "axios";
 import LayoutApp from "../Shared/Layout.vue";
 import IntakeCreateP1 from "../Pages/IntakeCreateP1.vue";
@@ -34,6 +34,7 @@ const personalForm = reactive({
 
 // initialize error in form submission
 const errors = reactive({});
+const modalError = ref("");
 
 // create a store method for Personal Information form
 const submitPersonalDetails = async () => {
@@ -105,9 +106,11 @@ const submitPersonalDetails = async () => {
 
             const errorMsg = error.response.data.error;
             if (errorMsg) {
-                toast.error(errorMsg, {
-                    autoClose: 10000,
-                });
+                modalError.value = errorMsg; // Use .value for ref
+                const errorModal = new bootstrap.Modal(
+                    document.getElementById("errorModal")
+                );
+                errorModal.show();
             } else {
                 toast.error("Please fill in the blanks error!", {
                     autoClose: 2000,
@@ -311,6 +314,36 @@ defineComponent({
 
 <template>
     <LayoutApp>
+        <div
+            class="modal fade"
+            id="errorModal"
+            tabindex="-1"
+            aria-labelledby="errorModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h3 class="modal-title text-light" id="errorModalLabel">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            Oops
+                        </h3>
+                        <button
+                            type="button"
+                            class="btn-close bg-light"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="modal-body fw-bold">
+                        <h2>
+                            {{ modalError }}
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div
                 class="card-header text-white"

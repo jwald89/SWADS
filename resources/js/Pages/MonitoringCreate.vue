@@ -135,6 +135,9 @@ const submitForm = async () => {
     if (monitorForm.charges) {
         errors.charges = "";
     }
+    if (monitorForm.contact_no) {
+        errors.contact_no = "";
+    }
     if (monitorForm.staff_admin) {
         errors.staff_admin = "";
     }
@@ -234,7 +237,9 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.claimant,
                             }"
+                            placeholder="Select"
                         >
+                            <v-option value="">Select</v-option>
                         </v-select>
                         <small v-if="errors.claimant" class="text-danger">{{
                             errors.claimant
@@ -268,7 +273,7 @@ defineComponent({
                             id="age"
                             name="age"
                             v-model="monitorForm.age"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -281,7 +286,7 @@ defineComponent({
                             name="gender"
                             id="gender"
                             v-model="monitorForm.gender"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-3">
@@ -295,7 +300,11 @@ defineComponent({
                             name="contactNo"
                             id="contactNo"
                             v-model="monitorForm.contact_no"
+                            :class="{ 'is-invalid': errors.contact_no }"
                         />
+                        <small v-if="errors.contact_no" class="text-danger">{{
+                            errors.contact_no
+                        }}</small>
                     </div>
                     <div class="col-md-5">
                         <label for="sector"
@@ -312,6 +321,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.sector,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.sector" class="text-danger">{{
@@ -331,7 +341,7 @@ defineComponent({
                             name="municipal"
                             id="municipal"
                             v-model="monitorForm.municipality"
-                            readonly
+                            disabled
                         />
                     </div>
 
@@ -345,7 +355,7 @@ defineComponent({
                             name="barangay"
                             id="barangay"
                             v-model="monitorForm.barangay"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-4">
@@ -362,6 +372,7 @@ defineComponent({
                             v-model="monitorForm.client_type"
                             :class="{ 'is-invalid': errors.client_type }"
                         >
+                            <option value="" disabled>Select</option>
                             <option value="walk-in">Walk-in</option>
                             <option value="referred">Referred</option>
                             <option value="reach-out">Reach-out</option>
@@ -382,7 +393,7 @@ defineComponent({
                             name="assistanceType"
                             id="assistanceType"
                             v-model="monitorForm.assistance_type"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -413,6 +424,7 @@ defineComponent({
                             v-model="monitorForm.charges"
                             :class="{ 'is-invalid': errors.charges }"
                         >
+                            <option value="" disabled>Select</option>
                             <option value="PGO">PGO</option>
                             <option value="PVGO">PVGO</option>
                             <option value="SB">SB</option>
@@ -453,7 +465,7 @@ defineComponent({
                             id="intakeDate"
                             name="intakeDate"
                             v-model="monitorForm.date_intake"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-5">
@@ -472,6 +484,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.staff_admin,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.staff_admin" class="text-danger">{{
@@ -492,6 +505,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.liaison,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.liaison" class="text-danger">{{
@@ -540,6 +554,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.status,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.status" class="text-danger">{{

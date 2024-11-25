@@ -87,7 +87,7 @@ defineComponent({
                                         'is-invalid': errors.classification,
                                     }"
                                 >
-                                    <option value="" default></option>
+                                    <option value="" disabled>Select</option>
                                     <option value="non-poor 4Ps">
                                         Non-poor 4Ps
                                     </option>
@@ -115,6 +115,7 @@ defineComponent({
                                         'form-control is-invalid':
                                             errors.category,
                                     }"
+                                    placeholder="Select"
                                 >
                                 </v-select>
                                 <small
@@ -359,6 +360,7 @@ defineComponent({
                                                         'form-control is-invalid':
                                                             errors.barangay,
                                                     }"
+                                                    placeholder="Select"
                                                 >
                                                 </v-select>
                                                 <small
@@ -394,6 +396,7 @@ defineComponent({
                                                         'form-control is-invalid':
                                                             errors.municipality,
                                                     }"
+                                                    placeholder="Select"
                                                 >
                                                 </v-select>
                                                 <small
@@ -473,6 +476,9 @@ defineComponent({
                                         v-model="form.sex"
                                         :class="{ 'is-invalid': errors.sex }"
                                     >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
                                         <option
                                             v-for="sex in gender"
                                             :key="sex"
@@ -502,6 +508,9 @@ defineComponent({
                                             'is-invalid': errors.civil_stats,
                                         }"
                                     >
+                                        <option value="" disabled>
+                                            Select
+                                        </option>
                                         <option
                                             v-for="civil in civilStatus"
                                             :key="civil"

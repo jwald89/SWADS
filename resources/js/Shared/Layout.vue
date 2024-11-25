@@ -134,33 +134,110 @@ defineComponent({
         <ul class="sidebar-nav" id="sidebar-nav">
             <!-- Admin Dashboard -->
             <li class="nav-item" v-if="hasAccess(['admin'])">
-                <Link class="nav-link" :href="`/dashboard`">
-                    <i class="bi bi-grid"></i>
-                    <span>DASHBOARD</span>
+                <Link
+                    class="nav-link"
+                    :href="`/dashboard`"
+                    :class="{
+                        'bg-highlight': currentRoute.includes('dashboard'),
+                    }"
+                >
+                    <i
+                        class="bi bi-grid"
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('dashboard'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('dashboard'),
+                        }"
+                        >DASHBOARD</span
+                    >
                 </Link>
             </li>
 
             <!-- User Dashboard -->
             <li class="nav-item" v-if="hasAccess(['user'])">
-                <Link class="nav-link" :href="`/user/dashboard`">
-                    <i class="bi bi-grid"></i>
-                    <span>DASHBOARD</span>
+                <Link
+                    class="nav-link"
+                    :href="`/user/dashboard`"
+                    :class="{
+                        'bg-highlight': currentRoute.includes('user/dashboard'),
+                    }"
+                >
+                    <i
+                        class="bi bi-grid"
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('user/dashboard'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('user/dashboard'),
+                        }"
+                        >DASHBOARD</span
+                    >
                 </Link>
             </li>
 
             <!-- Liaison Dashboard -->
             <li class="nav-item" v-if="hasAccess(['liaison'])">
-                <Link class="nav-link" :href="`/liaison/dashboard`">
-                    <i class="bi bi-grid"></i>
-                    <span>DASHBOARD</span>
+                <Link
+                    class="nav-link"
+                    :href="`/liaison/dashboard`"
+                    :class="{
+                        'bg-highlight':
+                            currentRoute.includes('liaison/dashboard'),
+                    }"
+                >
+                    <i
+                        class="bi bi-grid"
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('liaison/dashboard'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('liaison/dashboard'),
+                        }"
+                        >DASHBOARD</span
+                    >
                 </Link>
             </li>
 
             <!-- Municipality Dashboard -->
             <li class="nav-item" v-if="hasAccess(['municipal'])">
-                <Link class="nav-link" :href="`/municipal/dashboard`">
-                    <i class="bi bi-grid"></i>
-                    <span>DASHBOARD</span>
+                <Link
+                    class="nav-link"
+                    :href="`/municipal/dashboard`"
+                    :class="{
+                        'bg-highlight': currentRoute.includes(
+                            'municipal/dashboard'
+                        ),
+                    }"
+                >
+                    <i
+                        class="bi bi-grid"
+                        :class="{
+                            'color-highlight': currentRoute.includes(
+                                'municipal/dashboard'
+                            ),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight': currentRoute.includes(
+                                'municipal/dashboard'
+                            ),
+                        }"
+                        >DASHBOARD</span
+                    >
                 </Link>
             </li>
             <!-- End Dashboard Nav -->
@@ -168,101 +245,75 @@ defineComponent({
             <!-- AICS MODULE -->
             <!-- ADMIN ROLE ACCESS -->
             <div v-if="hasAccess(['admin'])">
-                <li class="nav-heading">Modules</li>
-
-                <a
-                    class="nav-link collapsed"
-                    data-bs-target="#components-nav-1"
-                    data-bs-toggle="collapse"
-                >
-                    <i class="bi bi-menu-down"></i>
-                    <span>AICS</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul
-                    id="components-nav-1"
-                    class="nav-content collapse"
-                    :class="{
-                        show:
-                            currentRoute.includes('intake') ||
-                            currentRoute.includes('monitoring') ||
-                            currentRoute.includes('sectoral-data'),
-                    }"
-                    data-bs-parent="#sidebar-nav"
-                >
-                    <li>
-                        <Link :href="`/intake`">
-                            <i class="bi bi-journal-text"></i>
-                            <span
-                                :class="{
-                                    'text-primary':
-                                        currentRoute.includes('intake'),
-                                }"
-                                >Intake Sheet</span
-                            >
-                        </Link>
-                    </li>
-                    <li>
-                        <Link :href="`/monitoring`">
-                            <i class="bi bi-journal-text"></i>
-                            <span
-                                :class="{
-                                    'text-primary':
-                                        currentRoute.includes('monitoring'),
-                                }"
-                                >Monitoring</span
-                            >
-                        </Link>
-                    </li>
-                    <li>
-                        <Link :href="`/sectoral-data`">
-                            <i class="bi bi-journal-text"></i>
-                            <span
-                                :class="{
-                                    'text-primary':
-                                        currentRoute.includes('sectoral-data'),
-                                }"
-                                >Sectoral Data</span
-                            >
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-            <!-- END ADMIN ROLE -->
-
-            <!-- USER ROLE ACCESS -->
-            <div v-if="hasAccess(['user'])">
                 <li class="nav-heading">AICS</li>
 
                 <li class="nav-item">
-                    <Link class="nav-link" :href="`/intake`">
-                        <i class="bi bi-file-text"></i>
+                    <Link
+                        class="nav-link"
+                        :href="`/intake`"
+                        :class="{
+                            'bg-highlight': currentRoute.includes('intake'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-file-text"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('intake'),
+                            }"
+                        ></i>
                         <span
                             :class="{
-                                'text-primary': currentRoute.includes('intake'),
+                                'color-highlight':
+                                    currentRoute.includes('intake'),
                             }"
                             >INTAKE SHEET</span
                         >
                     </Link>
                 </li>
-                <li>
-                    <Link class="nav-link" :href="`/monitoring`">
-                        <i class="bi bi-receipt-cutoff"></i>
+                <li class="nav-item">
+                    <Link
+                        class="nav-link"
+                        :href="`/monitoring`"
+                        :class="{
+                            'bg-highlight': currentRoute.includes('monitoring'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-receipt-cutoff"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('monitoring'),
+                            }"
+                        ></i>
                         <span
                             :class="{
-                                'text-primary':
+                                'color-highlight':
                                     currentRoute.includes('monitoring'),
                             }"
                             >MONITORING</span
                         >
                     </Link>
                 </li>
-                <li>
-                    <Link class="nav-link" :href="`/sectoral-data`">
-                        <i class="bi bi-journal"></i>
+                <li class="nav-item">
+                    <Link
+                        class="nav-link"
+                        :href="`/sectoral-data`"
+                        :class="{
+                            'bg-highlight':
+                                currentRoute.includes('sectoral-data'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-journal"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('sectoral-data'),
+                            }"
+                        ></i>
                         <span
                             :class="{
-                                'text-primary':
+                                'color-highlight':
                                     currentRoute.includes('sectoral-data'),
                             }"
                             >SECTORAL DATA</span
@@ -270,15 +321,28 @@ defineComponent({
                     </Link>
                 </li>
             </div>
-            <!-- END USER ROLE -->
+            <!-- END ADMIN ROLE -->
 
             <!-- LIAISON ROLE ACCESS -->
             <li class="nav-item" v-if="hasAccess(['liaison'])">
-                <Link class="nav-link" :href="`/monitoring`">
-                    <i class="bi bi-receipt-cutoff"></i>
+                <Link
+                    class="nav-link"
+                    :href="`/monitoring`"
+                    :class="{
+                        'color-highlight': currentRoute.includes('monitoring'),
+                    }"
+                >
+                    <i
+                        class="bi bi-receipt-cutoff"
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('monitoring'),
+                        }"
+                    ></i>
                     <span
                         :class="{
-                            'text-primary': currentRoute.includes('monitoring'),
+                            'color-highlight':
+                                currentRoute.includes('monitoring'),
                         }"
                         >MONITORING</span
                     >
@@ -289,9 +353,28 @@ defineComponent({
             <!-- MUNICIPAL ROLE ACCESS -->
             <div v-if="hasAccess(['municipal'])">
                 <li class="nav-item">
-                    <Link class="nav-link" :href="`/sectoral-data`">
-                        <i class="bi bi-journal"></i>
-                        <span>SECTORAL DATA</span>
+                    <Link
+                        class="nav-link"
+                        :href="`/sectoral-data`"
+                        :class="{
+                            'bg-highlight':
+                                currentRoute.includes('sectoral-data'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-journal"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('sectoral-data'),
+                            }"
+                        ></i>
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('sectoral-data'),
+                            }"
+                            >SECTORAL DATA</span
+                        >
                     </Link>
                 </li>
             </div>
@@ -299,14 +382,71 @@ defineComponent({
 
             <!-- MAINTENANCE MODULE -->
             <div v-if="hasAccess(['admin'])">
+                <li class="nav-heading">OTHERS</li>
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#components-nav-2"
                     data-bs-toggle="collapse"
+                    :class="{
+                        'bg-highlight':
+                            currentRoute.includes('user-registration/index') ||
+                            currentRoute.includes('type-assistance') ||
+                            currentRoute.includes('municipality') ||
+                            currentRoute.includes('barangay') ||
+                            currentRoute.includes('sectors') ||
+                            currentRoute.includes('staff-admin') ||
+                            currentRoute.includes('liaison') ||
+                            currentRoute.includes('office-charges'),
+                    }"
                 >
-                    <i class="bi bi-gear"></i>
-                    <span>MAINTENANCE</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
+                    <i
+                        class="bi bi-gear"
+                        :class="{
+                            'text-primary':
+                                currentRoute.includes(
+                                    'user-registration/index'
+                                ) ||
+                                currentRoute.includes('type-assistance') ||
+                                currentRoute.includes('municipality') ||
+                                currentRoute.includes('barangay') ||
+                                currentRoute.includes('sectors') ||
+                                currentRoute.includes('staff-admin') ||
+                                currentRoute.includes('liaison') ||
+                                currentRoute.includes('office-charges'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes(
+                                    'user-registration/index'
+                                ) ||
+                                currentRoute.includes('type-assistance') ||
+                                currentRoute.includes('municipality') ||
+                                currentRoute.includes('barangay') ||
+                                currentRoute.includes('sectors') ||
+                                currentRoute.includes('staff-admin') ||
+                                currentRoute.includes('liaison') ||
+                                currentRoute.includes('office-charges'),
+                        }"
+                        >MAINTENANCE</span
+                    >
+                    <i
+                        class="bi bi-chevron-down ms-auto"
+                        :class="{
+                            'text-primary':
+                                currentRoute.includes(
+                                    'user-registration/index'
+                                ) ||
+                                currentRoute.includes('type-assistance') ||
+                                currentRoute.includes('municipality') ||
+                                currentRoute.includes('barangay') ||
+                                currentRoute.includes('sectors') ||
+                                currentRoute.includes('staff-admin') ||
+                                currentRoute.includes('liaison') ||
+                                currentRoute.includes('office-charges'),
+                        }"
+                    ></i>
                 </a>
                 <ul
                     id="components-nav-2"
@@ -326,13 +466,20 @@ defineComponent({
                 >
                     <li>
                         <Link
-                            class="nav-link collapsed"
+                            class="nav-link"
                             :href="`/user-registration/index`"
                         >
-                            <i class="bi bi-gear"></i>
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight': currentRoute.includes(
+                                        'user-registration/index'
+                                    ),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary': currentRoute.includes(
+                                    'color-highlight': currentRoute.includes(
                                         'user-registration/index'
                                     ),
                                 }"
@@ -341,14 +488,19 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link
-                            class="nav-link collapsed"
-                            :href="`/type-assistance`"
-                        >
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/type-assistance`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes(
+                                            'type-assistance'
+                                        ),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes(
                                             'type-assistance'
                                         ),
@@ -358,14 +510,17 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link
-                            class="nav-link collapsed"
-                            :href="`/municipality`"
-                        >
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/municipality`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes('municipality'),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes('municipality'),
                                 }"
                                 >Municipality
@@ -373,11 +528,17 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" :href="`/barangay`">
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/barangay`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes('barangay'),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes('barangay'),
                                 }"
                                 >Barangay
@@ -385,11 +546,17 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" :href="`/sectors`">
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/sectors`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes('sectors'),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes('sectors'),
                                 }"
                                 >Sector
@@ -397,11 +564,17 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" :href="`/staff-admin`">
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/staff-admin`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes('staff-admin'),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes('staff-admin'),
                                 }"
                                 >Staff Administered
@@ -409,11 +582,17 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" :href="`/liaison`">
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/liaison`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes('liaison'),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes('liaison'),
                                 }"
                                 >Liaison
@@ -421,14 +600,17 @@ defineComponent({
                         </Link>
                     </li>
                     <li>
-                        <Link
-                            class="nav-link collapsed"
-                            :href="`/office-charges`"
-                        >
-                            <i class="bi bi-gear"></i>
+                        <Link class="nav-link" :href="`/office-charges`">
+                            <i
+                                class="bi bi-circle"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes('office-charges'),
+                                }"
+                            ></i>
                             <span
                                 :class="{
-                                    'text-primary':
+                                    'color-highlight':
                                         currentRoute.includes('office-charges'),
                                 }"
                                 >Office Charges
@@ -480,6 +662,83 @@ defineComponent({
                 </ul>
             </div>
         </ul>
+
+        <ul class="sidebar-nav" v-if="hasAccess(['user'])">
+            <!-- USER ROLE ACCESS -->
+            <li class="nav-heading">AICS</li>
+
+            <li class="nav-item">
+                <Link
+                    class="nav-link"
+                    :href="`/intake`"
+                    :class="{
+                        'bg-highlight': currentRoute.includes('intake'),
+                    }"
+                >
+                    <i
+                        class="bi bi-file-text"
+                        :class="{
+                            'color-highlight': currentRoute.includes('intake'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight': currentRoute.includes('intake'),
+                        }"
+                        >INTAKE SHEET</span
+                    >
+                </Link>
+            </li>
+            <li class="nav-item">
+                <Link
+                    class="nav-link"
+                    :href="`/monitoring`"
+                    :class="{
+                        'bg-highlight': currentRoute.includes('monitoring'),
+                    }"
+                >
+                    <i
+                        class="bi bi-receipt-cutoff"
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('monitoring'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('monitoring'),
+                        }"
+                        >MONITORING</span
+                    >
+                </Link>
+            </li>
+            <li class="nav-item">
+                <Link
+                    class="nav-link"
+                    :href="`/sectoral-data`"
+                    :class="{
+                        'bg-highlight': currentRoute.includes('sectoral-data'),
+                    }"
+                >
+                    <i
+                        class="bi bi-journal"
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('sectoral-data'),
+                        }"
+                    ></i>
+                    <span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('sectoral-data'),
+                        }"
+                        >SECTORAL DATA</span
+                    >
+                </Link>
+            </li>
+            <!-- END USER ROLE -->
+        </ul>
     </aside>
     <!-- End Sidebar-->
 
@@ -505,3 +764,17 @@ defineComponent({
         <i class="bi bi-arrow-up-short"></i>
     </a>
 </template>
+
+<style scoped>
+.sidebar-nav .bg-highlight {
+    background: #f6f9ff;
+}
+
+.sidebar-nav .color-highlight {
+    color: #4154f1;
+}
+
+.sidebar-nav .icon-highlight {
+    background-color: #4154f1;
+}
+</style>

@@ -13,7 +13,7 @@ Route::group([
         Route::get('/dashboard', function () {
             return inertia('Liaison/Dashboard');
         });
-        Route::get('/edit-liaison/{id}', function ($id) {
+        Route::get('/monitoring/edit/{id}', function ($id) {
             $monitoring = Monitoring::with(['user'])->findOrFail($id);
 
             return inertia('Liaison/EditLiaison', [

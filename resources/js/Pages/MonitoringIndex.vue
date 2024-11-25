@@ -178,7 +178,7 @@ watch(
                                     </Link>
                                     <!-- For LIAISON role button -->
                                     <Link
-                                        :href="`/liaison/edit-liaison/${data.id}`"
+                                        :href="`/liaison/monitoring/edit/${data.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['liaison'])"
                                         title="Edit"

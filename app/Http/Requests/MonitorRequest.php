@@ -29,6 +29,7 @@ class MonitorRequest extends FormRequest
             'client_type' => 'required',
             'amount' => 'required',
             'charges' => 'required',
+            'contact_no' => 'required',
             'staff_admin' => 'required',
             'liaison' => 'required',
             'status' => 'required'

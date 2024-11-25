@@ -97,6 +97,9 @@ const submitForm = async () => {
     if (sectoralForm.civil_status) {
         errors.civil_status = "";
     }
+    if (sectoralForm.fam_members) {
+        errors.fam_members = "";
+    }
 
     try {
         const response = await axios.post(
@@ -168,6 +171,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.sector,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.sector" class="text-danger">
@@ -351,6 +355,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.barangay,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.barangay" class="text-danger">{{
@@ -373,6 +378,7 @@ defineComponent({
                             :class="{
                                 'form-control is-invalid': errors.municipality,
                             }"
+                            placeholder="Select"
                         >
                         </v-select>
                         <small v-if="errors.municipality" class="text-danger">{{
