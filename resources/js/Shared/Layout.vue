@@ -329,7 +329,7 @@ defineComponent({
                     class="nav-link"
                     :href="`/monitoring`"
                     :class="{
-                        'color-highlight': currentRoute.includes('monitoring'),
+                        'bg-highlight': currentRoute.includes('monitoring'),
                     }"
                 >
                     <i

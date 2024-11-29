@@ -1,17 +1,64 @@
 <script setup>
 import LayoutApp from "@/Shared/Layout.vue";
-import { computed, defineProps } from "vue";
+import { computed, defineProps, defineComponent } from "vue";
 import { Link } from "@inertiajs/vue3";
+import axios from "axios";
+import vSelect from "vue-select";
+import { toast } from "vue3-toastify";
 
 const props = defineProps({
     monitoring: {
         type: Object,
         required: true,
     },
+    offices: {
+        type: Object,
+        required: true,
+    },
 });
+
+const submitData = async () => {
+    try {
+        const response = await axios.put(
+            `/liaison/monitoring/update/${props.monitoring.id}`,
+            props.monitoring
+        );
+
+        console.log("New record ID:", response.data.id);
+        toast.success("Record successfully updated.", {
+            autoClose: 1000,
+        });
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+
+            const errorMsg = error.response.data.error;
+            if (errorMsg) {
+                toast.error(errorMsg, {
+                    autoClose: 10000,
+                });
+            } else {
+                toast.error("Please fill in the blanks error!", {
+                    autoClose: 2000,
+                });
+            }
+        }
+
+        console.error("Error submitting form:", error);
+    }
+};
 
 const fullName = computed(() => {
     return `${props.monitoring.user.first_name} ${props.monitoring.user.last_name}`;
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -38,7 +85,7 @@ const fullName = computed(() => {
                 </div>
             </div>
             <div class="card-body">
-                <form class="row g-3 mt-3">
+                <form class="row g-3 mt-3" @submit.prevent="submitData">
                     <div class="col-md-6">
                         <label for="claimant">Claimant</label>
                         <input
@@ -232,13 +279,15 @@ const fullName = computed(() => {
                         <label for="status"
                             >Status<span class="text-danger">*</span></label
                         >
-                        <input
+                        <v-select
                             name="offices"
-                            class="form-control"
+                            :options="offices.data"
+                            :reduce="(data) => data.acronym"
                             id="offices"
-                            label="acronym"
                             v-model="monitoring.status"
-                        />
+                            label="acronym"
+                        >
+                        </v-select>
                     </div>
                     <div class="mt-4">
                         <button
