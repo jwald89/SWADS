@@ -395,7 +395,6 @@ defineComponent({
                             currentRoute.includes('barangay') ||
                             currentRoute.includes('sectors') ||
                             currentRoute.includes('staff-admin') ||
-                            currentRoute.includes('liaison') ||
                             currentRoute.includes('office-charges'),
                     }"
                 >
@@ -411,7 +410,6 @@ defineComponent({
                                 currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
                                 currentRoute.includes('staff-admin') ||
-                                currentRoute.includes('liaison') ||
                                 currentRoute.includes('office-charges'),
                         }"
                     ></i>
@@ -426,7 +424,6 @@ defineComponent({
                                 currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
                                 currentRoute.includes('staff-admin') ||
-                                currentRoute.includes('liaison') ||
                                 currentRoute.includes('office-charges'),
                         }"
                         >MAINTENANCE</span
@@ -443,7 +440,6 @@ defineComponent({
                                 currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
                                 currentRoute.includes('staff-admin') ||
-                                currentRoute.includes('liaison') ||
                                 currentRoute.includes('office-charges'),
                         }"
                     ></i>
@@ -459,7 +455,6 @@ defineComponent({
                             currentRoute.includes('barangay') ||
                             currentRoute.includes('sectors') ||
                             currentRoute.includes('staff-admin') ||
-                            currentRoute.includes('liaison') ||
                             currentRoute.includes('office-charges'),
                     }"
                     data-bs-parent="#sidebar-nav"
@@ -581,7 +576,7 @@ defineComponent({
                             </span>
                         </Link>
                     </li>
-                    <li>
+                    <!-- <li>
                         <Link class="nav-link" :href="`/liaison`">
                             <i
                                 class="bi bi-circle"
@@ -598,7 +593,7 @@ defineComponent({
                                 >Liaison
                             </span>
                         </Link>
-                    </li>
+                    </li> -->
                     <li>
                         <Link class="nav-link" :href="`/office-charges`">
                             <i
@@ -624,39 +619,165 @@ defineComponent({
             <div v-if="hasAccess(['admin'])">
                 <a
                     class="nav-link collapsed"
+                    :class="{
+                        'bg-highlight':
+                            currentRoute.includes('aics-coe-served') ||
+                            currentRoute.includes('aics-per-municipal') ||
+                            currentRoute.includes('aics-served-per-sectoral') ||
+                            currentRoute.includes('aics-per-sectoral-group'),
+                    }"
                     data-bs-target="#components-nav-3"
                     data-bs-toggle="collapse"
                 >
-                    <i class="bi bi-card-list"></i><span>REPORTS</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
+                    <i
+                        class="bi bi-card-list"
+                        :class="{
+                            'text-primary':
+                                currentRoute.includes('aics-coe-served') ||
+                                currentRoute.includes('aics-per-municipal') ||
+                                currentRoute.includes(
+                                    'aics-served-per-sectoral'
+                                ) ||
+                                currentRoute.includes(
+                                    'aics-per-sectoral-group'
+                                ),
+                        }"
+                    ></i
+                    ><span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes('aics-coe-served') ||
+                                currentRoute.includes('aics-per-municipal') ||
+                                currentRoute.includes(
+                                    'aics-served-per-sectoral'
+                                ) ||
+                                currentRoute.includes(
+                                    'aics-per-sectoral-group'
+                                ),
+                        }"
+                        >CHART REPORTS</span
+                    >
+                    <i
+                        class="bi bi-chevron-down ms-auto"
+                        :class="{
+                            'text-primary':
+                                currentRoute.includes('aics-coe-served') ||
+                                currentRoute.includes('aics-per-municipal') ||
+                                currentRoute.includes(
+                                    'aics-served-per-sectoral'
+                                ) ||
+                                currentRoute.includes(
+                                    'aics-per-sectoral-group'
+                                ),
+                        }"
+                    ></i>
                 </a>
                 <ul
                     id="components-nav-3"
                     class="nav-content collapse"
+                    :class="{
+                        show:
+                            currentRoute.includes('aics-coe-served') ||
+                            currentRoute.includes('aics-per-municipal') ||
+                            currentRoute.includes('aics-served-per-sectoral') ||
+                            currentRoute.includes('aics-per-sectoral-group'),
+                    }"
                     data-bs-parent="#sidebar-nav"
                 >
                     <li>
-                        <Link class="nav-link collapsed" href="#">
-                            <i class="bi bi-card-list"></i>
-                            <span>Intake Sheets & COE Served</span>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/aics-coe-served`"
+                        >
+                            <i
+                                class="bi bi-card-list"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes(
+                                            'aics-coe-served'
+                                        ),
+                                }"
+                            ></i>
+                            <span
+                                :class="{
+                                    'color-highlight':
+                                        currentRoute.includes(
+                                            'aics-coe-served'
+                                        ),
+                                }"
+                                >Intake Sheets & COE Served</span
+                            >
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" href="#">
-                            <i class="bi bi-card-list"></i>
-                            <span>AICS Per Municipality</span>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/aics-per-municipal`"
+                        >
+                            <i
+                                class="bi bi-card-list"
+                                :class="{
+                                    'icon-highlight':
+                                        currentRoute.includes(
+                                            'aics-per-municipal'
+                                        ),
+                                }"
+                            ></i>
+                            <span
+                                :class="{
+                                    'color-highlight':
+                                        currentRoute.includes(
+                                            'aics-per-municipal'
+                                        ),
+                                }"
+                                >AICS Per Municipality</span
+                            >
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" href="#">
-                            <i class="bi bi-card-list"></i>
-                            <span>AICS Served Per Sectoral Group</span>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/aics-served-per-sectoral`"
+                        >
+                            <i
+                                class="bi bi-card-list"
+                                :class="{
+                                    'icon-highlight': currentRoute.includes(
+                                        'aics-served-per-sectoral'
+                                    ),
+                                }"
+                            ></i>
+                            <span
+                                :class="{
+                                    'color-highlight': currentRoute.includes(
+                                        'aics-served-per-sectoral'
+                                    ),
+                                }"
+                                >AICS Served Per Sectoral Group</span
+                            >
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link collapsed" href="#">
-                            <i class="bi bi-card-list"></i>
-                            <span>AICS Per Sectoral Group</span>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`aics-per-sectoral-group`"
+                        >
+                            <i
+                                class="bi bi-card-list"
+                                :class="{
+                                    'icon-highlight': currentRoute.includes(
+                                        'aics-per-sectoral-group'
+                                    ),
+                                }"
+                            ></i>
+                            <span
+                                :class="{
+                                    'color-highlight': currentRoute.includes(
+                                        'aics-per-sectoral-group'
+                                    ),
+                                }"
+                                >AICS Per Sectoral Group</span
+                            >
                         </Link>
                     </li>
                 </ul>
@@ -750,7 +871,8 @@ defineComponent({
     <footer id="footer" class="footer">
         <div class="copyright">
             &copy; Copyright
-            <strong><span>Province of Surigao Del Sur</span></strong
+            <strong
+                ><span>Provincial Government of Surigao Del Sur</span></strong
             >. All Rights Reserved
         </div>
         <div class="credits">Developed by <a href="">PADMO-ITU</a></div>

@@ -41,7 +41,6 @@ const formatDate = (dateString) => {
 };
 
 defineComponent({
-    LayoutApp,
     Pagination,
 });
 
@@ -107,12 +106,15 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody
-                            class="text-center"
-                            v-for="(data, index) in monitoring.data"
-                            :key="index"
-                        >
-                            <tr>
+                        <tbody class="text-center">
+                            <tr
+                                v-for="(data, index) in monitoring.data"
+                                :key="index"
+                                :class="{
+                                    'bg-success': data.status === 'CLAIMED',
+                                    'text-light': data.status === 'CLAIMED',
+                                }"
+                            >
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ data.assistance_type }}</td>
                                 <td>
@@ -146,7 +148,7 @@ watch(
                                             .join(" ")
                                     }}
                                 </td>
-                                <td class="text-primary">
+                                <td>
                                     {{ formatDate(data.date_intake) }}
                                 </td>
                                 <td>{{ data.sector.name }}</td>
@@ -159,9 +161,39 @@ watch(
                                         }).format(data.amount)
                                     }}
                                 </td>
-
                                 <td
-                                    class="badge rounded-pill text-bg-warning mt-2"
+                                    v-if="data.status == 'PSWDO'"
+                                    class="bg-primary text-light fw-bold"
+                                >
+                                    {{ data.status }}
+                                </td>
+                                <td
+                                    v-if="data.status == 'PGO'"
+                                    class="badge rounded-pill text-bg-secondary mt-2"
+                                >
+                                    {{ data.status }}
+                                </td>
+                                <td
+                                    v-if="data.status == 'PBO'"
+                                    class="bg-info text-dark fw-bold"
+                                >
+                                    {{ data.status }}
+                                </td>
+                                <td
+                                    v-if="data.status == 'PACCO'"
+                                    class="bg-warning text-dark fw-bold"
+                                >
+                                    {{ data.status }}
+                                </td>
+                                <td
+                                    v-if="data.status == 'PTO'"
+                                    class="bg-light text-dark fw-bold"
+                                >
+                                    {{ data.status }}
+                                </td>
+                                <td
+                                    v-if="data.status == 'CLAIMED'"
+                                    class="fw-bold"
                                 >
                                     {{ data.status }}
                                 </td>

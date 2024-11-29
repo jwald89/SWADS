@@ -554,7 +554,7 @@ defineComponent({
                                         id="contactNo"
                                         name="contact_no"
                                         v-model="form.contact_no"
-                                        placeholder="Mobile number or Tel number"
+                                        placeholder="Enter a phone or mobile number.."
                                     />
                                 </div>
                                 <div class="col-md-2">

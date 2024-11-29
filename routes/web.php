@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\AssistanceType;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\IntakeController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\Admin\LiaisonController;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\Admin\BarangayController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\StaffAdminController;
 use App\Http\Controllers\Admin\MunicipalityController;
@@ -149,6 +149,15 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/office-charges/create', 'create')->name('office.create');
                 Route::post('/office-charges/post', 'store')->name('office.post');
     });
+
+    // Chart Reports
+    Route::controller(ReportController::class)
+        ->group(function() {
+            Route::get('/aics-coe-served', 'intakeSheetServed');
+            Route::get('/aics-per-municipal', 'perMunicipality');
+            Route::get('/aics-served-per-sectoral', 'servedPerSectoral');
+            Route::get('/aics-per-sectoral-group', 'perSectoral');
+        });
 });
 
 

@@ -1,6 +1,8 @@
 // import './bootstrap';
 import "vue-select/dist/vue-select.css";
 import "vue3-toastify/dist/index.css";
+import VueApexCharts from "vue3-apexcharts";
+
 import {
     createApp,
     h
@@ -24,9 +26,10 @@ createInertiaApp({
         plugin
     }) {
         createApp({
-                render: () => h(App, props)
+                render: () => h(App, props),
             })
             .use(plugin)
+            .use(VueApexCharts)
             .mount(el)
     },
 })

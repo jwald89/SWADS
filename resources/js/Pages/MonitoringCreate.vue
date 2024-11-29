@@ -258,6 +258,7 @@ defineComponent({
                             id="beneficiary"
                             v-model="monitorForm.beneficiary"
                             :class="{ 'is-invalid': errors.beneficiary }"
+                            placeholder="Enter a name.."
                         />
                         <small v-if="errors.beneficiary" class="text-danger">{{
                             errors.beneficiary
@@ -296,11 +297,12 @@ defineComponent({
                             ></label
                         >
                         <input
-                            class="form-control fw-bold"
+                            class="form-control"
                             name="contactNo"
                             id="contactNo"
                             v-model="monitorForm.contact_no"
                             :class="{ 'is-invalid': errors.contact_no }"
+                            placeholder="Enter a phone or mobile number.."
                         />
                         <small v-if="errors.contact_no" class="text-danger">{{
                             errors.contact_no
