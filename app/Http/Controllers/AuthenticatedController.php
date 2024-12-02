@@ -14,7 +14,7 @@ class AuthenticatedController extends Controller
     public function __invoke()
     {
         return match (true) {
-            auth()->user()->features()->active('liaison') => redirect()->to('/liaison/dashboard'),
+            auth()->user()->features()->active('liaison') => redirect()->to('/monitoring'),
             auth()->user()->features()->active('municipal') => redirect()->to('/municipal/dashboard'),
             auth()->user()->features()->active('user') => redirect()->to('/user/dashboard'),
             default => redirect()->to('/dashboard'),

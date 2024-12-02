@@ -1,22 +1,51 @@
 <script setup>
 import Layout from "../Shared/Layout.vue";
 import vSelect from "vue-select";
-import { defineComponent } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import axios from "axios";
+import { ref, watch } from "vue";
+import { usePage, Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     municipalities: {
         type: Object,
+        required: true,
     },
     sectors: {
         type: Object,
+        required: true,
     },
     months: {
         type: Object,
+        required: true,
     },
     data: {
         type: Object,
     },
+});
+
+const selectedSector = ref("All");
+const selectedMunicipal = ref("All");
+const filteredData = ref([...props.data]); // Initialize with prop data
+
+const filterData = async () => {
+    try {
+        const response = await axios.get(
+            `/api/sectoral-data/filter/${selectedSector.value.id || "*"}/${
+                selectedMunicipal.value.id || "*"
+            }`
+        );
+        console.log("API Response:", response.data);
+        filteredData.value = response.data;
+
+        console.log("Filtered value :", filteredData.value);
+    } catch (error) {
+        console.error("Error fetching filtered data:", error);
+    }
+};
+
+// Watch for changes in props.data and update filteredData accordingly
+watch([() => selectedSector.value.id, () => selectedMunicipal.value.id], () => {
+    filterData();
 });
 
 const page = usePage();
@@ -40,10 +69,6 @@ const formatDate = (dateString) => {
 
     return formattedDate;
 };
-
-defineComponent({
-    vSelect,
-});
 </script>
 
 <template>
@@ -78,18 +103,26 @@ defineComponent({
                         <label for="">Filter the sector type</label>
                         <v-select
                             class="fw-bold"
-                            :options="sectors.data"
-                            :reduce="(data) => data"
+                            :options="[
+                                { id: '*', name: 'All' },
+                                ...sectors.data,
+                            ]"
+                            v-model="selectedSector"
                             label="name"
+                            placeholder="All"
                         ></v-select>
                     </div>
                     <div class="col-md-3" v-if="hasAccess(['admin', 'user'])">
                         <label for="">Filter the municipality</label>
                         <v-select
                             class="fw-bold"
-                            :options="municipalities.data"
-                            :reduce="(data) => data"
+                            :options="[
+                                { id: '*', municipality: 'All' },
+                                ...municipalities.data,
+                            ]"
+                            v-model="selectedMunicipal"
                             label="municipality"
+                            placeholder="All"
                         ></v-select>
                     </div>
                     <div
@@ -98,7 +131,11 @@ defineComponent({
                     ></div>
                     <div class="col-md-2 offset-md-2">
                         <label for="">Month</label>
-                        <v-select class="fw-bold" :options="months"></v-select>
+                        <v-select
+                            class="fw-bold"
+                            :options="months"
+                            placeholder="All"
+                        ></v-select>
                     </div>
                     <div class="col-md-2">
                         <label for="">Year</label>
@@ -111,7 +148,7 @@ defineComponent({
                 </div>
 
                 <div class="table-responsive mt-5">
-                    <table class="table table-hover">
+                    <table class="table table-hover" v-if="filteredData.length">
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
@@ -126,7 +163,7 @@ defineComponent({
                         </thead>
                         <tbody
                             class="text-center"
-                            v-for="(sectoral, index) in data"
+                            v-for="(sectoral, index) in filteredData"
                             :key="index"
                         >
                             <tr>
@@ -196,6 +233,9 @@ defineComponent({
                             </tr>
                         </tbody>
                     </table>
+                    <div v-else class="text-center mt-5">
+                        <p>No data available for the selected filters.</p>
+                    </div>
                 </div>
             </div>
         </div>

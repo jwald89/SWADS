@@ -13,9 +13,9 @@ Route::group([
         EnsureFeaturesAreActive::using('liaison')]
     ],
     function () {
-        Route::get('/dashboard', function () {
-            return inertia('Liaison/Dashboard');
-        });
+        // Route::get('/dashboard', function () {
+        //     return inertia('Liaison/Dashboard');
+        // });
 
         Route::get('/monitoring/edit/{id}', function ($id) {
             $monitoring = Monitoring::with(['user'])->findOrFail($id);

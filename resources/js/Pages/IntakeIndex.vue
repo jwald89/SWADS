@@ -48,7 +48,6 @@ const getData = async () => {
 };
 
 defineComponent({
-    LayoutApp,
     Pagination,
 });
 

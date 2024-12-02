@@ -185,7 +185,7 @@ defineComponent({
             </li>
 
             <!-- Liaison Dashboard -->
-            <li class="nav-item" v-if="hasAccess(['liaison'])">
+            <!-- <li class="nav-item" v-if="hasAccess(['liaison'])">
                 <Link
                     class="nav-link"
                     :href="`/liaison/dashboard`"
@@ -209,7 +209,7 @@ defineComponent({
                         >DASHBOARD</span
                     >
                 </Link>
-            </li>
+            </li> -->
 
             <!-- Municipality Dashboard -->
             <li class="nav-item" v-if="hasAccess(['municipal'])">

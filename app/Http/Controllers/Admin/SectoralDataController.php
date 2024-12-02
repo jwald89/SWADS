@@ -10,6 +10,7 @@ use App\Enums\CivilStatus;
 use App\Enums\GenderTypes;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SectorResource;
@@ -30,7 +31,6 @@ class SectoralDataController extends Controller
             $data = Sectoral::with('sector','municipality')->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
                 $query->where('municipality', '=', Auth::user()->mun_id);
             })->get();
-
         }
 
         $municipalities = MunicipalityResource::collection(Municipality::all());
@@ -113,6 +113,27 @@ class SectoralDataController extends Controller
 
         return $sectoral;
     }
+
+
+    /**
+     * Filter the specified sector, municipality, month and year
+     */
+    public function filter($sector = '*', $municipality = '*')
+    {
+        $data = DB::table('sectorals')->select('id', 'sector', 'first_name', 'middle_name', 'last_name', 'age', 'birthdate', 'municipality', 'date_encoded');
+
+        if ($sector !== '*') {
+            $data->where('sector', $sector);
+        }
+
+        if ($municipality !== '*') {
+            $data->where('municipality', $municipality);
+        }
+
+         // Return the results as a JSON response
+         return response()->json($data->get());
+    }
+
 
     /**
      * Remove the specified resource from storage.

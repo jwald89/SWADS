@@ -111,8 +111,7 @@ watch(
                                 v-for="(data, index) in monitoring.data"
                                 :key="index"
                                 :class="{
-                                    'bg-success': data.status === 'CLAIMED',
-                                    'text-light': data.status === 'CLAIMED',
+                                    'bg-claimed': data.status === 'CLAIMED',
                                 }"
                             >
                                 <td>{{ index + 1 }}</td>
@@ -163,7 +162,7 @@ watch(
                                 </td>
                                 <td
                                     v-if="data.status == 'PSWDO'"
-                                    class="bg-primary text-light fw-bold"
+                                    class="bg-pswdo text-light fw-bold"
                                 >
                                     {{ data.status }}
                                 </td>
@@ -175,19 +174,19 @@ watch(
                                 </td>
                                 <td
                                     v-if="data.status == 'PBO'"
-                                    class="bg-info text-dark fw-bold"
+                                    class="bg-pbo text-dark fw-bold"
                                 >
                                     {{ data.status }}
                                 </td>
                                 <td
                                     v-if="data.status == 'PACCO'"
-                                    class="bg-warning text-dark fw-bold"
+                                    class="bg-pacco text-dark fw-bold"
                                 >
                                     {{ data.status }}
                                 </td>
                                 <td
                                     v-if="data.status == 'PTO'"
-                                    class="bg-light text-dark fw-bold"
+                                    class="bg-pto text-light fw-bold"
                                 >
                                     {{ data.status }}
                                 </td>
@@ -238,3 +237,25 @@ watch(
         </div>
     </LayoutApp>
 </template>
+
+<style scoped>
+.bg-claimed {
+    background: #a7ff83;
+}
+
+.bg-pswdo {
+    background: #ea7dc7;
+}
+
+.bg-pbo {
+    background: #f5eded;
+}
+
+.bg-pto {
+    background: #ee5a5a;
+}
+
+.bg-pacco {
+    background: #facf5a;
+}
+</style>
