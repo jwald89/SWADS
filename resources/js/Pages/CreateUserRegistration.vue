@@ -70,8 +70,9 @@ defineComponent({
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/user-registration/index"
+                            :href="`/user-registration/index`"
                         >
+                            <i class="bi bi-backspace"></i>
                             Back
                         </Link>
                     </div>
@@ -235,6 +236,7 @@ defineComponent({
                                 type="submit"
                                 class="btn btn-md btn-success"
                             >
+                                <i class="bi bi-save"></i>
                                 Save
                             </button>
                         </div>

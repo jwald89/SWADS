@@ -18,7 +18,7 @@ class SectorController extends Controller
         })->orderBy('created_at', 'DESC')
         ->paginate(10);
 
-        return inertia('Sector', [
+        return inertia('Admin/Sector', [
             'sectors' => $sectors,
             'search' => request()->search ?? ''
         ]);
@@ -29,7 +29,7 @@ class SectorController extends Controller
      */
     public function create()
     {
-        return inertia('CreateSector');
+        return inertia('Admin/CreateSector');
     }
 
     /**

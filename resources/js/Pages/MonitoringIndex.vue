@@ -168,7 +168,7 @@ watch(
                                 </td>
                                 <td
                                     v-if="data.status == 'PGO'"
-                                    class="badge rounded-pill text-bg-secondary mt-2"
+                                    class="bg-pgo text-light fw-bold"
                                 >
                                     {{ data.status }}
                                 </td>
@@ -244,7 +244,7 @@ watch(
 }
 
 .bg-pswdo {
-    background: #ea7dc7;
+    background: #c300ff;
 }
 
 .bg-pbo {
@@ -252,10 +252,14 @@ watch(
 }
 
 .bg-pto {
-    background: #ee5a5a;
+    background: #ff6200;
 }
 
 .bg-pacco {
-    background: #facf5a;
+    background: #ffbe0a;
+}
+
+.bg-pgo {
+    background: #2f89fc;
 }
 </style>

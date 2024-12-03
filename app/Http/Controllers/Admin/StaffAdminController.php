@@ -26,7 +26,7 @@ class StaffAdminController extends Controller
                 })->orderBy('created_at', 'DESC')
             ->paginate(10);
 
-        return inertia('StaffAdmin', [
+        return inertia('Admin/StaffAdmin', [
             'staff' => $data,
             'search' => request()->search ?? ''
         ]);
@@ -37,7 +37,7 @@ class StaffAdminController extends Controller
      */
     public function create()
     {
-        return inertia('CreateStaff');
+        return inertia('Admin/CreateStaff');
     }
 
     /**

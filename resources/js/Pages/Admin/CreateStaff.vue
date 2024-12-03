@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "../Shared/Layout.vue";
+import LayoutApp from "../../Shared/Layout.vue";
 import { reactive } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
@@ -8,13 +8,14 @@ import { Link } from "@inertiajs/vue3";
 const errors = reactive({});
 
 const data = reactive({
-    acronym: "",
-    description: "",
+    lastname: "",
+    firstname: "",
+    middlename: "",
 });
 
 const submitData = async () => {
     try {
-        const response = await axios.post("/office-charges/post", data);
+        const response = await axios.post("/staff-admin/post", data);
         toast.success("Successfully created!", {
             autoClose: 1000,
         });
@@ -44,13 +45,14 @@ const submitData = async () => {
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Office</h5>
+                        <h5 class="fw-bold">Create Staff</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/office-charges"
+                            :href="`/staff-admin`"
                         >
+                            <i class="bi bi-backspace"></i>
                             Back
                         </Link>
                     </div>
@@ -60,40 +62,55 @@ const submitData = async () => {
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
                         <label for=""
-                            >Acronym<span class="text-danger">*</span></label
+                            >Lastname<span class="text-danger">*</span></label
                         >
                         <input
                             type="text"
                             class="form-control form-control-md"
-                            name="acronym"
-                            id="acronym"
-                            v-model="data.acronym"
-                            :class="{ 'is-invalid': errors.acronym }"
+                            name="name"
+                            id="name"
+                            v-model="data.lastname"
+                            :class="{ 'is-invalid': errors.lastname }"
                         />
-                        <small v-if="errors.acronym" class="text-danger">{{
-                            errors.acronym
+                        <small v-if="errors.lastname" class="text-danger">{{
+                            errors.lastname
                         }}</small>
                     </div>
                     <div class="form-group mt-4 mb-4">
                         <label for=""
-                            >Description<span class="text-danger"
-                                >*</span
-                            ></label
+                            >Firstname<span class="text-danger">*</span></label
                         >
                         <input
                             type="text"
                             class="form-control form-control-md"
-                            name="description"
-                            id="description"
-                            v-model="data.description"
-                            :class="{ 'is-invalid': errors.description }"
+                            name="name"
+                            id="name"
+                            v-model="data.firstname"
+                            :class="{ 'is-invalid': errors.firstname }"
                         />
-                        <small v-if="errors.description" class="text-danger">{{
-                            errors.description
+                        <small v-if="errors.firstname" class="text-danger">{{
+                            errors.firstname
+                        }}</small>
+                    </div>
+                    <div class="form-group mt-4 mb-4">
+                        <label for=""
+                            >Middlename<span class="text-danger">*</span></label
+                        >
+                        <input
+                            type="text"
+                            class="form-control form-control-md"
+                            name="name"
+                            id="name"
+                            v-model="data.middlename"
+                            :class="{ 'is-invalid': errors.middlename }"
+                        />
+                        <small v-if="errors.middlename" class="text-danger">{{
+                            errors.middlename
                         }}</small>
                     </div>
                     <div class="float-end">
                         <button type="submit" class="btn btn-md btn-success">
+                            <i class="bi bi-save"></i>
                             Save
                         </button>
                     </div>

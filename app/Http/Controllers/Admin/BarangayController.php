@@ -25,7 +25,7 @@ class BarangayController extends Controller
                     })->orderBy('created_at', 'DESC')
                     ->paginate(10);
 
-        return inertia('Barangay', [
+        return inertia('Admin/Barangay', [
             'barangay' => $barangays,
             'search' => request()->search ?? ''
         ]);
@@ -40,7 +40,7 @@ class BarangayController extends Controller
 
         $municipality = MunicipalityResource::collection(Municipality::all());
 
-        return inertia('CreateBarangay', [
+        return inertia('Admin/CreateBarangay', [
             'municipality' => $municipality,
             'barangays' => $barangays
         ]);

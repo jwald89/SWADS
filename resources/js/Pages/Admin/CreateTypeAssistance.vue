@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "../Shared/Layout.vue";
+import LayoutApp from "../../Shared/Layout.vue";
 import { reactive } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
@@ -8,14 +8,12 @@ import { Link } from "@inertiajs/vue3";
 const errors = reactive({});
 
 const data = reactive({
-    lastname: "",
-    firstname: "",
-    middlename: "",
+    name: "",
 });
 
 const submitData = async () => {
     try {
-        const response = await axios.post("/liaison/post", data);
+        const response = await axios.post("/type-assistance/post", data);
         toast.success("Successfully created!", {
             autoClose: 1000,
         });
@@ -45,13 +43,14 @@ const submitData = async () => {
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Liaison</h5>
+                        <h5 class="fw-bold">Create Asssistance Type</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/liaison"
+                            :href="`/type-assistance`"
                         >
+                            <i class="bi bi-backspace"></i>
                             Back
                         </Link>
                     </div>
@@ -61,54 +60,23 @@ const submitData = async () => {
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
                         <label for=""
-                            >Lastname<span class="text-danger">*</span></label
+                            >Name<span class="text-danger">*</span></label
                         >
                         <input
                             type="text"
                             class="form-control form-control-md"
-                            name="lastname"
-                            id="lastname"
-                            v-model="data.lastname"
-                            :class="{ 'is-invalid': errors.lastname }"
+                            name="name"
+                            id="name"
+                            v-model="data.name"
+                            :class="{ 'is-invalid': errors.name }"
                         />
-                        <small v-if="errors.lastname" class="text-danger">{{
-                            errors.lastname
-                        }}</small>
-                    </div>
-                    <div class="form-group mt-4 mb-4">
-                        <label for=""
-                            >Firstname<span class="text-danger">*</span></label
-                        >
-                        <input
-                            type="text"
-                            class="form-control form-control-md"
-                            name="firstname"
-                            id="firstname"
-                            v-model="data.firstname"
-                            :class="{ 'is-invalid': errors.firstname }"
-                        />
-                        <small v-if="errors.firstname" class="text-danger">{{
-                            errors.firstname
-                        }}</small>
-                    </div>
-                    <div class="form-group mt-4 mb-4">
-                        <label for=""
-                            >Middlename<span class="text-danger">*</span></label
-                        >
-                        <input
-                            type="text"
-                            class="form-control form-control-md"
-                            name="middlename"
-                            id="middlename"
-                            v-model="data.middlename"
-                            :class="{ 'is-invalid': errors.middlename }"
-                        />
-                        <small v-if="errors.middlename" class="text-danger">{{
-                            errors.middlename
+                        <small v-if="errors.name" class="text-danger">{{
+                            errors.name
                         }}</small>
                     </div>
                     <div class="float-end">
                         <button type="submit" class="btn btn-md btn-success">
+                            <i class="bi bi-save"></i>
                             Save
                         </button>
                     </div>

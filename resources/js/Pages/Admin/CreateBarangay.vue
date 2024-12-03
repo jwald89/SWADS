@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "../Shared/Layout.vue";
+import LayoutApp from "../../Shared/Layout.vue";
 import { defineComponent, reactive } from "vue";
 import vSelect from "vue-select";
 import axios from "axios";
@@ -63,8 +63,9 @@ defineComponent({
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/barangay"
+                            :href="`/barangay`"
                         >
+                            <i class="bi bi-backspace"></i>
                             Back
                         </Link>
                     </div>
@@ -114,6 +115,7 @@ defineComponent({
                     </div>
                     <div class="float-end">
                         <button type="submit" class="btn btn-md btn-success">
+                            <i class="bi bi-save"></i>
                             Save
                         </button>
                     </div>

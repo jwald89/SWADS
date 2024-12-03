@@ -21,7 +21,7 @@ class OfficeChargesController extends Controller
         })->orderBy('created_at', 'DESC')
         ->paginate(10);
 
-        return inertia('OfficeCharges', [
+        return inertia('Admin/OfficeCharges', [
             'offices' => $offices,
             'search' => request()->saerch ?? ''
         ]);
@@ -32,7 +32,7 @@ class OfficeChargesController extends Controller
      */
     public function create()
     {
-        return inertia('CreateOffice');
+        return inertia('Admin/CreateOffice');
     }
 
     /**

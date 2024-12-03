@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "../Shared/Layout.vue";
+import LayoutApp from "../../Shared/Layout.vue";
 import { reactive } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
@@ -8,12 +8,12 @@ import { Link } from "@inertiajs/vue3";
 const errors = reactive({});
 
 const data = reactive({
-    name: "",
+    municipality: "",
 });
 
 const submitData = async () => {
     try {
-        const response = await axios.post("/sectors/post", data);
+        const response = await axios.post("/municipality/post", data);
         toast.success("Successfully created!", {
             autoClose: 1000,
         });
@@ -43,13 +43,14 @@ const submitData = async () => {
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Sector</h5>
+                        <h5 class="fw-bold">Create Municipality</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            href="/sectors"
+                            :href="`/municipality`"
                         >
+                            <i class="bi bi-backspace"></i>
                             Back
                         </Link>
                     </div>
@@ -59,22 +60,25 @@ const submitData = async () => {
                 <form @submit.prevent="submitData">
                     <div class="form-group mt-4 mb-4">
                         <label for=""
-                            >Name<span class="text-danger">*</span></label
+                            >Municipality<span class="text-danger"
+                                >*</span
+                            ></label
                         >
                         <input
                             type="text"
                             class="form-control form-control-md"
                             name="name"
                             id="name"
-                            v-model="data.name"
-                            :class="{ 'is-invalid': errors.name }"
+                            v-model="data.municipality"
+                            :class="{ 'is-invalid': errors.municipality }"
                         />
-                        <small v-if="errors.name" class="text-danger">{{
-                            errors.name
+                        <small v-if="errors.municipality" class="text-danger">{{
+                            errors.municipality
                         }}</small>
                     </div>
                     <div class="float-end">
                         <button type="submit" class="btn btn-md btn-success">
+                            <i class="bi bi-save"></i>
                             Save
                         </button>
                     </div>

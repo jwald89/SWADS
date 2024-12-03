@@ -17,7 +17,7 @@ class MunicipalityController extends Controller
             return $query->where('municipality', 'like', '%' . request()->search . '%');
         })->paginate(10);
 
-        return inertia('Municipality', [
+        return inertia('Admin/Municipality', [
             'municipality' => $data,
             'search' => request()->search ?? ''
         ]);
@@ -28,7 +28,7 @@ class MunicipalityController extends Controller
      */
     public function create()
     {
-        return inertia('CreateMunicipality');
+        return inertia('Admin/CreateMunicipality');
     }
 
     /**

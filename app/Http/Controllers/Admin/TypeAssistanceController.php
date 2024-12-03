@@ -17,7 +17,7 @@ class TypeAssistanceController extends Controller
             return $query->where('name', 'like', '%' . request()->search . '%');
         })->paginate(10);
 
-        return inertia('TypeAssistance', [
+        return inertia('Admin/TypeAssistance', [
             'assistanceType' => $assistanceType,
             'search' => request()->search ?? ''
         ]);
@@ -28,7 +28,7 @@ class TypeAssistanceController extends Controller
      */
     public function create()
     {
-        return inertia('CreateTypeAssistance');
+        return inertia('Admin/CreateTypeAssistance');
     }
 
     /**
