@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Enums\UserTypes;
 use App\Models\Sectoral;
 use App\Models\Monitoring;
 use Laravel\Sanctum\HasApiTokens;

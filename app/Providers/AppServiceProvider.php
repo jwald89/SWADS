@@ -32,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
         Feature::define('allowed-multiple-roles', fn (User $user) => $this->checkAccess($user, [
             UserTypes::IS_ADMIN->value, UserTypes::IS_USER->value,
         ]));
-
     }
 
 

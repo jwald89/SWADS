@@ -40,11 +40,11 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(UserRegisterController::class)
             ->group(function() {
                 Route::get('/user-registration/index', 'index')->name('user.index');
-                Route::get('/user-registration/create', 'createUser')->name('user.create')->middleware([EnsureFeaturesAreActive::using('administrator')]);
+                Route::get('/user-registration/create', 'create')->name('user.create');
                 Route::post('/user/post', 'store')->name('user.store');
                 Route::get('/user/edit/{id}', 'edit');
                 Route::put('/user/update/{id}', 'update');
-    });
+    })->middleware([EnsureFeaturesAreActive::using('administrator')]);
 
     // Intake Controller
     Route::controller(IntakeController::class)

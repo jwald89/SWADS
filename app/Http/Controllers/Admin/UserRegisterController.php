@@ -31,6 +31,8 @@ class UserRegisterController extends Controller
      * @var string
      */
 
+
+
     /**
      * Create a new controller instance.
      *
@@ -43,18 +45,18 @@ class UserRegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'last_name' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'middle_init' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'municipality' => 'required',
-            'role_type' => 'required'
-        ]);
-    }
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'last_name' => ['required', 'string', 'max:255'],
+    //         'first_name' => ['required', 'string', 'max:255'],
+    //         'middle_init' => ['required', 'string', 'max:255'],
+    //         'username' => ['required', 'string', 'max:255'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //         'municipality' => 'required',
+    //         'role_type' => 'required'
+    //     ]);
+    // }
 
 
     public function index()
@@ -83,7 +85,7 @@ class UserRegisterController extends Controller
     }
 
 
-    public function createUser()
+    public function create()
     {
         $municipality = MunicipalityResource::collection(Municipality::all());
 
@@ -134,7 +136,6 @@ class UserRegisterController extends Controller
     public function update(Request $request, $id)
     {
         $users = User::findOrFail($id);
-
         $users->update($request->all());
 
         return $users;

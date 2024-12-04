@@ -50,18 +50,18 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'last_name' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'middle_init' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'municipality' => 'required',
-            'role_type' => 'required'
-        ]);
-    }
+    // protected function validator(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'last_name' => ['required', 'string', 'max:255'],
+    //         'first_name' => ['required', 'string', 'max:255'],
+    //         'middle_init' => ['required', 'string', 'max:255'],
+    //         'username' => ['required', 'string', 'max:255'],
+    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
+    //         'municipality' => 'required',
+    //         'role_type' => 'required'
+    //     ]);
+    // }
 
     /**
      * Create a new user instance after a valid registration.
@@ -69,50 +69,48 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'luna_name' => $data['luna_name'],
-            'first_name' => $data['first_name'],
-            'middle_init' => $data['middle_init'],
-            'username' => $data['name'],
-            'password' => Hash::make($data['password']),
-            'municipality' => $data['municipality'],
-            'role_type' => $data['role_type'],
-            // 'email' => $data['email'],
-        ]);
-    }
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'luna_name' => $data['luna_name'],
+    //         'first_name' => $data['first_name'],
+    //         'middle_init' => $data['middle_init'],
+    //         'username' => $data['name'],
+    //         'password' => Hash::make($data['password']),
+    //         'municipality' => $data['municipality'],
+    //         'role_type' => $data['role_type'],
+    //     ]);
+    // }
 
-    public function index()
-    {
-        $municipality = MunicipalityResource::collection(Municipality::all());
+    // public function index()
+    // {
+    //     $municipality = MunicipalityResource::collection(Municipality::all());
 
-        return inertia('UserRegistration', [
-            'municipality' => $municipality,
-            'role_type' => UserTypes::names(),
-        ]);
-    }
+    //     return inertia('UserRegistration', [
+    //         'municipality' => $municipality,
+    //         'role_type' => UserTypes::names(),
+    //     ]);
+    // }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'middle_init' => 'required',
-            'username' => 'required',
-            'password' => 'required|string',
-            'municipality' => 'required',
-            'role_type' => 'required'
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'first_name' => 'required',
+    //         'last_name' => 'required',
+    //         'middle_init' => 'required',
+    //         'username' => 'required',
+    //         'password' => 'required|string',
+    //         'municipality' => 'required',
+    //         'role_type' => 'required'
+    //     ]);
 
-        // Hash the password directly
-        $hashedPassword = Hash::make($request->input('password'));
+    //     $hashedPassword = Hash::make($request->input('password'));
 
-        $userData = $request->all();
-        $userData['password'] = $hashedPassword;
+    //     $userData = $request->all();
+    //     $userData['password'] = $hashedPassword;
 
-        $user = User::create($userData);
+    //     $user = User::create($userData);
 
-        return response()->json($user, 201);
-    }
+    //     return response()->json($user, 201);
+    // }
 }

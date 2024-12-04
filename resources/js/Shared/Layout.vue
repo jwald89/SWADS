@@ -1,6 +1,5 @@
 <script setup>
-import { defineComponent, onMounted, ref } from "vue";
-import Dashboard from "../Pages/Dashboard.vue";
+import { onMounted, ref } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import axios from "axios";
 
@@ -33,11 +32,6 @@ const logout = () => {
 
 onMounted(() => {
     currentRoute.value = location.pathname;
-});
-
-defineComponent({
-    Dashboard,
-    Link,
 });
 </script>
 
@@ -73,7 +67,7 @@ defineComponent({
                         <i class="bi bi-person-circle"></i>
                         <span
                             class="d-none d-md-block dropdown-toggle ps-2 text-uppercase"
-                            >{{ page.props.first_name }}</span
+                            >{{ page.props.role_type }}</span
                         >
                     </a>
 
