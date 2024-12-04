@@ -51,7 +51,7 @@ class UserRegisterController extends Controller
             'middle_init' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'mun_id' => 'nullable',
+            'municipality' => 'required',
             'role_type' => 'required'
         ]);
     }
@@ -102,7 +102,7 @@ class UserRegisterController extends Controller
             'middle_init' => 'required',
             'username' => 'required',
             'password' => 'required|string',
-            'mun_id' => 'nullable',
+            'municipality' => 'required',
             'role_type' => 'required'
         ]);
 
@@ -115,5 +115,28 @@ class UserRegisterController extends Controller
         $user = User::create($userData);
 
         return response()->json($user, 201);
+    }
+
+
+    public function edit($id)
+    {
+        $users = User::find($id);
+        $municipality = MunicipalityResource::collection(Municipality::all());
+
+        return inertia('EditUser', [
+            'users' => $users,
+            'municipality' => $municipality,
+            'role_type' => UserTypes::names(),
+        ]);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $users = User::findOrFail($id);
+
+        $users->update($request->all());
+
+        return $users;
     }
 }

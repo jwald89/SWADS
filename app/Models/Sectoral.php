@@ -30,6 +30,6 @@ class Sectoral extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'municipality', 'mun_id');
+        return $this->belongsTo(User::class, 'municipality', 'municipality');
     }
 }

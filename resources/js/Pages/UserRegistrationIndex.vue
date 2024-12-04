@@ -55,7 +55,7 @@ watch(
                             class="btn btn-md btn-primary float-end"
                         >
                             <i class="bi bi-journal-plus"></i>
-                            Create New
+                            Add User
                         </Link>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ watch(
                                 </td>
                                 <td>
                                     <Link
-                                        href=""
+                                        :href="`/user/edit/${user.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         >Edit</Link
                                     >

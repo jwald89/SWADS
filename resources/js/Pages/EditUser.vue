@@ -1,36 +1,30 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { reactive } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
 import vSelect from "vue-select";
 import { Link } from "@inertiajs/vue3";
 
-defineProps({
+const props = defineProps({
+    users: {
+        type: Object,
+        required: true,
+    },
     municipality: {
         type: Object,
         required: true,
     },
 });
 
-const errors = reactive({});
-
-const userData = reactive({
-    last_name: "",
-    first_name: "",
-    middle_init: "",
-    username: "",
-    password: "",
-    municipality: "",
-    role_type: "",
-});
-
-const roleTypes = ["User", "Admin", "Liaison", "Municipal"];
+const roleTypes = ["USER", "ADMIN", "LIAISON", "MUNICIPAL"];
 
 const submitUserData = async () => {
     try {
-        const response = await axios.post("/user/post", userData);
-        toast.success("Successfully created!", {
+        const response = await axios.put(
+            `/user/update/${props.users.id}`,
+            props.users
+        );
+        toast.success("Record successfully updated!", {
             autoClose: 1000,
         });
     } catch (error) {
@@ -38,7 +32,7 @@ const submitUserData = async () => {
             const validationErrors = error.response.data.errors;
             for (const key in validationErrors) {
                 if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                    errors[key] = validationErrors[key][0];
                 }
             }
             toast.error("Please fill in the blanks error!", {
@@ -60,7 +54,7 @@ const submitUserData = async () => {
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create User</h5>
+                        <h5 class="fw-bold">Edit User</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
@@ -85,14 +79,8 @@ const submitUserData = async () => {
                                 class="form-control"
                                 name="last_name"
                                 id="last_name"
-                                v-model="userData.last_name"
-                                :class="{ 'is-invalid': errors.last_name }"
+                                v-model="users.last_name"
                             />
-                            <small
-                                v-if="errors.last_name"
-                                class="text-danger"
-                                >{{ errors.last_name }}</small
-                            >
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -105,14 +93,8 @@ const submitUserData = async () => {
                                 class="form-control"
                                 name="first_name"
                                 id="first_name"
-                                v-model="userData.first_name"
-                                :class="{ 'is-invalid': errors.first_name }"
+                                v-model="users.first_name"
                             />
-                            <small
-                                v-if="errors.first_name"
-                                class="text-danger"
-                                >{{ errors.first_name }}</small
-                            >
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -127,16 +109,8 @@ const submitUserData = async () => {
                                 class="form-control"
                                 name="middle_name"
                                 id="middle_name"
-                                v-model="userData.middle_init"
-                                :class="{
-                                    'is-invalid': errors.middle_init,
-                                }"
+                                v-model="users.middle_init"
                             />
-                            <small
-                                v-if="errors.middle_init"
-                                class="text-danger"
-                                >{{ errors.middle_init }}</small
-                            >
                         </div>
                     </div>
                     <hr width="70%" />
@@ -150,12 +124,8 @@ const submitUserData = async () => {
                                 class="form-control"
                                 name="username"
                                 id="username"
-                                v-model="userData.username"
-                                :class="{ 'is-invalid': errors.username }"
+                                v-model="users.username"
                             />
-                            <small v-if="errors.username" class="text-danger">{{
-                                errors.username
-                            }}</small>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -168,12 +138,8 @@ const submitUserData = async () => {
                                 class="form-control"
                                 name="password"
                                 id="password"
-                                v-model="userData.password"
-                                :class="{ 'is-invalid': errors.password }"
+                                v-model="users.password"
                             />
-                            <small v-if="errors.password" class="text-danger">{{
-                                errors.password
-                            }}</small>
                         </div>
                     </div>
                     <hr width="70%" />
@@ -193,18 +159,9 @@ const submitUserData = async () => {
                                 id="municipality"
                                 :options="municipality.data"
                                 :reduce="(data) => data.id"
-                                v-model="userData.municipality"
-                                :class="{
-                                    'is-invalid form-control':
-                                        errors.municipality,
-                                }"
+                                v-model="users.municipality"
                             >
                             </v-select>
-                            <small
-                                v-if="errors.municipality"
-                                class="text-danger"
-                                >{{ errors.municipality }}</small
-                            >
                         </div>
                     </div>
                     <div class="form-group mb-4">
@@ -223,8 +180,7 @@ const submitUserData = async () => {
                                 type="radio"
                                 :id="'role' + index"
                                 :value="role"
-                                v-model="userData.role_type"
-                                :class="{ 'is-invalid': errors.role_type }"
+                                v-model="users.role_type"
                             />
                             <label
                                 class="form-check-label"
@@ -233,16 +189,13 @@ const submitUserData = async () => {
                                 {{ role }}
                             </label>
                         </div>
-                        <small class="text-danger">{{
-                            errors.role_type
-                        }}</small>
                         <div class="float-end">
                             <button
                                 type="submit"
                                 class="btn btn-md btn-success"
                             >
                                 <i class="bi bi-save"></i>
-                                Save
+                                Update
                             </button>
                         </div>
                     </div>

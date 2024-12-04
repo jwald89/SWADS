@@ -58,7 +58,7 @@ class RegisterController extends Controller
             'middle_init' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'mun_id' => 'nullable',
+            'municipality' => 'required',
             'role_type' => 'required'
         ]);
     }
@@ -77,7 +77,7 @@ class RegisterController extends Controller
             'middle_init' => $data['middle_init'],
             'username' => $data['name'],
             'password' => Hash::make($data['password']),
-            'mun_id' => $data['mun_id'],
+            'municipality' => $data['municipality'],
             'role_type' => $data['role_type'],
             // 'email' => $data['email'],
         ]);
@@ -101,7 +101,7 @@ class RegisterController extends Controller
             'middle_init' => 'required',
             'username' => 'required',
             'password' => 'required|string',
-            'mun_id' => 'nullable',
+            'municipality' => 'required',
             'role_type' => 'required'
         ]);
 

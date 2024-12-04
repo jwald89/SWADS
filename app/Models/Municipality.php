@@ -14,7 +14,7 @@ class Municipality extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class, 'mun_id', 'id');
+        return $this->hasMany(User::class, 'municipality', 'id');
     }
 
     public function barangay()

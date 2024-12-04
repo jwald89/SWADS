@@ -29,7 +29,7 @@ class SectoralDataController extends Controller
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
             $data = Sectoral::with('sector','municipality')->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
-                $query->where('municipality', '=', Auth::user()->mun_id);
+                $query->where('municipality', '=', Auth::user()->municipality);
             })->get();
         }
 

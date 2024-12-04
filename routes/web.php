@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/user-registration/index', 'index')->name('user.index');
                 Route::get('/user-registration/create', 'createUser')->name('user.create')->middleware([EnsureFeaturesAreActive::using('administrator')]);
                 Route::post('/user/post', 'store')->name('user.store');
+                Route::get('/user/edit/{id}', 'edit');
+                Route::put('/user/update/{id}', 'update');
     });
 
     // Intake Controller

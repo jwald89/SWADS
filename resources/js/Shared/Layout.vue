@@ -71,9 +71,10 @@ defineComponent({
                         data-bs-toggle="dropdown"
                     >
                         <i class="bi bi-person-circle"></i>
-                        <span class="d-none d-md-block dropdown-toggle ps-2">{{
-                            page.props.role_type
-                        }}</span>
+                        <span
+                            class="d-none d-md-block dropdown-toggle ps-2 text-uppercase"
+                            >{{ page.props.first_name }}</span
+                        >
                     </a>
 
                     <ul

@@ -29,7 +29,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'mun_id',
+        'municipality',
         'role_type',
     ];
 
@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function municipality()
     {
-        return $this->belongsTo(Municipality::class, 'mun_id', 'id');
+        return $this->belongsTo(Municipality::class, 'municipality', 'id');
     }
 
     public function monitoring()
@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function sectoral()
     {
-        return $this->hasMany(Sectoral::class, 'mun_id', 'municipality');
+        return $this->hasMany(Sectoral::class, 'municipality', 'municipality');
     }
 
 }

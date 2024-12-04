@@ -44,6 +44,8 @@ class HandleInertiaRequests extends Middleware
             'gender' => GenderTypes::values(),
             'role_type' => auth()->user()?->role_type,
             'fullname' => auth()->user()?->last_name  . ', ' . auth()->user()?->first_name,
+            'first_name' => auth()->user()?->first_name,
+            'username' => auth()->user()?->username
         ]);
     }
 }
