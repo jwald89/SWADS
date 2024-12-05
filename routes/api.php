@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SectoralDataController;
 
@@ -24,4 +23,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/monitoring-records', [MonitoringController::class, 'getMonitoringRecords']);
 
 Route::get('/sectoral-data/filter/{sector?}/{municipality?}', [SectoralDataController::class, 'filter']);
-

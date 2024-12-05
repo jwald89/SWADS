@@ -15,20 +15,14 @@ class TypeAssistanceController extends Controller
     {
         $assistanceType = AssistanceType::when(request()->search !== '', function($query) {
             return $query->where('name', 'like', '%' . request()->search . '%');
-        })->paginate(10);
+        })
+        ->orderByDesc("created_at")
+        ->paginate(10);
 
         return inertia('Admin/TypeAssistance', [
             'assistanceType' => $assistanceType,
             'search' => request()->search ?? ''
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('Admin/CreateTypeAssistance');
     }
 
     /**
@@ -46,27 +40,37 @@ class TypeAssistanceController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    */
+    public function edit($id)
     {
-        //
+        $assistance = AssistanceType::find($id);
+
+        if (!$assistance) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        return response()->json($assistance, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $assistance = AssistanceType::find($id);
+
+        if (!$assistance) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        $assistance->update($request->all());
+
+        return $assistance;
     }
 
     /**

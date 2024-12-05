@@ -99,8 +99,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(TypeAssistanceController::class)
             ->group(function() {
                 Route::get('/type-assistance', 'index');
-                Route::get('/type-assistance/create', 'create')->name('assistance.create');
                 Route::post('/type-assistance/post', 'store')->name('assistance.post');
+                Route::get('/type-assistance/edit/{id}', 'edit');
+                Route::put('/type-assistance/edit/{id}', 'update')->name('assistance.update');
     });
 
     // Municipality Controller

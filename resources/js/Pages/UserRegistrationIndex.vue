@@ -3,6 +3,7 @@ import LayoutApp from "../Shared/Layout.vue";
 import { ref, watch } from "vue";
 import { debounce } from "lodash";
 import { Link, router } from "@inertiajs/vue3";
+import Pagination from "../components/Pagination.vue";
 
 const props = defineProps({
     users: {
