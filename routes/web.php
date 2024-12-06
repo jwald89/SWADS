@@ -125,8 +125,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(SectorController::class)
             ->group(function() {
                 Route::get('/sectors', 'index');
-                Route::get('/sectors/create', 'create')->name('sector.create');
                 Route::post('/sectors/post', 'store')->name('sector.post');
+                Route::get('/sectors/edit/{id}', 'edit');
+                Route::put('/sectors/edit/{id}', 'update');
     });
 
     // Staff Administrator Controller

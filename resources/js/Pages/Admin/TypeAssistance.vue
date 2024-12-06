@@ -35,7 +35,7 @@ const submitData = async () => {
     try {
         const response = await axios.post("/type-assistance/post", data);
 
-        props.assistanceType.data.unshift(response.data);
+        props.assistanceType.data.unshift(response.data); // update the data table after the submission
         toast.success("Successfully added!", {
             autoClose: 3000,
         });
