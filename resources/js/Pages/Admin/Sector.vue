@@ -206,7 +206,7 @@ watch(
                         style="background-color: #581b98"
                     >
                         <h1 class="modal-title fs-5" id="assistanceTypeLabel">
-                            Edit Assistance
+                            Edit Sector
                         </h1>
                         <button
                             type="button"

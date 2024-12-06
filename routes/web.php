@@ -134,8 +134,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(StaffAdminController::class)
             ->group(function() {
                 Route::get('/staff-admin', 'index');
-                Route::get('/staff-admin/create', 'create')->name('staff.create');
                 Route::post('/staff-admin/post', 'store')->name('staff.post');
+                Route::get('/staff-admin/edit/{id}', 'edit');
+                Route::put('/staff-admin/edit/{id}', 'update');
     });
 
     // Liaison Controller
