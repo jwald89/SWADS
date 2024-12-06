@@ -108,8 +108,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(MunicipalityController::class)
             ->group(function() {
                 Route::get('/municipality', 'index');
-                Route::get('/municipality/create', 'create')->name('municipality.create');
                 Route::post('/municipality/post', 'store')->name('municipality.post');
+                Route::get('/municipality/edit/{id}', 'edit');
+                Route::put('/municipality/edit/{id}', 'update')->name('municipality.update');
             });
 
     // Barangay Controller

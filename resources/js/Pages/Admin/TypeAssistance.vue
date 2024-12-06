@@ -97,8 +97,9 @@ const updateData = async () => {
         const index = props.assistanceType.data.findIndex(
             (item) => item.id === editData.id
         );
+
         if (index !== -1) {
-            props.assistanceType.data[index] = response.data.data;
+            props.assistanceType.data[index] = response.data;
         }
     } catch (error) {
         if (error.response && error.response.status === 422) {

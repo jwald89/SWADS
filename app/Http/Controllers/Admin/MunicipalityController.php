@@ -24,14 +24,6 @@ class MunicipalityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('Admin/CreateMunicipality');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -45,35 +37,39 @@ class MunicipalityController extends Controller
         return response()->json($data, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $municipality = Municipality::find($id);
+
+        if (!$municipality) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        return response()->json($municipality, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'municipality' => 'required',
+        ]);
+
+        $municipality = Municipality::find($id);
+
+        if (!$municipality) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        $municipality->update($request->all());
+
+        return $municipality;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
