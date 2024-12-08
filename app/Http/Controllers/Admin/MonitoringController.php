@@ -57,7 +57,7 @@ class MonitoringController extends Controller
         $sectors = SectorResource::collection(Sector::all());
         $admins = AdministerResource::collection(StaffAdministered::all());
         $liaisons = LiaisonResource::collection(Liaison::all());
-        $offices = OfficeResource::collection(Office::all());
+        $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
 
         return inertia('MonitoringCreate', [
@@ -65,7 +65,7 @@ class MonitoringController extends Controller
             'sectors' => $sectors,
             'admins' => $admins,
             'liaisons' => $liaisons,
-            'offices' => $offices,
+            'officeCharge' => $officeCharge,
             'status' => StatusType::names(),
             'users' => $users,
         ]);
@@ -95,14 +95,14 @@ class MonitoringController extends Controller
         $monitoring = Monitoring::with(['user', 'intake'])->findOrFail($id);
         $sectors = SectorResource::collection(Sector::all());
         $admins = AdministerResource::collection(StaffAdministered::all());
-        $offices = OfficeResource::collection(Office::all());
+        $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
 
         return inertia('EditMonitoring', [
             'dataMonitors' => $monitoring,
             'sectors' => $sectors,
             'admins' => $admins,
-            'offices' => $offices,
+            'officeCharge' => $officeCharge,
             'users' => $users
         ]);
     }

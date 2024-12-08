@@ -282,10 +282,10 @@ defineComponent({
                         <v-select
                             name="offices"
                             :options="offices.data"
-                            :reduce="(data) => data.acronym"
+                            :reduce="(data) => data.description"
                             id="offices"
                             v-model="monitoring.status"
-                            label="acronym"
+                            label="description"
                         >
                         </v-select>
                     </div>

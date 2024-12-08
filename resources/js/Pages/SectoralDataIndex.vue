@@ -229,6 +229,15 @@ const formatDate = (dateString) => {
                                         <i class="bi bi-eye"></i>
                                         <!-- Details -->
                                     </Link>
+                                    <Link
+                                        href=""
+                                        class="btn btn-sm btn-danger me-2"
+                                        v-if="hasAccess(['admin'])"
+                                        title="Delete"
+                                    >
+                                        <i class="bi bi-trash"></i>
+                                        <!-- Delete -->
+                                    </Link>
                                 </td>
                             </tr>
                         </tbody>

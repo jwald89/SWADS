@@ -42,6 +42,7 @@ const sectoralForm = reactive({
     sex: "",
     nationality: "",
     religion: "",
+    purok: "",
     barangay: "",
     municipality: "",
     birthdate: "",
@@ -49,7 +50,51 @@ const sectoralForm = reactive({
     civil_status: "",
     status: "",
     ISY_OSY: "",
+    ethnicity: "",
+    physical_disability: "",
+    contact_no: "",
+    fb_acct: "",
+    school_last_attended: "",
+    month_year: "",
+    skills: "",
+    interest_hobby: "",
+    work_exp: "",
+    org_membership: "",
+    fam_members: "",
+    position: "",
 });
+
+const resetForm = () => {
+    sectoralForm.sector = "";
+    sectoralForm.date_encoded = "";
+    sectoralForm.first_name = "";
+    sectoralForm.middle_name = "";
+    sectoralForm.last_name = "";
+    sectoralForm.age = "";
+    sectoralForm.sex = "";
+    sectoralForm.nationality = "";
+    sectoralForm.religion = "";
+    sectoralForm.purok = "";
+    sectoralForm.barangay = "";
+    sectoralForm.municipality = "";
+    sectoralForm.birthdate = "";
+    sectoralForm.place_birth = "";
+    sectoralForm.civil_status = "";
+    sectoralForm.status = "";
+    sectoralForm.ISY_OSY = "";
+    sectoralForm.ethnicity = "";
+    sectoralForm.physical_disability = "";
+    sectoralForm.contact_no = "";
+    sectoralForm.fb_acct = "";
+    sectoralForm.school_last_attended = "";
+    sectoralForm.month_year = "";
+    sectoralForm.skills = "";
+    sectoralForm.interest_hobby = "";
+    sectoralForm.work_exp = "";
+    sectoralForm.org_membership = "";
+    sectoralForm.fam_members = "";
+    sectoralForm.position = "";
+};
 
 const submitForm = async () => {
     if (sectoralForm.sector) {
@@ -112,6 +157,7 @@ const submitForm = async () => {
         });
 
         console.log("working..");
+        resetForm();
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;

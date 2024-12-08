@@ -152,8 +152,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(OfficeChargesController::class)
             ->group(function() {
                 Route::get('/office-charges', 'index');
-                Route::get('/office-charges/create', 'create')->name('office.create');
                 Route::post('/office-charges/post', 'store')->name('office.post');
+                Route::get('/office-charges/edit/{id}', 'edit');
+                Route::put('/office-charges/edit/{id}', 'update');
     });
 
     // Chart Reports

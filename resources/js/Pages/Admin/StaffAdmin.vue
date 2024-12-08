@@ -348,7 +348,7 @@ watch(
                             </button>
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-save"></i>
-                                Save
+                                Update
                             </button>
                         </div>
                     </form>

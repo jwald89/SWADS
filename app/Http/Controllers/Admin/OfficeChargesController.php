@@ -15,7 +15,6 @@ class OfficeChargesController extends Controller
     {
         $offices = Office::when(request()->search !== "", function($query) {
             return $query->whereAny([
-                'acronym',
                 'description'
             ], 'like', '%' . request()->search . '%');
         })->orderBy('created_at', 'DESC')
@@ -28,20 +27,11 @@ class OfficeChargesController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return inertia('Admin/CreateOffice');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'acronym' => 'required',
             'description' => 'required',
         ]);
 
@@ -51,27 +41,38 @@ class OfficeChargesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+     * Show the form for editing the specified resource.
+    */
+    public function edit($id)
     {
-        //
+        $officeCharge = Office::find($id);
+
+        if (!$officeCharge) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        return response()->json($officeCharge, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'description' => 'required',
+        ]);
+
+        $officeCharge = Office::find($id);
+
+        if (!$officeCharge) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        $officeCharge->update($request->all());
+
+        return $officeCharge;
     }
 
     /**

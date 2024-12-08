@@ -24,7 +24,7 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    offices: {
+    officeCharge: {
         type: Object,
         required: true,
     },
@@ -44,17 +44,16 @@ const filteredMonitors = ref([]); // Clone initial options
 // Monitor form reactive object
 const monitorForm = reactive({
     id: "",
+    claimant: "",
     beneficiary: "",
     sector: "",
     client_type: "",
     amount: "",
-    charges: "",
     staff_admin: "",
     liaison: "",
     status_date: "",
     remarks: "",
-    status: "",
-    claimant: "",
+    charges: "",
     age: "",
     gender: "",
     contact_no: "",
@@ -62,10 +61,12 @@ const monitorForm = reactive({
     municipality: "",
     assistance_type: "",
     date_intake: "",
+    status: "",
 });
 
 const resetForm = () => {
     // Clear all the fields by setting them to their initial empty values
+    monitorForm.claimant = "";
     monitorForm.beneficiary = "";
     monitorForm.sector = "";
     monitorForm.client_type = "";
@@ -75,7 +76,6 @@ const resetForm = () => {
     monitorForm.liaison = "";
     monitorForm.status_date = "";
     monitorForm.remarks = "";
-    monitorForm.claimant = "";
     monitorForm.age = "";
     monitorForm.gender = "";
     monitorForm.contact_no = "";
@@ -83,6 +83,7 @@ const resetForm = () => {
     monitorForm.municipality = "";
     monitorForm.assistance_type = "";
     monitorForm.date_intake = "";
+    monitorForm.staff_admin = "";
     monitorForm.status = "";
 };
 
@@ -161,8 +162,6 @@ const submitForm = async () => {
         // Clear the form after saving
         resetForm();
 
-        location.reload();
-
         console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
@@ -192,10 +191,6 @@ watch(claimant, function () {
 });
 
 onMounted(fetchMonitoringRecords);
-
-defineComponent({
-    vSelect,
-});
 </script>
 
 <template>
@@ -418,39 +413,19 @@ defineComponent({
                         <label for="charges"
                             >Charges<span class="text-danger">*</span></label
                         >
-                        <select
-                            type="text"
-                            class="form-control"
-                            id="charges"
+                        <v-select
                             name="charges"
+                            id="charges"
+                            :options="officeCharge.data"
                             v-model="monitorForm.charges"
-                            :class="{ 'is-invalid': errors.charges }"
-                        >
-                            <option value="" disabled>Select</option>
-                            <option value="PGO">PGO</option>
-                            <option value="PVGO">PVGO</option>
-                            <option value="SB">SB</option>
-                            <option value="SP">SP</option>
-                            <option value="CWS">CWS</option>
-                            <option value="PSWDO">PSWDO</option>
-                            <option value="PSWDO (Distaster)">
-                                PSWDO (Disaster)
-                            </option>
-                            <option value="PSWDO (Senior Citizen)">
-                                PSWDO (Senior Citizen)
-                            </option>
-                            <option value="PSWDO (PWD)">PSWDO (PWD)</option>
-                            <option value="PSWDO (Children)">
-                                PSWDO (Children)
-                            </option>
-                            <option value="PSWDO (GAD)">PSWDO (GAD)</option>
-                            <option value="PSWDO (E-CLIP)">
-                                PSWDO (E-CLIP)
-                            </option>
-                            <option value="PSWDO (Mentally ill)">
-                                PSWDO (Mentally ill)
-                            </option>
-                        </select>
+                            :reduce="(data) => data.description"
+                            label="description"
+                            :class="{
+                                'form-control is-invalid': errors.charges,
+                            }"
+                            placeholder="Select"
+                        ></v-select>
+
                         <small v-if="errors.charges" class="text-danger">{{
                             errors.charges
                         }}</small>
@@ -546,19 +521,22 @@ defineComponent({
                         <label for="status"
                             >Status<span class="text-danger">*</span></label
                         >
-                        <v-select
-                            name="offices"
-                            id="offices"
-                            :options="offices.data"
+                        <select
+                            type="text"
+                            class="form-control"
+                            id="status"
+                            name="status"
                             v-model="monitorForm.status"
-                            :reduce="(data) => data.acronym"
-                            label="acronym"
-                            :class="{
-                                'form-control is-invalid': errors.status,
-                            }"
-                            placeholder="Select"
+                            :class="{ 'is-invalid': errors.status }"
                         >
-                        </v-select>
+                            <option value="" disabled>Select</option>
+                            <option value="PSWDO">PSWDO</option>
+                            <option value="PGO">PGO</option>
+                            <option value="PBO">PBO</option>
+                            <option value="PACCO">PACCO</option>
+                            <option value="PTO">PTO</option>
+                            <option value="CLAIMED">CLAIMED</option>
+                        </select>
                         <small v-if="errors.status" class="text-danger">{{
                             errors.status
                         }}</small>

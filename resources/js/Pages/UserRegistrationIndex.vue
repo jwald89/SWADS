@@ -93,13 +93,19 @@ watch(
                                     <Link
                                         :href="`/user/edit/${user.id}`"
                                         class="btn btn-sm btn-primary me-2"
-                                        >Edit</Link
+                                        title="Edit"
                                     >
+                                        <i class="bi bi-pencil-square"></i>
+                                        <!-- Edit -->
+                                    </Link>
                                     <Link
                                         href=""
-                                        class="btn btn-sm btn-info me-2"
-                                        >Details</Link
+                                        class="btn btn-sm btn-danger me-2"
+                                        title="Delete"
                                     >
+                                        <i class="bi bi-trash"></i>
+                                        <!-- Delete -->
+                                    </Link>
                                 </td>
                             </tr>
                         </tbody>

@@ -16,7 +16,6 @@ class OfficeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'acronym' => $this->acronym,
             'description' => $this->description
         ];
     }

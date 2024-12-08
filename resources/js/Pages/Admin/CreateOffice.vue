@@ -8,7 +8,6 @@ import { Link } from "@inertiajs/vue3";
 const errors = reactive({});
 
 const data = reactive({
-    acronym: "",
     description: "",
 });
 
@@ -59,22 +58,6 @@ const submitData = async () => {
             </div>
             <div class="p-4">
                 <form @submit.prevent="submitData">
-                    <div class="form-group mt-4 mb-4">
-                        <label for=""
-                            >Acronym<span class="text-danger">*</span></label
-                        >
-                        <input
-                            type="text"
-                            class="form-control form-control-md"
-                            name="acronym"
-                            id="acronym"
-                            v-model="data.acronym"
-                            :class="{ 'is-invalid': errors.acronym }"
-                        />
-                        <small v-if="errors.acronym" class="text-danger">{{
-                            errors.acronym
-                        }}</small>
-                    </div>
                     <div class="form-group mt-4 mb-4">
                         <label for=""
                             >Description<span class="text-danger"
