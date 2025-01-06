@@ -1,15 +1,21 @@
 <script setup>
 import { inject } from "vue";
 
+const props = defineProps({
+    index: Number,
+});
+const tabIndex = 2;
 const errors = inject("formErrors");
 const form = inject("referralForm");
 const submitForm = inject("submitFormP3");
+const tabs = inject("tabs");
 </script>
 
 <template>
     <div
         class="tab-pane fade"
         id="circumstances-referral"
+        :class="{ show: index == tabIndex, active: index == tabIndex }"
         role="tabpanel"
         aria-labelledby="contact-tab"
     >
@@ -17,7 +23,6 @@ const submitForm = inject("submitFormP3");
             <div class="card">
                 <div class="card-body mt-4">
                     <form @submit.prevent="submitForm" class="row g-3">
-                        <label for="referral">Textarea:</label>
                         <textarea
                             class="form-control"
                             rows="5"
@@ -25,6 +30,7 @@ const submitForm = inject("submitFormP3");
                             name="referral"
                             v-model="form.content"
                             :class="{ 'is-invalid': errors.content }"
+                            placeholder="Enter a referrral.."
                         >
                 Circumstances/ Referral</textarea
                         >
@@ -33,8 +39,9 @@ const submitForm = inject("submitFormP3");
                         }}</small>
                         <div class="mt-4">
                             <button
+                                v-if="!tabs[tabIndex].saved"
                                 type="submit"
-                                class="btn btn-primary float-end"
+                                class="btn btn-success float-end"
                             >
                                 <i class="bi bi-save"></i>
                                 Save

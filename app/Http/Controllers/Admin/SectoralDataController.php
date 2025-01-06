@@ -28,9 +28,21 @@ class SectoralDataController extends Controller
 
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
-            $data = Sectoral::with('sector','municipality')->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
-                $query->where('municipality', '=', Auth::user()->municipality);
-            })->get();
+            $sectoral = Sectoral::with('sector', 'municipality')
+                ->when(request()->search !== '', function ($query) {
+                    $query->where(function ($query) {
+                        $query->where('sector', 'like', '%' . request()->search . '%')
+                            ->orWhere('first_name', 'like', '%' . request()->search . '%')
+                            ->orWhere('middle_name', 'like', '%' . request()->search . '%')
+                            ->orWhere('last_name', 'like', '%' . request()->search . '%');
+                    });
+                })
+                ->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
+                        $query->where('municipality', '=', Auth::user()->municipality);
+                })
+                ->orderBy('created_at', 'DESC')
+                ->paginate(1);
+                // ->get();
         }
 
         $municipalities = MunicipalityResource::collection(Municipality::all());
@@ -40,7 +52,8 @@ class SectoralDataController extends Controller
             'municipalities' => $municipalities,
             'sectors' => $sectors,
             'months' => Month::names(),
-            'data' => $data
+            'sectoral' => $sectoral,
+            'search' => request()->search ?? ''
         ]);
     }
 

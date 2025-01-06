@@ -19,7 +19,7 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    offices: {
+    officeCharge: {
         type: Object,
         required: true,
     },
@@ -257,37 +257,14 @@ defineComponent({
                         <label for="charges"
                             >Charges<span class="text-danger">*</span></label
                         >
-                        <select
-                            type="text"
-                            class="form-control"
-                            id="charges"
-                            name="charges"
+                        <v-select
+                            name="officeCharge"
+                            :options="officeCharge.data"
+                            :reduce="(data) => data.description"
+                            id="officeCharge"
                             v-model="dataMonitors.charges"
-                        >
-                            <option value="PGO">PGO</option>
-                            <option value="PVGO">PVGO</option>
-                            <option value="SB">SB</option>
-                            <option value="SP">SP</option>
-                            <option value="CWS">CWS</option>
-                            <option value="PSWDO">PSWDO</option>
-                            <option value="PSWDO (Distaster)">
-                                PSWDO (Disaster)
-                            </option>
-                            <option value="PSWDO (Senior Citizen)">
-                                PSWDO (Senior Citizen)
-                            </option>
-                            <option value="PSWDO (PWD)">PSWDO (PWD)</option>
-                            <option value="PSWDO (Children)">
-                                PSWDO (Children)
-                            </option>
-                            <option value="PSWDO (GAD)">PSWDO (GAD)</option>
-                            <option value="PSWDO (E-CLIP)">
-                                PSWDO (E-CLIP)
-                            </option>
-                            <option value="PSWDO (Mentally ill)">
-                                PSWDO (Mentally ill)
-                            </option>
-                        </select>
+                            label="description"
+                        ></v-select>
                     </div>
                     <div class="col-md-3">
                         <label for="intakeDate">Date of Intake</label>
@@ -362,15 +339,20 @@ defineComponent({
                         <label for="status"
                             >Status<span class="text-danger">*</span></label
                         >
-                        <v-select
-                            name="offices"
-                            :options="offices.data"
-                            :reduce="(data) => data.description"
-                            id="offices"
+                        <select
+                            type="text"
+                            class="form-control"
+                            id="status"
+                            name="status"
                             v-model="dataMonitors.status"
-                            label="description"
                         >
-                        </v-select>
+                            <option value="PSWDO">PSWDO</option>
+                            <option value="PGO">PGO</option>
+                            <option value="PBO">PBO</option>
+                            <option value="PACCO">PACCO</option>
+                            <option value="PTO">PTO</option>
+                            <option value="CLAIMED">CLAIMED</option>
+                        </select>
                     </div>
                     <div class="mt-4">
                         <button

@@ -19,7 +19,6 @@ const intakes = inject("intakeData");
                         v-for="referrals in intakes.referral"
                         :key="referrals.id"
                     >
-                        <label for="referral">Textarea:</label>
                         <textarea
                             class="form-control"
                             rows="5"
@@ -31,7 +30,7 @@ const intakes = inject("intakeData");
                         <div class="mt-4">
                             <button
                                 type="submit"
-                                class="btn btn-primary float-end"
+                                class="btn btn-success float-end"
                             >
                                 <i class="bi bi-save"></i>
                                 Update

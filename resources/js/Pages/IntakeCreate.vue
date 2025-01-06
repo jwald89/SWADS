@@ -9,6 +9,21 @@ import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { toast } from "vue3-toastify";
 
+const tabs = ref([
+    {
+        saved: false,
+    },
+    {
+        saved: false,
+    },
+    {
+        saved: false,
+    },
+    {
+        saved: false,
+    },
+]);
+
 // initialize the data from the Personal Information model
 const personalForm = reactive({
     classification: "",
@@ -35,6 +50,7 @@ const personalForm = reactive({
 // initialize error in form submission
 const errors = reactive({});
 const modalError = ref("");
+const currentIndex = ref(0);
 
 // create a store method for Personal Information form
 const submitPersonalDetails = async () => {
@@ -90,7 +106,8 @@ const submitPersonalDetails = async () => {
             personalForm
         );
         console.log("New record ID:", response.data.id);
-        toast.success("Successfully updated.", {
+        nextTab();
+        toast.success("Successfully added.", {
             autoClose: 1000,
         });
         localStorage.setItem("applicant_id", response.data.id);
@@ -125,6 +142,12 @@ const submitPersonalDetails = async () => {
 // inherit the code to the child file
 provide("personalData", personalForm);
 provide("submitFormP1", submitPersonalDetails);
+provide("tabs", tabs.value);
+
+const nextTab = () => {
+    tabs.value[currentIndex.value].saved = true;
+    currentIndex.value++;
+};
 
 // initialize the data from the Family Compositions model
 const familyForm = reactive({
@@ -167,7 +190,7 @@ const submitFamCompositions = async () => {
         familyForm.applicant_id = applicantId;
 
         const response = await axios.post("/intake/create-post/p2", familyForm);
-        toast.success("Successfully updated.", {
+        toast.success("Successfully added.", {
             autoClose: 2000,
         });
 
@@ -179,7 +202,6 @@ const submitFamCompositions = async () => {
         localStorage.setItem("relationship", familyForm.relationship);
         localStorage.setItem("educ_attainment", familyForm.educ_attainment);
         localStorage.setItem("remarks", familyForm.remarks);
-
         console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
@@ -218,9 +240,10 @@ const submitRef = async () => {
         refForm.applicant_id = applicantId;
 
         const response = await axios.post("/intake/create-post/p3", refForm);
-        toast.success("Successfully updated.", {
+        toast.success("Successfully added.", {
             autoClose: 200,
         });
+        nextTab();
         console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
@@ -259,11 +282,14 @@ const submitRem = async () => {
         remForm.applicant_id = applicantId;
 
         await axios.post("/intake/create-post/p4", remForm);
-        toast.success("Successfully updated.", {
+        toast.success("Successfully added.", {
             autoClose: 200,
         });
         localStorage.clear();
+        nextTab();
         console.log("working..");
+
+        window.location.href = "/intake";
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
@@ -372,7 +398,10 @@ defineComponent({
                 >
                     <li class="nav-item flex-fill" role="presentation">
                         <button
-                            class="nav-link w-100 active"
+                            class="nav-link w-100"
+                            :class="{
+                                active: currentIndex == 0,
+                            }"
                             id="home-tab"
                             data-bs-toggle="tab"
                             data-bs-target="#identifying-data"
@@ -388,6 +417,9 @@ defineComponent({
                         <button
                             class="nav-link w-100"
                             id="profile-tab"
+                            :class="{
+                                active: currentIndex == 1,
+                            }"
                             data-bs-toggle="tab"
                             data-bs-target="#family-composition"
                             type="button"
@@ -402,6 +434,9 @@ defineComponent({
                         <button
                             class="nav-link w-100"
                             id="contact-tab"
+                            :class="{
+                                active: currentIndex == 2,
+                            }"
                             data-bs-toggle="tab"
                             data-bs-target="#circumstances-referral"
                             type="button"
@@ -416,6 +451,9 @@ defineComponent({
                         <button
                             class="nav-link w-100"
                             id="contact-tab"
+                            :class="{
+                                active: currentIndex == 3,
+                            }"
                             data-bs-toggle="tab"
                             data-bs-target="#remarks-recommendation"
                             type="button"
@@ -429,15 +467,19 @@ defineComponent({
                 </ul>
                 <div class="tab-content pt-2" id="borderedTabJustifiedContent">
                     <IntakeCreateP1
+                        :index="currentIndex"
                         :assistances="assistances"
                         :civilStatus="civilStatus"
                         :municipality="municipality"
                         :barangays="barangays"
                         :gender="gender"
                     />
-                    <IntakeCreateP2 />
-                    <IntakeCreateP3 />
-                    <IntakeCreateP4 />
+                    <IntakeCreateP2
+                        @incrementIndex="nextTab"
+                        :index="currentIndex"
+                    />
+                    <IntakeCreateP3 :index="currentIndex" />
+                    <IntakeCreateP4 :index="currentIndex" />
                 </div>
             </div>
         </div>

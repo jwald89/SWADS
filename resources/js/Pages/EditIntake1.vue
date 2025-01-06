@@ -410,7 +410,7 @@ defineComponent({
                                 <div class="mt-4">
                                     <button
                                         type="submit"
-                                        class="btn btn-primary float-end"
+                                        class="btn btn-success float-end"
                                         @click="submitForm"
                                     >
                                         <i class="bi bi-save"></i>

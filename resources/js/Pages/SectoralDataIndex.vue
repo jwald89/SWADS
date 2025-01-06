@@ -2,8 +2,10 @@
 import Layout from "../Shared/Layout.vue";
 import vSelect from "vue-select";
 import axios from "axios";
-import { ref, watch } from "vue";
-import { usePage, Link } from "@inertiajs/vue3";
+import { ref, watch, defineComponent } from "vue";
+import { usePage, Link, router } from "@inertiajs/vue3";
+import { debounce } from "lodash";
+import Pagination from "../components/Pagination.vue";
 
 const props = defineProps({
     municipalities: {
@@ -18,14 +20,23 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    data: {
+    sectoral: {
         type: Object,
+        required: true,
+    },
+    search: {
+        type: String,
+        default: "",
     },
 });
 
+const search = ref(props.search || "");
+
 const selectedSector = ref("All");
 const selectedMunicipal = ref("All");
-const filteredData = ref([...props.data]); // Initialize with prop data
+// const filteredData = ref([...props.sectoral]);
+// const filteredData = ref(props.sectoral.data);
+// const sectoral = ref(props.sectoral.data);
 
 const filterData = async () => {
     try {
@@ -35,18 +46,21 @@ const filterData = async () => {
             }`
         );
         console.log("API Response:", response.data);
-        filteredData.value = response.data;
+        sectoral.value = response.data;
 
-        console.log("Filtered value :", filteredData.value);
+        console.log("Filtered value :", sectoral.value);
     } catch (error) {
         console.error("Error fetching filtered data:", error);
     }
 };
 
 // Watch for changes in props.data and update filteredData accordingly
-watch([() => selectedSector.value.id, () => selectedMunicipal.value.id], () => {
-    filterData();
-});
+watch(
+    [(() => selectedSector.value.id, () => selectedMunicipal.value.id)],
+    () => {
+        filterData();
+    }
+);
 
 const page = usePage();
 
@@ -69,6 +83,20 @@ const formatDate = (dateString) => {
 
     return formattedDate;
 };
+
+defineComponent({
+    Pagination,
+});
+
+watch(
+    search,
+    debounce(() => {
+        router.visit(`/sectoral-data?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    }, 500)
+);
 </script>
 
 <template>
@@ -98,57 +126,91 @@ const formatDate = (dateString) => {
                 </div>
             </div>
             <div class="card-body p-4 m-2">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label for="">Filter the sector type</label>
-                        <v-select
-                            class="fw-bold"
-                            :options="[
-                                { id: '*', name: 'All' },
-                                ...sectors.data,
-                            ]"
-                            v-model="selectedSector"
-                            label="name"
-                            placeholder="All"
-                        ></v-select>
+                <div class="d-flex justify-around">
+                    <div class="col-lg-6">
+                        <button
+                            class="btn btn-primary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample"
+                            aria-expanded="false"
+                            aria-controls="collapseExample"
+                        >
+                            <i class="bi bi-filter-circle"></i>
+                            Filter Column
+                        </button>
                     </div>
-                    <div class="col-md-3" v-if="hasAccess(['admin', 'user'])">
-                        <label for="">Filter the municipality</label>
-                        <v-select
-                            class="fw-bold"
-                            :options="[
-                                { id: '*', municipality: 'All' },
-                                ...municipalities.data,
-                            ]"
-                            v-model="selectedMunicipal"
-                            label="municipality"
-                            placeholder="All"
-                        ></v-select>
+                    <div class="col-lg-6">
+                        <input
+                            type="text"
+                            v-model="search"
+                            class="form-control border border-dark"
+                            autofocus
+                            placeholder="Search here.."
+                        />
                     </div>
-                    <div
-                        class="div col-md-3"
-                        v-if="hasAccess(['municipal'])"
-                    ></div>
-                    <div class="col-md-2 offset-md-2">
-                        <label for="">Month</label>
-                        <v-select
-                            class="fw-bold"
-                            :options="months"
-                            placeholder="All"
-                        ></v-select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="">Year</label>
-                        <select name="" id="" class="form-select">
-                            <option value="2024">2024</option>
-                            <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                        </select>
+                </div>
+                <div class="collapse mt-2" id="collapseExample">
+                    <div class="card card-body p-4">
+                        <!-- FILTER DIVISION -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="">Filter the sector type</label>
+                                <v-select
+                                    class="fw-bold"
+                                    :options="[
+                                        { id: '*', name: 'All' },
+                                        ...sectors.data,
+                                    ]"
+                                    v-model="selectedSector"
+                                    label="name"
+                                    placeholder="All"
+                                ></v-select>
+                            </div>
+                            <div
+                                class="col-md-3"
+                                v-if="hasAccess(['admin', 'user'])"
+                            >
+                                <label for="">Filter the municipality</label>
+                                <v-select
+                                    class="fw-bold"
+                                    :options="[
+                                        { id: '*', municipality: 'All' },
+                                        ...municipalities.data,
+                                    ]"
+                                    v-model="selectedMunicipal"
+                                    label="municipality"
+                                    placeholder="All"
+                                ></v-select>
+                            </div>
+                            <div
+                                class="div col-md-3"
+                                v-if="hasAccess(['municipal'])"
+                            ></div>
+                            <div class="col-md-2 offset-md-2">
+                                <label for="">Month</label>
+                                <v-select
+                                    class="fw-bold"
+                                    :options="months"
+                                    placeholder="All"
+                                ></v-select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="">Year</label>
+                                <select name="" id="" class="form-select">
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- END FILTER DIVISION -->
                     </div>
                 </div>
 
                 <div class="table-responsive mt-5">
-                    <table class="table table-hover" v-if="filteredData.length">
+                    <!-- <table class="table table-hover" v-if="sectoral.length"> -->
+                    <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
@@ -161,9 +223,14 @@ const formatDate = (dateString) => {
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <!-- <tbody
+                            class="text-center"
+                            v-for="(sectoral, index) in sectoral.data"
+                            :key="index"
+                        > -->
                         <tbody
                             class="text-center"
-                            v-for="(sectoral, index) in filteredData"
+                            v-for="(sectoral, index) in sectoral.data"
                             :key="index"
                         >
                             <tr>
@@ -242,9 +309,10 @@ const formatDate = (dateString) => {
                             </tr>
                         </tbody>
                     </table>
-                    <div v-else class="text-center mt-5">
+                    <!-- <div v-else class="text-center mt-5">
                         <p>No data available for the selected filters.</p>
-                    </div>
+                    </div> -->
+                    <pagination :records="sectoral" :link="sectoral.path" />
                 </div>
             </div>
         </div>

@@ -5,8 +5,10 @@ import vSelect from "vue-select";
 const form = inject("personalData");
 const submitForm = inject("submitFormP1");
 const errors = inject("formErrors");
+const tabs = inject("tabs");
+const tabIndex = 0;
 
-defineProps({
+const props = defineProps({
     assistances: {
         type: Object,
         required: true,
@@ -28,6 +30,7 @@ defineProps({
         required: true,
     },
     errors: Object,
+    index: Number,
 });
 
 const birthdate = ref(form.birthdate);
@@ -62,8 +65,9 @@ defineComponent({
 
 <template>
     <div
-        class="tab-pane fade show active"
+        class="tab-pane fade"
         id="identifying-data"
+        :class="{ show: index == tabIndex, active: index == tabIndex }"
         role="tabpanel"
         aria-labelledby="home-tab"
     >
@@ -580,8 +584,9 @@ defineComponent({
 
                                 <div class="mt-4">
                                     <button
+                                        v-if="!tabs[tabIndex].saved"
                                         type="submit"
-                                        class="btn btn-primary float-end"
+                                        class="btn btn-success float-end"
                                     >
                                         <i class="bi bi-save"></i>
                                         Save

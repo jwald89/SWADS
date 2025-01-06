@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Inertia\Inertia;
 use App\Models\Remark;
 use App\Models\Barangay;
 use App\Models\Referral;
@@ -16,8 +17,8 @@ use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IntakeRequest;
-use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BarangayResource;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\AssistanceResource;
@@ -112,7 +113,6 @@ class IntakeController extends Controller
         ]);
 
         $userId = Auth::id();
-        // $referrals = Referral::create($request->all());
         $referrals = Referral::create(
             array_merge($request->all(), ['created_by' => $userId])
         );
@@ -131,7 +131,6 @@ class IntakeController extends Controller
         ]);
 
         $userId = Auth::id();
-        // $remarks = Remark::create($request->all());
         $remarks = Remark::create(
             array_merge($request->all(), ['created_by' => $userId])
         );

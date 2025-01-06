@@ -18,7 +18,6 @@ use App\Http\Requests\MonitorRequest;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\LiaisonResource;
-use Illuminate\Contracts\Queue\Monitor;
 use App\Http\Resources\AdministerResource;
 use App\Http\Resources\PersonalDetailResource;
 
@@ -26,10 +25,11 @@ class MonitoringController extends Controller
 {
     public function index()
     {
-        // $monitoringData = null;
 
-        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
-            $monitoringData = Monitoring::with(['intake', 'sector'])->when(request()->search !== '', function ($query) {
+        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON')
+        {
+            $monitoringData = Monitoring::with(['intake', 'sector'])
+                ->when(request()->search !== '', function ($query) {
                     $query->where(function ($query) {
                         $query->where('claimant', 'like', '%' . request()->search . '%')
                               ->orWhere('assistance_type', 'like', '%' . request()->search . '%')
@@ -42,7 +42,7 @@ class MonitoringController extends Controller
                     $query->where('liaison', '=', Auth::user()->id);
                 })
                 ->orderBy('created_at', 'DESC')
-                ->paginate(10);
+                ->paginate(2);
         }
 
         return inertia('MonitoringIndex', [

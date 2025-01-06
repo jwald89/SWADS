@@ -3,10 +3,18 @@ import { inject, ref, onMounted } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
 
+const props = defineProps({
+    index: Number,
+});
 // Inject the existing states and methods from the parent component
 const errors = inject("formErrors");
 const form = inject("familyComposition");
 const submitForm = inject("submitFormP2"); // Existing form submission method for validation
+const tabs = inject("tabs");
+const selectedMember = ref(0);
+const tabIndex = 1;
+
+const emit = defineEmits(["incrementIndex"]);
 
 // Ref to hold the list of family compositions from localStorage
 const familyList = ref([]);
@@ -28,6 +36,7 @@ const resetForm = () => {
     form.relationship = "";
     form.educ_attainment = "";
     form.remarks = "";
+    form.isEditMode = false;
 };
 
 // Save the form data to local storage
@@ -145,7 +154,7 @@ const finalSubmit = async () => {
         toast.success("Successfully submitted to the database!", {
             autoClose: 2000,
         });
-
+        emit("incrementIndex", props.index);
         console.log("Data successfully stored in the database:", response.data);
     } catch (error) {
         toast.error("Failed to submit data. Please try again.", {
@@ -153,6 +162,43 @@ const finalSubmit = async () => {
         });
         console.error("Error submitting to the database:", error);
     }
+};
+
+const handleModifyFamilyMember = (member) => {
+    selectedMember.value = member;
+    form.lastname = familyList.value[member].lastname;
+    form.firstname = familyList.value[member].firstname;
+    form.middlename = familyList.value[member].middlename;
+    form.age = familyList.value[member].age;
+    form.relationship = familyList.value[member].relationship;
+    form.educ_attainment = familyList.value[member].educ_attainment;
+    form.remarks = familyList.value[member].remarks;
+    form.isEditMode = true;
+};
+
+const handleRemoveFamilyMember = (member) => {
+    familyList.value.splice(member, 1);
+    localStorage.setItem(
+        "familyCompositions",
+        JSON.stringify(familyList.value)
+    );
+};
+
+const handleUpdateFamilyMember = () => {
+    familyList.value[selectedMember.value].lastname = form.lastname;
+    familyList.value[selectedMember.value].firstname = form.firstname;
+    familyList.value[selectedMember.value].middlename = form.middlename;
+    familyList.value[selectedMember.value].age = form.age;
+    familyList.value[selectedMember.value].relationship = form.relationship;
+    familyList.value[selectedMember.value].educ_attainment =
+        form.educ_attainment;
+    familyList.value[selectedMember.value].remarks = form.remarks;
+    form.isEditMode = false;
+
+    localStorage.setItem(
+        "familyCompositions",
+        JSON.stringify(familyList.value)
+    );
 };
 
 // Load saved data when component is mounted
@@ -166,6 +212,10 @@ onMounted(() => {
         class="tab-pane fade"
         id="family-composition"
         role="tabpanel"
+        :class="{
+            show: index == tabIndex,
+            active: index == tabIndex,
+        }"
         aria-labelledby="profile-tab"
     >
         <div class="col-lg-12">
@@ -309,10 +359,19 @@ onMounted(() => {
                         <div class="mt-4">
                             <button
                                 type="submit"
-                                class="btn btn-success float-start"
+                                class="btn btn-primary float-start"
                             >
                                 <i class="bi bi-person-plus"></i>
                                 Add Person
+                            </button>
+                            <button
+                                v-if="form.isEditMode"
+                                @click="handleUpdateFamilyMember()"
+                                type="button"
+                                class="btn btn-success ms-2"
+                            >
+                                <i class="bi bi-person-plus"></i>
+                                Update Person
                             </button>
                         </div>
                     </form>
@@ -322,7 +381,8 @@ onMounted(() => {
                 <div class="card-footer bg-light">
                     <button
                         @click="finalSubmit"
-                        class="btn btn-primary float-end"
+                        v-if="!tabs[tabIndex].saved"
+                        class="btn btn-success float-end"
                     >
                         <i class="bi bi-save"></i>
                         Save
@@ -352,13 +412,13 @@ onMounted(() => {
                         <br />
                         <button
                             class="btn btn-primary btn-sm mt-2 me-1"
-                            @click="editFamilyMember(index)"
+                            @click="handleModifyFamilyMember(index)"
                         >
                             Modify
                         </button>
                         <button
                             class="btn btn-danger btn-sm mt-2"
-                            @click="deleteFamilyMember(index)"
+                            @click="handleRemoveFamilyMember(index)"
                         >
                             Remove
                         </button>
