@@ -20,10 +20,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    liaisons: {
-        type: Object,
-        required: true,
-    },
     officeCharge: {
         type: Object,
         required: true,
@@ -35,6 +31,10 @@ const props = defineProps({
     users: {
         type: Object,
     },
+    // liaisons: {
+    //     type: Object,
+    //     required: true,
+    // },
 });
 
 const claimant = ref(null);

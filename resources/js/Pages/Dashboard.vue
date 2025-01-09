@@ -275,9 +275,49 @@ const props = defineProps({
                                             :key="index"
                                         >
                                             <tr>
-                                                <th scope="row">
-                                                    {{ monitoring.claimant }}
-                                                </th>
+                                                <td scope="row">
+                                                    {{
+                                                        monitoring.intake.first_name
+                                                            .split(" ")
+                                                            .map(
+                                                                (word) =>
+                                                                    word
+                                                                        .charAt(
+                                                                            0
+                                                                        )
+                                                                        .toUpperCase() +
+                                                                    word
+                                                                        .slice(
+                                                                            1
+                                                                        )
+                                                                        .toLowerCase()
+                                                            )
+                                                            .join(" ")
+                                                    }}
+                                                    {{
+                                                        monitoring.intake.middle_name
+                                                            .substr(0, 1)
+                                                            .toUpperCase()
+                                                    }}.
+                                                    {{
+                                                        monitoring.intake.last_name
+                                                            .split(" ")
+                                                            .map(
+                                                                (word) =>
+                                                                    word
+                                                                        .charAt(
+                                                                            0
+                                                                        )
+                                                                        .toUpperCase() +
+                                                                    word
+                                                                        .slice(
+                                                                            1
+                                                                        )
+                                                                        .toLowerCase()
+                                                            )
+                                                            .join(" ")
+                                                    }}
+                                                </td>
                                                 <td>
                                                     {{
                                                         monitoring.municipality
@@ -374,15 +414,55 @@ const props = defineProps({
                                                     {{ status.date_intake }}
                                                 </td>
                                                 <td>
-                                                    {{ status.claimant }}
+                                                    {{
+                                                        status.intake.first_name
+                                                            .split(" ")
+                                                            .map(
+                                                                (word) =>
+                                                                    word
+                                                                        .charAt(
+                                                                            0
+                                                                        )
+                                                                        .toUpperCase() +
+                                                                    word
+                                                                        .slice(
+                                                                            1
+                                                                        )
+                                                                        .toLowerCase()
+                                                            )
+                                                            .join(" ")
+                                                    }}
+                                                    {{
+                                                        status.intake.middle_name
+                                                            .substr(0, 1)
+                                                            .toUpperCase()
+                                                    }}.
+                                                    {{
+                                                        status.intake.last_name
+                                                            .split(" ")
+                                                            .map(
+                                                                (word) =>
+                                                                    word
+                                                                        .charAt(
+                                                                            0
+                                                                        )
+                                                                        .toUpperCase() +
+                                                                    word
+                                                                        .slice(
+                                                                            1
+                                                                        )
+                                                                        .toLowerCase()
+                                                            )
+                                                            .join(" ")
+                                                    }}
                                                 </td>
                                                 <td>
-                                                    {{ status.sector }}
+                                                    {{ status.sector.name }}
                                                 </td>
                                                 <td>
                                                     {{ status.charges }}
                                                 </td>
-                                                <td>
+                                                <td class="fw-bold">
                                                     {{
                                                         new Intl.NumberFormat(
                                                             "en-US",

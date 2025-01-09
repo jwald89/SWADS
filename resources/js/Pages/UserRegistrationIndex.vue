@@ -79,8 +79,35 @@ watch(
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>
-                                    {{ user.first_name }} {{ user.middle_name }}
-                                    {{ user.last_name }}
+                                    {{
+                                        user.first_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                    {{
+                                        user.middle_init
+                                            .substr(0, 1)
+                                            .toUpperCase()
+                                    }}.
+                                    {{
+                                        user.last_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
                                 </td>
                                 <td>{{ user.municipality.municipality }}</td>
                                 <td>{{ user.role_type }}</td>

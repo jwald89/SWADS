@@ -42,7 +42,7 @@ class MonitoringController extends Controller
                     $query->where('liaison', '=', Auth::user()->id);
                 })
                 ->orderBy('created_at', 'DESC')
-                ->paginate(2);
+                ->paginate(10);
         }
 
         return inertia('MonitoringIndex', [
@@ -56,18 +56,19 @@ class MonitoringController extends Controller
         $intakeData = PersonalDetailResource::collection(PersonalInformation::all());
         $sectors = SectorResource::collection(Sector::all());
         $admins = AdministerResource::collection(StaffAdministered::all());
-        $liaisons = LiaisonResource::collection(Liaison::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
+        // $liaisons = LiaisonResource::collection(Liaison::all());
+
 
         return inertia('MonitoringCreate', [
             'intakeData' => $intakeData,
             'sectors' => $sectors,
             'admins' => $admins,
-            'liaisons' => $liaisons,
             'officeCharge' => $officeCharge,
             'status' => StatusType::names(),
             'users' => $users,
+            // 'liaisons' => $liaisons,
         ]);
     }
 

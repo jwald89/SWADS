@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Monitoring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -16,12 +17,11 @@ class DashboardController extends Controller
     {
         $totalAssistance = DB::table('personal_information')->count();
         $totalAmt = DB::table('monitorings')->sum('amount');
-        $monitorData = DB::table('monitorings')
-            ->select('claimant', 'municipality', 'assistance_type', 'amount')
+        $monitorData = Monitoring::with(['intake'])
             ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
             ->get();
 
-        $status = DB::table('monitorings')->select('claimant', 'date_intake', 'sector', 'charges', 'amount', 'status')->get();
+        $status = Monitoring::with(['intake', 'sector'])->get();
 
         return inertia('Dashboard', [
             'totalNums' => $totalAssistance,

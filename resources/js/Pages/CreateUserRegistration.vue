@@ -117,9 +117,8 @@ const submitUserData = async () => {
                     </div>
                     <div class="row mb-3">
                         <label for="lastName" class="col-sm-1 col-form-label"
-                            >Middle initial<span class="text-danger"
-                                >*</span
-                            ></label
+                            >Middle Name <small>(Optional)</small
+                            ><span class="text-danger">*</span></label
                         >
                         <div class="col-sm-7">
                             <input

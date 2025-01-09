@@ -16,7 +16,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'fullname' => $this->first_name .' '. substr($this->middle_init, 0, 1) .'. '. $this->last_name,
+            'fullname' => ucfirst($this->first_name) .' '. ucfirst(substr($this->middle_init, 0, 1)) .'. '. ucfirst($this->last_name),
             'role_type' => $this->role_type,
         ];
     }
