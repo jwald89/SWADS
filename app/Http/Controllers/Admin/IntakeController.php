@@ -151,6 +151,7 @@ class IntakeController extends Controller
         ]);
     }
 
+    // Intake Sheet edit process
     public function edit($id)
     {
         $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
@@ -167,6 +168,15 @@ class IntakeController extends Controller
         ]);
     }
 
+
+    public function destroy($id)
+    {
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+        $intakes->delete();
+
+        return response()->json(['success' => true]);
+    }
 
 
     // Printing process

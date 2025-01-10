@@ -117,4 +117,14 @@ class MonitoringController extends Controller
 
         return $monitoring;
     }
+
+
+    public function destroy($id)
+    {
+        $monitoring = Monitoring::find($id);
+
+        $monitoring->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

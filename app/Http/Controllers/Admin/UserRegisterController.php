@@ -78,9 +78,12 @@ class UserRegisterController extends Controller
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
 
+        $municipality = MunicipalityResource::collection(Municipality::all());
+
         return inertia('UserRegistrationIndex', [
             'users' => $users,
-            'search' => request()->search ?? ''
+            'search' => request()->search ?? '',
+            'municipality' => $municipality
         ]);
     }
 
@@ -123,13 +126,12 @@ class UserRegisterController extends Controller
     public function edit($id)
     {
         $users = User::find($id);
-        $municipality = MunicipalityResource::collection(Municipality::all());
 
-        return inertia('EditUser', [
-            'users' => $users,
-            'municipality' => $municipality,
-            'role_type' => UserTypes::names(),
-        ]);
+        if (!$users) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        return response()->json($users, 200);
     }
 
 

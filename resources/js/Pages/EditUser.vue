@@ -1,3 +1,5 @@
+<!-- NOTE: THIS FILE AND CODES ARE NO LONGER USE -->
+
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";

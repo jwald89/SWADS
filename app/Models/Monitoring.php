@@ -7,12 +7,17 @@ use App\Models\Sector;
 use App\Models\PersonalInformation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Monitoring extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $fillable = ['id', 'claimant', 'date_encoded', 'beneficiary', 'age', 'sex', 'contact_no', 'sector', 'municipality', 'barangay', 'client_type', 'assistance_type', 'amount', 'charges', 'date_intake', 'staff_admin', 'liaison', 'status_date', 'remarks', 'status', 'created_by'];
+    protected $dates = ['deleted_at'];
+
+    protected $fillable = ['id', 'claimant', 'date_encoded', 'beneficiary', 'age', 'sex', 'contact_no', 'sector', 'municipality', 'barangay', 'client_type', 'assistance_type', 'amount', 'charges', 'date_intake', 'staff_admin', 'liaison', 'status_date', 'remarks', 'status', 'created_by', 'deleted_at'];
+
 
     public function user()
     {

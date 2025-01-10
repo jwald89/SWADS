@@ -151,8 +151,12 @@ class SectoralDataController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $sectoral = Sectoral::find($id);
+
+        $sectoral->delete();
+
+        return response()->json(['success' => true]);
     }
 }

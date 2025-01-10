@@ -279,15 +279,20 @@ defineComponent({
                         <label for="status"
                             >Status<span class="text-danger">*</span></label
                         >
-                        <v-select
-                            name="offices"
-                            :options="offices.data"
-                            :reduce="(data) => data.description"
-                            id="offices"
+                        <select
+                            type="text"
+                            class="form-control"
+                            id="status"
+                            name="status"
                             v-model="monitoring.status"
-                            label="description"
                         >
-                        </v-select>
+                            <option value="PSWDO">PSWDO</option>
+                            <option value="PGO">PGO</option>
+                            <option value="PBO">PBO</option>
+                            <option value="PACCO">PACCO</option>
+                            <option value="PTO">PTO</option>
+                            <option value="CLAIMED">CLAIMED</option>
+                        </select>
                     </div>
                     <div class="mt-4">
                         <button

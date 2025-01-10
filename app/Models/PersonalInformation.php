@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PersonalInformation extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $fillable = ['id', 'classification', 'category', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'contact_no', 'income', 'created_by'];
+    protected $dates = ['deleted_at'];
+
+    protected $fillable = ['id', 'classification', 'category', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'contact_no', 'income', 'created_by', 'deleted_at'];
 
 
     public function famCompose()

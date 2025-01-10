@@ -66,10 +66,14 @@ Route::group(['middleware' => 'auth'], function() {
                 // Display the data in edit-form
                 Route::get('/intake/edit/{id}', 'edit')->name('intake.edit');
 
+                // Update data in edit-form
                 Route::put('/intake/edit/p1/{id}', 'update');
                 Route::put('/intake/edit/p2/{id}', 'editP2')->name('intake.editP2');
                 Route::put('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
                 Route::put('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
+
+                // Delete data in database
+                Route::delete('/intake/destroy/{id}', 'destroy');
 
                 Route::get('/intake/print/{id}', 'print')->name('intake.print');
                 Route::get('/intake/export/{id}', 'export')->name('intake.export');
@@ -83,6 +87,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/monitoring/create-post', 'store');
                 Route::get('/monitoring/edit/{id}', 'edit');
                 Route::put('/monitoring/update/{id}', 'update');
+                Route::delete('/monitoring/destroy/{id}', 'destroy');
     });
 
     // Sectoral Data Controller
@@ -93,6 +98,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/sectoral-data/create-post', 'store');
                 Route::get('/sectoral-data/edit/{id}', 'edit');
                 Route::put('/sectoral-data/update/{id}', 'update');
+                Route::delete('/sectoral-data/destroy/{id}', 'destroy');
     });
 
     // Type Assistance Controller
