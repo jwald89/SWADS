@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MunicipalityController extends Controller
 {
@@ -67,7 +69,13 @@ class MunicipalityController extends Controller
             return response()->json(['error' => 'Record not found.'], 404);
         }
 
-        $municipality->update($request->all());
+        $municipality->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
         return $municipality;
     }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Enums\UserTypes;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\MunicipalityResource;
@@ -138,7 +140,13 @@ class UserRegisterController extends Controller
     public function update(Request $request, $id)
     {
         $users = User::findOrFail($id);
-        $users->update($request->all());
+        $users->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
         return $users;
     }

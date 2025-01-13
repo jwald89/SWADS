@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\StaffAdministered;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\StaffAdministered;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class StaffAdminController extends Controller
 {
@@ -80,7 +82,13 @@ class StaffAdminController extends Controller
             return response()->json(['error' => 'Record not found.'], 404);
         }
 
-        $staff->update($request->all());
+        $staff->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
         return $staff;
     }
@@ -88,8 +96,12 @@ class StaffAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $data = StaffAdministered::find($id);
+
+        $data->delete();
+
+        return response()->json(['success' => true]);
     }
 }

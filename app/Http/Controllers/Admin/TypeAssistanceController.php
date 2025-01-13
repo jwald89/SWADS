@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\AssistanceType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\AssistanceType;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TypeAssistanceController extends Controller
 {
@@ -64,11 +66,13 @@ class TypeAssistanceController extends Controller
 
         $assistance = AssistanceType::find($id);
 
-        if (!$assistance) {
-            return response()->json(['error' => 'Record not found.'], 404);
-        }
-
-        $assistance->update($request->all());
+        $assistance->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
         return $assistance;
     }
@@ -76,8 +80,12 @@ class TypeAssistanceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+     public function destroy($id)
+     {
+         $data = AssistanceType::find($id);
+
+         $data->delete();
+
+         return response()->json(['success' => true]);
+     }
 }

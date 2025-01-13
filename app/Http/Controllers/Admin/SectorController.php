@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Sector;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SectorController extends Controller
 {
@@ -69,7 +71,13 @@ class SectorController extends Controller
             return response()->json(['error' => 'Record not found.'], 404);
         }
 
-        $sectors->update($request->all());
+        $sectors->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
         return $sectors;
     }
@@ -77,8 +85,12 @@ class SectorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $data = Sector::find($id);
+
+        $data->delete();
+
+        return response()->json(['success' => true]);
     }
 }

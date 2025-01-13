@@ -107,7 +107,8 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/type-assistance', 'index');
                 Route::post('/type-assistance/post', 'store')->name('assistance.post');
                 Route::get('/type-assistance/edit/{id}', 'edit');
-                Route::put('/type-assistance/edit/{id}', 'update')->name('assistance.update');
+                Route::put('/type-assistance/update/{id}', 'update')->name('assistance.update');
+                Route::delete('/type-assistance/destroy/{id}', 'destroy');
     });
 
     // Municipality Controller
@@ -134,6 +135,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/sectors/post', 'store')->name('sector.post');
                 Route::get('/sectors/edit/{id}', 'edit');
                 Route::put('/sectors/edit/{id}', 'update');
+                Route::delete('/sectors/destroy/{id}', 'destroy');
     });
 
     // Staff Administrator Controller
@@ -143,6 +145,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/staff-admin/post', 'store')->name('staff.post');
                 Route::get('/staff-admin/edit/{id}', 'edit');
                 Route::put('/staff-admin/edit/{id}', 'update');
+                Route::delete('/staff-admin/destroy/{id}', 'destroy');
     });
 
     // Liaison Controller
@@ -161,6 +164,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/office-charges/post', 'store')->name('office.post');
                 Route::get('/office-charges/edit/{id}', 'edit');
                 Route::put('/office-charges/edit/{id}', 'update');
+                Route::delete('/office-charges/destroy/{id}', 'destroy');
     });
 
     // Chart Reports

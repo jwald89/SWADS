@@ -6,7 +6,7 @@ import IntakeCreateP1 from "../Pages/IntakeCreateP1.vue";
 import IntakeCreateP2 from "../Pages/IntakeCreateP2.vue";
 import IntakeCreateP3 from "../Pages/IntakeCreateP3.vue";
 import IntakeCreateP4 from "../Pages/IntakeCreateP4.vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { Link, usePage, router } from "@inertiajs/vue3";
 import { toast } from "vue3-toastify";
 
 const tabs = ref([
@@ -241,7 +241,7 @@ const submitRef = async () => {
 
         const response = await axios.post("/intake/create-post/p3", refForm);
         toast.success("Successfully added.", {
-            autoClose: 200,
+            autoClose: 1000,
         });
         nextTab();
         console.log("working..");
@@ -282,14 +282,14 @@ const submitRem = async () => {
         remForm.applicant_id = applicantId;
 
         await axios.post("/intake/create-post/p4", remForm);
-        toast.success("Successfully added.", {
-            autoClose: 200,
-        });
-        localStorage.clear();
-        nextTab();
-        console.log("working..");
 
-        window.location.href = "/intake";
+        toast.success("Successfully added.", {
+            autoClose: 5000,
+        });
+
+        router.visit("/intake", {
+            preserveScroll: true,
+        });
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Enums\Month;
 use App\Models\Sector;
 use App\Models\Barangay;
@@ -122,9 +123,17 @@ class SectoralDataController extends Controller
     {
         $sectoral = Sectoral::findOrFail($id);
 
-        $sectoral->update($request->all());
+        $sectoral->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
-        return $sectoral;
+        // $sectoral->update($request->all());
+
+        return response()->json(['success' => true]);
     }
 
 

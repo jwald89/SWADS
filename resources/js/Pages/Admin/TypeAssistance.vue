@@ -1,7 +1,7 @@
 <script setup>
 import LayoutApp from "../../Shared/Layout.vue";
 import { ref, watch, reactive } from "vue";
-import { Link, router } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import { toast } from "vue3-toastify";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -73,7 +73,6 @@ const fetchEditData = async (id) => {
         editData.name = response.data.name;
     } catch (error) {
         toast.error("Failed to fetch data for editing.", { autoClose: 2000 });
-        console.error(error);
     }
 };
 
@@ -81,7 +80,7 @@ const fetchEditData = async (id) => {
 const updateData = async () => {
     try {
         const response = await axios.put(
-            `/type-assistance/edit/${editData.id}`,
+            `/type-assistance/update/${editData.id}`,
             editData
         );
 
@@ -111,6 +110,41 @@ const updateData = async () => {
                 autoClose: 2000,
             });
         }
+    }
+};
+
+const delData = async (id) => {
+    try {
+        alertify.confirm(
+            "Delete Record",
+            "Are you sure you want to delete this record?",
+            function (_, value) {
+                axios
+                    .post(`/type-assistance/destroy/${id}`, {
+                        key: value,
+                        _method: "DELETE",
+                    })
+                    .then((_) => {
+                        toast.success(
+                            "You have successfully delete a record!",
+                            {
+                                autoClose: 2000,
+                            }
+                        );
+                        router.visit("/type-assistance", {
+                            preserveScroll: true,
+                        });
+                    })
+                    .catch((error) => {
+                        toast.error(error.response.data.message, {
+                            autoClose: 2000,
+                        });
+                    });
+            },
+            function () {}
+        );
+    } catch (error) {
+        console.error("Error submitting form:", error);
     }
 };
 
@@ -308,20 +342,21 @@ watch(
                                         class="btn btn-sm btn-primary me-2"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editAssistanceType"
-                                        @click="fetchEditData(data.id)"
                                         title="Edit"
+                                        @click="fetchEditData(data.id)"
                                     >
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
                                     </button>
-                                    <Link
-                                        href=""
-                                        class="btn btn-sm btn-danger me-2"
+                                    <button
+                                        type="button"
+                                        class="btn btn-sm btn-danger"
                                         title="Delete"
+                                        @click="delData(data.id)"
                                     >
                                         <i class="bi bi-trash"></i>
                                         <!-- Delete -->
-                                    </Link>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

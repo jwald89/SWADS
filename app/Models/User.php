@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Pennant\Concerns\HasFeatures;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -21,6 +22,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+
     protected $fillable = [
         'last_name',
         'first_name',
@@ -30,6 +33,8 @@ class User extends Authenticatable
         'password',
         'municipality',
         'role_type',
+        'modified_by',
+        'modified_date'
     ];
 
     /**

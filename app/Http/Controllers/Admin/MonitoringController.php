@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Office;
 use App\Models\Sector;
-use App\Models\Liaison;
 use App\Enums\StatusType;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
@@ -17,12 +17,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MonitorRequest;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
-use App\Http\Resources\LiaisonResource;
 use App\Http\Resources\AdministerResource;
 use App\Http\Resources\PersonalDetailResource;
 
 class MonitoringController extends Controller
 {
+     /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
 
@@ -58,8 +60,6 @@ class MonitoringController extends Controller
         $admins = AdministerResource::collection(StaffAdministered::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
-        // $liaisons = LiaisonResource::collection(Liaison::all());
-
 
         return inertia('MonitoringCreate', [
             'intakeData' => $intakeData,
@@ -68,7 +68,6 @@ class MonitoringController extends Controller
             'officeCharge' => $officeCharge,
             'status' => StatusType::names(),
             'users' => $users,
-            // 'liaisons' => $liaisons,
         ]);
     }
 
@@ -78,7 +77,9 @@ class MonitoringController extends Controller
         return response()->json($monitoringRecords);
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+    */
     public function store(MonitorRequest $request)
     {
         $userId = Auth::id();
@@ -91,6 +92,9 @@ class MonitoringController extends Controller
     }
 
 
+    /**
+    * Show the form for editing the specified resource.
+    */
     public function edit($id)
     {
         $monitoring = Monitoring::with(['user', 'intake'])->findOrFail($id);
@@ -108,17 +112,27 @@ class MonitoringController extends Controller
         ]);
     }
 
-
+    /**
+     * Update the specified resource in storage.
+    */
     public function update(Request $request, $id)
     {
         $monitoring = Monitoring::with(['user'])->findOrFail($id);
 
-        $monitoring->update($request->all());
+        $monitoring->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
-        return $monitoring;
+        return response()->json(['success' => true]);
     }
 
-
+     /**
+     * Remove the specified resource from storage.
+     */
     public function destroy($id)
     {
         $monitoring = Monitoring::find($id);

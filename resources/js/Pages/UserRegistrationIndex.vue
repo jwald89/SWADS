@@ -77,6 +77,10 @@ const submitUserData = async () => {
             autoClose: 1000,
         });
 
+        router.visit("/user-registration/index", {
+            preserveScroll: true,
+        });
+
         const modalElement = document.querySelector("#addUser"); // For Add Modal
         const modalInstance = bootstrap.Modal.getInstance(modalElement);
         if (modalInstance) {
@@ -242,7 +246,7 @@ watch(
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="lastName"
+                                    for="firstName"
                                     class="col-sm-2 col-form-label"
                                     >First name<span class="text-danger"
                                         >*</span
@@ -269,7 +273,7 @@ watch(
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="lastName"
+                                    for="middleName"
                                     class="col-sm-2 col-form-label"
                                     >Middle Name <small>(Optional)</small
                                     ><span class="text-danger">*</span></label
@@ -296,7 +300,7 @@ watch(
                             <hr width="100%" />
                             <div class="row mb-3 mt-4">
                                 <label
-                                    for="lastName"
+                                    for="username"
                                     class="col-sm-2 col-form-label"
                                     >Username<span class="text-danger"
                                         >*</span
@@ -323,7 +327,7 @@ watch(
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="lastName"
+                                    for="password"
                                     class="col-sm-2 col-form-label"
                                     >Password<span class="text-danger"
                                         >*</span
@@ -384,7 +388,7 @@ watch(
                                 </div>
                             </div>
                             <div class="form-group mb-4">
-                                <label for=""
+                                <label for="typeRole"
                                     >Type of Role<span class="text-danger"
                                         >*</span
                                     ></label
@@ -455,7 +459,7 @@ watch(
                             aria-label="Close"
                         ></button>
                     </div>
-                    <div class="card-body px-5 mt-4">
+                    <div class="card-body px-4 mt-4">
                         <form @submit.prevent="updateData">
                             <div class="row mb-3">
                                 <label
@@ -477,7 +481,7 @@ watch(
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="lastName"
+                                    for="firstName"
                                     class="col-sm-2 col-form-label"
                                     >First name<span class="text-danger"
                                         >*</span
@@ -495,9 +499,9 @@ watch(
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="lastName"
+                                    for="middleName"
                                     class="col-sm-2 col-form-label"
-                                    >Middle initial<span class="text-danger"
+                                    >Middle Name<span class="text-danger"
                                         >*</span
                                     ></label
                                 >
@@ -514,7 +518,7 @@ watch(
                             <hr width="100%" />
                             <div class="row mb-3 mt-4">
                                 <label
-                                    for="lastName"
+                                    for="username"
                                     class="col-sm-2 col-form-label"
                                     >Username<span class="text-danger"
                                         >*</span
@@ -532,7 +536,7 @@ watch(
                             </div>
                             <div class="row mb-3">
                                 <label
-                                    for="lastName"
+                                    for="password"
                                     class="col-sm-2 col-form-label"
                                     >Password<span class="text-danger"
                                         >*</span
@@ -574,7 +578,7 @@ watch(
                                 </div>
                             </div>
                             <div class="form-group mb-4">
-                                <label for=""
+                                <label for="typeRole"
                                     >Type of Role<span class="text-danger"
                                         >*</span
                                     ></label
@@ -715,21 +719,6 @@ watch(
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
                                     </button>
-                                    <!-- <Link
-                                        :href="`/user/edit/${user.id}`"
-                                        class="btn btn-sm btn-primary me-2"
-                                        title="Edit"
-                                    >
-                                        <i class="bi bi-pencil-square"></i>
-                                    </Link> -->
-                                    <Link
-                                        href=""
-                                        class="btn btn-sm btn-danger me-2"
-                                        title="Delete"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        <!-- Delete -->
-                                    </Link>
                                 </td>
                             </tr>
                         </tbody>

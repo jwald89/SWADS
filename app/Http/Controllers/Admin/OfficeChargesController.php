@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Office;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OfficeChargesController extends Controller
 {
@@ -70,7 +72,13 @@ class OfficeChargesController extends Controller
             return response()->json(['error' => 'Record not found.'], 404);
         }
 
-        $officeCharge->update($request->all());
+        $officeCharge->update(
+            array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
 
         return $officeCharge;
     }
@@ -78,8 +86,12 @@ class OfficeChargesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $data = Office::find($id);
+
+        $data->delete();
+
+        return response()->json(['success' => true]);
     }
 }

@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('municipality_id');
             $table->string('barangay');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
             $table->timestamps();
         });
     }

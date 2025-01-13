@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

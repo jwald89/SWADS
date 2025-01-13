@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
             $table->string('description');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

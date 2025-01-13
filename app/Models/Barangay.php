@@ -6,12 +6,13 @@ use App\Models\Sectoral;
 use App\Models\Municipality;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Barangay extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'municipality_id', 'barangay'];
+    protected $fillable = ['id', 'municipality_id', 'barangay', 'modified_by', 'modified_date'];
 
     public function municipal()
     {

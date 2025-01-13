@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('username', 50);
             $table->enum('role_type', UserTypes::values())->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('modified_by')->references('id')->on('users');
+            $table->timestamp('modified_date')->nullable();
             $table->timestamps();
         });
     }

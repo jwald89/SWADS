@@ -20,8 +20,6 @@ const personalData = defineProps({
     },
 });
 
-console.log("PERSONAL DATA ", personalData.intake);
-
 const formatDate = (dateString) => {
     const date = new Date(dateString);
 
@@ -43,8 +41,6 @@ const getData = async () => {
     try {
         const response = await axios.get("/intake");
         personalData.value = response.data.data;
-        console.log("test");
-        console.log("Data fetched successfully.");
     } catch (error) {
         console.error("Error submitting form:", error);
     }

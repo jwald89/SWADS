@@ -39,7 +39,7 @@ const submitData = async () => {
             autoClose: 1000,
         });
 
-        const modalElement = document.querySelector("#addSector"); // For Add Modal
+        const modalElement = document.querySelector("#addOfficeCharge"); // For Add Modal
         const modalInstance = bootstrap.Modal.getInstance(modalElement);
         if (modalInstance) {
             modalInstance.hide();
@@ -110,6 +110,41 @@ const updateData = async () => {
                 autoClose: 2000,
             });
         }
+    }
+};
+
+const delData = async (id) => {
+    try {
+        alertify.confirm(
+            "Delete Record",
+            "Are you sure you want to delete this record?",
+            function (_, value) {
+                axios
+                    .post(`/office-charges/destroy/${id}`, {
+                        key: value,
+                        _method: "DELETE",
+                    })
+                    .then((_) => {
+                        toast.success(
+                            "You have successfully delete a record!",
+                            {
+                                autoClose: 2000,
+                            }
+                        );
+                        router.visit("/office-charges", {
+                            preserveScroll: true,
+                        });
+                    })
+                    .catch((error) => {
+                        toast.error(error.response.data.message, {
+                            autoClose: 2000,
+                        });
+                    });
+            },
+            function () {}
+        );
+    } catch (error) {
+        console.error("Error submitting form:", error);
     }
 };
 
@@ -312,14 +347,15 @@ watch(
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
                                     </button>
-                                    <Link
-                                        href=""
-                                        class="btn btn-sm btn-danger me-2"
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-danger"
                                         title="Delete"
+                                        @click="delData(office.id)"
                                     >
                                         <i class="bi bi-trash"></i>
                                         <!-- Delete -->
-                                    </Link>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

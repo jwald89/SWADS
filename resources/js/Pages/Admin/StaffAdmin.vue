@@ -130,6 +130,41 @@ const updateData = async () => {
     }
 };
 
+const delData = async (id) => {
+    try {
+        alertify.confirm(
+            "Delete Record",
+            "Are you sure you want to delete this record?",
+            function (_, value) {
+                axios
+                    .post(`/staff-admin/destroy/${id}`, {
+                        key: value,
+                        _method: "DELETE",
+                    })
+                    .then((_) => {
+                        toast.success(
+                            "You have successfully delete a record!",
+                            {
+                                autoClose: 2000,
+                            }
+                        );
+                        router.visit("/staff-admin", {
+                            preserveScroll: true,
+                        });
+                    })
+                    .catch((error) => {
+                        toast.error(error.response.data.message, {
+                            autoClose: 2000,
+                        });
+                    });
+            },
+            function () {}
+        );
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
+
 const search = ref(props.search || "");
 
 watch(
@@ -405,9 +440,48 @@ watch(
                         >
                             <tr>
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ staff.lastname }}</td>
-                                <td>{{ staff.firstname }}</td>
-                                <td>{{ staff.middlename }}</td>
+                                <td>
+                                    {{
+                                        staff.lastname
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join("")
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        staff.firstname
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join("")
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        staff.middlename
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join("")
+                                    }}
+                                </td>
                                 <td>
                                     <button
                                         type="button"
@@ -420,14 +494,15 @@ watch(
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
                                     </button>
-                                    <Link
-                                        href=""
-                                        class="btn btn-sm btn-danger me-2"
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-danger"
                                         title="Delete"
+                                        @click="delData(staff.id)"
                                     >
                                         <i class="bi bi-trash"></i>
                                         <!-- Delete -->
-                                    </Link>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
