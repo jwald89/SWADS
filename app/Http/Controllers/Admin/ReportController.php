@@ -3,14 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Sectoral;
 use Illuminate\Http\Request;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
+    protected $currentYear;
+
+    public function __construct($currentYear = null)
+    {
+        $this->currentYear = $currentYear ?? Carbon::now()->year;
+    }
+
     /**
-     * Display a listing of the resource.
+     * Chart Report of Intake Sheets & COE Served
      */
     public function intakeSheetServed()
     {
@@ -44,13 +52,50 @@ class ReportController extends Controller
             $monthlyTotals[$monthNames[$intake->month]] = $intake->total;
         }
 
-        return inertia('Reports/IntakeSheetsServed', ['intakes' => $monthlyTotals]);
+        return inertia('Reports/IntakeSheetsServed', ['intakes' => $monthlyTotals, 'currentYear' => $this->currentYear]);
     }
 
 
+    /**
+     * Chart Report Per Municipality of Sectoral Data Module
+     */
     public function perMunicipality()
     {
-        return inertia('Reports/PerMunicipality');
+        $data = Sectoral::selectRaw('municipality as municipal, COUNT(*) as total')
+                        ->groupBy('municipal')
+                        ->orderBy('municipal')
+                        ->get();
+
+        $totalMun = [];
+
+        $municipalities = [
+            1 => 'Barobo',
+            2 => 'Bayabas',
+            3 =>'Bislig City',
+            4 => 'Cagwait',
+            5 => 'Cantilan',
+            6 => 'Carmen',
+            7 => 'Carrascal',
+            8 => 'Cortes',
+            9 => 'Hinatuan',
+            10 => 'Lanuza',
+            11 => 'Lianga',
+            12 => 'Lingig',
+            13 => 'Madrid',
+            14 => 'Marihatag',
+            15 => 'San Agustin',
+            16 => 'San Miguel',
+            17 => 'Tagbina',
+            18 => 'Tago',
+            19 => 'Tandag City'
+        ];
+
+        // Populate the municipality totals array
+        foreach ($data as $mun) {
+            $totalMun[$municipalities[$mun->municipal]] = $mun->total;
+        }
+
+        return inertia('Reports/PerMunicipality', ['totalMunicipal' => $totalMun, 'currentYear' => $this->currentYear]);
     }
 
 

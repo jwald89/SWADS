@@ -8,6 +8,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    currentYear: {
+        type: Object,
+        required: true,
+    },
 });
 
 // Prepare chart data
@@ -101,7 +105,7 @@ const data = ref({
             },
         },
         title: {
-            text: "2025",
+            text: props.currentYear,
             floating: true,
             offsetY: 330,
             align: "right",

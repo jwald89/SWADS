@@ -3,42 +3,55 @@ import { defineComponent, ref } from "vue";
 import LayoutApp from "@/Shared/Layout.vue";
 import VueApexCharts from "vue3-apexcharts";
 
+const props = defineProps({
+    totalMunicipal: {
+        type: Object,
+        required: true,
+    },
+    currentYear: {
+        type: Object,
+    },
+});
+
+const municipalities = [
+    "Bayabas",
+    "Carmen",
+    "Marihatag",
+    "Lanuza",
+    "Madrid",
+    "Lingig",
+    "Cortes",
+    "Cagwait",
+    "San Agustin",
+    "Tagbina",
+    "Carrascal",
+    "Lianga",
+    "San Miguel",
+    "Cantilan",
+    "Hinatuan",
+    "Barobo",
+    "Tago",
+    "Bislig City",
+    "Tandag City",
+];
+
+const sumMunicipal = municipalities.map(
+    (data) => props.totalMunicipal[data] || 0
+);
+
 const data = ref({
     options: {
         chart: {
-            id: "vuechart-example",
+            id: "Per Municipality Report",
         },
         xaxis: {
-            categories: [
-                "Bayabas",
-                "Carmen",
-                "Marihatag",
-                "Lanuza",
-                "Madrid",
-                "Lingig",
-                "Cortes",
-                "Cagwait",
-                "San Agustin",
-                "Tagbina",
-                "Carrascal",
-                "Lianga",
-                "San Miguel",
-                "Cantilan",
-                "Hinatuan",
-                "Barobo",
-                "Tago",
-                "Bislig City",
-                "Tandag City",
-            ],
+            categories: municipalities,
         },
     },
     series: [
         {
-            name: "2025",
-            data: [
-                30, 40, 45, 50, 49, 60, 70, 91, 30, 40, 45, 50, 49, 60, 70, 91,
-                55, 88, 38,
-            ],
+            name: props.currentYear,
+            data: sumMunicipal,
         },
     ],
 });
