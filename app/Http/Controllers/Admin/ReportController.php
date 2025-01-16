@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\PersonalInformation;
+use App\Http\Controllers\Controller;
 
 class ReportController extends Controller
 {
@@ -12,7 +14,37 @@ class ReportController extends Controller
      */
     public function intakeSheetServed()
     {
-        return inertia('Reports/IntakeSheetsServed');
+        // Get the sum of transactions grouped by month
+        $intakes = PersonalInformation::selectRaw('MONTH(date_intake) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->get();
+
+        // Create an array to hold the results in a month-name format
+        $monthlyTotals = [];
+
+        // Map month numbers to names
+        $monthNames = [
+            1 => 'Jan',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'Aug',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Dec',
+        ];
+
+        // Populate the monthly totals array
+        foreach ($intakes as $intake) {
+            $monthlyTotals[$monthNames[$intake->month]] = $intake->total;
+        }
+
+        return inertia('Reports/IntakeSheetsServed', ['intakes' => $monthlyTotals]);
     }
 
 

@@ -3,11 +3,37 @@ import { defineComponent, ref } from "vue";
 import LayoutApp from "@/Shared/Layout.vue";
 import VueApexCharts from "vue3-apexcharts";
 
+const props = defineProps({
+    intakes: {
+        type: Object,
+        required: true,
+    },
+});
+
+// Prepare chart data
+const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+];
+
+// Map intakes data to match the month order
+const monthlyData = months.map((month) => props.intakes[month] || 0);
+
 const data = ref({
     series: [
         {
-            name: "Inflation",
-            data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2],
+            name: "INTAKES",
+            data: monthlyData,
         },
     ],
     chartOptions: {
@@ -36,20 +62,7 @@ const data = ref({
         },
 
         xaxis: {
-            categories: [
-                "Jan",
-                "Feb",
-                "Mar",
-                "Apr",
-                "May",
-                "Jun",
-                "Jul",
-                "Aug",
-                "Sep",
-                "Oct",
-                "Nov",
-                "Dec",
-            ],
+            categories: months,
             position: "top",
             axisBorder: {
                 show: false,
