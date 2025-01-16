@@ -50,7 +50,7 @@ const data = ref({
     },
     series: [
         {
-            name: props.currentYear,
+            name: "CY " + props.currentYear,
             data: sumMunicipal,
         },
     ],

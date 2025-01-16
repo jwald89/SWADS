@@ -3,13 +3,37 @@ import { defineComponent, ref } from "vue";
 import LayoutApp from "@/Shared/Layout.vue";
 import VueApexCharts from "vue3-apexcharts";
 
+const props = defineProps({
+    totalSectors: {
+        type: Object,
+        required: true,
+    },
+    currentYear: {
+        type: Object,
+    },
+});
+
 const colors = ref();
+
+const sectors = [
+    "Mens",
+    "Womens",
+    "Youth",
+    "Children",
+    "Senior Citizen",
+    "PWD",
+    "Solo Parent",
+    "Former Rebel",
+];
+
+// Map intakes data to match the month order
+const sector = sectors.map((sec) => props.totalSectors[sec] || 0);
 
 const data = ref({
     series: [
         {
-            data: [21, 22, 10, 28, 16],
-            name: "2025",
+            data: sector,
+            name: "CY " + props.currentYear,
         },
     ],
     chartOptions: {
@@ -36,13 +60,7 @@ const data = ref({
             show: false,
         },
         xaxis: {
-            categories: [
-                ["Youth"],
-                ["Children"],
-                ["Senior Citizen"],
-                ["Women"],
-                ["Men"],
-            ],
+            categories: sectors,
             labels: {
                 style: {
                     colors: colors,

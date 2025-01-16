@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Sectoral;
-use Illuminate\Http\Request;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 
@@ -57,7 +56,7 @@ class ReportController extends Controller
 
 
     /**
-     * Chart Report Per Municipality of Sectoral Data Module
+     * Chart Report AICS Per Municipality of Sectoral Data Module
      */
     public function perMunicipality()
     {
@@ -99,9 +98,36 @@ class ReportController extends Controller
     }
 
 
+    /**
+     * Chart Report AICS Served Per Sectoral Group
+     */
     public function servedPerSectoral()
     {
-        return inertia('Reports/ServedPerSectoral');
+        $getSector = Sectoral::selectRaw('sector as sec, COUNT(*) as total')
+                        ->groupBy('sec')
+                        ->orderBy('sec')
+                        ->get();
+
+        $totalSectors = [];
+
+        $sectors = [
+            1 => 'Mens',
+            2 => 'Womens',
+            3 => 'Youth',
+            4 => 'Children',
+            5 => 'Senior Citizen',
+            6 => 'PWD',
+            7 => 'Solo Parent',
+            8 => 'Former Rebel',
+        ];
+
+
+        // Populate the sector data totals array
+        foreach ($getSector as $data) {
+            $totalSectors[$sectors[$data->sec]] = $data->total;
+        }
+
+        return inertia('Reports/ServedPerSectoral' , ['totalSectors' => $totalSectors, 'currentYear' => $this->currentYear]);
     }
 
     public function perSectoral()
@@ -109,40 +135,4 @@ class ReportController extends Controller
         return inertia('Reports/PerSectoral');
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

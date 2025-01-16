@@ -105,7 +105,7 @@ const data = ref({
             },
         },
         title: {
-            text: props.currentYear,
+            text: "CY " + props.currentYear,
             floating: true,
             offsetY: 330,
             align: "right",
