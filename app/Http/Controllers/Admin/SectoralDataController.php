@@ -29,13 +29,19 @@ class SectoralDataController extends Controller
 
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
-            $sectoral = Sectoral::with('sector', 'municipality')
+            $sectoral = Sectoral::with(['sector', 'municipality'])
                 ->when(request()->search !== '', function ($query) {
-                    $query->where(function ($query) {
-                        $query->where('sector', 'like', '%' . request()->search . '%')
-                            ->orWhere('first_name', 'like', '%' . request()->search . '%')
-                            ->orWhere('middle_name', 'like', '%' . request()->search . '%')
-                            ->orWhere('last_name', 'like', '%' . request()->search . '%');
+                    $search = request()->search;
+                    $query->where(function ($query) use($search) {
+                        $query->where('sector', 'like', '%' . $search . '%')
+                            ->orWhere('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('middle_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%')
+                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                            ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                    })->orWhereHas('sector', function($sector) use($search) {
+                        $sector->where('name', 'like', '%' . $search . '%');
                     });
                 })
                 ->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {

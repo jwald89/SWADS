@@ -46,7 +46,7 @@ defineComponent({
                         </div>
                         <div class="col border fw-bold p-2">Category</div>
                         <div class="col border p-2">
-                            {{ intakes.category }}
+                            {{ intakes.assistance.name }}
                         </div>
                         <div class="col border fw-bold p-2">Date Intake</div>
                         <div class="col border p-2">

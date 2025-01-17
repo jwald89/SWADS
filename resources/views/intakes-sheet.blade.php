@@ -307,7 +307,7 @@
                     <?php echo !empty(trim($intake->purok)) ? 'Purok '.$intake->purok.',' : '' ?> {{ $intake->barangay }}, {{ $intake->municipality }}, Surigao del Sur
                 </span>
                 &nbsp;has been found eligible for
-                <span class="fw-bold">{{ ucfirst($intake->category) }}</span>
+                <span class="fw-bold">{{ ucfirst($intake->assistance->name) }}</span>
                 after having been interviewed and a case summary had been made.
             </p>
         </div>

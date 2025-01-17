@@ -32,15 +32,24 @@ class MonitoringController extends Controller
         {
             $monitoringData = Monitoring::with(['assistance', 'intake', 'sector'])
                 ->when(request()->search !== '', function ($query) {
-                    $query->where(function ($query) {
-                        $query->where('claimant', 'like', '%' . request()->search . '%')
-                              ->orWhere('assistance_type', 'like', '%' . request()->search . '%')
-                              ->orWhere('sector', 'like', '%' . request()->search . '%')
-                              ->orWhere('client_type', 'like', '%' . request()->search . '%')
-                              ->orWhere('municipality', 'like', '%' . request()->search . '%');
+                    $search = request()->search;
+                    $query->where(function ($query) use($search) {
+                        $query->where('client_type', 'like', '%' . $search . '%')
+                              ->orWhere('municipality', 'like', '%' . $search . '%');
+                    })->orWhereHas('intake', function($claimant) use($search) {
+                        $claimant->where('first_name', 'like', '%' . $search . '%')
+                                ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                ->orWhere('last_name', 'like', '%' . $search . '%')
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                    })->orWhereHas('assistance', function($assistance) use($search) {
+                        $assistance->where('name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('sector', function($sector) use($search) {
+                        $sector->where('name', 'like', '%' . $search . '%');
                     });
-                })
-                ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
+                })->when(Auth::user()->role_type === 'LIAISON', function ($query) {
                     $query->where('liaison', '=', Auth::user()->id);
                 })
                 ->orderBy('created_at', 'DESC')

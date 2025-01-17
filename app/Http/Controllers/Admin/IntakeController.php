@@ -149,7 +149,7 @@ class IntakeController extends Controller
     // Personal Information show the detail process
     public function show($id)
     {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'assistance'])->find($id);
 
         return inertia('ShowIntake', [
             'intakes' => $intakes
@@ -187,11 +187,10 @@ class IntakeController extends Controller
     // Printing process
     public function print($id)
     {
-        $intakes = DB::table('personal_information')
-            ->select('id', 'classification', 'category', 'date_intake', 'first_name', 'middle_name', 'last_name', 'nick_name', 'extn_name', 'age', 'birthdate', 'sex', 'purok', 'street', 'barangay', 'municipality', 'civil_stats', 'job', 'contact_no', 'income')
-            ->where('id', $id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $intakes = PersonalInformation::with(['assistance'])
+                    ->where('id', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
         $famCompose = DB::table('family_compositions')
             // ->leftJoin('personal_information', 'family_compositions.applicant_id', '=', 'personal_information.id')
@@ -227,7 +226,7 @@ class IntakeController extends Controller
     // Exporting process
     public function export($id)
     {
-        $intakes = PersonalInformation::findOrFail($id);
+        $intakes = PersonalInformation::with(['assistance'])->findOrFail($id);
 
         $templateProcessor = new TemplateProcessor('word-template/intake-sheet.docx');
         $templateProcessor->setValue('first_name', strtoupper($intakes?->first_name ?? ''));
@@ -235,7 +234,7 @@ class IntakeController extends Controller
         $templateProcessor->setValue('last_name', strtoupper($intakes?->last_name ?? ''));
         $templateProcessor->setValue('nick_name', strtoupper($intakes?->nick_name ?? ''));
         $templateProcessor->setValue('date_intake', \Carbon\Carbon::parse($intakes?->date_intake ?? '')->format('j F Y'));
-        $templateProcessor->setValue('category', ucwords($intakes?->category ?? ''));
+        $templateProcessor->setValue('category', ucwords($intakes?->assistance->name ?? ''));
         $templateProcessor->setValue('age', $intakes?->age ?? '');
         $templateProcessor->setValue('sex', ucwords($intakes?->sex ?? ''));
         $templateProcessor->setValue('civil_stats', ucwords($intakes?->civil_stats ?? ''));
@@ -246,7 +245,7 @@ class IntakeController extends Controller
         $templateProcessor->setValue('income', number_format($intakes?->income ?? ''));
         $templateProcessor->setValue('contact_no', $intakes->contact_no ?? '');
 
-        $families = FamilyComposition::where('applicant_id', $id)->get();  // Adjust the condition as needed
+        $families = FamilyComposition::where('applicant_id', $id)->get();
         $templateProcessor->cloneRow('firstname', $families->count());
 
         foreach ($families as $index => $family) {
