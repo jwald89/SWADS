@@ -29,21 +29,26 @@ class IntakeController extends Controller
     // Personal Information data table display
     public function index()
     {
-        $perInfos = PersonalInformation::when(request()->search !== '', function ($query) {
-            return $query->whereAny([
-                         'first_name',
-                         'middle_name',
-                         'last_name',
-                         'sex',
-                         'category',
-                     ],
-                     'like', '%' . request()->search . '%')
-                        ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . request()->search . '%'])
-                        ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . request()->search . '%'])
-                        ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . request()->search . '%']);
-            })
-            ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+        $perInfos = PersonalInformation::with(['assistance'])
+                    ->when(request()->search !== '', function ($query) {
+                        $search = request()->search;
+                        $query->where(function ($subQuery) use ($search) {
+                             $subQuery->where('sex', $search)
+                            ->orWhere(function ($innerQuery) use ($search) {
+                                // Broader search conditions
+                                $innerQuery->where('first_name', 'like', '%' . $search . '%')
+                                    ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                            });
+                        })->orWhereHas('assistance', function ($assistanceQuery) use ($search) {
+                            $assistanceQuery->where('name', 'like', '%' . $search . '%');
+                        });
+                    })
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
 
         $famComps = FamilyComposition::get();
 

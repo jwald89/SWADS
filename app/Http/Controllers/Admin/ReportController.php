@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Sectoral;
+use App\Models\Monitoring;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
+use App\Models\AssistanceType;
 
 class ReportController extends Controller
 {
@@ -132,7 +134,33 @@ class ReportController extends Controller
 
     public function perSectoral()
     {
-        return inertia('Reports/PerSectoral');
+        $assistanceType = Monitoring::selectRaw('assistance_type as assistance, COUNT(*) as total')
+                    ->groupBy('assistance')
+                    ->orderBy('assistance')
+                    ->get();
+
+        $totalAssist = [];
+
+        $types = [
+            1 => 'Medical',
+            2 => 'Burial',
+            3 => 'Educational',
+            4 => 'Financial',
+            5 => 'Livelihood',
+            6 => 'Transportation',
+            7 => 'Financial/ Solo Parent',
+            8 => 'Financial/ Mentally ill',
+            9 => 'Financial/ Special Case',
+            10 => 'Financial/ Repatriated',
+            11 => 'Financial/ VAWC',
+        ];
+
+         // Populate the assistance_type data totals array
+        foreach ($assistanceType as $data) {
+            $totalAssist[$types[$data->assistance]] = $data->total;
+        }
+
+        return inertia('Reports/PerSectoral', ['totalAssistance' => $totalAssist, 'currentYear' => $this->currentYear, $this->currentYear]);
     }
 
 }

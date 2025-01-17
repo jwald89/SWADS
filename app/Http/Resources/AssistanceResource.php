@@ -18,7 +18,6 @@ class AssistanceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'sub_name' => $this->sub_name
         ];
     }
 }

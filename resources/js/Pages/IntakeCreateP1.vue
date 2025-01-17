@@ -113,7 +113,7 @@ defineComponent({
                                     id="category"
                                     :options="assistances.data"
                                     v-model="form.category"
-                                    :reduce="(data) => data.name"
+                                    :reduce="(data) => data.id"
                                     label="name"
                                     :class="{
                                         'form-control is-invalid':

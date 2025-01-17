@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Sector;
+use App\Models\AssistanceType;
 use App\Models\PersonalInformation;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Monitoring extends Model
 {
@@ -32,6 +33,11 @@ class Monitoring extends Model
     public function sector()
     {
         return $this->belongsTo(Sector::class, 'sector', 'id');
+    }
+
+    public function assistance()
+    {
+        return $this->belongsTo(AssistanceType::class, 'assistance_type', 'id');
     }
 
 }

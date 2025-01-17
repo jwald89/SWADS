@@ -187,10 +187,10 @@ watch(
                                 </td>
                                 <td>
                                     {{
-                                        detail.category
+                                        detail.assistance.name
                                             .charAt(0)
                                             .toUpperCase() +
-                                        detail.category.slice(1)
+                                        detail.assistance.name.slice(1)
                                     }}
                                 </td>
                                 <td>

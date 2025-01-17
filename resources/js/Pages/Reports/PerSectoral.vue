@@ -3,11 +3,37 @@ import { defineComponent, ref } from "vue";
 import LayoutApp from "@/Shared/Layout.vue";
 import VueApexCharts from "vue3-apexcharts";
 
+const props = defineProps({
+    totalAssistance: {
+        type: Object,
+    },
+    currentYear: {
+        type: Object,
+    },
+});
+
+const types = [
+    "Medical",
+    "Burial",
+    "Educational",
+    "Financial",
+    "Livelihood",
+    "Transportation",
+    "Financial/ Solo Parent",
+    "Financial/ Mentally ill",
+    "Financial/ Special Case",
+    "Financial/ Repatriated",
+    "Financial/ VAWC",
+];
+
+// Map intakes data to match the month order
+const assistance = types.map((type) => props.totalAssistance[type] || 0);
+
 const data = ref({
     series: [
         {
-            name: "2025",
-            data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31, 87, 65],
+            name: "CA " + props.currentYear,
+            data: assistance,
         },
     ],
     chartOptions: {
@@ -53,20 +79,7 @@ const data = ref({
             labels: {
                 rotate: -45,
             },
-            categories: [
-                ["Livelihood", "Assistance"],
-                ["Medical", "Assistance", "PWD"],
-                "Special Case/Rape",
-                ["Repatriated", "OFW"],
-                ["Special", "Case"],
-                "Mentally ill",
-                ["Former", "Rebel"],
-                ["Financial", "Assistance"],
-                "Solo Parent",
-                ["Educational", "Assistance"],
-                ["Medical", "Assistance"],
-                ["Burial", "Assistance"],
-            ],
+            categories: types,
             tickPlacement: "on",
         },
         yaxis: {

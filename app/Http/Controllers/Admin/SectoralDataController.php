@@ -42,8 +42,7 @@ class SectoralDataController extends Controller
                         $query->where('municipality', '=', Auth::user()->municipality);
                 })
                 ->orderBy('created_at', 'DESC')
-                ->paginate(1);
-                // ->get();
+                ->paginate(10);
         }
 
         $municipalities = MunicipalityResource::collection(Municipality::all());

@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, inject } from "vue";
+import { defineComponent, inject, watchEffect } from "vue";
 import vSelect from "vue-select";
 
 const submitForm = inject("submitFormP1");
@@ -23,6 +23,10 @@ defineProps({
 
 defineComponent({
     vSelect,
+});
+
+watchEffect(() => {
+    intakes.category = parseInt(intakes.category);
 });
 </script>
 
@@ -65,7 +69,7 @@ defineComponent({
                                     name="category"
                                     id="category"
                                     :options="assistances.data"
-                                    :reduce="(data) => data.name"
+                                    :reduce="(data) => data.id"
                                     label="name"
                                     v-model="intakes.category"
                                 >

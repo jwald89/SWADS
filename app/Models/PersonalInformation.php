@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AssistanceType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,5 +35,10 @@ class PersonalInformation extends Model
     public function monitoring()
     {
         return $this->hasMany(Monitoring::class, 'claimant', 'id');
+    }
+
+    public function assistance()
+    {
+        return $this->belongsTo(AssistanceType::class, 'category', 'id');
     }
 }

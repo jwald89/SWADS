@@ -152,7 +152,7 @@ watch(
                                 }"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ data.assistance_type }}</td>
+                                <td>{{ data.assistance.name }}</td>
                                 <td>
                                     {{
                                         data.intake.first_name

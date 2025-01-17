@@ -237,7 +237,7 @@ defineComponent({
                             class="form-control"
                             name="assistanceType"
                             id="assistanceType"
-                            v-model="dataMonitors.assistance_type"
+                            v-model="dataMonitors.assistance.name"
                             readonly
                         />
                     </div>

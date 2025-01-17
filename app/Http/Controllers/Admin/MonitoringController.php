@@ -30,7 +30,7 @@ class MonitoringController extends Controller
 
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON')
         {
-            $monitoringData = Monitoring::with(['intake', 'sector'])
+            $monitoringData = Monitoring::with(['assistance', 'intake', 'sector'])
                 ->when(request()->search !== '', function ($query) {
                     $query->where(function ($query) {
                         $query->where('claimant', 'like', '%' . request()->search . '%')
@@ -97,7 +97,7 @@ class MonitoringController extends Controller
     */
     public function edit($id)
     {
-        $monitoring = Monitoring::with(['user', 'intake'])->findOrFail($id);
+        $monitoring = Monitoring::with(['user', 'intake', 'assistance'])->findOrFail($id);
         $sectors = SectorResource::collection(Sector::all());
         $admins = AdministerResource::collection(StaffAdministered::all());
         $officeCharge = OfficeResource::collection(Office::all());
