@@ -256,7 +256,7 @@ watch(
                                     </Link>
                                     <!-- For ADMIN and USER role button -->
                                     <Link
-                                        href=""
+                                        :href="`/monitoring/show/${data.id}`"
                                         class="btn btn-sm btn-info me-2"
                                         v-if="hasAccess(['admin', 'user'])"
                                         title="Details"

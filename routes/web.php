@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/monitoring/edit/{id}', 'edit');
                 Route::put('/monitoring/update/{id}', 'update');
                 Route::delete('/monitoring/destroy/{id}', 'destroy');
+                Route::get('/monitoring/show/{id}', 'show');
     });
 
     // Sectoral Data Controller

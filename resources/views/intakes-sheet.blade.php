@@ -129,7 +129,7 @@
             <div class="date" style="margin-left: 40%">
                 @foreach($intakes as $intake)
                 <p class="fw-bold" style="line-height: 1; font-size: 1.1rem">Date Administered: <span style="font-weight: normal">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span></p>
-                <p class="fw-bold" style="line-height: 0; font-size: 1.1rem">Category: <span style="font-weight: normal">{{ $intake->category }}</span></p>
+                <p class="fw-bold" style="line-height: 0; font-size: 1.1rem">Category: <span style="font-weight: normal">{{ $intake->assistance->name }}</span></p>
                 @endforeach
             </div>
         </div>

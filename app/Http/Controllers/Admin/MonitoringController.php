@@ -150,4 +150,34 @@ class MonitoringController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+     /**
+     * Show the data in table.
+     */
+    public function show($id)
+    {
+        $monitorings = Monitoring::with(['intake', 'sector', 'assistance', 'user'])->find($id);
+
+        // Retrieve the created_by user details
+        $createdByUser = null;
+        if ($monitorings && $monitorings->modified_by) {
+            $createdByUser = User::find($monitorings->created_by);
+        }
+
+        $createdBy = ucfirst($createdByUser->first_name) . ' ' . ucfirst(substr($createdByUser->middle_init, 0, 1)) . '. ' . ucfirst($createdByUser->last_name);
+
+        // Retrieve the modified_by user details
+        $modifiedByUser = null;
+        if ($monitorings && $monitorings->modified_by) {
+            $modifiedByUser = User::find($monitorings->modified_by);
+        }
+
+        $modifiedBy = ucfirst($modifiedByUser->first_name) . ' ' . ucfirst(substr($modifiedByUser->middle_init, 0, 1)) . '. ' . ucfirst($modifiedByUser->last_name);
+
+        return inertia('ShowMonitoring', [
+                    'monitorings' => $monitorings,
+                    'createdBy' => $createdBy,
+                    'modifiedBy' => $modifiedBy
+                ]);
+    }
 }

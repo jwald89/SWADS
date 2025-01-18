@@ -32,7 +32,7 @@ const assistance = types.map((type) => props.totalAssistance[type] || 0);
 const data = ref({
     series: [
         {
-            name: "CA " + props.currentYear,
+            name: "CY " + props.currentYear,
             data: assistance,
         },
     ],
