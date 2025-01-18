@@ -99,6 +99,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/sectoral-data/edit/{id}', 'edit');
                 Route::put('/sectoral-data/update/{id}', 'update');
                 Route::delete('/sectoral-data/destroy/{id}', 'destroy');
+                Route::get('/sectoral-data/filter/{sector?}/{municipality?}', 'filter');
     });
 
     // Type Assistance Controller

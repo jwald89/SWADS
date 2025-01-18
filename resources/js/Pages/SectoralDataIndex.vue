@@ -35,21 +35,17 @@ const search = ref(props.search || "");
 
 const selectedSector = ref("All");
 const selectedMunicipal = ref("All");
-// const filteredData = ref([...props.sectoral]);
-// const filteredData = ref(props.sectoral.data);
-// const sectoral = ref(props.sectoral.data);
 
 const filterData = async () => {
     try {
+        const sectorId = selectedSector.value.id || "*";
+        const municipalId = selectedMunicipal.value.id || "*";
+
         const response = await axios.get(
-            `/api/sectoral-data/filter/${selectedSector.value.id || "*"}/${
-                selectedMunicipal.value.id || "*"
-            }`
+            `/sectoral-data/filter/${sectorId}/${municipalId}`
         );
         console.log("API Response:", response.data);
-        sectoral.value = response.data;
-
-        console.log("Filtered value :", sectoral.value);
+        props.sectoral.data = response.data;
     } catch (error) {
         console.error("Error fetching filtered data:", error);
     }
@@ -245,8 +241,10 @@ watch(
                 </div>
 
                 <div class="table-responsive mt-5">
-                    <!-- <table class="table table-hover" v-if="sectoral.length"> -->
-                    <table class="table table-hover">
+                    <table
+                        class="table table-hover"
+                        v-if="sectoral.data.length"
+                    >
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
@@ -259,11 +257,6 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <!-- <tbody
-                            class="text-center"
-                            v-for="(sectoral, index) in sectoral.data"
-                            :key="index"
-                        > -->
                         <tbody
                             class="text-center"
                             v-for="(sectoral, index) in sectoral.data"
@@ -346,9 +339,9 @@ watch(
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div v-else class="text-center mt-5">
-                        <p>No data available for the selected filters.</p>
-                    </div> -->
+                    <div v-else class="text-center mt-5">
+                        <h4>No record found.</h4>
+                    </div>
                     <pagination :records="sectoral" :link="sectoral.path" />
                 </div>
             </div>

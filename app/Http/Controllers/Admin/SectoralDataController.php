@@ -11,7 +11,6 @@ use App\Enums\CivilStatus;
 use App\Enums\GenderTypes;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SectorResource;
@@ -42,6 +41,8 @@ class SectoralDataController extends Controller
                             ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
                     })->orWhereHas('sector', function($sector) use($search) {
                         $sector->where('name', 'like', '%' . $search . '%');
+                    })->orWhereHas('municipality', function($municipalQuery) use($search) {
+                        $municipalQuery->where('municipality', 'like', '%' . $search . '%');
                     });
                 })
                 ->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
@@ -136,8 +137,6 @@ class SectoralDataController extends Controller
             ])
         );
 
-        // $sectoral->update($request->all());
-
         return response()->json(['success' => true]);
     }
 
@@ -147,7 +146,7 @@ class SectoralDataController extends Controller
      */
     public function filter($sector = '*', $municipality = '*')
     {
-        $data = DB::table('sectorals')->select('id', 'sector', 'first_name', 'middle_name', 'last_name', 'age', 'birthdate', 'municipality', 'date_encoded');
+        $data = Sectoral::with(['municipality', 'sector']);
 
         if ($sector !== '*') {
             $data->where('sector', $sector);

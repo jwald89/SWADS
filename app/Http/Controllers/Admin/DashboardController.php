@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Sectoral;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +18,12 @@ class DashboardController extends Controller
     {
         $totalAssistance = DB::table('personal_information')->count();
         $totalAmt = DB::table('monitorings')->sum('amount');
-        $monitorData = Monitoring::with(['intake'])
-            ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
-            ->get();
+        $monitorData = Monitoring::with(['intake', 'assistance'])
+                    ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
+                    ->get();
+        $totalSectors = Sectoral::count();
+        $totalMonitors = Monitoring::count();
+        $sumOfSectors = $totalMonitors + $totalSectors;
 
         $status = Monitoring::with(['intake', 'sector'])->get();
 
@@ -27,7 +31,8 @@ class DashboardController extends Controller
             'totalNums' => $totalAssistance,
             'totalAmt' => $totalAmt,
             'monitorings' => $monitorData,
-            'monitorStatus' => $status
+            'monitorStatus' => $status,
+            'sectorAvg' => $sumOfSectors,
         ]);
     }
 

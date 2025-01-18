@@ -15,6 +15,9 @@ const props = defineProps({
     monitorStatus: {
         type: Object,
     },
+    sectorAvg: {
+        type: Object,
+    },
 });
 </script>
 
@@ -73,7 +76,7 @@ const props = defineProps({
                                             <i class="bi bi-cart"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
+                                            <h6>{{ sectorAvg }}</h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
                                                 >Month</span
@@ -325,7 +328,8 @@ const props = defineProps({
                                                 </td>
                                                 <td>
                                                     {{
-                                                        monitoring.assistance_type
+                                                        monitoring.assistance
+                                                            .name
                                                     }}
                                                 </td>
                                                 <td class="fw-bold">
@@ -531,7 +535,7 @@ const props = defineProps({
 
                                     <!-- Line Chart -->
                                     <div id="reportsChart">
-                                        <Chart />
+                                        <Chart :total-sectors="totalSec" />
                                     </div>
                                 </div>
                             </div>
