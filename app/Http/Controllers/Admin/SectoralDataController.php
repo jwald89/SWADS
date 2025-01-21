@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Enums\Month;
+use App\Models\User;
 use App\Models\Sector;
 use App\Models\Barangay;
 use App\Models\Sectoral;
@@ -96,13 +97,6 @@ class SectoralDataController extends Controller
         return response()->json($sectoralData, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -171,5 +165,36 @@ class SectoralDataController extends Controller
         $sectoral->delete();
 
         return response()->json(['success' => true]);
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
+    {
+        $data = Sectoral::with(['user', 'barangay', 'municipality', 'sector'])->find($id);
+
+        // Retrieve the created_by user details
+        $createdByUser = null;
+        if ($data && $data->modified_by) {
+            $createdByUser = User::find($data->created_by);
+        }
+
+        $createdBy = ucfirst($createdByUser->first_name) . ' ' . ucfirst(substr($createdByUser->middle_init, 0, 1)) . '. ' . ucfirst($createdByUser->last_name);
+
+        // Retrieve the modified_by user details
+        $modifiedByUser = null;
+        if ($data && $data->modified_by) {
+            $modifiedByUser = User::find($data->modified_by);
+        }
+
+        $modifiedBy = ucfirst($modifiedByUser->first_name) . ' ' . ucfirst(substr($modifiedByUser->middle_init, 0, 1)) . '. ' . ucfirst($modifiedByUser->last_name);
+
+        return inertia('ShowSectoral', [
+            'sectoral' => $data,
+            'createdBy' => $createdBy,
+            'modifiedBy' => $modifiedBy
+        ]);
     }
 }

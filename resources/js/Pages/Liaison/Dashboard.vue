@@ -1,3 +1,4 @@
+<!-- THIS CODE FILE IS NOT IS USE -->
 <script setup>
 import Layout from "@/Shared/Layout.vue";
 </script>

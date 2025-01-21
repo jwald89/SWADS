@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Inertia\Inertia;
 use App\Models\Remark;
 use App\Models\Barangay;
 use App\Models\Referral;
@@ -242,7 +241,7 @@ class IntakeController extends Controller
         $templateProcessor->setValue('municipality', $intakes?->municipality ?? '');
         $templateProcessor->setValue('birthdate', \Carbon\Carbon::parse($intakes?->birthdate ?? '')->format('F j, Y'));
         $templateProcessor->setValue('job', $intakes?->job ?? '');
-        $templateProcessor->setValue('income', number_format($intakes?->income ?? ''));
+        $templateProcessor->setValue('income', $intakes?->income ?? '');
         $templateProcessor->setValue('contact_no', $intakes->contact_no ?? '');
 
         $families = FamilyComposition::where('applicant_id', $id)->get();

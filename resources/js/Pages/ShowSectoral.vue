@@ -3,7 +3,7 @@ import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 
 const props = defineProps({
-    monitorings: {
+    sectoral: {
         type: Object,
     },
     createdBy: {
@@ -44,7 +44,7 @@ const formatName = (fName) => {
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
-                            :href="`/monitoring`"
+                            :href="`/sectoral-data`"
                         >
                             <i class="bi bi-backspace"></i>
                             Back
@@ -54,45 +54,74 @@ const formatName = (fName) => {
             </div>
             <div class="card-body p-4">
                 <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">Claimant:</div>
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        First name:
+                    </div>
                     <div class="col-lg-10 col-md-10">
-                        {{ formatName(monitorings.intake.first_name) }}
-                        {{
-                            monitorings.intake.middle_name
-                                .substr(0, 1)
-                                .toUpperCase()
-                        }}.
-                        {{ formatName(monitorings.intake.last_name) }}
+                        {{ formatName(sectoral.first_name) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        Middle name:
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.middle_name) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        Last name:
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.last_name) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-2 col-md-2 label fw-bold">Age:</div>
                     <div class="col-lg-10 col-md-10">
-                        {{ monitorings.age }} years old
+                        {{ sectoral.age }} years old
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-2 col-md-2 label fw-bold">Sex:</div>
                     <div class="col-lg-10 col-md-10">
-                        {{ formatName(monitorings.sex) }}
+                        {{ formatName(sectoral.sex) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-2 col-md-2 label fw-bold">
-                        Contact No.:
+                        Birthdate:
                     </div>
                     <div class="col-lg-10 col-md-10">
-                        {{ monitorings.contact_no }}
+                        {{ formatDate(sectoral.birthdate) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        Place of birth:
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.place_birth) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">Purok:</div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.purok) ?? null }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-2 col-md-2 label fw-bold">Barangay:</div>
                     <div class="col-lg-10 col-md-10">
-                        {{ monitorings.barangay }}
+                        {{ sectoral.barangay.barangay }}
                     </div>
                 </div>
 
@@ -101,122 +130,176 @@ const formatName = (fName) => {
                         Municipality:
                     </div>
                     <div class="col-lg-10 col-md-10">
-                        {{ monitorings.municipality }}
+                        {{ sectoral.municipality.municipality }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        Civil status:
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.civil_status) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        Contact number:
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ sectoral.contact_no }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">
+                        Nationality:
+                    </div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.nationality) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 label fw-bold">Religion:</div>
+                    <div class="col-lg-10 col-md-10">
+                        {{ formatName(sectoral.religion) }}
                     </div>
                 </div>
 
                 <div class="mt-3">
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Date Intake:
+                            Date encoded:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatDate(monitorings.date_intake) }}
+                            {{ formatDate(sectoral.date_encoded) }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Beneficiary:
+                            Sector type:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.beneficiary) }}
+                            {{ sectoral.sector.name }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Sector Type:
+                            Ethnicity:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ monitorings.sector.name }}
+                            {{ formatName(sectoral.ethnicity) }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Type of Assistance:
+                            Physical disability:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ monitorings.assistance.name }}
+                            {{ formatName(sectoral.physical_disability) }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Client Type:
+                            Facebook account:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.client_type) }}
+                            {{ sectoral.fb_accnt }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Amount:
+                            School last attended:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ monitorings.amount }}
+                            {{ sectoral.school_last_attend }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Charges:
+                            Month and Year:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ monitorings.charges }}
+                            {{ sectoral.month_year }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Staff Administered:
+                            Skills:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ monitorings.staff_admin }}
+                            {{ sectoral.skills }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Liaison:
+                            Interest and hobby:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.user.first_name) }}
-                            {{
-                                monitorings.user.middle_init
-                                    .substr(0, 1)
-                                    .toUpperCase()
-                            }}.
-                            {{ formatName(monitorings.user.last_name) }}
+                            {{ sectoral.interest_hobby }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Status Date:
+                            Work experience:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatDate(monitorings.status_date) }}
+                            {{ sectoral.work_exp }}
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
-                            Remarks:
+                            Organizational membership:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.remarks) }}
+                            {{ sectoral.org_membership }}
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 label fw-bold">
+                            Family Members:
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                            {{ sectoral.fam_members }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 label fw-bold">
+                            ISY/OSY:
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                            {{ sectoral.ISY_OSY.toUpperCase() }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 label fw-bold">
+                            Position:
+                        </div>
+                        <div class="col-lg-10 col-md-10">
+                            {{ formatName(sectoral.position) }}
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-2 col-md-2 label fw-bold">
                             Status:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ monitorings.status }}
+                            {{ formatName(sectoral.status) }}
                         </div>
                     </div>
                 </div>
@@ -227,7 +310,7 @@ const formatName = (fName) => {
                             Created By:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ createdBy }}
+                            {{ props.createdBy }}
                         </div>
                     </div>
                     <div class="row">
@@ -235,7 +318,7 @@ const formatName = (fName) => {
                             Modified By:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ modifiedBy ?? null }}
+                            {{ props.modifiedBy }}
                         </div>
                     </div>
                     <div class="row">
@@ -243,7 +326,7 @@ const formatName = (fName) => {
                             Modified Date:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatDate(monitorings.modified_date) ?? null }}
+                            {{ formatDate(sectoral.modified_date) ?? null }}
                         </div>
                     </div>
                 </div>

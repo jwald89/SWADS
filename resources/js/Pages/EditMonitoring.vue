@@ -36,7 +36,6 @@ const submitData = async () => {
             props.dataMonitors
         );
 
-        console.log("New record ID:", response.data.id);
         toast.success("Record successfully updated.", {
             autoClose: 1000,
         });

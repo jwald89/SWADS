@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "@/Shared/Layout.vue";
-import { computed, defineProps, defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { Link } from "@inertiajs/vue3";
 import axios from "axios";
 import vSelect from "vue-select";
@@ -24,7 +24,6 @@ const submitData = async () => {
             props.monitoring
         );
 
-        console.log("New record ID:", response.data.id);
         toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
@@ -54,7 +53,44 @@ const submitData = async () => {
 };
 
 const fullName = computed(() => {
-    return `${props.monitoring.user.first_name} ${props.monitoring.user.last_name}`;
+    return `${props.monitoring.user.first_name
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")} ${props.monitoring.user.middle_init
+        .substr(0, 1)
+        .toUpperCase()}. ${props.monitoring.user.last_name
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")}`;
+});
+
+const claimant = computed(() => {
+    return `${props.monitoring.intake.first_name
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")} ${props.monitoring.intake.middle_name
+        .substr(0, 1)
+        .toUpperCase()}. ${props.monitoring.intake.last_name
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")}`;
+});
+
+const beneficiary = computed(() => {
+    return `${props.monitoring.beneficiary
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ")}`;
 });
 
 defineComponent({
@@ -92,7 +128,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             name="claimant"
                             id="claimant"
-                            v-model="monitoring.claimant"
+                            v-model="claimant"
                             readonly
                         />
                     </div>
@@ -103,7 +139,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             name="beneficiary"
                             id="beneficiary"
-                            v-model="monitoring.beneficiary"
+                            v-model="beneficiary"
                             readonly
                         />
                     </div>
@@ -146,6 +182,7 @@ defineComponent({
                             name="sector"
                             id="sector"
                             v-model="monitoring.sector"
+                            label="name"
                             readonly
                         />
                     </div>
@@ -191,7 +228,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             name="assistanceType"
                             id="assistanceType"
-                            v-model="monitoring.assistance_type"
+                            v-model="monitoring.assistance.name"
                             readonly
                         />
                     </div>
@@ -234,7 +271,7 @@ defineComponent({
                             name="staff"
                             class="form-control text-white bg-secondary"
                             id="staff"
-                            label="fullname"
+                            label="staff"
                             v-model="monitoring.staff_admin"
                             readonly
                         />
@@ -254,11 +291,10 @@ defineComponent({
                         <label for="dateStatus">Status Date</label>
                         <input
                             type="date"
-                            class="form-control text-white bg-secondary"
+                            class="form-control"
                             id="dateStatus"
                             name="dateStatus"
                             v-model="monitoring.status_date"
-                            readonly
                         />
                     </div>
                     <div class="col-md-8">

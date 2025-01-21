@@ -5,7 +5,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SectorController;
-use App\Http\Controllers\Admin\LiaisonController;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -29,9 +28,9 @@ Route::get('/', AuthenticatedController::class)->name('home');
 
 Route::group(['middleware' => 'auth'], function() {
     Route::controller(DashboardController::class)
-    ->group(function() {
-        Route::get('/dashboard', 'index');
-    });
+        ->group(function() {
+            Route::get('/dashboard', 'index');
+        });
 });
 
 Route::group(['middleware' => 'auth'], function() {
@@ -101,6 +100,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::put('/sectoral-data/update/{id}', 'update');
                 Route::delete('/sectoral-data/destroy/{id}', 'destroy');
                 Route::get('/sectoral-data/filter/{sector?}/{municipality?}', 'filter');
+                Route::get('/sectoral-data/show/{id}', 'show');
     });
 
     // Type Assistance Controller
@@ -148,14 +148,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/staff-admin/edit/{id}', 'edit');
                 Route::put('/staff-admin/edit/{id}', 'update');
                 Route::delete('/staff-admin/destroy/{id}', 'destroy');
-    });
-
-    // Liaison Controller
-    Route::controller(LiaisonController::class)
-            ->group(function() {
-                Route::get('/liaison', 'index');
-                Route::get('/liaison/create', 'create')->name('liaison.create');
-                Route::post('/liaison/post', 'store')->name('liaison.post');
     });
 
 

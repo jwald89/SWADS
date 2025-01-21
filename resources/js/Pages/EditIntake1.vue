@@ -297,6 +297,21 @@ watchEffect(() => {
                         <div class="card-body">
                             <div class="row g-3 mt-1">
                                 <div class="col-md-3">
+                                    <label for="birthDate" class="form-label"
+                                        >Date of Birth<span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        name="birthDate"
+                                        id="birthDate"
+                                        v-model="intakes.birthdate"
+                                    />
+                                </div>
+
+                                <div class="col-md-3">
                                     <label for="age" class="form-label"
                                         >Age<span class="text-danger"
                                             >*</span
@@ -309,21 +324,6 @@ watchEffect(() => {
                                         id="age"
                                         placeholder="Age"
                                         v-model="intakes.age"
-                                    />
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label for="birthDate" class="form-label"
-                                        >Date of Birth<span class="text-danger"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <input
-                                        type="date"
-                                        class="form-control"
-                                        name="birthDate"
-                                        id="birthDate"
-                                        v-model="intakes.birthdate"
                                     />
                                 </div>
 

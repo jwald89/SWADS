@@ -163,7 +163,7 @@
                         <p style="font-weight: normal">: <?php echo !empty(trim($intake->purok)) ? "Purok " . $intake->purok . ",": "" ?> <?php echo !empty(trim($intake->street)) ? $intake->street . " St., " : "" ?> {{ $intake->barangay }}, {{ $intake->municipality }}, Surigao Del Sur</p style="font-weight: normal">
                         <p style="font-weight: normal">: {{ Carbon::parse($intake->birthdate)->format('F j, Y') }}</p>
                         <p style="font-weight: normal">: <?php echo !empty(trim($intake->job)) ? $intake->job : "N/A" ?></p>
-                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->income)) ? number_format($intake->income) : "N/A" ?></p>
+                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->income)) ? $intake->income : "N/A" ?></p>
                         <p style="font-weight: normal">: {{ $intake->contact_no }}</p>
                     </div>
                 @endforeach

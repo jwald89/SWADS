@@ -5,7 +5,6 @@ import axios from "axios";
 import { debounce } from "lodash";
 import { Link, router } from "@inertiajs/vue3";
 import Pagination from "../components/Pagination.vue";
-import { toast } from "vue3-toastify";
 
 const personalData = defineProps({
     intake: {
@@ -41,41 +40,6 @@ const getData = async () => {
     try {
         const response = await axios.get("/intake");
         personalData.value = response.data.data;
-    } catch (error) {
-        console.error("Error submitting form:", error);
-    }
-};
-
-const delData = async (id) => {
-    try {
-        alertify.confirm(
-            "Delete Record",
-            "Are you sure you want to delete this intake record?",
-            function (_, value) {
-                axios
-                    .post(`/intake/destroy/${id}`, {
-                        key: value,
-                        _method: "DELETE",
-                    })
-                    .then((_) => {
-                        toast.success(
-                            "You have successfully delete a record!",
-                            {
-                                autoClose: 1000,
-                            }
-                        );
-                        router.visit("/intake", {
-                            preserveScroll: true,
-                        });
-                    })
-                    .catch((error) => {
-                        toast.error(error.response.data.message, {
-                            autoClose: 2000,
-                        });
-                    });
-            },
-            function () {}
-        );
     } catch (error) {
         console.error("Error submitting form:", error);
     }
@@ -251,15 +215,6 @@ watch(
                                         <i class="bi bi-download"></i>
                                         <!-- Export -->
                                     </a>
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-danger"
-                                        title="Delete"
-                                        @click="delData(detail.id)"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        <!-- Delete -->
-                                    </button>
                                 </td>
                             </tr>
                         </tbody>

@@ -27,30 +27,50 @@ class MonitoringController extends Controller
      */
     public function index()
     {
-
-        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON')
-        {
-            $monitoringData = Monitoring::with(['assistance', 'intake', 'sector'])
-                ->when(request()->search !== '', function ($query) {
-                    $search = request()->search;
-                    $query->where(function ($query) use($search) {
+        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
+            $monitoringData = Monitoring::with(['intake', 'sector', 'assistance'])
+                ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
+                    $query->where('liaison', Auth::user()->id)
+                        ->where(function ($query) {
+                            $search = request()->search;
+                            $query->where('client_type', 'like', '%' . $search . '%')
+                                    ->orWhere('municipality', 'like', '%' . $search . '%')
+                                    ->orWhereHas('intake', function ($claimant) use ($search) {
+                                        $claimant->where('first_name', 'like', '%' . $search . '%')
+                                                ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                                ->orWhere('last_name', 'like', '%' . $search . '%')
+                                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                                    })
+                                    ->orWhereHas('assistance', function ($assistance) use ($search) {
+                                        $assistance->where('name', 'like', '%' . $search . '%');
+                                    })
+                                    ->orWhereHas('sector', function ($sector) use ($search) {
+                                        $sector->where('name', 'like', '%' . $search . '%');
+                                    });
+                        });
+                })
+                ->when(Auth::user()->role_type !== 'LIAISON', function ($query) {
+                    $query->where(function ($query) {
+                        $search = request()->search;
                         $query->where('client_type', 'like', '%' . $search . '%')
-                              ->orWhere('municipality', 'like', '%' . $search . '%');
-                    })->orWhereHas('intake', function($claimant) use($search) {
-                        $claimant->where('first_name', 'like', '%' . $search . '%')
-                                ->orWhere('middle_name', 'like', '%' . $search . '%')
-                                ->orWhere('last_name', 'like', '%' . $search . '%')
-                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
-                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
-                    })->orWhereHas('assistance', function($assistance) use($search) {
-                        $assistance->where('name', 'like', '%' . $search . '%');
-                    })
-                    ->orWhereHas('sector', function($sector) use($search) {
-                        $sector->where('name', 'like', '%' . $search . '%');
+                              ->orWhere('municipality', 'like', '%' . $search . '%')
+                              ->orWhereHas('intake', function ($claimant) use ($search) {
+                                  $claimant->where('first_name', 'like', '%' . $search . '%')
+                                           ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                           ->orWhere('last_name', 'like', '%' . $search . '%')
+                                           ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                           ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                           ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                              })
+                              ->orWhereHas('assistance', function ($assistance) use ($search) {
+                                  $assistance->where('name', 'like', '%' . $search . '%');
+                              })
+                              ->orWhereHas('sector', function ($sector) use ($search) {
+                                  $sector->where('name', 'like', '%' . $search . '%');
+                              });
                     });
-                })->when(Auth::user()->role_type === 'LIAISON', function ($query) {
-                    $query->where('liaison', '=', Auth::user()->id);
                 })
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
@@ -62,6 +82,9 @@ class MonitoringController extends Controller
         ]);
     }
 
+    /**
+     * Display data on the table.
+    */
     public function create()
     {
         $intakeData = PersonalDetailResource::collection(PersonalInformation::all());

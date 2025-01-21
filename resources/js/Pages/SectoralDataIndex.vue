@@ -241,10 +241,7 @@ watch(
                 </div>
 
                 <div class="table-responsive mt-5">
-                    <table
-                        class="table table-hover"
-                        v-if="sectoral.data.length"
-                    >
+                    <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
@@ -257,12 +254,11 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody
-                            class="text-center"
-                            v-for="(sectoral, index) in sectoral.data"
-                            :key="index"
-                        >
-                            <tr>
+                        <tbody v-if="sectoral.data.length" class="text-center">
+                            <tr
+                                v-for="(sectoral, index) in sectoral.data"
+                                :key="index"
+                            >
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ sectoral.sector.name }}</td>
                                 <td>
@@ -318,7 +314,7 @@ watch(
                                         <!-- Update -->
                                     </Link>
                                     <Link
-                                        href=""
+                                        :href="`/sectoral-data/show/${sectoral.id}`"
                                         class="btn btn-sm btn-info me-2"
                                         title="Details"
                                     >
@@ -338,10 +334,14 @@ watch(
                                 </td>
                             </tr>
                         </tbody>
+                        <tbody v-else>
+                            <tr>
+                                <td colspan="9" class="text-center">
+                                    No record found.
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <div v-else class="text-center mt-5">
-                        <h4>No record found.</h4>
-                    </div>
                     <pagination :records="sectoral" :link="sectoral.path" />
                 </div>
             </div>

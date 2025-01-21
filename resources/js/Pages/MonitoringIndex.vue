@@ -143,7 +143,10 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody
+                            v-if="monitoring.data.length"
+                            class="text-center"
+                        >
                             <tr
                                 v-for="(data, index) in monitoring.data"
                                 :key="index"
@@ -258,7 +261,13 @@ watch(
                                     <Link
                                         :href="`/monitoring/show/${data.id}`"
                                         class="btn btn-sm btn-info me-2"
-                                        v-if="hasAccess(['admin', 'user'])"
+                                        v-if="
+                                            hasAccess([
+                                                'admin',
+                                                'user',
+                                                'liaison',
+                                            ])
+                                        "
                                         title="Details"
                                     >
                                         <i class="bi bi-eye"></i>
@@ -274,6 +283,13 @@ watch(
                                         <i class="bi bi-trash"></i>
                                         <!-- Delete -->
                                     </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody v-else>
+                            <tr>
+                                <td colspan="9" class="text-center">
+                                    No record found.
                                 </td>
                             </tr>
                         </tbody>
