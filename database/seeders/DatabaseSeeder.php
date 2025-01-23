@@ -19,8 +19,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AssistanceTypeSeeder::class,
             SectorSeeder::class,
-            AdministerSeeder::class,
-            LiaisonSeeder::class,
             OfficeChargeSeeder::class,
         ]);
     }

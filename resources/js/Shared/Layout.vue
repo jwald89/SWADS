@@ -160,33 +160,6 @@ onMounted(() => {
                 </Link>
             </li>
 
-            <!-- Liaison Dashboard -->
-            <!-- <li class="nav-item" v-if="hasAccess(['liaison'])">
-                <Link
-                    class="nav-link"
-                    :href="`/liaison/dashboard`"
-                    :class="{
-                        'bg-highlight':
-                            currentRoute.includes('liaison/dashboard'),
-                    }"
-                >
-                    <i
-                        class="bi bi-grid"
-                        :class="{
-                            'color-highlight':
-                                currentRoute.includes('liaison/dashboard'),
-                        }"
-                    ></i>
-                    <span
-                        :class="{
-                            'color-highlight':
-                                currentRoute.includes('liaison/dashboard'),
-                        }"
-                        >DASHBOARD</span
-                    >
-                </Link>
-            </li> -->
-
             <!-- Municipality Dashboard -->
             <li class="nav-item" v-if="hasAccess(['municipal'])">
                 <Link
@@ -370,7 +343,6 @@ onMounted(() => {
                             currentRoute.includes('municipality') ||
                             currentRoute.includes('barangay') ||
                             currentRoute.includes('sectors') ||
-                            currentRoute.includes('staff-admin') ||
                             currentRoute.includes('office-charges'),
                     }"
                 >
@@ -385,7 +357,6 @@ onMounted(() => {
                                 currentRoute.includes('municipality') ||
                                 currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
-                                currentRoute.includes('staff-admin') ||
                                 currentRoute.includes('office-charges'),
                         }"
                     ></i>
@@ -399,7 +370,6 @@ onMounted(() => {
                                 currentRoute.includes('municipality') ||
                                 currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
-                                currentRoute.includes('staff-admin') ||
                                 currentRoute.includes('office-charges'),
                         }"
                         >MAINTENANCE</span
@@ -415,7 +385,6 @@ onMounted(() => {
                                 currentRoute.includes('municipality') ||
                                 currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
-                                currentRoute.includes('staff-admin') ||
                                 currentRoute.includes('office-charges'),
                         }"
                     ></i>
@@ -430,7 +399,6 @@ onMounted(() => {
                             currentRoute.includes('municipality') ||
                             currentRoute.includes('barangay') ||
                             currentRoute.includes('sectors') ||
-                            currentRoute.includes('staff-admin') ||
                             currentRoute.includes('office-charges'),
                     }"
                     data-bs-parent="#sidebar-nav"
@@ -531,24 +499,6 @@ onMounted(() => {
                                         currentRoute.includes('sectors'),
                                 }"
                                 >Sector
-                            </span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link class="nav-link" :href="`/staff-admin`">
-                            <i
-                                class="bi bi-circle"
-                                :class="{
-                                    'icon-highlight':
-                                        currentRoute.includes('staff-admin'),
-                                }"
-                            ></i>
-                            <span
-                                :class="{
-                                    'color-highlight':
-                                        currentRoute.includes('staff-admin'),
-                                }"
-                                >Staff Administered
                             </span>
                         </Link>
                     </li>

@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "@/Shared/Layout.vue";
+import LayoutApp from "../../Shared/Layout.vue";
 import Chart from "@/components/Chart.vue";
 
 const props = defineProps({

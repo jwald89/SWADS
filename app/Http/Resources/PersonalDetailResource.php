@@ -25,6 +25,7 @@ class PersonalDetailResource extends JsonResource
             'municipality' => $this->municipality,
             'category' => $this->category,
             'date_intake' => $this->date_intake,
+            'created_by' => $this->created_by
         ];
     }
 }

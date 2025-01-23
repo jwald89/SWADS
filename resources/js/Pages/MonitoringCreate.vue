@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, ref, watch, reactive, onMounted } from "vue";
+import { ref, watch, reactive, onMounted } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
@@ -16,10 +16,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    admins: {
-        type: Object,
-        required: true,
-    },
     officeCharge: {
         type: Object,
         required: true,
@@ -31,10 +27,6 @@ const props = defineProps({
     users: {
         type: Object,
     },
-    // liaisons: {
-    //     type: Object,
-    //     required: true,
-    // },
 });
 
 const claimant = ref(null);
@@ -95,7 +87,7 @@ const fetchMonitoringRecords = async () => {
         const savedRecords = response.data; // Records already saved in Monitoring table
 
         // Log saved records for debugging
-        console.log("Existing Monitoring Records:", savedRecords);
+        // console.log("Existing Monitoring Records:", savedRecords);
 
         // Extract claimant IDs from savedRecords for easier comparison
         const savedClaimantIds = savedRecords.map((record) =>
@@ -103,7 +95,7 @@ const fetchMonitoringRecords = async () => {
         );
 
         // Log claimant IDs for debugging
-        console.log("Saved Claimant IDs:", savedClaimantIds);
+        // console.log("Saved Claimant IDs:", savedClaimantIds);
 
         // Filter out IDs already present in Monitoring table from `intakeData`
         filteredMonitors.value = props.intakeData.data.filter(
@@ -111,7 +103,7 @@ const fetchMonitoringRecords = async () => {
         );
 
         // Log the filtered list to verify results
-        console.log("Filtered Monitors After Removal:", filteredMonitors.value);
+        // console.log("Filtered Monitors After Removal:", filteredMonitors.value);
     } catch (error) {
         console.error("Error fetching monitoring records:", error);
     }
@@ -188,6 +180,7 @@ watch(claimant, function () {
     monitorForm.municipality = claimant.value.municipality;
     monitorForm.assistance_type = claimant.value.category;
     monitorForm.date_intake = claimant.value.date_intake;
+    monitorForm.staff_admin = claimant.value.created_by;
 });
 
 onMounted(fetchMonitoringRecords);
@@ -451,22 +444,14 @@ onMounted(fetchMonitoringRecords);
                                 >*</span
                             ></label
                         >
-                        <v-select
+                        <input
+                            type="text"
+                            class="form-control fw-bold"
                             name="staff"
                             id="staff"
-                            :options="admins.data"
                             v-model="monitorForm.staff_admin"
-                            :reduce="(data) => data.fullname"
-                            label="fullname"
-                            :class="{
-                                'form-control is-invalid': errors.staff_admin,
-                            }"
-                            placeholder="Select"
-                        >
-                        </v-select>
-                        <small v-if="errors.staff_admin" class="text-danger">{{
-                            errors.staff_admin
-                        }}</small>
+                            disabled
+                        />
                     </div>
                     <div class="col-md-4">
                         <label for="liaison"

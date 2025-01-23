@@ -9,7 +9,6 @@ use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MonitoringController;
-use App\Http\Controllers\Admin\StaffAdminController;
 use App\Http\Controllers\Admin\MunicipalityController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
@@ -133,16 +132,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/sectors/edit/{id}', 'edit');
                 Route::put('/sectors/edit/{id}', 'update');
     });
-
-    // Staff Administrator Controller
-    Route::controller(StaffAdminController::class)
-            ->group(function() {
-                Route::get('/staff-admin', 'index');
-                Route::post('/staff-admin/post', 'store')->name('staff.post');
-                Route::get('/staff-admin/edit/{id}', 'edit');
-                Route::put('/staff-admin/edit/{id}', 'update');
-    });
-
 
     // Office Charges Controller
     Route::controller(OfficeChargesController::class)

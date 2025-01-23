@@ -15,10 +15,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    admins: {
-        type: Object,
-        required: true,
-    },
     officeCharge: {
         type: Object,
         required: true,
@@ -26,6 +22,9 @@ const props = defineProps({
     users: {
         type: Object,
         required: true,
+    },
+    staffAdmin: {
+        type: String,
     },
 });
 
@@ -282,15 +281,14 @@ defineComponent({
                                 >*</span
                             ></label
                         >
-                        <v-select
-                            name="staff_admin"
-                            :options="admins.data"
-                            :reduce="(data) => data.fullname"
+                        <input
+                            type="text"
+                            class="form-control"
                             id="staff_admin"
-                            label="fullname"
-                            v-model="dataMonitors.staff_admin"
-                        >
-                        </v-select>
+                            name="staff_admin"
+                            v-model="props.staffAdmin"
+                            readonly
+                        />
                     </div>
                     <div class="col-md-4">
                         <label for="liaison"

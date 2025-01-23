@@ -12,6 +12,9 @@ const props = defineProps({
     modifiedBy: {
         type: String,
     },
+    staffAdmin: {
+        type: String,
+    },
 });
 
 const formatDate = (dateString) => {
@@ -53,201 +56,226 @@ const formatName = (fName) => {
                 </div>
             </div>
             <div class="card-body p-4">
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">Claimant:</div>
-                    <div class="col-lg-10 col-md-10">
-                        {{ formatName(monitorings.intake.first_name) }}
-                        {{
-                            monitorings.intake.middle_name
-                                .substr(0, 1)
-                                .toUpperCase()
-                        }}.
-                        {{ formatName(monitorings.intake.last_name) }}
-                    </div>
-                </div>
+                <div class="row col-12">
+                    <div class="row col-6">
+                        <div class="mt-3 mb-4">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 label fw-bold">
+                                    Claimant:
+                                </div>
+                                <div class="col-lg-9 col-md-6">
+                                    {{
+                                        formatName(
+                                            monitorings.intake.first_name
+                                        )
+                                    }}
+                                    {{
+                                        monitorings.intake.middle_name
+                                            .substr(0, 1)
+                                            .toUpperCase()
+                                    }}.
+                                    {{
+                                        formatName(monitorings.intake.last_name)
+                                    }}
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">Age:</div>
-                    <div class="col-lg-10 col-md-10">
-                        {{ monitorings.age }} years old
-                    </div>
-                </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Age:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ monitorings.age }} years old
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">Sex:</div>
-                    <div class="col-lg-10 col-md-10">
-                        {{ formatName(monitorings.sex) }}
-                    </div>
-                </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Sex:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ formatName(monitorings.sex) }}
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">
-                        Contact No.:
-                    </div>
-                    <div class="col-lg-10 col-md-10">
-                        {{ monitorings.contact_no }}
-                    </div>
-                </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Contact No.:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ monitorings.contact_no }}
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">Barangay:</div>
-                    <div class="col-lg-10 col-md-10">
-                        {{ monitorings.barangay }}
-                    </div>
-                </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Barangay:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ monitorings.barangay }}
+                                </div>
+                            </div>
 
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 label fw-bold">
-                        Municipality:
-                    </div>
-                    <div class="col-lg-10 col-md-10">
-                        {{ monitorings.municipality }}
-                    </div>
-                </div>
-
-                <div class="mt-3">
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Date Intake:
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Municipality:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ monitorings.municipality }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ formatDate(monitorings.date_intake) }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Beneficiary:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.beneficiary) }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Sector Type:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ monitorings.sector.name }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Type of Assistance:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ monitorings.assistance.name }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Client Type:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.client_type) }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Amount:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ monitorings.amount }}
+                        <div class="mt-4">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Created By:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ createdBy }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Modified By:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{ modifiedBy }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                    Modified Date:
+                                </div>
+                                <div class="col-lg-9 col-md-10">
+                                    {{
+                                        monitorings.modified_date === null
+                                            ? ""
+                                            : formatDate(
+                                                  monitorings.modified_date
+                                              )
+                                    }}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Charges:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ monitorings.charges }}
-                        </div>
-                    </div>
+                    <div class="row col-6">
+                        <div class="mt-3">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Date Intake:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ formatDate(monitorings.date_intake) }}
+                                </div>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Staff Administered:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ monitorings.staff_admin }}
-                        </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Beneficiary:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ formatName(monitorings.beneficiary) }}
+                                </div>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Liaison:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.user.first_name) }}
-                            {{
-                                monitorings.user.middle_init
-                                    .substr(0, 1)
-                                    .toUpperCase()
-                            }}.
-                            {{ formatName(monitorings.user.last_name) }}
-                        </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Sector Type:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ monitorings.sector.name }}
+                                </div>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Status Date:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ formatDate(monitorings.status_date) }}
-                        </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Type of Assistance:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ monitorings.assistance.name }}
+                                </div>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Remarks:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ formatName(monitorings.remarks) }}
-                        </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Client Type:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ formatName(monitorings.client_type) }}
+                                </div>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Status:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ monitorings.status }}
-                        </div>
-                    </div>
-                </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Amount:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ monitorings.amount }}
+                                </div>
+                            </div>
 
-                <div class="mt-3">
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Created By:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ createdBy }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Modified By:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{ modifiedBy }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2 label fw-bold">
-                            Modified Date:
-                        </div>
-                        <div class="col-lg-10 col-md-10">
-                            {{
-                                monitorings.modified_date === null
-                                    ? ""
-                                    : formatDate(monitorings.modified_date)
-                            }}
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Charges:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ monitorings.charges }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Staff Administered:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ staffAdmin }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Liaison:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{
+                                        formatName(monitorings.user.first_name)
+                                    }}
+                                    {{
+                                        monitorings.user.middle_init
+                                            .substr(0, 1)
+                                            .toUpperCase()
+                                    }}.
+                                    {{ formatName(monitorings.user.last_name) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Status Date:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ formatDate(monitorings.status_date) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Remarks:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ formatName(monitorings.remarks) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Status:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ monitorings.status }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

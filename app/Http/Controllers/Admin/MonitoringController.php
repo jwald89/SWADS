@@ -9,7 +9,6 @@ use App\Models\Sector;
 use App\Enums\StatusType;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
-use App\Models\StaffAdministered;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
@@ -17,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MonitorRequest;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
-use App\Http\Resources\AdministerResource;
 use App\Http\Resources\PersonalDetailResource;
 
 class MonitoringController extends Controller
@@ -89,14 +87,12 @@ class MonitoringController extends Controller
     {
         $intakeData = PersonalDetailResource::collection(PersonalInformation::all());
         $sectors = SectorResource::collection(Sector::all());
-        $admins = AdministerResource::collection(StaffAdministered::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
 
         return inertia('MonitoringCreate', [
             'intakeData' => $intakeData,
             'sectors' => $sectors,
-            'admins' => $admins,
             'officeCharge' => $officeCharge,
             'status' => StatusType::names(),
             'users' => $users,
@@ -131,16 +127,29 @@ class MonitoringController extends Controller
     {
         $monitoring = Monitoring::with(['user', 'intake', 'assistance'])->findOrFail($id);
         $sectors = SectorResource::collection(Sector::all());
-        $admins = AdministerResource::collection(StaffAdministered::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
+
+        $staffAdmin = '';
+
+        // Retrieve the created_by user details
+        $createdByUser = null;
+        if ($monitoring && $monitoring->created_by !== null) {
+            $createdByUser = User::find($monitoring->created_by);
+        }
+
+        if ($createdByUser) {
+            $staffAdmin = ucwords($createdByUser->first_name) . ' '
+                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($createdByUser->last_name);
+        }
 
         return inertia('EditMonitoring', [
             'dataMonitors' => $monitoring,
             'sectors' => $sectors,
-            'admins' => $admins,
             'officeCharge' => $officeCharge,
-            'users' => $users
+            'users' => $users,
+            'staffAdmin' => $staffAdmin,
         ]);
     }
 
@@ -192,10 +201,24 @@ class MonitoringController extends Controller
         }
 
         if ($createdByUser) {
-            $createdBy = ucfirst($createdByUser->first_name) . ' '
+            $createdBy = ucwords($createdByUser->first_name) . ' '
                 . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
                 . ucfirst($createdByUser->last_name);
         }
+
+        // Retrieve the staff administered details
+        $staffAdmin = null;
+        if($monitorings && $monitorings->staff_admin)
+        {
+            $staffAdmin = User::find($monitorings->staff_admin);
+        }
+
+        if ($staffAdmin) {
+            $staffAdmin = ucwords($staffAdmin->first_name) . ' '
+                . ucfirst(substr($staffAdmin->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($staffAdmin->last_name);
+        }
+
 
         // Retrieve the modified_by user details
         $modifiedByUser = null;
@@ -204,7 +227,7 @@ class MonitoringController extends Controller
         }
 
         if ($modifiedByUser) {
-            $modifiedBy = ucfirst($modifiedByUser->first_name) . ' '
+            $modifiedBy = ucwords($modifiedByUser->first_name) . ' '
                 . ucfirst(substr($modifiedByUser->middle_init ?? '', 0, 1)) . '. '
                 . ucfirst($modifiedByUser->last_name);
         }
@@ -212,7 +235,8 @@ class MonitoringController extends Controller
         return inertia('ShowMonitoring', [
             'monitorings' => $monitorings,
             'createdBy' => $createdBy,
-            'modifiedBy' => $modifiedBy
+            'modifiedBy' => $modifiedBy,
+            'staffAdmin' => $staffAdmin,
         ]);
     }
 

@@ -184,7 +184,7 @@ class SectoralDataController extends Controller
         }
 
         if ($createdByUser) {
-            $createdBy = ucfirst($createdByUser->first_name) . ' '
+            $createdBy = ucwords($createdByUser->first_name) . ' '
                 . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
                 . ucfirst($createdByUser->last_name);
         }
@@ -196,7 +196,7 @@ class SectoralDataController extends Controller
         }
 
         if ($modifiedByUser) {
-            $modifiedBy = ucfirst($modifiedByUser->first_name) . ' '
+            $modifiedBy = ucwords($modifiedByUser->first_name) . ' '
                 . ucfirst(substr($modifiedByUser->middle_init ?? '', 0, 1)) . '. '
                 . ucfirst($modifiedByUser->last_name);
         }
