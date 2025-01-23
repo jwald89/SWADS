@@ -227,7 +227,7 @@
 
         <div class="container-1" style="width: auto; max-width: 100%">
             <div class="case text-centered" style="line-height: 0.5">
-                <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">JUNIE, JR. A. BAPOR, RSW</p>
+                <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">{{ $createdBy }}</p>
                 <p>PSWDO Staff</p>
             </div>
             <div class="date text-centered" style="line-height: 0.5; margin-left: 30%; font-size: 1.1rem">

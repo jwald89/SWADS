@@ -113,41 +113,6 @@ const updateData = async () => {
     }
 };
 
-const delData = async (id) => {
-    try {
-        alertify.confirm(
-            "Delete Record",
-            "Are you sure you want to delete this record?",
-            function (_, value) {
-                axios
-                    .post(`/type-assistance/destroy/${id}`, {
-                        key: value,
-                        _method: "DELETE",
-                    })
-                    .then((_) => {
-                        toast.success(
-                            "You have successfully delete a record!",
-                            {
-                                autoClose: 2000,
-                            }
-                        );
-                        router.visit("/type-assistance", {
-                            preserveScroll: true,
-                        });
-                    })
-                    .catch((error) => {
-                        toast.error(error.response.data.message, {
-                            autoClose: 2000,
-                        });
-                    });
-            },
-            function () {}
-        );
-    } catch (error) {
-        console.error("Error submitting form:", error);
-    }
-};
-
 const search = ref(props.search || "");
 
 watch(
@@ -347,15 +312,6 @@ watch(
                                     >
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-danger"
-                                        title="Delete"
-                                        @click="delData(data.id)"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        <!-- Delete -->
                                     </button>
                                 </td>
                             </tr>

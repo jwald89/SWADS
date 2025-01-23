@@ -235,7 +235,7 @@ const formatName = (fName) => {
                             Modified By:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ modifiedBy ?? null }}
+                            {{ modifiedBy }}
                         </div>
                     </div>
                     <div class="row">
@@ -243,7 +243,11 @@ const formatName = (fName) => {
                             Modified Date:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatDate(monitorings.modified_date) ?? null }}
+                            {{
+                                monitorings.modified_date === null
+                                    ? ""
+                                    : formatDate(monitorings.modified_date)
+                            }}
                         </div>
                     </div>
                 </div>

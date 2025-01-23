@@ -1,7 +1,7 @@
 <script setup>
 import LayoutApp from "../../Shared/Layout.vue";
 import { ref, watch, reactive } from "vue";
-import { Link, router } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import { debounce } from "lodash";
 import Pagination from "../../components/Pagination.vue";
 import { toast } from "vue3-toastify";
@@ -346,15 +346,6 @@ watch(
                                     >
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-danger"
-                                        title="Delete"
-                                        @click="delData(office.id)"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        <!-- Delete -->
                                     </button>
                                 </td>
                             </tr>

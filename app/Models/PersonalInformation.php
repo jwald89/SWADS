@@ -41,4 +41,9 @@ class PersonalInformation extends Model
     {
         return $this->belongsTo(AssistanceType::class, 'category', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }

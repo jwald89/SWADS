@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Remark;
 use App\Models\Barangay;
 use App\Models\Referral;
@@ -15,8 +16,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\IntakeRequest;
 
+use App\Http\Requests\IntakeRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BarangayResource;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -186,10 +187,26 @@ class IntakeController extends Controller
     // Printing process
     public function print($id)
     {
-        $intakes = PersonalInformation::with(['assistance'])
+        $intakes = PersonalInformation::with(['assistance', 'user'])
                     ->where('id', $id)
                     ->orderBy('created_at', 'desc')
                     ->get();
+
+        $intakeCreatedId = PersonalInformation::with(['user'])->find($id);
+
+        $createdBy = '';
+
+         // Retrieve the created_by user details
+         $createdByUser = null;
+         if ($intakeCreatedId && $intakeCreatedId->created_by !== null) {
+             $createdByUser = User::find($intakeCreatedId->created_by);
+         }
+
+         if ($createdByUser) {
+            $createdBy = ucfirst($createdByUser->first_name) . ' '
+                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($createdByUser->last_name);
+        }
 
         $famCompose = DB::table('family_compositions')
             // ->leftJoin('personal_information', 'family_compositions.applicant_id', '=', 'personal_information.id')
@@ -212,7 +229,7 @@ class IntakeController extends Controller
 
         $pdf = App::make('snappy.pdf.wrapper');
 
-        $pdf->loadView('intakes-sheet', compact('intakes', 'famCompose', 'referrals', 'remarks'))
+        $pdf->loadView('intakes-sheet', compact('intakes', 'famCompose', 'referrals', 'remarks', 'createdBy'))
             ->setPaper('A4')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
@@ -226,6 +243,20 @@ class IntakeController extends Controller
     public function export($id)
     {
         $intakes = PersonalInformation::with(['assistance'])->findOrFail($id);
+
+        $createdBy = '';
+
+         // Retrieve the created_by user details
+         $createdByUser = null;
+         if ($intakes && $intakes->created_by !== null) {
+             $createdByUser = User::find($intakes->created_by);
+         }
+
+         if ($createdByUser) {
+            $createdBy = ucfirst($createdByUser->first_name) . ' '
+                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($createdByUser->last_name);
+        }
 
         $templateProcessor = new TemplateProcessor('word-template/intake-sheet.docx');
         $templateProcessor->setValue('first_name', strtoupper($intakes?->first_name ?? ''));
@@ -243,6 +274,7 @@ class IntakeController extends Controller
         $templateProcessor->setValue('job', $intakes?->job ?? '');
         $templateProcessor->setValue('income', $intakes?->income ?? '');
         $templateProcessor->setValue('contact_no', $intakes->contact_no ?? '');
+        $templateProcessor->setValue('created_by', strtoupper($createdBy ?? ''));
 
         $families = FamilyComposition::where('applicant_id', $id)->get();
         $templateProcessor->cloneRow('firstname', $families->count());

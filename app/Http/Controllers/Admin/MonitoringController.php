@@ -181,26 +181,40 @@ class MonitoringController extends Controller
     {
         $monitorings = Monitoring::with(['intake', 'sector', 'assistance', 'user'])->find($id);
 
+        // Initialize variables
+        $createdBy = '';
+        $modifiedBy = '';
+
         // Retrieve the created_by user details
         $createdByUser = null;
-        if ($monitorings && $monitorings->modified_by) {
+        if ($monitorings && $monitorings->created_by !== null) {
             $createdByUser = User::find($monitorings->created_by);
         }
 
-        $createdBy = ucfirst($createdByUser->first_name) . ' ' . ucfirst(substr($createdByUser->middle_init, 0, 1)) . '. ' . ucfirst($createdByUser->last_name);
+        if ($createdByUser) {
+            $createdBy = ucfirst($createdByUser->first_name) . ' '
+                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($createdByUser->last_name);
+        }
 
         // Retrieve the modified_by user details
         $modifiedByUser = null;
-        if ($monitorings && $monitorings->modified_by) {
+        if ($monitorings && $monitorings->modified_by !== null) {
             $modifiedByUser = User::find($monitorings->modified_by);
         }
 
-        $modifiedBy = ucfirst($modifiedByUser->first_name) . ' ' . ucfirst(substr($modifiedByUser->middle_init, 0, 1)) . '. ' . ucfirst($modifiedByUser->last_name);
+        if ($modifiedByUser) {
+            $modifiedBy = ucfirst($modifiedByUser->first_name) . ' '
+                . ucfirst(substr($modifiedByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($modifiedByUser->last_name);
+        }
 
         return inertia('ShowMonitoring', [
-                    'monitorings' => $monitorings,
-                    'createdBy' => $createdBy,
-                    'modifiedBy' => $modifiedBy
-                ]);
+            'monitorings' => $monitorings,
+            'createdBy' => $createdBy,
+            'modifiedBy' => $modifiedBy
+        ]);
     }
+
+
 }

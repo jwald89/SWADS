@@ -167,34 +167,45 @@ class SectoralDataController extends Controller
         return response()->json(['success' => true]);
     }
 
-
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-        $data = Sectoral::with(['user', 'barangay', 'municipality', 'sector'])->find($id);
+        $sectoral = Sectoral::with(['user', 'barangay', 'municipality', 'sector'])->find($id);
+
+        $createdBy = '';
+        $modifiedBy = '';
 
         // Retrieve the created_by user details
         $createdByUser = null;
-        if ($data && $data->modified_by) {
-            $createdByUser = User::find($data->created_by);
+        if ($sectoral && $sectoral->created_by !== null) {
+            $createdByUser = User::find($sectoral->created_by);
         }
 
-        $createdBy = ucfirst($createdByUser->first_name) . ' ' . ucfirst(substr($createdByUser->middle_init, 0, 1)) . '. ' . ucfirst($createdByUser->last_name);
+        if ($createdByUser) {
+            $createdBy = ucfirst($createdByUser->first_name) . ' '
+                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($createdByUser->last_name);
+        }
 
         // Retrieve the modified_by user details
         $modifiedByUser = null;
-        if ($data && $data->modified_by) {
-            $modifiedByUser = User::find($data->modified_by);
+        if ($sectoral && $sectoral->modified_by !== null) {
+            $modifiedByUser = User::find($sectoral->modified_by);
         }
 
-        $modifiedBy = ucfirst($modifiedByUser->first_name) . ' ' . ucfirst(substr($modifiedByUser->middle_init, 0, 1)) . '. ' . ucfirst($modifiedByUser->last_name);
+        if ($modifiedByUser) {
+            $modifiedBy = ucfirst($modifiedByUser->first_name) . ' '
+                . ucfirst(substr($modifiedByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($modifiedByUser->last_name);
+        }
 
         return inertia('ShowSectoral', [
-            'sectoral' => $data,
+            'sectoral' => $sectoral,
             'createdBy' => $createdBy,
             'modifiedBy' => $modifiedBy
         ]);
     }
+
 }

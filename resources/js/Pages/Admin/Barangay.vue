@@ -85,13 +85,10 @@ watch(
                                     <Link
                                         href=""
                                         class="btn btn-sm btn-primary me-2"
-                                        >Edit</Link
                                     >
-                                    <Link
-                                        href=""
-                                        class="btn btn-sm btn-info me-2"
-                                        >Details</Link
-                                    >
+                                        <!-- Edit -->
+                                        <i class="bi bi-pencil-square"></i>
+                                    </Link>
                                 </td>
                             </tr>
                         </tbody>

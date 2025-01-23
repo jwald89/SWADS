@@ -71,4 +71,9 @@ class User extends Authenticatable
         return $this->hasMany(Sectoral::class, 'municipality', 'municipality');
     }
 
+    public function personalInfo()
+    {
+        return $this->hasMany(PersonalInformation::class, 'id', 'created_at');
+    }
+
 }

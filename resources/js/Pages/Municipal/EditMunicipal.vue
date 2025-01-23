@@ -1,5 +1,5 @@
 <script setup>
-import LayoutApp from "@/Shared/Layout.vue";
+import LayoutApp from "/resources/js/Shared//Layout.vue";
 import { Link } from "@inertiajs/vue3";
 
 // Props from Inertia

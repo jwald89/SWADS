@@ -67,7 +67,7 @@ onMounted(() => {
                         <i class="bi bi-person-circle"></i>
                         <span
                             class="d-none d-md-block dropdown-toggle ps-2 text-uppercase"
-                            >{{ page.props.role_type }}</span
+                            >{{ page.props.fullname }}</span
                         >
                     </a>
 
@@ -77,7 +77,7 @@ onMounted(() => {
                         <li class="dropdown-header">
                             <i class="bi bi-person-bounding-box"></i>
                             <h6 class="text-uppercase">
-                                {{ page.props.fullname }}
+                                {{ page.props.last_name }}
                             </h6>
                             <span>{{ page.props.role_type }}</span>
                         </li>
@@ -552,24 +552,6 @@ onMounted(() => {
                             </span>
                         </Link>
                     </li>
-                    <!-- <li>
-                        <Link class="nav-link" :href="`/liaison`">
-                            <i
-                                class="bi bi-circle"
-                                :class="{
-                                    'icon-highlight':
-                                        currentRoute.includes('liaison'),
-                                }"
-                            ></i>
-                            <span
-                                :class="{
-                                    'color-highlight':
-                                        currentRoute.includes('liaison'),
-                                }"
-                                >Liaison
-                            </span>
-                        </Link>
-                    </li> -->
                     <li>
                         <Link class="nav-link" :href="`/office-charges`">
                             <i

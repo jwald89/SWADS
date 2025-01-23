@@ -11,11 +11,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AssistanceType extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
-
-    protected $fillable = ['id', 'name', 'deleted_at', 'modified_by', 'modified_date'];
+    protected $fillable = ['id', 'name', 'modified_by', 'modified_date'];
 
     public function monitoring()
     {

@@ -114,7 +114,11 @@ const formatName = (fName) => {
                 <div class="row">
                     <div class="col-lg-2 col-md-2 label fw-bold">Purok:</div>
                     <div class="col-lg-10 col-md-10">
-                        {{ formatName(sectoral.purok) ?? null }}
+                        {{
+                            sectoral.purok === null
+                                ? "N/A"
+                                : formatName(sectoral.purok)
+                        }}
                     </div>
                 </div>
 
@@ -148,7 +152,11 @@ const formatName = (fName) => {
                         Contact number:
                     </div>
                     <div class="col-lg-10 col-md-10">
-                        {{ sectoral.contact_no }}
+                        {{
+                            sectoral.contact_no === null
+                                ? "N/A"
+                                : sectoral.contact_no
+                        }}
                     </div>
                 </div>
 
@@ -157,14 +165,22 @@ const formatName = (fName) => {
                         Nationality:
                     </div>
                     <div class="col-lg-10 col-md-10">
-                        {{ formatName(sectoral.nationality) }}
+                        {{
+                            sectoral.nationality === null
+                                ? "N/A"
+                                : formatName(sectoral.nationality)
+                        }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-lg-2 col-md-2 label fw-bold">Religion:</div>
                     <div class="col-lg-10 col-md-10">
-                        {{ formatName(sectoral.religion) }}
+                        {{
+                            sectoral.religion === null
+                                ? "N/A"
+                                : formatName(sectoral.religion)
+                        }}
                     </div>
                 </div>
 
@@ -192,7 +208,11 @@ const formatName = (fName) => {
                             Ethnicity:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(sectoral.ethnicity) }}
+                            {{
+                                sectoral.ethnicity === null
+                                    ? "N/A"
+                                    : formatName(sectoral.ethnicity)
+                            }}
                         </div>
                     </div>
 
@@ -201,7 +221,11 @@ const formatName = (fName) => {
                             Physical disability:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(sectoral.physical_disability) }}
+                            {{
+                                sectoral.physical_disability === null
+                                    ? "N/A"
+                                    : formatName(sectoral.physical_disability)
+                            }}
                         </div>
                     </div>
 
@@ -210,7 +234,11 @@ const formatName = (fName) => {
                             Facebook account:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.fb_accnt }}
+                            {{
+                                sectoral.fb_accnt === null
+                                    ? "N/A"
+                                    : formatName(sectoral.fb_accnt)
+                            }}
                         </div>
                     </div>
 
@@ -219,7 +247,11 @@ const formatName = (fName) => {
                             School last attended:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.school_last_attend }}
+                            {{
+                                sectoral.school_last_attend === null
+                                    ? "N/A"
+                                    : formatName(sectoral.school_last_attend)
+                            }}
                         </div>
                     </div>
 
@@ -228,7 +260,11 @@ const formatName = (fName) => {
                             Month and Year:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.month_year }}
+                            {{
+                                sectoral.month_year === null
+                                    ? "N/A"
+                                    : sectoral.month_year
+                            }}
                         </div>
                     </div>
 
@@ -237,7 +273,11 @@ const formatName = (fName) => {
                             Skills:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.skills }}
+                            {{
+                                sectoral.skills === null
+                                    ? "N/A"
+                                    : formatName(sectoral.skills)
+                            }}
                         </div>
                     </div>
 
@@ -246,7 +286,11 @@ const formatName = (fName) => {
                             Interest and hobby:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.interest_hobby }}
+                            {{
+                                sectoral.interest_hobby === null
+                                    ? "N/A"
+                                    : formatName(sectoral.interest_hobby)
+                            }}
                         </div>
                     </div>
 
@@ -255,7 +299,11 @@ const formatName = (fName) => {
                             Work experience:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.work_exp }}
+                            {{
+                                sectoral.work_exp === null
+                                    ? "N/A"
+                                    : formatName(sectoral.work_exp)
+                            }}
                         </div>
                     </div>
 
@@ -264,7 +312,11 @@ const formatName = (fName) => {
                             Organizational membership:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.org_membership }}
+                            {{
+                                sectoral.org_membership === null
+                                    ? "N/A"
+                                    : formatName(sectoral.org_membership)
+                            }}
                         </div>
                     </div>
 
@@ -273,7 +325,11 @@ const formatName = (fName) => {
                             Family Members:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ sectoral.fam_members }}
+                            {{
+                                sectoral.fam_members === null
+                                    ? "N/A"
+                                    : sectoral.fam_members
+                            }}
                         </div>
                     </div>
 
@@ -291,7 +347,11 @@ const formatName = (fName) => {
                             Position:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatName(sectoral.position) }}
+                            {{
+                                sectoral.position === null
+                                    ? "N/A"
+                                    : formatName(sectoral.position)
+                            }}
                         </div>
                     </div>
                     <div class="row">
@@ -326,7 +386,11 @@ const formatName = (fName) => {
                             Modified Date:
                         </div>
                         <div class="col-lg-10 col-md-10">
-                            {{ formatDate(sectoral.modified_date) ?? null }}
+                            {{
+                                sectoral.modified_date === null
+                                    ? ""
+                                    : formatDate(sectoral.modified_date)
+                            }}
                         </div>
                     </div>
                 </div>

@@ -71,9 +71,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::put('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
                 Route::put('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
 
-                // Delete data in database
-                Route::delete('/intake/destroy/{id}', 'destroy');
-
                 Route::get('/intake/print/{id}', 'print')->name('intake.print');
                 Route::get('/intake/export/{id}', 'export')->name('intake.export');
     });
@@ -98,7 +95,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/sectoral-data/create-post', 'store');
                 Route::get('/sectoral-data/edit/{id}', 'edit');
                 Route::put('/sectoral-data/update/{id}', 'update');
-                Route::delete('/sectoral-data/destroy/{id}', 'destroy');
                 Route::get('/sectoral-data/filter/{sector?}/{municipality?}', 'filter');
                 Route::get('/sectoral-data/show/{id}', 'show');
     });
@@ -110,7 +106,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/type-assistance/post', 'store')->name('assistance.post');
                 Route::get('/type-assistance/edit/{id}', 'edit');
                 Route::put('/type-assistance/update/{id}', 'update')->name('assistance.update');
-                Route::delete('/type-assistance/destroy/{id}', 'destroy');
     });
 
     // Municipality Controller
@@ -137,7 +132,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/sectors/post', 'store')->name('sector.post');
                 Route::get('/sectors/edit/{id}', 'edit');
                 Route::put('/sectors/edit/{id}', 'update');
-                Route::delete('/sectors/destroy/{id}', 'destroy');
     });
 
     // Staff Administrator Controller
@@ -147,7 +141,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/staff-admin/post', 'store')->name('staff.post');
                 Route::get('/staff-admin/edit/{id}', 'edit');
                 Route::put('/staff-admin/edit/{id}', 'update');
-                Route::delete('/staff-admin/destroy/{id}', 'destroy');
     });
 
 
@@ -158,7 +151,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/office-charges/post', 'store')->name('office.post');
                 Route::get('/office-charges/edit/{id}', 'edit');
                 Route::put('/office-charges/edit/{id}', 'update');
-                Route::delete('/office-charges/destroy/{id}', 'destroy');
     });
 
     // Chart Reports

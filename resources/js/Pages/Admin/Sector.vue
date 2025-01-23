@@ -1,7 +1,7 @@
 <script setup>
 import LayoutApp from "../../Shared/Layout.vue";
 import { ref, watch, reactive } from "vue";
-import { Link, router } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import { debounce } from "lodash";
 import { toast } from "vue3-toastify";
 import Pagination from "../../components/Pagination.vue";
@@ -110,41 +110,6 @@ const updateData = async () => {
                 autoClose: 2000,
             });
         }
-    }
-};
-
-const delData = async (id) => {
-    try {
-        alertify.confirm(
-            "Delete Record",
-            "Are you sure you want to delete this record?",
-            function (_, value) {
-                axios
-                    .post(`/sectors/destroy/${id}`, {
-                        key: value,
-                        _method: "DELETE",
-                    })
-                    .then((_) => {
-                        toast.success(
-                            "You have successfully delete a record!",
-                            {
-                                autoClose: 2000,
-                            }
-                        );
-                        router.visit("/sectors", {
-                            preserveScroll: true,
-                        });
-                    })
-                    .catch((error) => {
-                        toast.error(error.response.data.message, {
-                            autoClose: 2000,
-                        });
-                    });
-            },
-            function () {}
-        );
-    } catch (error) {
-        console.error("Error submitting form:", error);
     }
 };
 
@@ -342,15 +307,6 @@ watch(
                                     >
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-danger"
-                                        title="Delete"
-                                        @click="delData(sector.id)"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        <!-- Delete -->
                                     </button>
                                 </td>
                             </tr>

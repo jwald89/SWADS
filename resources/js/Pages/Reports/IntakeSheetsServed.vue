@@ -1,16 +1,14 @@
 <script setup>
 import { defineComponent, ref } from "vue";
-import LayoutApp from "@/Shared/Layout.vue";
+import LayoutApp from "/resources/js/Shared//Layout.vue";
 import VueApexCharts from "vue3-apexcharts";
 
 const props = defineProps({
     intakes: {
         type: Object,
-        required: true,
     },
     currentYear: {
-        type: Object,
-        required: true,
+        type: String,
     },
 });
 
