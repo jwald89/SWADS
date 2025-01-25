@@ -70,7 +70,11 @@ const formatName = (fName) => {
                                     Middle name:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ formatName(sectoral.middle_name) }}
+                                    {{
+                                        sectoral.middle_name === null
+                                            ? ""
+                                            : formatName(sectoral.middle_name)
+                                    }}
                                 </div>
                             </div>
 
@@ -106,7 +110,11 @@ const formatName = (fName) => {
                                     Birthdate:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ formatDate(sectoral.birthdate) }}
+                                    {{
+                                        sectoral.birthdate === null
+                                            ? ""
+                                            : formatDate(sectoral.birthdate)
+                                    }}
                                 </div>
                             </div>
                             <div class="row">
@@ -114,7 +122,11 @@ const formatName = (fName) => {
                                     Place of birth:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ formatName(sectoral.place_birth) }}
+                                    {{
+                                        sectoral.place_birth === null
+                                            ? ""
+                                            : formatName(sectoral.place_birth)
+                                    }}
                                 </div>
                             </div>
 
@@ -154,7 +166,11 @@ const formatName = (fName) => {
                                     Civil status:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ formatName(sectoral.civil_status) }}
+                                    {{
+                                        sectoral.civil_status === null
+                                            ? ""
+                                            : formatName(sectoral.civil_status)
+                                    }}
                                 </div>
                             </div>
 
@@ -235,7 +251,11 @@ const formatName = (fName) => {
                                     Date encoded:
                                 </div>
                                 <div class="col-lg-7 col-md-10">
-                                    {{ formatDate(sectoral.date_encoded) }}
+                                    {{
+                                        sectoral.date_encoded === null
+                                            ? ""
+                                            : formatDate(sectoral.date_encoded)
+                                    }}
                                 </div>
                             </div>
 
@@ -412,15 +432,17 @@ const formatName = (fName) => {
                                     Status:
                                 </div>
                                 <div class="col-lg-7 col-md-10">
-                                    {{ formatName(sectoral.status) }}
+                                    {{
+                                        sectoral.status === null
+                                            ? ""
+                                            : formatName(sectoral.status)
+                                    }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="mt-3"></div>
         </div>
     </LayoutApp>
 </template>

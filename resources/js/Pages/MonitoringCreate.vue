@@ -30,8 +30,10 @@ const props = defineProps({
 });
 
 const claimant = ref(null);
+const beneficiaryData = ref(null);
 const errors = reactive({});
 const filteredMonitors = ref([]); // Clone initial options
+const beneficiaries = ref([]);
 
 // Monitor form reactive object
 const monitorForm = reactive({
@@ -109,6 +111,23 @@ const fetchMonitoringRecords = async () => {
     }
 };
 
+const fetchBeneficiaries = async () => {
+    if (!monitorForm.claimant) {
+        beneficiaries.value = [];
+        monitorForm.beneficiary = null;
+        return;
+    }
+
+    try {
+        const response = await axios.get("/api/fetch-beneficiaries", {
+            params: { claimant: monitorForm.claimant },
+        });
+        beneficiaries.value = response.data;
+    } catch (error) {
+        console.error("Error fetching beneficiaries:", error);
+    }
+};
+
 const submitForm = async () => {
     if (monitorForm.claimant) {
         errors.claimant = "";
@@ -171,16 +190,27 @@ const submitForm = async () => {
     }
 };
 
-watch(claimant, function () {
-    monitorForm.claimant = claimant.value.id;
-    monitorForm.age = claimant.value.age;
-    monitorForm.gender = claimant.value.gender;
-    monitorForm.contact_no = claimant.value.contact_no;
-    monitorForm.barangay = claimant.value.barangay;
-    monitorForm.municipality = claimant.value.municipality;
-    monitorForm.assistance_type = claimant.value.category;
-    monitorForm.date_intake = claimant.value.date_intake;
-    monitorForm.staff_admin = claimant.value.created_by;
+watch(claimant, (newClaimant) => {
+    if (newClaimant) {
+        monitorForm.claimant = newClaimant.id;
+        monitorForm.age = newClaimant.age;
+        monitorForm.gender = newClaimant.gender;
+        monitorForm.contact_no = newClaimant.contact_no;
+        monitorForm.barangay = newClaimant.barangay;
+        monitorForm.municipality = newClaimant.municipality;
+        monitorForm.assistance_type = newClaimant.category;
+        monitorForm.date_intake = newClaimant.date_intake;
+        monitorForm.staff_admin = newClaimant.created_by;
+        fetchBeneficiaries();
+    } else {
+        resetForm();
+    }
+});
+
+watch(beneficiaryData, (newBeneficiary) => {
+    if (newBeneficiary) {
+        monitorForm.beneficiary = newBeneficiary.fullname;
+    }
 });
 
 onMounted(fetchMonitoringRecords);
@@ -227,7 +257,6 @@ onMounted(fetchMonitoringRecords);
                             }"
                             placeholder="Select"
                         >
-                            <v-option value="">Select</v-option>
                         </v-select>
                         <small v-if="errors.claimant" class="text-danger">{{
                             errors.claimant
@@ -239,15 +268,20 @@ onMounted(fetchMonitoringRecords);
                                 >*</span
                             ></label
                         >
-                        <input
-                            type="text"
-                            class="form-control"
+                        <v-select
+                            class="fw-bold"
                             name="beneficiary"
                             id="beneficiary"
-                            v-model="monitorForm.beneficiary"
-                            :class="{ 'is-invalid': errors.beneficiary }"
-                            placeholder="Enter a name.."
-                        />
+                            v-model="beneficiaryData"
+                            :options="beneficiaries"
+                            :reduce="(data) => data"
+                            label="fullname"
+                            :class="{
+                                'form-control is-invalid': errors.beneficiary,
+                            }"
+                            placeholder="Select"
+                        >
+                        </v-select>
                         <small v-if="errors.beneficiary" class="text-danger">{{
                             errors.beneficiary
                         }}</small>
@@ -262,7 +296,7 @@ onMounted(fetchMonitoringRecords);
                             id="age"
                             name="age"
                             v-model="monitorForm.age"
-                            disabled
+                            readonly
                         />
                     </div>
                     <div class="col-md-2">
@@ -275,7 +309,7 @@ onMounted(fetchMonitoringRecords);
                             name="gender"
                             id="gender"
                             v-model="monitorForm.gender"
-                            disabled
+                            readonly
                         />
                     </div>
                     <div class="col-md-3">
@@ -331,7 +365,7 @@ onMounted(fetchMonitoringRecords);
                             name="municipal"
                             id="municipal"
                             v-model="monitorForm.municipality"
-                            disabled
+                            readonly
                         />
                     </div>
 
@@ -345,7 +379,6 @@ onMounted(fetchMonitoringRecords);
                             name="barangay"
                             id="barangay"
                             v-model="monitorForm.barangay"
-                            disabled
                         />
                     </div>
                     <div class="col-md-4">
@@ -383,7 +416,6 @@ onMounted(fetchMonitoringRecords);
                             name="assistanceType"
                             id="assistanceType"
                             v-model="monitorForm.assistance_type"
-                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -435,7 +467,6 @@ onMounted(fetchMonitoringRecords);
                             id="intakeDate"
                             name="intakeDate"
                             v-model="monitorForm.date_intake"
-                            disabled
                         />
                     </div>
                     <div class="col-md-5">
@@ -450,7 +481,6 @@ onMounted(fetchMonitoringRecords);
                             name="staff"
                             id="staff"
                             v-model="monitorForm.staff_admin"
-                            disabled
                         />
                     </div>
                     <div class="col-md-4">

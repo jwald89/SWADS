@@ -264,7 +264,11 @@ const formatName = (fName) => {
                                     Remarks:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ formatName(monitorings.remarks) }}
+                                    {{
+                                        monitorings.remarks === null
+                                            ? ""
+                                            : formatName(monitorings.remarks)
+                                    }}
                                 </div>
                             </div>
 

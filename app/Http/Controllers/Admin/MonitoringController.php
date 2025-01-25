@@ -14,9 +14,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MonitorRequest;
+use App\Http\Resources\FamilyCompositionResource;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\PersonalDetailResource;
+use App\Models\FamilyComposition;
 
 class MonitoringController extends Controller
 {
@@ -99,11 +101,31 @@ class MonitoringController extends Controller
         ]);
     }
 
+
+     /**
+     * Get data on monitorings datatable.
+    */
     public function getMonitoringRecords()
     {
         $monitoringRecords = Monitoring::all(['claimant']);
+
         return response()->json($monitoringRecords);
     }
+
+
+     /**
+     * Get data beneficiary on the family_composition datatable.
+    */
+    public function fetchBeneficiaries(Request $request)
+    {
+        $claimantId = $request->input('claimant');
+
+        // Fetch beneficiaries where `applicant_id` matches the claimant's ID
+        $beneficiaries = FamilyCompositionResource::collection(FamilyComposition::where('applicant_id', $claimantId)->get());
+
+        return response()->json($beneficiaries);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -219,7 +241,6 @@ class MonitoringController extends Controller
                 . ucfirst($staffAdmin->last_name);
         }
 
-
         // Retrieve the modified_by user details
         $modifiedByUser = null;
         if ($monitorings && $monitorings->modified_by !== null) {
@@ -239,6 +260,5 @@ class MonitoringController extends Controller
             'staffAdmin' => $staffAdmin,
         ]);
     }
-
 
 }

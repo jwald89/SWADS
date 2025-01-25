@@ -17,7 +17,7 @@ class PersonalDetailResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'fullname' => $this->first_name .' '. substr($this->middle_name, 0, 1) .'. '. $this->last_name,
+            'fullname' => ucwords($this->first_name) .' '. ucfirst(substr($this->middle_name, 0, 1)) .'. '. ucwords($this->last_name),
             'age' => $this->age,
             'gender' => $this->sex,
             'contact_no' => $this->contact_no,
