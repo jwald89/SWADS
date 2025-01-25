@@ -19,6 +19,21 @@ const props = defineProps({
         type: Object,
     },
 });
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Custom formatting: Day, 3-letter month, and year
+    const options = { year: "numeric", month: "short", day: "numeric" };
+
+    // Format the date using toLocaleDateString
+    let formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Add a period after the 3-letter month
+    formattedDate = formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
+
+    return formattedDate;
+};
 </script>
 
 <template>
@@ -66,7 +81,7 @@ const props = defineProps({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Sector's Overview <span>| Today</span>
+                                        Sector's Overview
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -125,7 +140,7 @@ const props = defineProps({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Total Amount of Assistance
+                                        Total amount of assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -195,9 +210,7 @@ const props = defineProps({
                                 </div>
 
                                 <div class="card-body">
-                                    <h5 class="card-title">
-                                        Total No. of Assistance
-                                    </h5>
+                                    <h5 class="card-title">Total assistance</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -415,7 +428,11 @@ const props = defineProps({
                                         >
                                             <tr>
                                                 <td class="text-primary">
-                                                    {{ status.date_intake }}
+                                                    {{
+                                                        formatDate(
+                                                            status.date_intake
+                                                        )
+                                                    }}
                                                 </td>
                                                 <td>
                                                     {{

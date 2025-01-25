@@ -108,6 +108,7 @@ watch(
                                 <th>Birth Date</th>
                                 <th>Address</th>
                                 <th>Date Intake</th>
+                                <th>COE</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -182,13 +183,22 @@ watch(
                                     {{ formatDate(detail.date_intake) }}
                                 </td>
                                 <td>
+                                    <a
+                                        :href="`/intake/print-coe/${detail.id}`"
+                                        class="btn btn-sm btn-warning"
+                                        target="_blank"
+                                        title="Print"
+                                    >
+                                        <i class="bi bi-printer"></i>
+                                    </a>
+                                </td>
+                                <td>
                                     <Link
                                         :href="`/intake/edit/${detail.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         title="Edit"
                                     >
                                         <i class="bi bi-pencil-square"></i>
-                                        <!-- Edit -->
                                     </Link>
                                     <Link
                                         :href="`/intake/show/${detail.id}`"
@@ -196,24 +206,21 @@ watch(
                                         title="Details"
                                     >
                                         <i class="bi bi-eye"></i>
-                                        <!-- Details -->
                                     </Link>
                                     <a
-                                        :href="`/intake/print/${detail.id}`"
+                                        :href="`/intake/intake-sheet-print/${detail.id}`"
                                         class="btn btn-sm btn-warning me-2"
                                         target="_blank"
                                         title="Print"
                                     >
                                         <i class="bi bi-printer"></i>
-                                        <!-- Print -->
                                     </a>
                                     <a
                                         :href="`/intake/export/${detail.id}`"
                                         class="btn btn-sm btn-success me-2"
-                                        title="Export"
+                                        title="Download"
                                     >
                                         <i class="bi bi-download"></i>
-                                        <!-- Export -->
                                     </a>
                                 </td>
                             </tr>

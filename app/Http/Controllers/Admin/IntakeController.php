@@ -185,7 +185,7 @@ class IntakeController extends Controller
 
 
     // Printing process
-    public function print($id)
+    public function intakeSheetPrint($id)
     {
         $intakes = PersonalInformation::with(['assistance', 'user'])
                     ->where('id', $id)
@@ -203,9 +203,9 @@ class IntakeController extends Controller
          }
 
          if ($createdByUser) {
-            $createdBy = ucfirst($createdByUser->first_name) . ' '
-                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
-                . ucfirst($createdByUser->last_name);
+            $createdBy = strtoupper($createdByUser->first_name) . ' '
+                . strtoupper(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . strtoupper($createdByUser->last_name);
         }
 
         $famCompose = DB::table('family_compositions')
@@ -229,7 +229,7 @@ class IntakeController extends Controller
 
         $pdf = App::make('snappy.pdf.wrapper');
 
-        $pdf->loadView('intakes-sheet', compact('intakes', 'famCompose', 'referrals', 'remarks', 'createdBy'))
+        $pdf->loadView('intakes-sheet-print', compact('intakes', 'famCompose', 'referrals', 'remarks', 'createdBy'))
             ->setPaper('A4')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
@@ -238,6 +238,44 @@ class IntakeController extends Controller
 
         return $pdf->inline();
     }
+
+    // Print certificate of eligibility
+    public function coePrint($id)
+    {
+        $intakes = PersonalInformation::with(['assistance', 'user'])
+                    ->where('id', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        $intakeCreatedId = PersonalInformation::with(['user'])->find($id);
+
+        $createdBy = '';
+
+        // Retrieve the created_by user details
+        $createdByUser = null;
+        if ($intakeCreatedId && $intakeCreatedId->created_by !== null) {
+            $createdByUser = User::find($intakeCreatedId->created_by);
+        }
+
+        if ($createdByUser) {
+            $createdBy = ucfirst($createdByUser->first_name) . ' '
+            . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+            . ucfirst($createdByUser->last_name);
+        }
+
+
+        $pdf = App::make('snappy.pdf.wrapper');
+
+        $pdf->loadView('coe-print', compact('intakes', 'createdBy'))
+            ->setPaper('A4')
+            ->setOption('enable-local-file-access', true)
+            ->setOrientation('portrait')
+            ->setOption('margin-top', 5)
+            ->setOption('margin-bottom', 0);
+
+        return $pdf->inline();
+    }
+
 
     // Exporting process
     public function export($id)

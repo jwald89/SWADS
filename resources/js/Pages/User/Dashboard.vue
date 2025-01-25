@@ -4,10 +4,10 @@ import Chart from "@/components/Chart.vue";
 
 const props = defineProps({
     totalNums: {
-        type: Object,
+        type: String,
     },
     totalAmt: {
-        type: Object,
+        type: String,
     },
     monitorings: {
         type: Object,
@@ -15,7 +15,34 @@ const props = defineProps({
     monitorStatus: {
         type: Object,
     },
+    sumOfSectors: {
+        type: String,
+    },
 });
+
+const formatName = (fname) => {
+    return fname
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+};
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Custom formatting: Day, 3-letter month, and year
+    const options = { year: "numeric", month: "short", day: "numeric" };
+
+    // Format the date using toLocaleDateString
+    let formattedDate = date.toLocaleDateString("en-US", options);
+
+    // Add a period after the 3-letter month
+    formattedDate = formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
+
+    return formattedDate;
+};
 </script>
 
 <template>
@@ -63,7 +90,7 @@ const props = defineProps({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Sector's Overview <span>| Today</span>
+                                        Sector's Overview
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -73,7 +100,7 @@ const props = defineProps({
                                             <i class="bi bi-cart"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
+                                            <h6>{{ sumOfSectors }}</h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
                                                 >Month</span
@@ -122,7 +149,7 @@ const props = defineProps({
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Total Amount of Assistance
+                                        Total amount of assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -192,9 +219,7 @@ const props = defineProps({
                                 </div>
 
                                 <div class="card-body">
-                                    <h5 class="card-title">
-                                        Total No. of Assistance
-                                    </h5>
+                                    <h5 class="card-title">Total assistance</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -275,9 +300,40 @@ const props = defineProps({
                                             :key="index"
                                         >
                                             <tr>
-                                                <th scope="row">
-                                                    {{ monitoring.claimant }}
-                                                </th>
+                                                <td scope="row">
+                                                    {{
+                                                        monitoring.intake
+                                                            .first_name === null
+                                                            ? ""
+                                                            : formatName(
+                                                                  monitoring
+                                                                      .intake
+                                                                      .first_name
+                                                              )
+                                                    }}
+                                                    {{
+                                                        monitoring.intake
+                                                            .middle_name ===
+                                                        null
+                                                            ? ""
+                                                            : formatName(
+                                                                  monitoring.intake.middle_name.substr(
+                                                                      0,
+                                                                      1
+                                                                  )
+                                                              )
+                                                    }}.
+                                                    {{
+                                                        monitoring.intake
+                                                            .last_name === null
+                                                            ? ""
+                                                            : formatName(
+                                                                  monitoring
+                                                                      .intake
+                                                                      .last_name
+                                                              )
+                                                    }}
+                                                </td>
                                                 <td>
                                                     {{
                                                         monitoring.municipality
@@ -285,7 +341,8 @@ const props = defineProps({
                                                 </td>
                                                 <td>
                                                     {{
-                                                        monitoring.assistance_type
+                                                        monitoring.assistance
+                                                            .name
                                                     }}
                                                 </td>
                                                 <td class="fw-bold">
@@ -371,13 +428,46 @@ const props = defineProps({
                                         >
                                             <tr>
                                                 <td class="text-primary">
-                                                    {{ status.date_intake }}
+                                                    {{
+                                                        formatDate(
+                                                            status.date_intake
+                                                        )
+                                                    }}
                                                 </td>
                                                 <td>
-                                                    {{ status.claimant }}
+                                                    {{
+                                                        status.intake
+                                                            .first_name === null
+                                                            ? ""
+                                                            : formatName(
+                                                                  status.intake
+                                                                      .first_name
+                                                              )
+                                                    }}
+                                                    {{
+                                                        status.intake
+                                                            .middle_name ===
+                                                        null
+                                                            ? ""
+                                                            : formatName(
+                                                                  status.intake.middle_name.substr(
+                                                                      0,
+                                                                      1
+                                                                  )
+                                                              )
+                                                    }}.
+                                                    {{
+                                                        status.intake
+                                                            .last_name === null
+                                                            ? ""
+                                                            : formatName(
+                                                                  status.intake
+                                                                      .last_name
+                                                              )
+                                                    }}
                                                 </td>
                                                 <td>
-                                                    {{ status.sector }}
+                                                    {{ status.sector.name }}
                                                 </td>
                                                 <td>
                                                     {{ status.charges }}
