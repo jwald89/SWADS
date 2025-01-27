@@ -1,6 +1,10 @@
 <script setup>
+import { defineComponent, watchEffect } from "vue";
 import LayoutApp from "/resources/js/Shared//Layout.vue";
 import { Link } from "@inertiajs/vue3";
+import axios from "axios";
+import { toast } from "vue3-toastify";
+import vSelect from "vue-select";
 
 // Props from Inertia
 const props = defineProps({
@@ -8,6 +12,63 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    sectors: {
+        type: Object,
+        required: true,
+    },
+    municipality: {
+        type: Object,
+        required: true,
+    },
+    barangays: {
+        type: Object,
+        required: true,
+    },
+});
+
+const submitData = async () => {
+    try {
+        const response = await axios.put(
+            `/municipal/sectoral/update/${props.sectoral.id}`,
+            props.sectoral
+        );
+
+        toast.success("Record successfully updated.", {
+            autoClose: 1000,
+        });
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                }
+            }
+
+            const errorMsg = error.response.data.error;
+            if (errorMsg) {
+                toast.error(errorMsg, {
+                    autoClose: 10000,
+                });
+            } else {
+                toast.error("Please fill in the blanks error!", {
+                    autoClose: 2000,
+                });
+            }
+        }
+
+        console.error("Error submitting form:", error);
+    }
+};
+
+watchEffect(() => {
+    props.sectoral.sector = parseInt(props.sectoral.sector);
+    props.sectoral.municipality = parseInt(props.sectoral.municipality);
+    props.sectoral.barangay = parseInt(props.sectoral.barangay);
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -32,17 +93,20 @@ const props = defineProps({
                 </div>
             </div>
             <div class="card-body">
-                <form class="row g-3 mt-3">
+                <form @submit.prevent="submitData" class="row g-3 mt-3">
                     <div class="col-md-6">
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <input
-                            class="form-control"
+                        <v-select
                             name="sector"
+                            :options="sectors.data"
+                            :reduce="(data) => data.id"
                             id="sector"
-                            v-model="sectoral.sector.name"
-                        />
+                            label="name"
+                            v-model="sectoral.sector"
+                        >
+                        </v-select>
                     </div>
                     <div class="col-md-6">
                         <label for="dateEncoded"
@@ -171,25 +235,31 @@ const props = defineProps({
                         <label for="barangay"
                             >Barangay<span class="text-danger">*</span></label
                         >
-                        <input
+                        <v-select
                             name="barangay"
+                            :options="barangays.data"
+                            :reduce="(data) => data.id"
                             id="barangay"
-                            class="form-control"
-                            v-model="sectoral.barangay.barangay"
-                        />
+                            label="barangay"
+                            v-model="sectoral.barangay"
+                        >
+                        </v-select>
                     </div>
                     <div class="col-md-3">
-                        <label for="municipal"
+                        <label for="municipality"
                             >Municipality<span class="text-danger"
                                 >*</span
                             ></label
                         >
-                        <input
+                        <v-select
                             name="municipality"
+                            :options="municipality.data"
+                            :reduce="(data) => parseInt(data.id)"
                             id="municipality"
-                            class="form-control"
-                            v-model="sectoral.municipality.municipality"
-                        />
+                            label="municipality"
+                            v-model="sectoral.municipality"
+                        >
+                        </v-select>
                     </div>
                     <div class="col-md-3">
                         <label for="birthdate"

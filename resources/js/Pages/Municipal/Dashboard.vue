@@ -1,5 +1,17 @@
 <script setup>
-import LayoutApp from "@/Shared/Layout.vue";
+import LayoutApp from "../../Shared/Layout.vue";
+
+const props = defineProps({
+    sectorAvg: {
+        type: String,
+    },
+    totalAmt: {
+        type: String,
+    },
+    totalNums: {
+        type: String,
+    },
+});
 </script>
 
 <template>
@@ -54,13 +66,15 @@ import LayoutApp from "@/Shared/Layout.vue";
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         >
-                                            <i class="bi bi-cart"></i>
+                                            <i
+                                                class="bi bi-file-spreadsheet-fill"
+                                            ></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
+                                            <h6>{{ sectorAvg }}</h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
-                                                >Month</span
+                                                >This Year</span
                                             >
                                         </div>
                                     </div>
@@ -106,19 +120,18 @@ import LayoutApp from "@/Shared/Layout.vue";
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Total Amount of Assistance
+                                        Total amount of assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         >
-                                            <i
-                                                class="bi bi-currency-dollar"
-                                            ></i>
+                                            <i class="bi bi-cash"></i>
                                         </div>
                                         <div class="ps-3">
                                             <h6>
+                                                ₱
                                                 {{
                                                     new Intl.NumberFormat(
                                                         "en-US",
@@ -131,7 +144,7 @@ import LayoutApp from "@/Shared/Layout.vue";
                                             </h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
-                                                >Money</span
+                                                >Cash</span
                                             >
                                         </div>
                                     </div>
@@ -176,15 +189,13 @@ import LayoutApp from "@/Shared/Layout.vue";
                                 </div>
 
                                 <div class="card-body">
-                                    <h5 class="card-title">
-                                        Total No. of Assistance
-                                    </h5>
+                                    <h5 class="card-title">Total assistance</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         >
-                                            <i class="bi bi-people"></i>
+                                            <i class="bi bi-kanban"></i>
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ totalNums }}</h6>

@@ -269,7 +269,7 @@ watch(
                                         <!-- Edit -->
                                     </Link>
                                     <Link
-                                        :href="`/municipal/edit-municipal/${sectoral.id}`"
+                                        :href="`/municipal/sectoral/edit/${sectoral.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['municipal'])"
                                         title="Update"

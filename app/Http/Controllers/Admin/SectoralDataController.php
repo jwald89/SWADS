@@ -26,32 +26,48 @@ class SectoralDataController extends Controller
      */
     public function index()
     {
-
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
             $sectoral = Sectoral::with(['sector', 'municipality'])
-                ->when(request()->search !== '', function ($query) {
-                    $search = request()->search;
-                    $query->where(function ($query) use($search) {
-                        $query->where('sector', 'like', '%' . $search . '%')
-                            ->orWhere('first_name', 'like', '%' . $search . '%')
-                            ->orWhere('middle_name', 'like', '%' . $search . '%')
-                            ->orWhere('last_name', 'like', '%' . $search . '%')
-                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
-                            ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
-                    })->orWhereHas('sector', function($sector) use($search) {
-                        $sector->where('name', 'like', '%' . $search . '%');
-                    })->orWhereHas('municipality', function($municipalQuery) use($search) {
-                        $municipalQuery->where('municipality', 'like', '%' . $search . '%');
-                    });
+                ->when(Auth::user()->role_type === 'MUNICIPAL', function($query) {
+                    $query->where('municipality', Auth::user()->municipality)
+                        ->where(function ($query) {
+                            $search = request()->search;
+                            $query->where('first_name', 'like', '%' . $search . '%')
+                                    ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                    ->orWhereHas('sector', function($sector) use($search) {
+                                        $sector->where('name', 'like', '%' . $search . '%');
+                                    })
+                                    ->orWhereHas('municipality', function($sector) use($search) {
+                                        $sector->where('municipality', 'like', '%' . $search . '%');
+                                    });
+                        });
                 })
-                ->when(Auth::user()->role_type === 'MUNICIPAL', function ($query) {
-                        $query->where('municipality', '=', Auth::user()->municipality);
+                ->when(Auth::user()->role_type !== 'MUNICIPAL', function ($query) {
+                    $query->where(function($query) {
+                        $search = request()->search;
+                        $query->where('first_name', 'like', '%' . $search . '%')
+                                ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                ->orWhere('last_name', 'like', '%' . $search . '%')
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                ->orWhereHas('sector', function($sector) use($search) {
+                                    $sector->where('name', 'like', '%' . $search . '%');
+                                })
+                                ->orWhereHas('municipality', function($sector) use($search) {
+                                    $sector->where('municipality', 'like', '%' . $search . '%');
+                                });
+                    });
                 })
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
-        }
+
+            }
 
         $municipalities = MunicipalityResource::collection(Municipality::all());
         $sectors = SectorResource::collection(Sector::all());

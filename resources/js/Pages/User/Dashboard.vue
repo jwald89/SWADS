@@ -97,13 +97,15 @@ const formatDate = (dateString) => {
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         >
-                                            <i class="bi bi-cart"></i>
+                                            <i
+                                                class="bi bi-file-spreadsheet-fill"
+                                            ></i>
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ sumOfSectors }}</h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
-                                                >Month</span
+                                                >This Year</span
                                             >
                                         </div>
                                     </div>
@@ -156,12 +158,11 @@ const formatDate = (dateString) => {
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         >
-                                            <i
-                                                class="bi bi-currency-dollar"
-                                            ></i>
+                                            <i class="bi bi-cash"></i>
                                         </div>
                                         <div class="ps-3">
                                             <h6>
+                                                ₱
                                                 {{
                                                     new Intl.NumberFormat(
                                                         "en-US",
@@ -174,7 +175,7 @@ const formatDate = (dateString) => {
                                             </h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
-                                                >Money</span
+                                                >Cash</span
                                             >
                                         </div>
                                     </div>
@@ -225,7 +226,7 @@ const formatDate = (dateString) => {
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center"
                                         >
-                                            <i class="bi bi-people"></i>
+                                            <i class="bi bi-kanban"></i>
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ totalNums }}</h6>
