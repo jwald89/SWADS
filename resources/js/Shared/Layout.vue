@@ -448,7 +448,7 @@ onMounted(() => {
                             </span>
                         </Link>
                     </li>
-                    <li>
+                    <!-- <li>
                         <Link class="nav-link" :href="`/municipality`">
                             <i
                                 class="bi bi-circle"
@@ -465,8 +465,8 @@ onMounted(() => {
                                 >Municipality
                             </span>
                         </Link>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <Link class="nav-link" :href="`/barangay`">
                             <i
                                 class="bi bi-circle"
@@ -483,7 +483,7 @@ onMounted(() => {
                                 >Barangay
                             </span>
                         </Link>
-                    </li>
+                    </li> -->
                     <li>
                         <Link class="nav-link" :href="`/sectors`">
                             <i

@@ -32,18 +32,20 @@ const props = defineProps({
 
 const search = ref(props.search || "");
 
-const selectedSector = ref("All");
-const selectedMunicipal = ref("All");
+const selectedSector = ref({ id: "*", name: "All" });
+const selectedMunicipal = ref({ id: "*", municipality: "All" });
+const selectedMonth = ref({ id: "*", name: "All" });
 
 const filterData = async () => {
     try {
         const sectorId = selectedSector.value.id || "*";
         const municipalId = selectedMunicipal.value.id || "*";
+        const monthId = selectedMonth.value.id || "*";
 
         const response = await axios.get(
-            `/sectoral-data/filter/${sectorId}/${municipalId}`
+            `/sectoral-data/filter/${sectorId}/${municipalId}/${monthId}`
         );
-        console.log("API Response:", response.data);
+        // console.log("API Response:", response.data);
         props.sectoral.data = response.data;
     } catch (error) {
         console.error("Error fetching filtered data:", error);
@@ -51,12 +53,9 @@ const filterData = async () => {
 };
 
 // Watch for changes in props.data and update filteredData accordingly
-watch(
-    [(() => selectedSector.value.id, () => selectedMunicipal.value.id)],
-    () => {
-        filterData();
-    }
-);
+watch([selectedSector, selectedMunicipal, selectedMonth], () => {
+    filterData();
+});
 
 const page = usePage();
 
@@ -121,89 +120,85 @@ watch(
                     </div>
                 </div>
             </div>
-            <div class="card-body p-4 m-2">
+            <div class="card-body p-4 mt-1">
                 <div class="d-flex justify-around">
-                    <div class="col-lg-6">
-                        <button
-                            class="btn btn-primary"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample"
-                            aria-expanded="false"
-                            aria-controls="collapseExample"
+                    <div class="row col-lg-10">
+                        <div class="col-lg-3">
+                            <label class="fw-bold" for=""
+                                >Filter a sector type</label
+                            >
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    ...sectors.data,
+                                ]"
+                                v-model="selectedSector"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                        <div
+                            class="col-lg-3 ms-1"
+                            v-if="hasAccess(['admin', 'user'])"
                         >
-                            <i class="bi bi-filter-circle"></i>
-                            Filter Column
-                        </button>
+                            <label class="fw-bold" for=""
+                                >Filter a municipality</label
+                            >
+                            <v-select
+                                :options="[
+                                    { id: '*', municipality: 'All' },
+                                    ...municipalities.data,
+                                ]"
+                                v-model="selectedMunicipal"
+                                label="municipality"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                        <div class="col-lg-2 ms-1">
+                            <label class="fw-bold" for="">Month</label>
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    { id: '01', name: 'January' },
+                                    { id: '02', name: 'February' },
+                                    { id: '03', name: 'March' },
+                                    { id: '04', name: 'April' },
+                                    { id: '05', name: 'May' },
+                                    { id: '06', name: 'June' },
+                                    { id: '07', name: 'July' },
+                                    { id: '08', name: 'August' },
+                                    { id: '09', name: 'September' },
+                                    { id: '10', name: 'October' },
+                                    { id: '11', name: 'November' },
+                                    { id: '12', name: 'December' },
+                                ]"
+                                v-model="selectedMonth"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                        <div class="col-md-2 ms-1">
+                            <label class="fw-bold" for="">Year</label>
+                            <select name="" id="" class="form-select">
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-2">
+                        <label class="fw-bold" for=""
+                            >Search by client name
+                        </label>
                         <input
                             type="text"
                             v-model="search"
-                            class="form-control border border-dark"
+                            class="form-control border border-secondary"
                             autofocus
-                            placeholder="Search here.."
+                            placeholder="search here.."
                         />
                     </div>
                 </div>
-                <div class="collapse mt-2" id="collapseExample">
-                    <div class="card card-body p-4">
-                        <!-- FILTER DIVISION -->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="">Filter the sector type</label>
-                                <v-select
-                                    class="fw-bold"
-                                    :options="[
-                                        { id: '*', name: 'All' },
-                                        ...sectors.data,
-                                    ]"
-                                    v-model="selectedSector"
-                                    label="name"
-                                    placeholder="All"
-                                ></v-select>
-                            </div>
-                            <div
-                                class="col-md-3"
-                                v-if="hasAccess(['admin', 'user'])"
-                            >
-                                <label for="">Filter the municipality</label>
-                                <v-select
-                                    class="fw-bold"
-                                    :options="[
-                                        { id: '*', municipality: 'All' },
-                                        ...municipalities.data,
-                                    ]"
-                                    v-model="selectedMunicipal"
-                                    label="municipality"
-                                    placeholder="All"
-                                ></v-select>
-                            </div>
-                            <div
-                                class="div col-md-3"
-                                v-if="hasAccess(['municipal'])"
-                            ></div>
-                            <div class="col-md-2 offset-md-2">
-                                <label for="">Month</label>
-                                <v-select
-                                    class="fw-bold"
-                                    :options="months"
-                                    placeholder="All"
-                                ></v-select>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="">Year</label>
-                                <select name="" id="" class="form-select">
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- END FILTER DIVISION -->
-                    </div>
-                </div>
-
                 <div class="table-responsive mt-5">
                     <table class="table table-hover">
                         <thead class="text-center">

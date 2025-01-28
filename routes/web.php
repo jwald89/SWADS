@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/sectoral-data/create-post', 'store');
                 Route::get('/sectoral-data/edit/{id}', 'edit');
                 Route::put('/sectoral-data/update/{id}', 'update');
-                Route::get('/sectoral-data/filter/{sector?}/{municipality?}', 'filter');
+                Route::get('/sectoral-data/filter/{sectorId?}/{municipality?}/{month?}', 'filter');
                 Route::get('/sectoral-data/show/{id}', 'show');
     });
 

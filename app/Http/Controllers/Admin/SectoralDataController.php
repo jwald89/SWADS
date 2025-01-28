@@ -38,13 +38,13 @@ class SectoralDataController extends Controller
                                     ->orWhere('last_name', 'like', '%' . $search . '%')
                                     ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
                                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                    ->orWhereHas('sector', function($sector) use($search) {
-                                        $sector->where('name', 'like', '%' . $search . '%');
-                                    })
-                                    ->orWhereHas('municipality', function($sector) use($search) {
-                                        $sector->where('municipality', 'like', '%' . $search . '%');
-                                    });
+                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                                    // ->orWhereHas('sector', function($sector) use($search) {
+                                    //     $sector->where('name', 'like', '%' . $search . '%');
+                                    // })
+                                    // ->orWhereHas('municipality', function($sector) use($search) {
+                                    //     $sector->where('municipality', 'like', '%' . $search . '%');
+                                    // });
                         });
                 })
                 ->when(Auth::user()->role_type !== 'MUNICIPAL', function ($query) {
@@ -55,13 +55,13 @@ class SectoralDataController extends Controller
                                 ->orWhere('last_name', 'like', '%' . $search . '%')
                                 ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
                                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                ->orWhereHas('sector', function($sector) use($search) {
-                                    $sector->where('name', 'like', '%' . $search . '%');
-                                })
-                                ->orWhereHas('municipality', function($sector) use($search) {
-                                    $sector->where('municipality', 'like', '%' . $search . '%');
-                                });
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                                // ->orWhereHas('sector', function($sector) use($search) {
+                                //     $sector->where('name', 'like', '%' . $search . '%');
+                                // })
+                                // ->orWhereHas('municipality', function($sector) use($search) {
+                                //     $sector->where('municipality', 'like', '%' . $search . '%');
+                                // });
                     });
                 })
                 ->orderBy('created_at', 'DESC')
@@ -154,20 +154,40 @@ class SectoralDataController extends Controller
     /**
      * Filter the specified sector, municipality, month and year
      */
-    public function filter($sector = '*', $municipality = '*')
+    public function filter($sectorId = '*', $municipality = '*', $month = '*')
     {
         $data = Sectoral::with(['municipality', 'sector']);
 
-        if ($sector !== '*') {
-            $data->where('sector', $sector);
+        // If the user is an admin
+        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER') {
+            // If sectorId is "All", show all data regardless of municipality
+            if ($sectorId == '*') {
+                // No additional filtering by municipality for admins
+            } else {
+                // If a specific sector is selected, filter by that sector
+                $data->where('sector', $sectorId);
+            }
+        } else if (Auth::user()->role_type === 'MUNICIPAL') {
+            // If the user is municipal
+            if ($sectorId == '*') {
+                // Show data for the user's municipality
+                $data->where('municipality', Auth::user()->municipality);
+            } else {
+                // If a specific sector is selected, filter by sector and municipality
+                $data->where('sector', $sectorId)
+                    ->where('municipality', Auth::user()->municipality);
+            }
         }
 
         if ($municipality !== '*') {
             $data->where('municipality', $municipality);
         }
 
-         // Return the results as a JSON response
-         return response()->json($data->get());
+        if ($month !== '*') {
+            $data->whereMonth('date_encoded', $month);
+        }
+
+        return response()->json($data->get());
     }
 
 
