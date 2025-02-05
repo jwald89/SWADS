@@ -15,21 +15,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    families: {
-        type: Object,
-        required: true,
-    },
     assistances: {
-        type: Object,
-        required: true,
+        type: String,
     },
     municipality: {
-        type: Object,
-        required: true,
+        type: String,
     },
     barangays: {
-        type: Object,
-        required: true,
+        type: String,
     },
 });
 
@@ -40,17 +33,14 @@ const gender = usePage().props.gender;
 // initialize error in form submission
 const errors = reactive({});
 
-console.log(props.families);
-
+// START PERSONAL INFORMATION //
 const submitPersonalDetails = async () => {
     try {
         const response = await axios.put(
-            `/intake/edit/p1/${props.intakes.id}`,
+            `/intake/update/${props.intakes.id}`,
             props.intakes
         );
 
-        console.log("SUBMIT COMPOSE: ", props.intakes.famCompose);
-        console.log("New record ID:", response.data.id);
         toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
@@ -59,7 +49,7 @@ const submitPersonalDetails = async () => {
             const validationErrors = error.response.data.errors;
             for (const key in validationErrors) {
                 if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                    errors[key] = validationErrors[key][0];
                 }
             }
 
@@ -82,15 +72,16 @@ const submitPersonalDetails = async () => {
 // inherit the code to the child file
 provide("intakeData", props.intakes);
 provide("submitFormP1", submitPersonalDetails);
+// END SUBMIT PERSONAL INFORMATION //
 
+// START SUBMIT FAMILY COMPOSITION //
 const submitFamilyCompose = async () => {
     try {
         const response = await axios.put(
-            `/intake/edit/p1/${props.intakes.id}`,
+            `/intake/update/${props.intakes.id}`,
             props.intakes
         );
 
-        console.log("New record ID:", response.data.id);
         toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
@@ -99,7 +90,7 @@ const submitFamilyCompose = async () => {
             const validationErrors = error.response.data.errors;
             for (const key in validationErrors) {
                 if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0]; // Capture the first error message for each field
+                    errors[key] = validationErrors[key][0];
                 }
             }
 
@@ -119,8 +110,85 @@ const submitFamilyCompose = async () => {
     }
 };
 
-// provide("familiesData", props.intakes);
 provide("submitFormP2", submitFamilyCompose);
+// END SUBMIT FAMILY COMPOSITION //
+
+// START SUBMIT REFERRAL //
+const submitReferral = async () => {
+    try {
+        const response = await axios.put(
+            `/intake/update/${props.intakes.id}`,
+            props.intakes
+        );
+
+        toast.success("Record successfully updated.", {
+            autoClose: 1000,
+        });
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0];
+                }
+            }
+
+            const errorMsg = error.response.data.error;
+            if (errorMsg) {
+                toast.error(errorMsg, {
+                    autoClose: 10000,
+                });
+            } else {
+                toast.error("Please fill in the blanks error!", {
+                    autoClose: 2000,
+                });
+            }
+        }
+        console.error("Error submitting form:", error);
+    }
+};
+
+provide("submitFormP3", submitReferral);
+// END SUBMIT REFERRAL //
+
+// START SUBMIT REMARK //
+const submitRemark = async () => {
+    try {
+        const response = await axios.put(
+            `/intake/update/${props.intakes.id}`,
+            props.intakes
+        );
+
+        toast.success("Record successfully updated.", {
+            autoClose: 1000,
+        });
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0];
+                }
+            }
+
+            const errorMsg = error.response.data.error;
+            if (errorMsg) {
+                toast.error(errorMsg, {
+                    autoClose: 10000,
+                });
+            } else {
+                toast.error("Please fill in the blanks error!", {
+                    autoClose: 2000,
+                });
+            }
+        }
+
+        console.error("Error submitting form:", error);
+    }
+};
+
+provide("submitFormP4", submitRemark);
+// END SUBMIT REMARK //
 </script>
 
 <template>

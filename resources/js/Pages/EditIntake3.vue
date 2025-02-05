@@ -1,7 +1,7 @@
 <script setup>
 import { inject } from "vue";
-
 const intakes = inject("intakeData");
+const submitForms = inject("submitFormP3");
 </script>
 
 <template>
@@ -12,13 +12,13 @@ const intakes = inject("intakeData");
         aria-labelledby="contact-tab"
     >
         <div class="col-lg-12">
-            <div class="card">
+            <div
+                class="card"
+                v-for="referrals in intakes.referral"
+                :key="referrals.id"
+            >
                 <div class="card-body mt-4">
-                    <form
-                        class="row g-3"
-                        v-for="referrals in intakes.referral"
-                        :key="referrals.id"
-                    >
+                    <form class="row g-3" @submit.prevent="submitForms">
                         <textarea
                             class="form-control"
                             rows="5"

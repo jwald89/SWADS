@@ -22,7 +22,7 @@ const submitForm = inject("submitFormP2");
                     <span class="badge text-bg-light">{{ index + 1 }}</span>
                 </card-header>
                 <div class="card-body mt-2">
-                    <form class="row g-3" @submit.prevent="submitForm">
+                    <form class="row g-3">
                         <div class="col-md-4">
                             <label for="lastName"
                                 >Last name<span class="text-danger"

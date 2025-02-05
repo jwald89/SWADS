@@ -9,7 +9,7 @@ const props = defineProps({
 // Inject the existing states and methods from the parent component
 const errors = inject("formErrors");
 const form = inject("familyComposition");
-const submitForm = inject("submitFormP2"); // Existing form submission method for validation
+const submitForm = inject("submitFormP2");
 const tabs = inject("tabs");
 const selectedMember = ref(0);
 const tabIndex = 1;
@@ -115,7 +115,6 @@ const finalSubmit = async () => {
         // Check if data exists in local storage and parse it
         if (familyCompositionsFromStorage) {
             familyCompositions = JSON.parse(familyCompositionsFromStorage);
-            console.log("SUCCESSFULLY ADDED! ", familyCompositions);
         } else {
             toast.error(
                 "No family data found. Please save at least one entry.",
@@ -136,9 +135,6 @@ const finalSubmit = async () => {
             educ_attainment: item.educ_attainment || form.educ_attainment,
             remarks: item.remarks || form.remarks,
         }));
-
-        // Check the final data to be submitted
-        console.log("Data to submit:", familyCompositions);
 
         // Submit the data to the backend
         const response = await axios.post(
@@ -379,14 +375,25 @@ onMounted(() => {
 
                 <!-- Final submission button -->
                 <div class="card-footer bg-light">
-                    <button
-                        @click="finalSubmit"
-                        v-if="!tabs[tabIndex].saved"
-                        class="btn btn-success float-end"
-                    >
-                        <i class="bi bi-save"></i>
-                        Save
-                    </button>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button
+                                @click="finalSubmit"
+                                v-if="!tabs[tabIndex].saved"
+                                class="btn btn-success float-end"
+                            >
+                                <i class="bi bi-save"></i>
+                                Save
+                            </button>
+                            <button
+                                @click="submitForm"
+                                v-if="!tabs[tabIndex].saved"
+                                class="btn btn-warning float-end me-3"
+                            >
+                                !Skip
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

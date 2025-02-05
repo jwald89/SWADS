@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\IntakeController;
@@ -55,6 +58,7 @@ Route::group(['middleware' => 'auth'], function() {
                 // Store the data from the form
                 Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1')->middleware('validate.client.record');
                 Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');
+                Route::post('/intake/create-post/null/p2', 'storeP2Null');
                 Route::post('/intake/create-post/p3', 'storeP3')->name('intake.post3');
                 Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');
 
@@ -65,10 +69,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/intake/edit/{id}', 'edit')->name('intake.edit');
 
                 // Update data in edit-form
-                Route::put('/intake/edit/p1/{id}', 'update');
-                Route::put('/intake/edit/p2/{id}', 'editP2')->name('intake.editP2');
-                Route::put('/intake/edit/p3/{id}', 'editP3')->name('intake.editP3');
-                Route::put('/intake/edit/p4/{id}', 'editP4')->name('intake.editP4');
+                Route::put('/intake/update/{id}', 'update');
 
                 // Print and download process
                 Route::get('/intake/intake-sheet-print/{id}', 'intakeSheetPrint')->name('intake.print');
@@ -153,5 +154,7 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('/aics-per-sectoral-group', 'perSectoral');
         });
 });
+
+
 
 

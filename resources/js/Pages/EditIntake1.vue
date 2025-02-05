@@ -7,18 +7,14 @@ const intakes = inject("intakeData");
 
 defineProps({
     assistances: {
-        type: Object,
-        required: true,
+        type: String,
     },
     municipality: {
-        type: Object,
-        required: true,
+        type: String,
     },
     barangays: {
-        type: Object,
-        required: true,
+        type: String,
     },
-    // errors: Object,
 });
 
 defineComponent({
@@ -415,7 +411,6 @@ watchEffect(() => {
                                     <button
                                         type="submit"
                                         class="btn btn-success float-end"
-                                        @click="submitForm"
                                     >
                                         <i class="bi bi-save"></i>
                                         Update

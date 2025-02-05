@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, reactive, provide, ref } from "vue";
+import { defineComponent, reactive, provide, ref, onMounted } from "vue";
 import axios from "axios";
 import LayoutApp from "../Shared/Layout.vue";
 import IntakeCreateP1 from "../Pages/IntakeCreateP1.vue";
@@ -111,7 +111,6 @@ const submitPersonalDetails = async () => {
             autoClose: 1000,
         });
         localStorage.setItem("applicant_id", response.data.id);
-        console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
@@ -161,60 +160,30 @@ const familyForm = reactive({
     remarks: "",
 });
 
-// create a store method for Family Compositions form
+/**
+ * create a store method for Family Compositions form where the values are null except the applicant_id
+ */
 const submitFamCompositions = async () => {
-    if (familyForm.lastname) {
-        errors.lastname = "";
-    }
-    if (familyForm.firstname) {
-        errors.firstname = "";
-    }
-    if (familyForm.middlename) {
-        errors.middlename = "";
-    }
-    if (familyForm.age) {
-        errors.age = "";
-    }
-    if (familyForm.relationship) {
-        errors.relationship = "";
-    }
-    if (familyForm.educ_attainment) {
-        errors.educ_attainment = "";
-    }
-    if (familyForm.remarks) {
-        errors.remarks = "";
-    }
-
     try {
         const applicantId = localStorage.getItem("applicant_id");
-        familyForm.applicant_id = applicantId;
+        const famForm = {
+            applicant_id: JSON.parse(applicantId),
+            lastname: null,
+            firstname: null,
+            middlename: null,
+            age: null,
+            relationship: null,
+            educ_attainment: null,
+            remarks: null,
+        };
 
-        const response = await axios.post("/intake/create-post/p2", familyForm);
-        toast.success("Successfully added.", {
-            autoClose: 2000,
-        });
+        const response = await axios.post(
+            "/intake/create-post/null/p2",
+            famForm
+        );
 
-        localStorage.setItem("id", response.data.id);
-        localStorage.setItem("lastname", familyForm.lastname);
-        localStorage.setItem("firstname", familyForm.firstname);
-        localStorage.setItem("middlename", familyForm.middlename);
-        localStorage.setItem("age", familyForm.age);
-        localStorage.setItem("relationship", familyForm.relationship);
-        localStorage.setItem("educ_attainment", familyForm.educ_attainment);
-        localStorage.setItem("remarks", familyForm.remarks);
-        console.log("working..");
+        nextTab();
     } catch (error) {
-        if (error.response && error.response.status === 422) {
-            const validationErrors = error.response.data.errors;
-            for (const key in validationErrors) {
-                if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0];
-                }
-            }
-            toast.error("Please fill in the blanks error!", {
-                autoClose: 2000,
-            });
-        }
         console.error("Error submitting form:", error);
     }
 };
@@ -244,7 +213,6 @@ const submitRef = async () => {
             autoClose: 1000,
         });
         nextTab();
-        console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
@@ -336,6 +304,38 @@ defineComponent({
     IntakeCreateP3,
     IntakeCreateP4,
 });
+
+// discard process then delete records on database table
+const removeRecords = () => {
+    const applicant = localStorage.getItem("applicant_id");
+
+    alertify.confirm(
+        "Are you sure you want to cancel this record?",
+        function () {
+            axios
+                .post(`/api/remove-records`, {
+                    id: applicant,
+                    _method: "DELETE",
+                })
+                .then((response) => {
+                    if (response.status === 200) {
+                        localStorage.clear();
+                        location.reload();
+                    }
+                })
+                .catch((err) => {
+                    alertify.error(
+                        "Something went wrong, please contact the developer!"
+                    );
+                });
+        },
+        function () {
+            alertify.message("Cancelled");
+        }
+    );
+};
+
+onMounted(() => {});
 </script>
 
 <template>
@@ -382,11 +382,20 @@ defineComponent({
                     <div class="col-lg-6">
                         <Link
                             class="btn btn-sm btn-light float-end"
+                            v-if="!personalForm.last_name"
                             :href="`/intake`"
                         >
                             <i class="bi bi-backspace"></i>
                             Back
                         </Link>
+
+                        <button
+                            class="btn btn-danger float-end"
+                            @click="removeRecords()"
+                            v-else
+                        >
+                            Discard
+                        </button>
                     </div>
                 </div>
             </div>

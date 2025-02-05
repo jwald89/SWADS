@@ -186,10 +186,10 @@
             <tbody>
                 @foreach ($famCompose as $data)
                 <tr>
-                    <td>{{ ucwords($data->firstname) }} {{ strtoupper(substr($data->middlename, 0, 1)) }}. {{ ucwords($data->lastname) }}</td>
-                    <td>{{ $data->age }} years old</td>
+                    <td>{{ ucwords($data->firstname) }} {{ $data->middlename != null ? strtoupper(substr($data->middlename, 0, 1)) . '.' : "" }} {{ ucwords($data->lastname) }}</td>
+                    <td>{{ $data->age != null ? $data->age . " years old" : "" }} </td>
                     <td>{{ ucfirst($data->relationship) }}</td>
-                    <td><?php echo !empty(trim($data->educ_attainment)) ? ucwords($data->educ_attainment) : "NA" ?></td>
+                    <td><?php echo !empty(trim($data->educ_attainment)) ? ucwords($data->educ_attainment) : "" ?></td>
                     <td>{{ ucfirst($data->remarks) }}</td>
                 </tr>
                 @endforeach

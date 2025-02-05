@@ -26,7 +26,9 @@ use App\Http\Resources\MunicipalityResource;
 
 class IntakeController extends Controller
 {
-    // Personal Information data table display
+    /**
+     *  Personal Information data table display
+     */
     public function index()
     {
         $perInfos = PersonalInformation::with(['assistance'])
@@ -59,7 +61,9 @@ class IntakeController extends Controller
         ]);
     }
 
-    // Personal Information form display
+    /**
+     *  Personal Information form display
+     */
     public function create()
     {
         $assistances = AssistanceResource::collection(AssistanceType::all());
@@ -75,7 +79,9 @@ class IntakeController extends Controller
         ]);
     }
 
-    // Personal Information store process
+    /**
+     *  Personal Information store process
+     */
     public function storeP1(IntakeRequest $request)
     {
         $userId = Auth::id();
@@ -87,7 +93,9 @@ class IntakeController extends Controller
         return response()->json($personalInformation, 201);
     }
 
-    // Family Compositions store process
+    /**
+     *  Family Compositions store process
+     */
     public function storeP2(Request $request)
     {
         $request->validate([
@@ -110,7 +118,41 @@ class IntakeController extends Controller
         return response()->json($famComps, 201);
     }
 
-    // Referrals store process
+    /**
+     * Family Compositions null store process
+     */
+    public function storeP2Null(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'applicant_id' => 'required',
+            'lastname' => 'nullable',
+            'firstname' => 'nullable',
+            'middlename' => 'nullable',
+            'age' => 'nullable|integer',
+            'relationship' => 'nullable',
+            'educ_attainment' => 'nullable',
+            'remarks' => 'nullable',
+        ]);
+
+        // Get the authenticated user's ID
+        $userId = Auth::id();
+
+        // Create a new FamilyComposition entry
+        $famComps = FamilyComposition::create(
+            array_merge($validatedData, ['created_by' => $userId])
+        );
+
+        // Return a JSON response with the created entry
+        return response()->json([
+            'success' => true,
+            'data' => $famComps,
+        ], 201);
+    }
+
+    /**
+     *  Referrals store process
+     */
     public function storeP3(Request $request)
     {
         $request->validate([
@@ -128,7 +170,9 @@ class IntakeController extends Controller
         ]);
     }
 
-    // Remarks store process
+    /**
+     *  Remarks store process
+     */
     public function storeP4(Request $request)
     {
         $request->validate([
@@ -146,7 +190,9 @@ class IntakeController extends Controller
         ]);
     }
 
-    // Personal Information show the detail process
+    /**
+     *  Personal Information show the detail process
+     */
     public function show($id)
     {
         $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'assistance'])->find($id);
@@ -156,7 +202,9 @@ class IntakeController extends Controller
         ]);
     }
 
-    // Intake Sheet edit process
+    /**
+     * Intake Sheet edit process
+     */
     public function edit($id)
     {
         $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
@@ -173,18 +221,9 @@ class IntakeController extends Controller
         ]);
     }
 
-
-    public function destroy($id)
-    {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
-
-        $intakes->delete();
-
-        return response()->json(['success' => true]);
-    }
-
-
-    // Printing process
+    /**
+     *  Printing process
+     */
     public function intakeSheetPrint($id)
     {
         $intakes = PersonalInformation::with(['assistance', 'user'])
@@ -209,7 +248,6 @@ class IntakeController extends Controller
         }
 
         $famCompose = DB::table('family_compositions')
-            // ->leftJoin('personal_information', 'family_compositions.applicant_id', '=', 'personal_information.id')
             ->select('id', 'lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks')
             ->where('applicant_id', $id)
             ->orderBy('created_at', 'desc')
@@ -239,7 +277,9 @@ class IntakeController extends Controller
         return $pdf->inline();
     }
 
-    // Print certificate of eligibility
+    /**
+     * Print certificate of eligibility
+     */
     public function coePrint($id)
     {
         $intakes = PersonalInformation::with(['assistance', 'user'])
@@ -277,7 +317,9 @@ class IntakeController extends Controller
     }
 
 
-    // Exporting process
+    /**
+     *  Exporting process in ms excel
+     */
     public function export($id)
     {
         $intakes = PersonalInformation::with(['assistance'])->findOrFail($id);
@@ -340,33 +382,76 @@ class IntakeController extends Controller
         return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
     }
 
-    // Update Intake Sheets
+    /**
+     *  Update Intake Sheets
+     */
     public function update(Request $request, $id)
     {
-        $personalData = PersonalInformation::findOrFail($id);
+        return DB::transaction(function() use($id, $request) {
+            $personalData = PersonalInformation::findOrFail($id);
+            $personalData->update($request->except('family_compositions'));
 
-        // $personalData->update($request->all());
+            foreach($request->fam_compose as $familyCompose) {
+                $family = FamilyComposition::find($familyCompose['id']);
+                $family['lastname'] = $familyCompose['lastname'];
+                $family['firstname'] = $familyCompose['firstname'];
+                $family['middlename'] = $familyCompose['middlename'];
+                $family['age'] = $familyCompose['age'];
+                $family['relationship'] = $familyCompose['relationship'];
+                $family['educ_attainment'] = $familyCompose['educ_attainment'];
+                $family['remarks'] = $familyCompose['remarks'];
+                $family->save();
+            }
 
-        // return $personalData;
+            foreach ($request->referral as $referralData) {
+                $referral = Referral::find($referralData['id']);
+                $referral['content'] = $referralData['content'];
+                $referral->save();
+            }
 
-        // Initialize an array for storing created family compositions
-        $famComps = [];
+            foreach ($request->remark as $remarkData) {
+                $remark = Remark::find($remarkData['id']);
+                $remark['content'] = $remarkData['content'];
+                $remark->save();
+            }
 
-        // Loop through the request data (assuming it contains family composition records)
-        foreach ($request->input('family_compositions', []) as $familyCompositionData) {
-            // Add the created_by field for each family composition
-            $familyCompositionData['created_by'] = $id;
-
-            // Create a new FamilyComposition record and add it to the array
-            $famComps[] = FamilyComposition::create($familyCompositionData);
-        }
-
-        // Update the personal data with the request data
-        $personalData->update($request->except('family_compositions'));  // Make sure to exclude the family_compositions key
-
-        return response()->json([
-            'personal_data' => $personalData,
-            'family_compositions' => $famComps
-        ]);
+            return response()->json([
+                'personal_data' => $personalData,
+                'family_compositions' => $personalData->fam_compose,
+                'referral' => $personalData->referral,
+                'remark' => $personalData->remark,
+            ]);
+        });
     }
+
+
+    /**
+     * Delete the data when it's discarded
+     */
+    public function deleteRecords(Request $request)
+    {
+        // validate id key
+        return DB::transaction(function () use($request) {
+            $data = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($request->id);
+            $data->delete();
+            $data->famCompose()?->delete();
+            $data->referral()?->delete();
+            $data->remark()?->delete();
+
+            return response()->json(['success' => true], 200);
+        });
+    }
+
+
+    /**
+     * Not is use
+     */
+    // public function destroy($id)
+    // {
+    //     $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+
+    //     $intakes->delete();
+
+    //     return response()->json(['success' => true]);
+    // }
 }

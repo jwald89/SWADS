@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('applicant_id')->nullable();
             $table->foreign('applicant_id')->references('id')->on('personal_information');
-            $table->string('lastname', 100);
-            $table->string('firstname', 100);
-            $table->string('middlename', 100);
-            $table->integer('age');
-            $table->string('relationship');
+            $table->string('lastname', 100)->nullable();
+            $table->string('firstname', 100)->nullable();
+            $table->string('middlename', 100)->nullable();
+            $table->integer('age')->nullable();
+            $table->string('relationship')->nullable();
             $table->string('educ_attainment')->nullable();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
