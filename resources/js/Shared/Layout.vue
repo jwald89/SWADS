@@ -3,13 +3,9 @@ import { onMounted, ref } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import axios from "axios";
 
-function greet(event) {
-    alert(`Hello ${name.value}!`);
-    // `event` is the native DOM event
-    if (event) {
-        alert(event.target.tagName);
-    }
-}
+const toggleSidebar = () => {
+    document.body.classList.toggle("toggle-sidebar");
+};
 
 const page = usePage();
 const currentRoute = ref("");
@@ -32,6 +28,12 @@ const logout = () => {
 
 onMounted(() => {
     currentRoute.value = location.pathname;
+
+    // Attach event listener for the toggle sidebar button
+    const toggleButton = document.querySelector(".toggle-sidebar-btn");
+    if (toggleButton) {
+        toggleButton.addEventListener("click", toggleSidebar);
+    }
 });
 </script>
 
