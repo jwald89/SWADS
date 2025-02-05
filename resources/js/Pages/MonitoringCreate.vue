@@ -13,19 +13,16 @@ const props = defineProps({
         required: true,
     },
     sectors: {
-        type: Object,
-        required: true,
+        type: String,
     },
     officeCharge: {
-        type: Object,
-        required: true,
+        type: String,
     },
     status: {
-        type: Object,
-        required: true,
+        type: String,
     },
     users: {
-        type: Object,
+        type: String,
     },
 });
 
@@ -56,6 +53,8 @@ const monitorForm = reactive({
     assistance_type: "",
     date_intake: "",
     status: "",
+    assistanceType: "",
+    username: "",
 });
 
 const resetForm = () => {
@@ -199,8 +198,11 @@ watch(claimant, (newClaimant) => {
         monitorForm.barangay = newClaimant.barangay;
         monitorForm.municipality = newClaimant.municipality;
         monitorForm.assistance_type = newClaimant.category;
+        monitorForm.assistanceType = newClaimant.assistanceType;
         monitorForm.date_intake = newClaimant.date_intake;
         monitorForm.staff_admin = newClaimant.created_by;
+        monitorForm.staff_admin = newClaimant.username;
+        monitorForm.username = newClaimant.username;
         fetchBeneficiaries();
     } else {
         resetForm();
@@ -296,7 +298,7 @@ onMounted(fetchMonitoringRecords);
                             id="age"
                             name="age"
                             v-model="monitorForm.age"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -309,7 +311,7 @@ onMounted(fetchMonitoringRecords);
                             name="gender"
                             id="gender"
                             v-model="monitorForm.gender"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-3">
@@ -365,7 +367,7 @@ onMounted(fetchMonitoringRecords);
                             name="municipal"
                             id="municipal"
                             v-model="monitorForm.municipality"
-                            readonly
+                            disabled
                         />
                     </div>
 
@@ -379,6 +381,7 @@ onMounted(fetchMonitoringRecords);
                             name="barangay"
                             id="barangay"
                             v-model="monitorForm.barangay"
+                            disabled
                         />
                     </div>
                     <div class="col-md-4">
@@ -415,6 +418,12 @@ onMounted(fetchMonitoringRecords);
                             class="form-control fw-bold"
                             name="assistanceType"
                             id="assistanceType"
+                            v-model="monitorForm.assistanceType"
+                            disabled
+                        />
+                        <input
+                            type="hidden"
+                            name="assistanceType"
                             v-model="monitorForm.assistance_type"
                         />
                     </div>
@@ -467,6 +476,7 @@ onMounted(fetchMonitoringRecords);
                             id="intakeDate"
                             name="intakeDate"
                             v-model="monitorForm.date_intake"
+                            disabled
                         />
                     </div>
                     <div class="col-md-5">
@@ -480,6 +490,12 @@ onMounted(fetchMonitoringRecords);
                             class="form-control fw-bold"
                             name="staff"
                             id="staff"
+                            v-model="monitorForm.username"
+                            disabled
+                        />
+                        <input
+                            type="hidden"
+                            name="staff"
                             v-model="monitorForm.staff_admin"
                         />
                     </div>

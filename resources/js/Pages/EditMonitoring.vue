@@ -120,7 +120,7 @@ defineComponent({
                             name="claimant"
                             id="claimant"
                             v-model="claimantName"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-6">
@@ -135,6 +135,7 @@ defineComponent({
                             name="beneficiary"
                             id="beneficiary"
                             v-model="dataMonitors.beneficiary"
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -145,7 +146,7 @@ defineComponent({
                             id="age"
                             name="age"
                             v-model="dataMonitors.age"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -156,7 +157,7 @@ defineComponent({
                             name="gender"
                             id="gender"
                             v-model="dataMonitors.sex"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-3">
@@ -195,7 +196,7 @@ defineComponent({
                             name="municipal"
                             id="municipal"
                             v-model="dataMonitors.municipality"
-                            readonly
+                            disabled
                         />
                     </div>
 
@@ -207,7 +208,7 @@ defineComponent({
                             name="barangay"
                             id="barangay"
                             v-model="dataMonitors.barangay"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-4">
@@ -236,7 +237,7 @@ defineComponent({
                             name="assistanceType"
                             id="assistanceType"
                             v-model="dataMonitors.assistance.name"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-2">
@@ -272,7 +273,7 @@ defineComponent({
                             id="intakeDate"
                             name="intakeDate"
                             v-model="dataMonitors.date_intake"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-5">
@@ -287,7 +288,7 @@ defineComponent({
                             id="staff_admin"
                             name="staff_admin"
                             v-model="props.staffAdmin"
-                            readonly
+                            disabled
                         />
                     </div>
                     <div class="col-md-4">

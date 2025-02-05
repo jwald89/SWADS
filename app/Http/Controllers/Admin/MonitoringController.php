@@ -87,7 +87,7 @@ class MonitoringController extends Controller
     */
     public function create()
     {
-        $intakeData = PersonalDetailResource::collection(PersonalInformation::all());
+        $intakeData = PersonalDetailResource::collection(PersonalInformation::with(['assistance', 'user'])->get());
         $sectors = SectorResource::collection(Sector::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());

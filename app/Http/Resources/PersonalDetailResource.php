@@ -25,7 +25,9 @@ class PersonalDetailResource extends JsonResource
             'municipality' => $this->municipality,
             'category' => $this->category,
             'date_intake' => $this->date_intake,
-            'created_by' => $this->created_by
+            'created_by' => $this->created_by,
+            'assistanceType' => $this->assistance->name ?? null,
+            'username' => ucwords($this->user->first_name) .' '. ucfirst(substr($this->user->middle_init, 0, 1)) .'. '. ucwords($this->user->last_name),
         ];
     }
 }
