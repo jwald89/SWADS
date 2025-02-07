@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\Sectoral;
 use App\Models\Monitoring;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -25,14 +24,14 @@ class DashboardController extends Controller
         $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
         $sumOfSectors = $totalMonitors + $totalSectors;
 
-        $status = Monitoring::with(['intake', 'sector'])->get();
+        $status = Monitoring::with(['intake', 'sector', 'assistance'])->get();
 
         return inertia('Dashboard', [
             'totalNums' => $totalAssistance,
             'totalAmt' => $totalAmt,
             'monitorings' => $monitorData,
             'monitorStatus' => $status,
-            'sectorAvg' => $sumOfSectors,
+            'sectorAvg' => $sumOfSectors,[]
         ]);
     }
 

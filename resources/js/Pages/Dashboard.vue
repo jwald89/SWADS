@@ -1,23 +1,176 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import Chart from "../components/Chart.vue";
+import Highcharts from "highcharts";
+import { ref, watch, onMounted } from "vue";
 
 const props = defineProps({
-    totalNums: {
-        type: Object,
-    },
-    totalAmt: {
-        type: Object,
-    },
-    monitorings: {
-        type: Object,
-    },
+    totalNums: String,
+    totalAmt: String,
+    monitorings: Object,
     monitorStatus: {
-        type: Object,
+        type: Array,
+        required: true,
     },
-    sectorAvg: {
-        type: Object,
+    sectorAvg: Object,
+});
+
+const chartData = ref([]);
+const assistanceData = ref([]);
+
+// Watch for changes in monitorStatus
+watch(
+    () => props.monitorStatus,
+    (newValue) => {
+        if (newValue && Array.isArray(newValue)) {
+            chartData.value = newValue
+                .map((data) => ({
+                    name: `${data.intake.first_name} ${data.intake.last_name}`,
+                    y: parseFloat(data.amount), // Ensure this is a number
+                }))
+                .filter((item) => !isNaN(item.y)); // Filter out any NaN values
+        } else {
+            chartData.value = [];
+        }
+        console.log("NEW DATA :", chartData.value); // Log the updated chart data
     },
+    { immediate: true }
+);
+
+const renderChart = () => {
+    if (chartData.value.length === 0) {
+        document.getElementById("reportsChart").innerHTML = ""; // Clear previous chart
+        return; // Prevent rendering if no data
+    }
+
+    Highcharts.chart("reportsChart", {
+        chart: {
+            type: "column",
+        },
+        title: {
+            text: "Assistance Amount by Claimant",
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true,
+            },
+        },
+        xAxis: {
+            type: "category",
+        },
+        yAxis: {
+            title: {
+                text: "Amount (₱)",
+            },
+        },
+        legend: {
+            enabled: false,
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: "{point.y:.2f}", // Adjusted to show actual amounts
+                },
+            },
+        },
+        tooltip: {
+            headerFormat:
+                '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat:
+                '<span style="color:{point.color}">{point.name}</span>: <b>₱{point.y:.2f}</b><br/>',
+        },
+        series: [
+            {
+                name: "Amount",
+                colorByPoint: true,
+                data: chartData.value,
+            },
+        ],
+    });
+};
+
+watch(
+    () => props.monitorStatus,
+    (newValue) => {
+        if (newValue && Array.isArray(newValue)) {
+            assistanceData.value = newValue
+                .map((data) => ({
+                    name: data.assistance.name,
+                    y: parseFloat(data.amount), // Ensure this is a number
+                }))
+                .filter((item) => !isNaN(item.y)); // Filter out any NaN values
+        } else {
+            assistanceData.value = [];
+        }
+        console.log("NEW DATA :", assistanceData.value); // Log the updated chart data
+    },
+    { immediate: true }
+);
+
+const renderAnalyticChart = () => {
+    if (assistanceData.value.length === 0) {
+        document.getElementById("analyticsReport").innerHTML = ""; // Clear previous chart
+        return; // Prevent rendering if no data
+    }
+
+    Highcharts.chart("analyticsReport", {
+        chart: {
+            type: "pie",
+        },
+        title: {
+            text: "Cash Assistance per category",
+        },
+        tooltip: {
+            valueSuffix: "%",
+        },
+        subtitle: {
+            text: 'Source:<a href="https://www.mdpi.com/2072-6643/11/3/684/htm" target="_default">MDPI</a>',
+        },
+        plotOptions: {
+            series: {
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                    {
+                        enabled: true,
+                        distance: 20,
+                    },
+                    {
+                        enabled: true,
+                        distance: -40,
+                        format: "{point.percentage:.1f}%",
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            opacity: 0.7,
+                        },
+                        filter: {
+                            operator: ">",
+                            property: "percentage",
+                            value: 10,
+                        },
+                    },
+                ],
+            },
+        },
+        series: [
+            {
+                name: "Amount",
+                colorByPoint: true,
+                data: assistanceData.value,
+            },
+        ],
+    });
+};
+
+// Render the chart whenever chartData changes
+watch(chartData, assistanceData, renderChart, renderAnalyticChart);
+
+// Render the chart when the component is mounted
+onMounted(() => {
+    renderChart();
+    renderAnalyticChart();
 });
 
 const formatDate = (dateString) => {
@@ -552,9 +705,7 @@ const formatDate = (dateString) => {
                                     </h5>
 
                                     <!-- Line Chart -->
-                                    <div id="reportsChart">
-                                        <Chart :total-sectors="totalSec" />
-                                    </div>
+                                    <div id="reportsChart"></div>
                                 </div>
                             </div>
                         </div>
@@ -597,9 +748,7 @@ const formatDate = (dateString) => {
                         <div class="card-body">
                             <h5 class="card-title">Analytics Report</h5>
 
-                            <div class="activity">
-                                <Chart />
-                            </div>
+                            <div id="analyticsReport"></div>
                         </div>
                     </div>
                     <!-- End Recent Activity -->
@@ -639,11 +788,7 @@ const formatDate = (dateString) => {
                                 <span>| Today</span>
                             </h5>
 
-                            <div
-                                id="trafficChart"
-                                style="min-height: 400px"
-                                class="echart"
-                            ></div>
+                            <div id="trafficChart"></div>
                         </div>
                     </div>
                     <!-- End Website Traffic -->
@@ -655,3 +800,14 @@ const formatDate = (dateString) => {
         <!-- </main> -->
     </LayoutApp>
 </template>
+
+<style scoped>
+#reportsChart {
+    min-height: 400px;
+    width: 100%;
+}
+#analyticsReport {
+    min-height: 400px;
+    width: 100%;
+}
+</style>
