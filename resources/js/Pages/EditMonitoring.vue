@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, watchEffect, computed } from "vue";
+import { defineComponent, watchEffect, computed, reactive } from "vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
@@ -28,7 +28,12 @@ const props = defineProps({
     },
 });
 
+const errors = reactive({});
+
 const submitData = async () => {
+    if (props.dataMonitors.amount) {
+        errors.amount = "";
+    }
     try {
         const response = await axios.put(
             `/monitoring/update/${props.dataMonitors.id}`,
@@ -245,12 +250,16 @@ defineComponent({
                             >Amount<span class="text-danger">*</span></label
                         >
                         <input
-                            type="number"
+                            type="text"
                             class="form-control"
                             id="amount"
                             name="amount"
                             v-model="dataMonitors.amount"
+                            :class="{ 'is-invalid': errors.amount }"
                         />
+                        <small v-if="errors.amount" class="text-danger">{{
+                            errors.amount
+                        }}</small>
                     </div>
                     <div class="col-md-3">
                         <label for="charges"

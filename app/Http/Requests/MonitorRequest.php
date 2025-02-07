@@ -27,7 +27,7 @@ class MonitorRequest extends FormRequest
             'beneficiary' => 'required|string',
             'sector' => 'required',
             'client_type' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|between:0,99.99|string',
             'charges' => 'required',
             'contact_no' => 'required',
             'staff_admin' => 'required',

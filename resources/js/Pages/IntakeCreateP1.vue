@@ -452,7 +452,7 @@ defineComponent({
                                         ></label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         class="form-control"
                                         name="age"
                                         id="age"

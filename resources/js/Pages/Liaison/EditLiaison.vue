@@ -12,8 +12,10 @@ const props = defineProps({
         required: true,
     },
     offices: {
-        type: Object,
-        required: true,
+        type: String,
+    },
+    staff: {
+        type: String,
     },
 });
 
@@ -91,6 +93,15 @@ const beneficiary = computed(() => {
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         )
         .join(" ")}`;
+});
+
+const amt = computed(() => {
+    return (
+        new Intl.NumberFormat("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionsDigits: 2,
+        }).format(props.monitoring.amount) ?? null
+    );
 });
 
 defineComponent({
@@ -176,13 +187,13 @@ defineComponent({
                         />
                     </div>
                     <div class="col-md-5">
-                        <label for="sector">Sector</label>
+                        <label for="sectorType">Sector</label>
                         <input
+                            type="text"
                             class="form-control text-white bg-secondary"
-                            name="sector"
-                            id="sector"
-                            v-model="monitoring.sector"
-                            label="name"
+                            name="sectorType"
+                            id="sectorType"
+                            v-model="monitoring.sector.name"
                             readonly
                         />
                     </div>
@@ -239,7 +250,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             id="amount"
                             name="amount"
-                            v-model="monitoring.amount"
+                            v-model="amt"
                             readonly
                         />
                     </div>
@@ -272,7 +283,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             id="staff"
                             label="staff"
-                            v-model="monitoring.staff_admin"
+                            v-model="props.staff"
                             readonly
                         />
                     </div>
@@ -293,7 +304,7 @@ defineComponent({
                             type="date"
                             class="form-control"
                             id="dateStatus"
-                            name="dateStatus"
+                            name="status_date"
                             v-model="monitoring.status_date"
                         />
                     </div>

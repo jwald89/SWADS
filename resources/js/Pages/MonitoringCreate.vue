@@ -201,7 +201,6 @@ watch(claimant, (newClaimant) => {
         monitorForm.assistanceType = newClaimant.assistanceType;
         monitorForm.date_intake = newClaimant.date_intake;
         monitorForm.staff_admin = newClaimant.created_by;
-        monitorForm.staff_admin = newClaimant.username;
         monitorForm.username = newClaimant.username;
         fetchBeneficiaries();
     } else {
@@ -432,7 +431,7 @@ onMounted(fetchMonitoringRecords);
                             >Amount<span class="text-danger">*</span></label
                         >
                         <input
-                            type="number"
+                            type="text"
                             class="form-control"
                             id="amount"
                             name="amount"

@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Office;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
@@ -21,9 +22,24 @@ Route::group([
 
             $offices = OfficeResource::collection(Office::all());
 
+            $staffAdmin = '';
+
+            // Retrieve the created_by user details
+            $createdByUser = null;
+            if ($monitoring && $monitoring->created_by !== null) {
+                $createdByUser = User::find($monitoring->created_by);
+            }
+
+            if ($createdByUser) {
+                $staffAdmin = ucwords($createdByUser->first_name) . ' '
+                    . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                    . ucfirst($createdByUser->last_name);
+            }
+
             return inertia('Liaison/EditLiaison', [
                 'monitoring' => $monitoring,
                 'offices' => $offices,
+                'staff' => $staffAdmin
             ]);
         });
 
@@ -34,7 +50,10 @@ Route::group([
                 array_merge($request->all(),
                 [
                     'modified_by' =>  Auth::id(),
-                    'modified_date' => Carbon::now()
+                    'modified_date' => Carbon::now(),
+                    'status_date' => $request->status_date,
+                    'remarks' => $request->remarks,
+                    'status' => $request->status
                 ])
             );
 

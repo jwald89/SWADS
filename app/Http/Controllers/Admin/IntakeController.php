@@ -370,10 +370,10 @@ class IntakeController extends Controller
             $templateProcessor->setValue('remarks#' . $rowIndex, $family?->remarks ?? '');
         }
 
-        $referral = Referral::find($id);
+        $referral = Referral::where('applicant_id', $id)->first();
         $templateProcessor->setValue('content', ucwords($referral?->content ?? ''));
 
-        $remarks = Remark::find($id);
+        $remarks = Remark::where('applicant_id', $id)->first();
         $templateProcessor->setValue('remark', ucwords($remarks?->content ?? ''));
 
         $fileName = $intakes->last_name;
