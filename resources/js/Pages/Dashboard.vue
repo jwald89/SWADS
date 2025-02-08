@@ -14,30 +14,42 @@ const props = defineProps({
     sectorAvg: Object,
 });
 
-const chartData = ref([]);
+const sectorData = ref([]);
 const assistanceData = ref([]);
+const municipalData = ref([]);
 
-// Watch for changes in monitorStatus
+// Watch for changes in monitorStatus //
+// Client data
 watch(
     () => props.monitorStatus,
     (newValue) => {
         if (newValue && Array.isArray(newValue)) {
-            chartData.value = newValue
+            sectorData.value = newValue
                 .map((data) => ({
-                    name: `${data.intake.first_name} ${data.intake.last_name}`,
+                    name: data.sector.name,
                     y: parseFloat(data.amount), // Ensure this is a number
                 }))
-                .filter((item) => !isNaN(item.y)); // Filter out any NaN values
+                .filter((item) => !isNaN(item.y))
+                .reduce((acc, current) => {
+                    const existing = acc.find(
+                        (item) => item.name === current.name
+                    );
+                    if (existing) {
+                        existing.y += current.y; // Aggregate the amounts
+                    } else {
+                        acc.push({ ...current }); // Add new municipality
+                    }
+                    return acc;
+                }, []);
         } else {
-            chartData.value = [];
+            sectorData.value = [];
         }
-        console.log("NEW DATA :", chartData.value); // Log the updated chart data
     },
     { immediate: true }
 );
 
-const renderChart = () => {
-    if (chartData.value.length === 0) {
+const renderSerctorChart = () => {
+    if (sectorData.value.length === 0) {
         document.getElementById("reportsChart").innerHTML = ""; // Clear previous chart
         return; // Prevent rendering if no data
     }
@@ -47,7 +59,7 @@ const renderChart = () => {
             type: "column",
         },
         title: {
-            text: "Assistance Amount by Claimant",
+            text: "Cash amount served per sector",
         },
         accessibility: {
             announceNewData: {
@@ -59,7 +71,7 @@ const renderChart = () => {
         },
         yAxis: {
             title: {
-                text: "Amount (₱)",
+                text: "",
             },
         },
         legend: {
@@ -84,12 +96,13 @@ const renderChart = () => {
             {
                 name: "Amount",
                 colorByPoint: true,
-                data: chartData.value,
+                data: sectorData.value,
             },
         ],
     });
 };
 
+// Type assistance data
 watch(
     () => props.monitorStatus,
     (newValue) => {
@@ -99,11 +112,21 @@ watch(
                     name: data.assistance.name,
                     y: parseFloat(data.amount), // Ensure this is a number
                 }))
-                .filter((item) => !isNaN(item.y)); // Filter out any NaN values
+                .filter((item) => !isNaN(item.y))
+                .reduce((acc, current) => {
+                    const existing = acc.find(
+                        (item) => item.name === current.name
+                    );
+                    if (existing) {
+                        existing.y += current.y; // Aggregate the amounts
+                    } else {
+                        acc.push({ ...current }); // Add new municipality
+                    }
+                    return acc;
+                }, []);
         } else {
             assistanceData.value = [];
         }
-        console.log("NEW DATA :", assistanceData.value); // Log the updated chart data
     },
     { immediate: true }
 );
@@ -119,13 +142,7 @@ const renderAnalyticChart = () => {
             type: "pie",
         },
         title: {
-            text: "Cash Assistance per category",
-        },
-        tooltip: {
-            valueSuffix: "%",
-        },
-        subtitle: {
-            text: 'Source:<a href="https://www.mdpi.com/2072-6643/11/3/684/htm" target="_default">MDPI</a>',
+            text: "Cash assistance per category",
         },
         plotOptions: {
             series: {
@@ -164,13 +181,82 @@ const renderAnalyticChart = () => {
     });
 };
 
-// Render the chart whenever chartData changes
-watch(chartData, assistanceData, renderChart, renderAnalyticChart);
+// Municipality data
+watch(
+    () => props.monitorStatus,
+    (newValue) => {
+        if (newValue && Array.isArray(newValue)) {
+            municipalData.value = newValue
+                .map((data) => ({
+                    name: data.municipality,
+                    y: parseFloat(data.amount),
+                }))
+                .filter((item) => !isNaN(item.y)) // Filter out any NaN values
+                .reduce((acc, current) => {
+                    const existing = acc.find(
+                        (item) => item.name === current.name
+                    );
+                    if (existing) {
+                        existing.y += current.y; // Aggregate the amounts
+                    } else {
+                        acc.push({ ...current }); // Add new municipality
+                    }
+                    return acc;
+                }, []);
+        } else {
+            municipalData.value = [];
+        }
+    },
+    { immediate: true }
+);
 
-// Render the chart when the component is mounted
+const renderMunicipality = () => {
+    if (municipalData.value.length === 0) {
+        document.getElementById("municipalChart").innerHTML = "";
+        return; // Prevent rendering if no data
+    }
+
+    Highcharts.chart("municipalChart", {
+        chart: {
+            type: "pie",
+            options3d: {
+                enabled: true,
+                alpha: 45,
+            },
+        },
+        title: {
+            text: "Cash amount served per municipality",
+        },
+        plotOptions: {
+            pie: {
+                innerSize: 100,
+                depth: 45,
+            },
+        },
+        series: [
+            {
+                name: "Amount",
+                data: municipalData.value,
+            },
+        ],
+    });
+};
+
+// Render the chart whenever sectorData changes //
+watch(
+    sectorData,
+    assistanceData,
+    municipalData,
+    renderSerctorChart,
+    renderAnalyticChart,
+    renderMunicipality
+);
+
+// Render the chart when the component is mounted //
 onMounted(() => {
-    renderChart();
+    renderSerctorChart();
     renderAnalyticChart();
+    renderMunicipality();
 });
 
 const formatDate = (dateString) => {
@@ -307,15 +393,7 @@ const formatDate = (dateString) => {
                                         <div class="ps-3">
                                             <h6>
                                                 ₱
-                                                {{
-                                                    new Intl.NumberFormat(
-                                                        "en-US",
-                                                        {
-                                                            minimumFractionDigits: 2,
-                                                            maximumFractionsDigits: 2,
-                                                        }
-                                                    ).format(totalAmt)
-                                                }}
+                                                {{ totalAmt }}
                                             </h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
@@ -701,7 +779,7 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Reports <span>/Today</span>
+                                        Sectors Report <span>/Today</span>
                                     </h5>
 
                                     <!-- Line Chart -->
@@ -746,7 +824,7 @@ const formatDate = (dateString) => {
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Analytics Report</h5>
+                            <h5 class="card-title">Assistance Report</h5>
 
                             <div id="analyticsReport"></div>
                         </div>
@@ -784,11 +862,11 @@ const formatDate = (dateString) => {
 
                         <div class="card-body pb-0">
                             <h5 class="card-title">
-                                Municipality Report
+                                Municipalities Report
                                 <span>| Today</span>
                             </h5>
 
-                            <div id="trafficChart"></div>
+                            <div id="municipalChart"></div>
                         </div>
                     </div>
                     <!-- End Website Traffic -->
@@ -806,7 +884,13 @@ const formatDate = (dateString) => {
     min-height: 400px;
     width: 100%;
 }
+
 #analyticsReport {
+    min-height: 400px;
+    width: 100%;
+}
+
+#municipalReport {
     min-height: 400px;
     width: 100%;
 }
