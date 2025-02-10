@@ -75,6 +75,8 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/intake/intake-sheet-print/{id}', 'intakeSheetPrint')->name('intake.print');
                 Route::get('/intake/export/{id}', 'export')->name('intake.export');
                 Route::get('/intake/print-coe/{id}', 'coePrint');
+
+                Route::get('/intake/filter/{assistanceId?}/{month?}', 'filter');
     });
 
     // Monitoring Controller

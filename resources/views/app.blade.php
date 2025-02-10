@@ -17,8 +17,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('assets/img/pdms-icon.png') }}" rel="icon">
+    <link href="{{ asset('assets/img/pdms-icon.png') }}" rel="apple-touch-icon">
 
     @stack('page-css')
     <script src="{{ asset('assets/js/alertify.min.js') }}"></script>

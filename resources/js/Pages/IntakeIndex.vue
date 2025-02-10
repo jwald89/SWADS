@@ -3,12 +3,14 @@ import { defineComponent, onMounted, ref, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { debounce } from "lodash";
-import { Link, router } from "@inertiajs/vue3";
+import { Link, router, usePage } from "@inertiajs/vue3";
 import Pagination from "../components/Pagination.vue";
+import vSelect from "vue-select";
 
-const personalData = defineProps({
+const props = defineProps({
     intake: {
         type: Object,
+        required: true,
     },
     search: {
         type: String,
@@ -16,7 +18,41 @@ const personalData = defineProps({
     },
     famComps: {
         type: Object,
+        required: true,
     },
+    assistance: {
+        type: Object,
+        required: true,
+    },
+    months: {
+        type: Object,
+        required: true,
+    },
+});
+
+const search = ref(props.search || "");
+
+const selectedAssistance = ref({ id: "*", name: "All" });
+const selectedMonth = ref({ id: "*", name: "All" });
+
+const filterData = async () => {
+    try {
+        const assistanceId = selectedAssistance.value.id || "*";
+        const monthId = selectedMonth.value.id || "*";
+
+        const response = await axios.get(
+            `/intake/filter/${assistanceId}/${monthId}`
+        );
+        // console.log("API Response:", response.data);
+        props.intake.data = response.data;
+    } catch (error) {
+        console.error("Error fetching filtered data:", error);
+    }
+};
+
+// Watch for changes in props.data and update filteredData accordingly
+watch([selectedAssistance, selectedMonth], () => {
+    filterData();
 });
 
 const formatDate = (dateString) => {
@@ -34,12 +70,10 @@ const formatDate = (dateString) => {
     return formattedDate;
 };
 
-const search = ref(personalData.search || "");
-
 const getData = async () => {
     try {
         const response = await axios.get("/intake");
-        personalData.value = response.data.data;
+        props.value = response.data.data;
     } catch (error) {
         console.error("Error submitting form:", error);
     }
@@ -71,29 +105,94 @@ watch(
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                Intake Lists
-            </div>
-            <div class="card-body">
-                <div class="d-flex justify-space-around mt-4">
-                    <div class="col-lg-4">
-                        <div class="mb-3">
-                            <input
-                                type="text"
-                                v-model="search"
-                                class="form-control border border-dark"
-                                autofocus
-                                placeholder="Search here.."
-                            />
-                        </div>
-                    </div>
-                    <div class="col-lg-8 float-end">
+                <div class="col-lg-12 d-flex">
+                    <div class="col-lg-6">Intake List</div>
+                    <div class="col-lg-6 float-end">
                         <Link
-                            class="btn btn-md btn-primary float-end"
-                            href="/intake/create"
+                            :href="`/intake/create`"
+                            class="btn btn-sm btn-light float-end"
                         >
                             <i class="bi bi-journal-plus"></i>
                             Create New
                         </Link>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body mt-4">
+                <div class="d-flex justify-around">
+                    <div class="row col-lg-10">
+                        <div class="col-lg-3">
+                            <label class="fw-bold" for=""
+                                >Assistance Type</label
+                            >
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    ...assistance.data,
+                                ]"
+                                v-model="selectedAssistance"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                        <!-- <div class="col-lg-3 ms-1">
+                            <label class="fw-bold" for="">Municipality</label>
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    { id: '01', name: 'January' },
+                                    { id: '02', name: 'February' },
+                                    { id: '03', name: 'March' },
+                                    { id: '04', name: 'April' },
+                                    { id: '05', name: 'May' },
+                                    { id: '06', name: 'June' },
+                                    { id: '07', name: 'July' },
+                                    { id: '08', name: 'August' },
+                                    { id: '09', name: 'September' },
+                                    { id: '10', name: 'October' },
+                                    { id: '11', name: 'November' },
+                                    { id: '12', name: 'December' },
+                                ]"
+                                v-model="selectedMonth"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div> -->
+                        <div class="col-lg-2 ms-1">
+                            <label class="fw-bold" for="">Month</label>
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    { id: '01', name: 'January' },
+                                    { id: '02', name: 'February' },
+                                    { id: '03', name: 'March' },
+                                    { id: '04', name: 'April' },
+                                    { id: '05', name: 'May' },
+                                    { id: '06', name: 'June' },
+                                    { id: '07', name: 'July' },
+                                    { id: '08', name: 'August' },
+                                    { id: '09', name: 'September' },
+                                    { id: '10', name: 'October' },
+                                    { id: '11', name: 'November' },
+                                    { id: '12', name: 'December' },
+                                ]"
+                                v-model="selectedMonth"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="fw-bold" for=""
+                            >Search by client name
+                        </label>
+                        <input
+                            type="text"
+                            v-model="search"
+                            class="form-control border border-secondary"
+                            autofocus
+                            placeholder="search here.."
+                        />
                     </div>
                 </div>
 
@@ -112,12 +211,11 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody
-                            class="text-center"
-                            v-for="(detail, index) in intake.data"
-                            :key="index"
-                        >
-                            <tr>
+                        <tbody class="text-center" v-if="intake.data.length">
+                            <tr
+                                v-for="(detail, index) in intake.data"
+                                :key="index"
+                            >
                                 <td>{{ index + 1 }}</td>
                                 <td>
                                     {{
@@ -222,6 +320,13 @@ watch(
                                     >
                                         <i class="bi bi-download"></i>
                                     </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody v-else>
+                            <tr>
+                                <td colspan="9" class="text-center">
+                                    No record found.
                                 </td>
                             </tr>
                         </tbody>

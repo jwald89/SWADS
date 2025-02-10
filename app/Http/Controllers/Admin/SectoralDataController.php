@@ -158,7 +158,7 @@ class SectoralDataController extends Controller
     {
         $data = Sectoral::with(['municipality', 'sector']);
 
-        // If the user is an admin
+        // If the user is admin
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER') {
             // If sectorId is "All", show all data regardless of municipality
             if ($sectorId == '*') {

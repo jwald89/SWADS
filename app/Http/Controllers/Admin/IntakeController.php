@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Month;
 use App\Models\User;
 use App\Models\Remark;
 use App\Models\Barangay;
@@ -15,8 +16,8 @@ use App\Models\FamilyComposition;
 use Illuminate\Support\Facades\DB;
 use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\App;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\IntakeRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BarangayResource;
@@ -45,19 +46,20 @@ class IntakeController extends Controller
                                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
                                     ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
                             });
-                        })->orWhereHas('assistance', function ($assistanceQuery) use ($search) {
-                            $assistanceQuery->where('name', 'like', '%' . $search . '%');
                         });
                     })
                     ->orderBy('created_at', 'DESC')
                     ->paginate(10);
 
         $famComps = FamilyComposition::get();
+        $assistance = AssistanceResource::collection(AssistanceType::all());
 
         return inertia('IntakeIndex', [
             'intake' => $perInfos,
             'search' => request()->search ?? '',
-            'famComps' => $famComps
+            'famComps' => $famComps,
+            'assistance' => $assistance,
+            'months' => Month::names()
         ]);
     }
 
@@ -440,6 +442,22 @@ class IntakeController extends Controller
 
             return response()->json(['success' => true], 200);
         });
+    }
+
+
+    public function filter($assistanceId = '*', $month = '*')
+    {
+        $data = PersonalInformation::with(['assistance']);
+
+        if ($assistanceId !== '*') {
+            $data->where('category', $assistanceId);
+        }
+
+        if ($month !== '*') {
+            $data->whereMonth('date_intake', $month);
+        }
+
+        return response()->json($data->get());
     }
 
 

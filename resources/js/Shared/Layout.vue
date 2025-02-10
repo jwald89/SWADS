@@ -41,10 +41,11 @@ onMounted(() => {
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
             <Link href="" class="logo d-flex align-items-center">
-                <div class="mt-4">
+                <div class="">
                     <img
                         src="/public/assets/img/pdms-logo.png"
-                        style="max-height: 110px"
+                        width="200px"
+                        style="max-height: 55px"
                     />
                 </div>
             </Link>

@@ -12,7 +12,7 @@ Route::group(['prefix' => 'user','middleware' => [
     EnsureFeaturesAreActive::using('user')]
 ], function () {
     Route::get('/dashboard', function () {
-        $totalAssistance = DB::table('personal_information')->count();
+        $totalAssistance = DB::table('personal_information')->whereNull('deleted_at')->count();
         $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
         $monitorData = Monitoring::with(['intake', 'assistance'])
                         ->whereDate('created_at', '>=', Carbon::now()->subDays(3))

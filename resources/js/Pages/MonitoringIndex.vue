@@ -192,7 +192,7 @@ watch(
                                 </td>
                                 <td>{{ data.sector.name }}</td>
                                 <td>{{ data.municipality }}</td>
-                                <td>
+                                <td class="text-primary">
                                     {{
                                         new Intl.NumberFormat("en-US", {
                                             minimumFractionDigits: 2,
