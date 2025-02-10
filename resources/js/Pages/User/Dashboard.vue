@@ -1,23 +1,169 @@
 <script setup>
 import LayoutApp from "../../Shared/Layout.vue";
-import Chart from "@/components/Chart.vue";
+import Highcharts from "highcharts";
+import { ref, watch, onMounted } from "vue";
 
 const props = defineProps({
-    totalNums: {
-        type: String,
-    },
-    totalAmt: {
-        type: String,
-    },
-    monitorings: {
-        type: Object,
-    },
+    totalNums: String,
+    totalAmt: String,
+    monitorings: Object,
     monitorStatus: {
-        type: Object,
+        type: Array,
+        required: true,
     },
-    sumOfSectors: {
-        type: String,
+    sectorAvg: String,
+});
+
+const assistanceData = ref([]);
+const municipalData = ref([]);
+
+// Type assistance data
+watch(
+    () => props.monitorStatus,
+    (newValue) => {
+        if (newValue && Array.isArray(newValue)) {
+            assistanceData.value = newValue
+                .map((data) => ({
+                    name: data.assistance.name,
+                    y: parseFloat(data.amount), // Ensure this is a number
+                }))
+                .filter((item) => !isNaN(item.y))
+                .reduce((acc, current) => {
+                    const existing = acc.find(
+                        (item) => item.name === current.name
+                    );
+                    if (existing) {
+                        existing.y += current.y; // Aggregate the amounts
+                    } else {
+                        acc.push({ ...current }); // Add new municipality
+                    }
+                    return acc;
+                }, []);
+        } else {
+            assistanceData.value = [];
+        }
     },
+    { immediate: true }
+);
+
+const renderAnalyticChart = () => {
+    if (assistanceData.value.length === 0) {
+        document.getElementById("assistanceChartReport").innerHTML = ""; // Clear previous chart
+        return; // Prevent rendering if no data
+    }
+
+    Highcharts.chart("assistanceChartReport", {
+        chart: {
+            type: "pie",
+        },
+        title: {
+            text: "Cash assistance per category",
+        },
+        plotOptions: {
+            series: {
+                allowPointSelect: true,
+                cursor: "pointer",
+                dataLabels: [
+                    {
+                        enabled: true,
+                        distance: 20,
+                    },
+                    {
+                        enabled: true,
+                        distance: -40,
+                        format: "{point.percentage:.1f}%",
+                        style: {
+                            fontSize: "1.2em",
+                            textOutline: "none",
+                            opacity: 0.7,
+                        },
+                        filter: {
+                            operator: ">",
+                            property: "percentage",
+                            value: 10,
+                        },
+                    },
+                ],
+            },
+        },
+        series: [
+            {
+                name: "Amount",
+                colorByPoint: true,
+                data: assistanceData.value,
+            },
+        ],
+    });
+};
+
+// Municipality data
+watch(
+    () => props.monitorStatus,
+    (newValue) => {
+        if (newValue && Array.isArray(newValue)) {
+            municipalData.value = newValue
+                .map((data) => ({
+                    name: data.municipality,
+                    y: parseFloat(data.amount),
+                }))
+                .filter((item) => !isNaN(item.y)) // Filter out any NaN values
+                .reduce((acc, current) => {
+                    const existing = acc.find(
+                        (item) => item.name === current.name
+                    );
+                    if (existing) {
+                        existing.y += current.y; // Aggregate the amounts
+                    } else {
+                        acc.push({ ...current }); // Add new municipality
+                    }
+                    return acc;
+                }, []);
+        } else {
+            municipalData.value = [];
+        }
+    },
+    { immediate: true }
+);
+
+const renderMunicipality = () => {
+    if (municipalData.value.length === 0) {
+        document.getElementById("municipalChartReport").innerHTML = "";
+        return; // Prevent rendering if no data
+    }
+
+    Highcharts.chart("municipalChartReport", {
+        chart: {
+            type: "pie",
+            options3d: {
+                enabled: true,
+                alpha: 45,
+            },
+        },
+        title: {
+            text: "Cash amount served per municipality",
+        },
+        plotOptions: {
+            pie: {
+                innerSize: 100,
+                depth: 45,
+            },
+        },
+        series: [
+            {
+                name: "Amount",
+                data: municipalData.value,
+            },
+        ],
+    });
+};
+
+// Render the chart whenever sectorData changes //
+watch(assistanceData, municipalData, renderAnalyticChart, renderMunicipality);
+
+// Render the chart when the component is mounted //
+onMounted(() => {
+    renderAnalyticChart();
+    renderMunicipality();
 });
 
 const formatName = (fname) => {
@@ -102,7 +248,7 @@ const formatDate = (dateString) => {
                                             ></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>{{ sumOfSectors }}</h6>
+                                            <h6>{{ sectorAvg }}</h6>
                                             <span
                                                 class="text-muted small pt-2 ps-1"
                                                 >This Year</span
@@ -535,11 +681,9 @@ const formatDate = (dateString) => {
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Analytics Report</h5>
+                            <h5 class="card-title">Assistance Report</h5>
 
-                            <div class="activity">
-                                <Chart />
-                            </div>
+                            <div id="assistanceChartReport"></div>
                         </div>
                     </div>
                     <!-- End Recent Activity -->
@@ -579,11 +723,7 @@ const formatDate = (dateString) => {
                                 <span>| Today</span>
                             </h5>
 
-                            <div
-                                id="trafficChart"
-                                style="min-height: 400px"
-                                class="echart"
-                            ></div>
+                            <div id="municipalChartReport"></div>
                         </div>
                     </div>
                     <!-- End Website Traffic -->
@@ -595,3 +735,15 @@ const formatDate = (dateString) => {
         <!-- </main> -->
     </LayoutApp>
 </template>
+
+<style scoped>
+#assistanceChartReport {
+    min-height: 400px;
+    width: 100%;
+}
+
+#municipalChartReport {
+    min-height: 400px;
+    width: 100%;
+}
+</style>

@@ -133,15 +133,31 @@ defineComponent({
                                     <tr>
                                         <td>
                                             {{
-                                                famCompose.lastname +
-                                                ", " +
-                                                famCompose.firstname +
-                                                " " +
+                                                famCompose.firstname
+                                                    ? famCompose.firstname.toUpperCase()
+                                                    : ""
+                                            }}
+                                            {{
                                                 famCompose.middlename
+                                                    ? famCompose.lastname.substr(
+                                                          0,
+                                                          1
+                                                      ) + "."
+                                                    : ""
+                                            }}
+                                            {{
+                                                famCompose.lastname
+                                                    ? famCompose.lastname.toUpperCase()
+                                                    : ""
                                             }}
                                         </td>
                                         <td class="text-center">
-                                            {{ famCompose.age }} years old
+                                            {{
+                                                famCompose.age
+                                                    ? famCompose.age +
+                                                      " years old"
+                                                    : ""
+                                            }}
                                         </td>
                                         <td class="text-center">
                                             {{ famCompose.relationship }}

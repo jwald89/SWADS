@@ -364,7 +364,7 @@ class IntakeController extends Controller
             $templateProcessor->setValue('firstname#' . $rowIndex, $family?->firstname ?? '');
             $templateProcessor->setValue('middlename#' . $rowIndex, substr($family?->middlename ?? '', 0, 1));
             $templateProcessor->setValue('lastname#' . $rowIndex, $family?->lastname ?? '');
-            $templateProcessor->setValue('age#' . $rowIndex, $family?->age ?? '');
+            $templateProcessor->setValue('ageNo#' . $rowIndex, $family?->age ? $family?->age . " years old" : '');
             $templateProcessor->setValue('relationship#' . $rowIndex, $family?->relationship ?? '');
             $templateProcessor->setValue('educ_attainment#' . $rowIndex, $family?->educ_attainment ?? '');
             $templateProcessor->setValue('remarks#' . $rowIndex, $family?->remarks ?? '');

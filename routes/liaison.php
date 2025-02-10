@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Office;
+use App\Models\Sector;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ Route::group([
     function () {
 
         Route::get('/monitoring/edit/{id}', function ($id) {
-            $monitoring = Monitoring::with(['user', 'assistance', 'intake'])->findOrFail($id);
+            $monitoring = Monitoring::with(['user', 'assistance', 'intake', 'sector'])->findOrFail($id);
 
             $offices = OfficeResource::collection(Office::all());
 
@@ -47,15 +48,13 @@ Route::group([
             $monitoring = Monitoring::with(['user'])->findOrFail($id);
 
             $monitoring->update(
-                array_merge($request->all(),
                 [
                     'modified_by' =>  Auth::id(),
                     'modified_date' => Carbon::now(),
                     'status_date' => $request->status_date,
                     'remarks' => $request->remarks,
                     'status' => $request->status
-                ])
-            );
+                ]);
 
             return response()->json(['success' => true]);
         });

@@ -50,11 +50,11 @@ watch(
 
 const renderSerctorChart = () => {
     if (sectorData.value.length === 0) {
-        document.getElementById("reportsChart").innerHTML = ""; // Clear previous chart
+        document.getElementById("sectorsChartReport").innerHTML = ""; // Clear previous chart
         return; // Prevent rendering if no data
     }
 
-    Highcharts.chart("reportsChart", {
+    Highcharts.chart("sectorsChartReport", {
         chart: {
             type: "column",
         },
@@ -133,11 +133,11 @@ watch(
 
 const renderAnalyticChart = () => {
     if (assistanceData.value.length === 0) {
-        document.getElementById("analyticsReport").innerHTML = ""; // Clear previous chart
+        document.getElementById("assistanceChartReport").innerHTML = ""; // Clear previous chart
         return; // Prevent rendering if no data
     }
 
-    Highcharts.chart("analyticsReport", {
+    Highcharts.chart("assistanceChartReport", {
         chart: {
             type: "pie",
         },
@@ -212,11 +212,11 @@ watch(
 
 const renderMunicipality = () => {
     if (municipalData.value.length === 0) {
-        document.getElementById("municipalChart").innerHTML = "";
+        document.getElementById("municipalChartReport").innerHTML = "";
         return; // Prevent rendering if no data
     }
 
-    Highcharts.chart("municipalChart", {
+    Highcharts.chart("municipalChartReport", {
         chart: {
             type: "pie",
             options3d: {
@@ -783,7 +783,7 @@ const formatDate = (dateString) => {
                                     </h5>
 
                                     <!-- Line Chart -->
-                                    <div id="reportsChart"></div>
+                                    <div id="sectorsChartReport"></div>
                                 </div>
                             </div>
                         </div>
@@ -826,7 +826,7 @@ const formatDate = (dateString) => {
                         <div class="card-body">
                             <h5 class="card-title">Assistance Report</h5>
 
-                            <div id="analyticsReport"></div>
+                            <div id="assistanceChartReport"></div>
                         </div>
                     </div>
                     <!-- End Recent Activity -->
@@ -866,7 +866,7 @@ const formatDate = (dateString) => {
                                 <span>| Today</span>
                             </h5>
 
-                            <div id="municipalChart"></div>
+                            <div id="municipalChartReport"></div>
                         </div>
                     </div>
                     <!-- End Website Traffic -->
@@ -880,17 +880,17 @@ const formatDate = (dateString) => {
 </template>
 
 <style scoped>
-#reportsChart {
+#sectorsChartReport {
     min-height: 400px;
     width: 100%;
 }
 
-#analyticsReport {
+#assistanceChartReport {
     min-height: 400px;
     width: 100%;
 }
 
-#municipalReport {
+#municipalChartReport {
     min-height: 400px;
     width: 100%;
 }

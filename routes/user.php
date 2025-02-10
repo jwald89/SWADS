@@ -13,23 +13,23 @@ Route::group(['prefix' => 'user','middleware' => [
 ], function () {
     Route::get('/dashboard', function () {
         $totalAssistance = DB::table('personal_information')->count();
-        $totalAmt = DB::table('monitorings')->sum('amount');
+        $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
         $monitorData = Monitoring::with(['intake', 'assistance'])
                         ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
                         ->get();
 
         $totalSectors = Sectoral::count();
-        $totalMonitors = Monitoring::count();
+        $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
         $sumOfSectors = $totalMonitors + $totalSectors;
 
-        $status = Monitoring::with(['intake', 'sector'])->get();
+        $status = Monitoring::with(['intake', 'sector', 'assistance'])->get();
 
         return inertia('User/Dashboard', [
             'totalNums' => $totalAssistance,
             'totalAmt' => $totalAmt,
             'monitorings' => $monitorData,
             'monitorStatus' => $status,
-            'sumOfSectors' => $sumOfSectors,
+            'sectorAvg' => $sumOfSectors,
         ]);
     });
 });
