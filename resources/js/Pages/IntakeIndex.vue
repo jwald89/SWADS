@@ -24,6 +24,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    municipalName: {
+        type: Object,
+        required: true,
+    },
     months: {
         type: Object,
         required: true,
@@ -33,15 +37,17 @@ const props = defineProps({
 const search = ref(props.search || "");
 
 const selectedAssistance = ref({ id: "*", name: "All" });
+const selectedMunicipal = ref({ id: "*", municipality: "All" });
 const selectedMonth = ref({ id: "*", name: "All" });
 
 const filterData = async () => {
     try {
         const assistanceId = selectedAssistance.value.id || "*";
+        const municipalId = selectedMunicipal.value.id || "*";
         const monthId = selectedMonth.value.id || "*";
 
         const response = await axios.get(
-            `/intake/filter/${assistanceId}/${monthId}`
+            `/intake/filter/${assistanceId}/${municipalId}/${monthId}`
         );
         // console.log("API Response:", response.data);
         props.intake.data = response.data;
@@ -51,7 +57,7 @@ const filterData = async () => {
 };
 
 // Watch for changes in props.data and update filteredData accordingly
-watch([selectedAssistance, selectedMonth], () => {
+watch([selectedAssistance, selectedMunicipal, selectedMonth], () => {
     filterData();
 });
 
@@ -135,29 +141,18 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <!-- <div class="col-lg-3 ms-1">
+                        <div class="col-lg-2 ms-1">
                             <label class="fw-bold" for="">Municipality</label>
                             <v-select
                                 :options="[
-                                    { id: '*', name: 'All' },
-                                    { id: '01', name: 'January' },
-                                    { id: '02', name: 'February' },
-                                    { id: '03', name: 'March' },
-                                    { id: '04', name: 'April' },
-                                    { id: '05', name: 'May' },
-                                    { id: '06', name: 'June' },
-                                    { id: '07', name: 'July' },
-                                    { id: '08', name: 'August' },
-                                    { id: '09', name: 'September' },
-                                    { id: '10', name: 'October' },
-                                    { id: '11', name: 'November' },
-                                    { id: '12', name: 'December' },
+                                    { id: '*', municipality: 'All' },
+                                    ...municipalName.data,
                                 ]"
-                                v-model="selectedMonth"
-                                label="name"
+                                v-model="selectedMunicipal"
+                                label="municipality"
                                 placeholder="All"
                             ></v-select>
-                        </div> -->
+                        </div>
                         <div class="col-lg-2 ms-1">
                             <label class="fw-bold" for="">Month</label>
                             <v-select
@@ -274,8 +269,8 @@ watch(
                                             ? detail.street + " St.,"
                                             : ""
                                     }}
-                                    {{ detail.barangay }},
-                                    {{ detail.municipality }}
+                                    {{ detail.brgy.barangay }},
+                                    {{ detail.municipal.municipality }}
                                 </td>
                                 <td class="text-primary">
                                     {{ formatDate(detail.date_intake) }}

@@ -33,21 +33,20 @@ const props = defineProps({
 
 const selectedAssistance = ref({ id: "*", name: "All" });
 const selectedSector = ref({ id: "*", name: "All" });
-// const selectedMunicipal = ref({ id: "*", municipality: "All" });
+const selectedMunicipal = ref({ id: "*", municipality: "All" });
 const selectedMonth = ref({ id: "*", name: "All" });
 
 const filterData = async () => {
     try {
         const assistanceId = selectedAssistance.value.id || "*";
         const sectorId = selectedSector.value.id || "*";
-        // const municipalId = selectedMunicipal.value.municipality || "*";
+        const municipalId = selectedMunicipal.value.id || "*";
         const month = selectedMonth.value.id || "*";
 
         const response = await axios.get(
-            `/monitoring/filter/${assistanceId}/${sectorId}/${month}`
+            `/monitoring/filter/${assistanceId}/${sectorId}/${municipalId}/${month}`
         );
 
-        // console.log("API Response:", response.data);
         props.monitorings.data = response.data;
     } catch (error) {
         console.error("Error fetching filtered data:", error);
@@ -55,9 +54,12 @@ const filterData = async () => {
 };
 
 // Watch for changes in props.data and update filteredData accordingly
-watch([selectedAssistance, selectedSector, selectedMonth], () => {
-    filterData();
-});
+watch(
+    [selectedAssistance, selectedSector, selectedMunicipal, selectedMonth],
+    () => {
+        filterData();
+    }
+);
 
 const page = usePage();
 
@@ -187,7 +189,15 @@ watch(
                         </div>
                         <div class="col-lg-2">
                             <label class="fw-bold" for="">Municipality</label>
-                            <v-select></v-select>
+                            <v-select
+                                :options="[
+                                    { id: '*', municipality: 'All' },
+                                    ...municipalityName.data,
+                                ]"
+                                v-model="selectedMunicipal"
+                                label="municipality"
+                                placeholder="All"
+                            ></v-select>
                         </div>
                         <div class="col-lg-2 ms-1">
                             <label class="fw-bold" for="">Month</label>
@@ -292,7 +302,7 @@ watch(
                                     {{ formatDate(monitoring.date_intake) }}
                                 </td>
                                 <td>{{ monitoring.sector.name }}</td>
-                                <td>{{ monitoring.municipality }}</td>
+                                <td>{{ monitoring.municipal.municipality }}</td>
                                 <td>{{ monitoring.charges }}</td>
                                 <td class="text-primary">
                                     {{

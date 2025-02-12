@@ -76,7 +76,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/intake/export/{id}', 'export')->name('intake.export');
                 Route::get('/intake/print-coe/{id}', 'coePrint');
 
-                Route::get('/intake/filter/{assistanceId?}/{month?}', 'filter');
+                Route::get('/intake/filter/{assistanceId?}/{municipalId?}/{month?}', 'filter');
     });
 
     // Monitoring Controller
@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::put('/monitoring/update/{id}', 'update');
                 Route::delete('/monitoring/destroy/{id}', 'destroy');
                 Route::get('/monitoring/show/{id}', 'show');
-                Route::get('/monitoring/filter/{assistanceId?}/{sectorId?}/{month?}', 'filter');
+                Route::get('/monitoring/filter/{assistanceId?}/{sectorId?}/{municipalName?}/{month?}', 'filter');
     });
 
     // Sectoral Data Controller

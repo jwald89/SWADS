@@ -32,7 +32,7 @@ class IntakeController extends Controller
      */
     public function index()
     {
-        $perInfos = PersonalInformation::with(['assistance'])
+        $perInfos = PersonalInformation::with(['assistance', 'municipal', 'brgy'])
                     ->when(request()->search !== '', function ($query) {
                         $search = request()->search;
                         $query->where(function ($subQuery) use ($search) {
@@ -53,13 +53,15 @@ class IntakeController extends Controller
 
         $famComps = FamilyComposition::get();
         $assistance = AssistanceResource::collection(AssistanceType::all());
+        $municipalName = MunicipalityResource::collection(Municipality::all());
 
         return inertia('IntakeIndex', [
             'intake' => $perInfos,
             'search' => request()->search ?? '',
             'famComps' => $famComps,
             'assistance' => $assistance,
-            'months' => Month::names()
+            'months' => Month::names(),
+            'municipalName' => $municipalName
         ]);
     }
 
@@ -448,12 +450,16 @@ class IntakeController extends Controller
     /**
      * Filter the specified assistance, municipality, month and year
      */
-    public function filter($assistanceId = '*', $month = '*')
+    public function filter($assistanceId = '*', $municipalId = '*', $month = '*')
     {
-        $data = PersonalInformation::with(['assistance']);
+        $data = PersonalInformation::with(['assistance', 'municipal', 'brgy']);
 
         if ($assistanceId !== '*') {
             $data->where('category', $assistanceId);
+        }
+
+        if ($municipalId !== '*') {
+            $data->where('municipality', $municipalId);
         }
 
         if ($month !== '*') {

@@ -26,4 +26,14 @@ class Municipality extends Model
     {
         return $this->hasMany(Sectoral::class, 'id', 'municipality');
     }
+
+    public function intake()
+    {
+        return $this->hasMany(PersonalInformation::class, 'id', 'municipality');
+    }
+
+    public function monitoring()
+    {
+        return $this->hasMany(Monitoring::class, 'id', 'municipality');
+    }
 }

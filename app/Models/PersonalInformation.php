@@ -46,4 +46,14 @@ class PersonalInformation extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+
+    public function brgy()
+    {
+        return $this->belongsTo(Barangay::class, 'barangay', 'id');
+    }
+
+    public function municipal()
+    {
+        return $this->belongsTo(Municipality::class, 'municipality', 'id');
+    }
 }

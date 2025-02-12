@@ -23,4 +23,14 @@ class Barangay extends Model
     {
         return $this->hasMany(Sectoral::class, 'barangay', 'id');
     }
+
+    public function monitoring()
+    {
+        return $this->belongsTo(Monitoring::class, 'barangay', 'id');
+    }
+
+    public function intake()
+    {
+        return $this->belongsTo(Monitoring::class, 'barangay', 'id');
+    }
 }

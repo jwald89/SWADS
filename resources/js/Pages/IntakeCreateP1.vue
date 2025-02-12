@@ -356,9 +356,7 @@ defineComponent({
                                                     id="barangay"
                                                     :options="barangays.data"
                                                     v-model="form.barangay"
-                                                    :reduce="
-                                                        (data) => data.barangay
-                                                    "
+                                                    :reduce="(data) => data.id"
                                                     label="barangay"
                                                     :class="{
                                                         'form-control is-invalid':
@@ -391,10 +389,7 @@ defineComponent({
                                                     id="municipal"
                                                     :options="municipality.data"
                                                     v-model="form.municipality"
-                                                    :reduce="
-                                                        (data) =>
-                                                            data.municipality
-                                                    "
+                                                    :reduce="(data) => data.id"
                                                     label="municipality"
                                                     :class="{
                                                         'form-control is-invalid':

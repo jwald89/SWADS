@@ -32,7 +32,7 @@ class MonitoringController extends Controller
     public function index()
     {
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
-            $monitoringData = Monitoring::with(['intake', 'sector', 'assistance'])
+            $monitoringData = Monitoring::with(['intake', 'sector', 'assistance', 'municipal'])
                 ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
                     $query->where('liaison', Auth::user()->id)
                         ->where(function ($query) {
@@ -272,9 +272,9 @@ class MonitoringController extends Controller
     /**
      * Filter the specified assistance, sector, municipality, month and year
      */
-    public function filter($assistanceId = '*', $sectorId = '*', $month = '*')
+    public function filter($assistanceId = '*', $sectorId = '*', $municipalId = '*', $month = '*')
     {
-        $data = Monitoring::with(['intake', 'assistance', 'sector']);
+        $data = Monitoring::with(['intake', 'assistance', 'sector', 'municipal']);
 
 
         if ($assistanceId !== '*') {
@@ -285,9 +285,9 @@ class MonitoringController extends Controller
             $data->where('sector', $sectorId);
         }
 
-        // if ($municipalName !== '*') {
-        //     $data->where('municipality', $municipalName);
-        // }
+        if ($municipalId !== '*') {
+            $data->where('municipality', $municipalId);
+        }
 
         if ($month !== '*') {
             $data->whereMonth('date_intake', $month);

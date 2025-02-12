@@ -40,4 +40,14 @@ class Monitoring extends Model
         return $this->belongsTo(AssistanceType::class, 'assistance_type', 'id');
     }
 
+    public function brgy()
+    {
+        return $this->belongsTo(Barangay::class, 'barangay', 'id');
+    }
+
+    public function municipal()
+    {
+        return $this->belongsTo(Municipality::class, 'municipality', 'id');
+    }
+
 }
