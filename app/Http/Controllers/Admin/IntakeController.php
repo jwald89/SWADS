@@ -199,7 +199,7 @@ class IntakeController extends Controller
      */
     public function show($id)
     {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'assistance'])->find($id);
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'assistance', 'brgy', 'municipal'])->find($id);
 
         return inertia('ShowIntake', [
             'intakes' => $intakes
@@ -211,7 +211,7 @@ class IntakeController extends Controller
      */
     public function edit($id)
     {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'brgy', 'municipal'])->find($id);
 
         $assistances = AssistanceResource::collection(AssistanceType::all());
         $municipality = MunicipalityResource::collection(Municipality::all());
@@ -230,7 +230,7 @@ class IntakeController extends Controller
      */
     public function intakeSheetPrint($id)
     {
-        $intakes = PersonalInformation::with(['assistance', 'user'])
+        $intakes = PersonalInformation::with(['assistance', 'user', 'brgy', 'municipal'])
                     ->where('id', $id)
                     ->orderBy('created_at', 'desc')
                     ->get();
@@ -286,7 +286,7 @@ class IntakeController extends Controller
      */
     public function coePrint($id)
     {
-        $intakes = PersonalInformation::with(['assistance', 'user'])
+        $intakes = PersonalInformation::with(['assistance', 'user', 'brgy', 'municipal'])
                     ->where('id', $id)
                     ->orderBy('created_at', 'desc')
                     ->get();
@@ -326,7 +326,7 @@ class IntakeController extends Controller
      */
     public function export($id)
     {
-        $intakes = PersonalInformation::with(['assistance'])->findOrFail($id);
+        $intakes = PersonalInformation::with(['assistance', 'brgy', 'municipal'])->findOrFail($id);
 
         $createdBy = '';
 
@@ -352,8 +352,8 @@ class IntakeController extends Controller
         $templateProcessor->setValue('age', $intakes?->age ?? '');
         $templateProcessor->setValue('sex', ucwords($intakes?->sex ?? ''));
         $templateProcessor->setValue('civil_stats', ucwords($intakes?->civil_stats ?? ''));
-        $templateProcessor->setValue('barangay', $intakes?->barangay ?? '');
-        $templateProcessor->setValue('municipality', $intakes?->municipality ?? '');
+        $templateProcessor->setValue('barangay', $intakes?->brgy->barangay ?? '');
+        $templateProcessor->setValue('municipality', $intakes?->municipal->municipality ?? '');
         $templateProcessor->setValue('birthdate', \Carbon\Carbon::parse($intakes?->birthdate ?? '')->format('F j, Y'));
         $templateProcessor->setValue('job', $intakes?->job ?? '');
         $templateProcessor->setValue('income', $intakes?->income ?? '');

@@ -103,7 +103,7 @@ watch(
         if (newValue && Array.isArray(newValue)) {
             municipalData.value = newValue
                 .map((data) => ({
-                    name: data.municipality,
+                    name: data.municipal.municipality,
                     y: parseFloat(data.amount),
                 }))
                 .filter((item) => !isNaN(item.y)) // Filter out any NaN values
@@ -488,7 +488,8 @@ const formatDate = (dateString) => {
                                                     </td>
                                                     <td>
                                                         {{
-                                                            monitoring.municipality
+                                                            monitoring.municipal
+                                                                .municipality
                                                         }}
                                                     </td>
                                                     <td>

@@ -112,7 +112,7 @@ const formatName = (fName) => {
                                     Barangay:
                                 </div>
                                 <div class="col-lg-9 col-md-10">
-                                    {{ monitorings.barangay }}
+                                    {{ monitorings.brgy.barangay }}
                                 </div>
                             </div>
 
@@ -121,7 +121,7 @@ const formatName = (fName) => {
                                     Municipality:
                                 </div>
                                 <div class="col-lg-9 col-md-10">
-                                    {{ monitorings.municipality }}
+                                    {{ monitorings.municipal.municipality }}
                                 </div>
                             </div>
                         </div>

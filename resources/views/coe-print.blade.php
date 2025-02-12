@@ -124,7 +124,7 @@
                 </span>
                 &nbsp; legal age, resident at
                 <span class="fw-bold">
-                    <?php echo !empty(trim($intake->purok)) ? 'Purok '.ucwords($intake->purok).',' : '' ?> {{ ucwords($intake->barangay) }}, {{ ucwords($intake->municipality) }}, Surigao del Sur
+                    <?php echo !empty(trim($intake->purok)) ? 'Purok '.ucwords($intake->purok).',' : '' ?> {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao del Sur
                 </span>
                 &nbsp;has been found eligible for
                 <span class="fw-bold">{{ ucwords($intake->assistance->name) }}</span>

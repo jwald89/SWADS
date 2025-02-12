@@ -32,7 +32,7 @@ class MonitoringController extends Controller
     public function index()
     {
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
-            $monitoringData = Monitoring::with(['intake', 'sector', 'assistance', 'municipal'])
+            $monitoringData = Monitoring::with(['intake', 'sector', 'assistance', 'brgy', 'municipal'])
                 ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
                     $query->where('liaison', Auth::user()->id)
                         ->where(function ($query) {
@@ -94,7 +94,7 @@ class MonitoringController extends Controller
     */
     public function create()
     {
-        $intakeData = PersonalDetailResource::collection(PersonalInformation::with(['assistance', 'user'])->get());
+        $intakeData = PersonalDetailResource::collection(PersonalInformation::with(['assistance', 'user', 'brgy', 'municipal'])->get());
         $sectors = SectorResource::collection(Sector::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
@@ -154,7 +154,7 @@ class MonitoringController extends Controller
     */
     public function edit($id)
     {
-        $monitoring = Monitoring::with(['user', 'intake', 'assistance'])->findOrFail($id);
+        $monitoring = Monitoring::with(['user', 'intake', 'assistance', 'brgy', 'municipal'])->findOrFail($id);
         $sectors = SectorResource::collection(Sector::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
@@ -217,7 +217,7 @@ class MonitoringController extends Controller
      */
     public function show($id)
     {
-        $monitorings = Monitoring::with(['intake', 'sector', 'assistance', 'user'])->find($id);
+        $monitorings = Monitoring::with(['intake', 'sector', 'assistance', 'user', 'brgy', 'municipal'])->find($id);
 
         // Initialize variables
         $createdBy = '';
@@ -275,6 +275,28 @@ class MonitoringController extends Controller
     public function filter($assistanceId = '*', $sectorId = '*', $municipalId = '*', $month = '*')
     {
         $data = Monitoring::with(['intake', 'assistance', 'sector', 'municipal']);
+
+
+        // // If the user is admin
+        // if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER') {
+        //     // If sectorId is "All", show all data regardless of municipality
+        //     if ($sectorId == '*') {
+        //         // No additional filtering by municipality for admins
+        //     } else {
+        //         // If a specific sector is selected, filter by that sector
+        //         $data->where('sector', $sectorId);
+        //     }
+        // } else if (Auth::user()->role_type === 'MUNICIPAL') {
+        //     // If the user is municipal
+        //     if ($sectorId == '*') {
+        //         // Show data for the user's municipality
+        //         $data->where('municipality', Auth::user()->municipality);
+        //     } else {
+        //         // If a specific sector is selected, filter by sector and municipality
+        //         $data->where('sector', $sectorId)
+        //             ->where('municipality', Auth::user()->municipality);
+        //     }
+        // }
 
 
         if ($assistanceId !== '*') {

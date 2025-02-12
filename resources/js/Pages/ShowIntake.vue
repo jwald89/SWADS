@@ -91,10 +91,12 @@ defineComponent({
                         <div class="col border fw-bold p-2">Street</div>
                         <div class="col border p-2">{{ intakes.street }}</div>
                         <div class="col border fw-bold p-2">Barangay</div>
-                        <div class="col border p-2">{{ intakes.barangay }}</div>
+                        <div class="col border p-2">
+                            {{ intakes.brgy.barangay }}
+                        </div>
                         <div class="col border fw-bold p-2">Municipal</div>
                         <div class="col border p-2">
-                            {{ intakes.municipality }}
+                            {{ intakes.municipal.municipality }}
                         </div>
                     </div>
                     <div class="row row-cols-6">

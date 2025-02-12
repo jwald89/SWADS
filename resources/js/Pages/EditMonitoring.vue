@@ -200,7 +200,7 @@ defineComponent({
                             class="form-control"
                             name="municipal"
                             id="municipal"
-                            v-model="dataMonitors.municipality"
+                            v-model="dataMonitors.municipal.municipality"
                             disabled
                         />
                     </div>
@@ -212,7 +212,7 @@ defineComponent({
                             class="form-control"
                             name="barangay"
                             id="barangay"
-                            v-model="dataMonitors.barangay"
+                            v-model="dataMonitors.brgy.barangay"
                             disabled
                         />
                     </div>

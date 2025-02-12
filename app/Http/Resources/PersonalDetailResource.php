@@ -28,6 +28,8 @@ class PersonalDetailResource extends JsonResource
             'created_by' => $this->created_by,
             'assistanceType' => $this->assistance->name ?? null,
             'username' => ucwords($this->user->first_name) .' '. ucfirst(substr($this->user->middle_init, 0, 1)) .'. '. ucwords($this->user->last_name),
+            'brgy' => $this->brgy->barangay,
+            'municipal' => $this->municipal->municipality,
         ];
     }
 }

@@ -23,6 +23,8 @@ defineComponent({
 
 watchEffect(() => {
     intakes.category = parseInt(intakes.category);
+    intakes.barangay = parseInt(intakes.barangay);
+    intakes.municipality = parseInt(intakes.municipality);
 });
 </script>
 
@@ -247,9 +249,7 @@ watchEffect(() => {
                                                 <v-select
                                                     name="barangay"
                                                     :options="barangays.data"
-                                                    :reduce="
-                                                        (data) => data.barangay
-                                                    "
+                                                    :reduce="(data) => data.id"
                                                     id="barangay"
                                                     label="barangay"
                                                     v-model="intakes.barangay"
@@ -270,10 +270,7 @@ watchEffect(() => {
                                                 <v-select
                                                     name="municipal"
                                                     :options="municipality.data"
-                                                    :reduce="
-                                                        (data) =>
-                                                            data.municipality
-                                                    "
+                                                    :reduce="(data) => data.id"
                                                     id="municipal"
                                                     label="municipality"
                                                     v-model="

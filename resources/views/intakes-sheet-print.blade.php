@@ -160,7 +160,7 @@
                         <p style="font-weight: normal">: {{ $intake->age }}</p>
                         <p style="font-weight: normal">: {{ ucwords($intake->sex) }}</p>
                         <p style="font-weight: normal">: {{ ucwords($intake->civil_stats) }}</p>
-                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->purok)) ? "Purok " . ucwords($intake->purok) . ",": "" ?> <?php echo !empty(trim($intake->street)) ? ucwords($intake->street) . " St., " : "" ?> {{ ucwords($intake->barangay) }}, {{ ucwords($intake->municipality) }}, Surigao Del Sur</p style="font-weight: normal">
+                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->purok)) ? "Purok " . ucwords($intake->purok) . ",": "" ?> <?php echo !empty(trim($intake->street)) ? ucwords($intake->street) . " St., " : "" ?> {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao Del Sur</p style="font-weight: normal">
                         <p style="font-weight: normal">: {{ Carbon::parse($intake->birthdate)->format('F j, Y') }}</p>
                         <p style="font-weight: normal">: <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?></p>
                         <p style="font-weight: normal">: <?php echo !empty(trim($intake->income)) ? $intake->income : "N/A" ?></p>

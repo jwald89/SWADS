@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $totalAssistance = DB::table('personal_information')->whereNull('deleted_at')->count();
         $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
-        $monitorData = Monitoring::with(['intake', 'assistance'])
+        $monitorData = Monitoring::with(['intake', 'assistance', 'municipal'])
                     ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
                     ->get();
         $totalSectors = Sectoral::count();
@@ -26,7 +26,7 @@ class DashboardController extends Controller
 
         $parseTotalAmt = number_format($totalAmt,2,".",",");
 
-        $status = Monitoring::with(['intake', 'sector', 'assistance'])->get();
+        $status = Monitoring::with(['intake', 'sector', 'assistance', 'municipal'])->get();
 
         return inertia('Dashboard', [
             'totalNums' => $totalAssistance,

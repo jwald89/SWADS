@@ -14,7 +14,7 @@ Route::group(['prefix' => 'user','middleware' => [
     Route::get('/dashboard', function () {
         $totalAssistance = DB::table('personal_information')->whereNull('deleted_at')->count();
         $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
-        $monitorData = Monitoring::with(['intake', 'assistance'])
+        $monitorData = Monitoring::with(['intake', 'assistance', 'municipal'])
                         ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
                         ->get();
 
@@ -22,7 +22,7 @@ Route::group(['prefix' => 'user','middleware' => [
         $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
         $sumOfSectors = $totalMonitors + $totalSectors;
 
-        $status = Monitoring::with(['intake', 'sector', 'assistance'])->get();
+        $status = Monitoring::with(['intake', 'sector', 'assistance', 'municipal'])->get();
 
         return inertia('User/Dashboard', [
             'totalNums' => $totalAssistance,

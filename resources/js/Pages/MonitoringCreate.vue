@@ -49,7 +49,9 @@ const monitorForm = reactive({
     gender: "",
     contact_no: "",
     barangay: "",
+    brgy: "",
     municipality: "",
+    municipal: "",
     assistance_type: "",
     date_intake: "",
     status: "",
@@ -196,7 +198,9 @@ watch(claimant, (newClaimant) => {
         monitorForm.gender = newClaimant.gender;
         monitorForm.contact_no = newClaimant.contact_no;
         monitorForm.barangay = newClaimant.barangay;
+        monitorForm.brgy = newClaimant.brgy;
         monitorForm.municipality = newClaimant.municipality;
+        monitorForm.municipal = newClaimant.municipal;
         monitorForm.assistance_type = newClaimant.category;
         monitorForm.assistanceType = newClaimant.assistanceType;
         monitorForm.date_intake = newClaimant.date_intake;
@@ -365,8 +369,13 @@ onMounted(fetchMonitoringRecords);
                             class="form-control fw-bold"
                             name="municipal"
                             id="municipal"
-                            v-model="monitorForm.municipality"
+                            v-model="monitorForm.municipal"
                             disabled
+                        />
+                        <input
+                            type="hidden"
+                            name="municipal"
+                            v-model="monitorForm.municipality"
                         />
                     </div>
 
@@ -379,8 +388,13 @@ onMounted(fetchMonitoringRecords);
                             class="form-control fw-bold"
                             name="barangay"
                             id="barangay"
-                            v-model="monitorForm.barangay"
+                            v-model="monitorForm.brgy"
                             disabled
+                        />
+                        <input
+                            type="hidden"
+                            name="barangay"
+                            v-model="monitorForm.barangay"
                         />
                     </div>
                     <div class="col-md-4">
