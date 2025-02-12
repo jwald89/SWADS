@@ -89,6 +89,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::put('/monitoring/update/{id}', 'update');
                 Route::delete('/monitoring/destroy/{id}', 'destroy');
                 Route::get('/monitoring/show/{id}', 'show');
+                Route::get('/monitoring/filter/{assistanceId?}/{sectorId?}/{month?}', 'filter');
     });
 
     // Sectoral Data Controller
@@ -99,7 +100,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/sectoral-data/create-post', 'store');
                 Route::get('/sectoral-data/edit/{id}', 'edit');
                 Route::put('/sectoral-data/update/{id}', 'update');
-                Route::get('/sectoral-data/filter/{sectorId?}/{municipality?}/{month?}', 'filter');
+                Route::get('/sectoral-data/filter/{sectorId?}/{municipalId?}/{month?}', 'filter');
                 Route::get('/sectoral-data/show/{id}', 'show');
     });
 

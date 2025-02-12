@@ -8,18 +8,6 @@ import { debounce } from "lodash";
 import Pagination from "../components/Pagination.vue";
 
 const props = defineProps({
-    municipalities: {
-        type: Object,
-        required: true,
-    },
-    sectors: {
-        type: Object,
-        required: true,
-    },
-    months: {
-        type: Object,
-        required: true,
-    },
     sectoral: {
         type: Object,
         required: true,
@@ -27,6 +15,18 @@ const props = defineProps({
     search: {
         type: String,
         default: "",
+    },
+    sectors: {
+        type: Object,
+        required: true,
+    },
+    municipalities: {
+        type: Object,
+        required: true,
+    },
+    months: {
+        type: Object,
+        required: true,
     },
 });
 

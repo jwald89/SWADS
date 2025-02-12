@@ -236,7 +236,7 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Sector's Overview
+                                        Total sector served
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -422,93 +422,99 @@ const formatDate = (dateString) => {
                                     </ul>
                                 </div>
 
-                                <div class="card-body pb-0">
+                                <div class="card-body">
                                     <h5 class="card-title">
                                         Recent Assistance <span>| Today</span>
                                     </h5>
 
-                                    <table class="table table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Claimant</th>
-                                                <th scope="col">
-                                                    Municipality
-                                                </th>
-                                                <th scope="col">
-                                                    Type Assistance
-                                                </th>
-                                                <th scope="col">Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody
-                                            v-for="(
-                                                monitoring, index
-                                            ) in monitorings"
-                                            :key="index"
-                                        >
-                                            <tr>
-                                                <td scope="row">
-                                                    {{
-                                                        monitoring.intake
-                                                            .first_name === null
-                                                            ? ""
-                                                            : formatName(
-                                                                  monitoring
-                                                                      .intake
-                                                                      .first_name
-                                                              )
-                                                    }}
-                                                    {{
-                                                        monitoring.intake
-                                                            .middle_name ===
-                                                        null
-                                                            ? ""
-                                                            : formatName(
-                                                                  monitoring.intake.middle_name.substr(
-                                                                      0,
-                                                                      1
+                                    <div class="table-scroll">
+                                        <table class="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">
+                                                        Claimant
+                                                    </th>
+                                                    <th scope="col">
+                                                        Municipality
+                                                    </th>
+                                                    <th scope="col">
+                                                        Type Assistance
+                                                    </th>
+                                                    <th scope="col">Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody
+                                                v-for="(
+                                                    monitoring, index
+                                                ) in monitorings"
+                                                :key="index"
+                                            >
+                                                <tr>
+                                                    <td scope="row">
+                                                        {{
+                                                            monitoring.intake
+                                                                .first_name ===
+                                                            null
+                                                                ? ""
+                                                                : formatName(
+                                                                      monitoring
+                                                                          .intake
+                                                                          .first_name
                                                                   )
-                                                              )
-                                                    }}.
-                                                    {{
-                                                        monitoring.intake
-                                                            .last_name === null
-                                                            ? ""
-                                                            : formatName(
-                                                                  monitoring
-                                                                      .intake
-                                                                      .last_name
-                                                              )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        monitoring.municipality
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        monitoring.assistance
-                                                            .name
-                                                    }}
-                                                </td>
-                                                <td class="fw-bold">
-                                                    ₱
-                                                    {{
-                                                        new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                minimumFractionDigits: 2,
-                                                                maximumFractionsDigits: 2,
-                                                            }
-                                                        ).format(
-                                                            monitoring.amount
-                                                        )
-                                                    }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                        }}
+                                                        {{
+                                                            monitoring.intake
+                                                                .middle_name ===
+                                                            null
+                                                                ? ""
+                                                                : formatName(
+                                                                      monitoring.intake.middle_name.substr(
+                                                                          0,
+                                                                          1
+                                                                      )
+                                                                  )
+                                                        }}.
+                                                        {{
+                                                            monitoring.intake
+                                                                .last_name ===
+                                                            null
+                                                                ? ""
+                                                                : formatName(
+                                                                      monitoring
+                                                                          .intake
+                                                                          .last_name
+                                                                  )
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            monitoring.municipality
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            monitoring
+                                                                .assistance.name
+                                                        }}
+                                                    </td>
+                                                    <td class="fw-bold">
+                                                        ₱
+                                                        {{
+                                                            new Intl.NumberFormat(
+                                                                "en-US",
+                                                                {
+                                                                    minimumFractionDigits: 2,
+                                                                    maximumFractionsDigits: 2,
+                                                                }
+                                                            ).format(
+                                                                monitoring.amount
+                                                            )
+                                                        }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -551,96 +557,159 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Assistance Status <span>| Today</span>
+                                        Assistance Voucher Status
+                                        <span>| Today</span>
                                     </h5>
 
-                                    <table
-                                        class="table table-borderless datatable"
-                                    >
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Date Intake</th>
-                                                <th scope="col">Claimant</th>
-                                                <th scope="col">Sector</th>
-                                                <th scope="col">Charges</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody
-                                            v-for="(
-                                                status, index
-                                            ) in monitorStatus"
-                                            :key="index"
+                                    <div class="table-scroll">
+                                        <table
+                                            class="table table-borderless datatable"
                                         >
-                                            <tr>
-                                                <td class="text-primary">
-                                                    {{
-                                                        formatDate(
-                                                            status.date_intake
-                                                        )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        status.intake
-                                                            .first_name === null
-                                                            ? ""
-                                                            : formatName(
-                                                                  status.intake
-                                                                      .first_name
-                                                              )
-                                                    }}
-                                                    {{
-                                                        status.intake
-                                                            .middle_name ===
-                                                        null
-                                                            ? ""
-                                                            : formatName(
-                                                                  status.intake.middle_name.substr(
-                                                                      0,
-                                                                      1
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">
+                                                        Date Intake
+                                                    </th>
+                                                    <th scope="col">
+                                                        Claimant
+                                                    </th>
+                                                    <th scope="col">Sector</th>
+                                                    <th scope="col">
+                                                        Charge To
+                                                    </th>
+                                                    <th scope="col">Amount</th>
+                                                    <th scope="col">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody
+                                                v-for="(
+                                                    data, index
+                                                ) in monitorStatus"
+                                                :key="index"
+                                                :class="{
+                                                    'bg-claimed':
+                                                        data.status ===
+                                                        'CLAIMED',
+                                                }"
+                                            >
+                                                <tr>
+                                                    <td class="text-primary">
+                                                        {{
+                                                            formatDate(
+                                                                data.date_intake
+                                                            )
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            data.intake
+                                                                .first_name ===
+                                                            null
+                                                                ? ""
+                                                                : formatName(
+                                                                      data
+                                                                          .intake
+                                                                          .first_name
                                                                   )
-                                                              )
-                                                    }}.
-                                                    {{
-                                                        status.intake
-                                                            .last_name === null
-                                                            ? ""
-                                                            : formatName(
-                                                                  status.intake
-                                                                      .last_name
-                                                              )
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    {{ status.sector.name }}
-                                                </td>
-                                                <td>
-                                                    {{ status.charges }}
-                                                </td>
-                                                <td>
-                                                    {{
-                                                        new Intl.NumberFormat(
-                                                            "en-US",
-                                                            {
-                                                                minimumFractionDigits: 2,
-                                                                maximumFractionsDigits: 2,
-                                                            }
-                                                        ).format(status.amount)
-                                                    }}
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="badge bg-success"
-                                                        >{{
-                                                            status.status
-                                                        }}</span
+                                                        }}
+                                                        {{
+                                                            data.intake
+                                                                .middle_name ===
+                                                            null
+                                                                ? ""
+                                                                : formatName(
+                                                                      data.intake.middle_name.substr(
+                                                                          0,
+                                                                          1
+                                                                      )
+                                                                  )
+                                                        }}.
+                                                        {{
+                                                            data.intake
+                                                                .last_name ===
+                                                            null
+                                                                ? ""
+                                                                : formatName(
+                                                                      data
+                                                                          .intake
+                                                                          .last_name
+                                                                  )
+                                                        }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data.sector.name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ data.charges }}
+                                                    </td>
+                                                    <td>
+                                                        {{
+                                                            new Intl.NumberFormat(
+                                                                "en-US",
+                                                                {
+                                                                    minimumFractionDigits: 2,
+                                                                    maximumFractionsDigits: 2,
+                                                                }
+                                                            ).format(
+                                                                data.amount
+                                                            )
+                                                        }}
+                                                    </td>
+                                                    <td
+                                                        v-if="
+                                                            data.status ==
+                                                            'PSWDO'
+                                                        "
+                                                        class="badge bg-pswdo text-light fw-bold"
                                                     >
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                        {{ data.status }}
+                                                    </td>
+                                                    <td
+                                                        v-if="
+                                                            data.status == 'PGO'
+                                                        "
+                                                        class="badge bg-pgo text-light fw-bold"
+                                                    >
+                                                        {{ data.status }}
+                                                    </td>
+                                                    <td
+                                                        v-if="
+                                                            data.status == 'PBO'
+                                                        "
+                                                        class="badge bg-pbo text-dark fw-bold"
+                                                    >
+                                                        {{ data.status }}
+                                                    </td>
+                                                    <td
+                                                        v-if="
+                                                            data.status ==
+                                                            'PACCO'
+                                                        "
+                                                        class="badge bg-pacco text-dark fw-bold"
+                                                    >
+                                                        {{ data.status }}
+                                                    </td>
+                                                    <td
+                                                        v-if="
+                                                            data.status == 'PTO'
+                                                        "
+                                                        class="badge bg-pto text-light fw-bold"
+                                                    >
+                                                        {{ data.status }}
+                                                    </td>
+                                                    <td
+                                                        v-if="
+                                                            data.status ==
+                                                            'CLAIMED'
+                                                        "
+                                                        class="fw-bold"
+                                                    >
+                                                        {{ data.status }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -745,5 +814,34 @@ const formatDate = (dateString) => {
 #municipalChartReport {
     min-height: 400px;
     width: 100%;
+}
+
+.table-scroll {
+    max-height: 25vh !important;
+    overflow-y: scroll;
+}
+
+.bg-claimed {
+    background: #a7ff83;
+}
+
+.bg-pswdo {
+    background: #c300ff;
+}
+
+.bg-pbo {
+    background: #f5eded;
+}
+
+.bg-pto {
+    background: #ff6200;
+}
+
+.bg-pacco {
+    background: #ffbe0a;
+}
+
+.bg-pgo {
+    background: #2f89fc;
 }
 </style>

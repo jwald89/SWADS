@@ -40,15 +40,14 @@ onMounted(() => {
 <template>
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
-            <Link href="" class="logo d-flex align-items-center">
-                <div class="">
-                    <img
-                        src="/public/assets/img/pdms-logo.png"
-                        width="200px"
-                        style="max-height: 55px"
-                    />
-                </div>
-            </Link>
+            <div class="logo d-flex align-items-center">
+                <img
+                    src="/public/assets/img/pdms-logo.png"
+                    width="200px"
+                    class="ms-4"
+                    style="max-height: 55px"
+                />
+            </div>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div>
         <!-- End Logo -->
@@ -104,6 +103,10 @@ onMounted(() => {
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
+        <div class="mb-4 mt-0 text-center">
+            <img src="/public/assets/img/sds.png" alt="" width="80px" />
+        </div>
+
         <ul class="sidebar-nav" id="sidebar-nav">
             <!-- Admin Dashboard -->
             <li class="nav-item" v-if="hasAccess(['admin'])">

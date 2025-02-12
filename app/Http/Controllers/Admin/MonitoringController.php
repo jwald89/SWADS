@@ -9,16 +9,20 @@ use App\Models\Sector;
 use App\Enums\StatusType;
 use App\Models\Monitoring;
 use Illuminate\Http\Request;
+use App\Models\AssistanceType;
+use App\Models\FamilyComposition;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MonitorRequest;
-use App\Http\Resources\FamilyCompositionResource;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
+use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\PersonalDetailResource;
-use App\Models\FamilyComposition;
+use App\Http\Resources\FamilyCompositionResource;
+use App\Http\Resources\MunicipalityResource;
+use App\Models\Municipality;
 
 class MonitoringController extends Controller
 {
@@ -33,52 +37,55 @@ class MonitoringController extends Controller
                     $query->where('liaison', Auth::user()->id)
                         ->where(function ($query) {
                             $search = request()->search;
-                            $query->where('client_type', 'like', '%' . $search . '%')
-                                    ->orWhere('municipality', 'like', '%' . $search . '%')
-                                    ->orWhereHas('intake', function ($claimant) use ($search) {
+                            $query->orWhereHas('intake', function ($claimant) use ($search) {
                                         $claimant->where('first_name', 'like', '%' . $search . '%')
                                                 ->orWhere('middle_name', 'like', '%' . $search . '%')
                                                 ->orWhere('last_name', 'like', '%' . $search . '%')
                                                 ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
                                                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
                                                 ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
-                                    })
-                                    ->orWhereHas('assistance', function ($assistance) use ($search) {
-                                        $assistance->where('name', 'like', '%' . $search . '%');
-                                    })
-                                    ->orWhereHas('sector', function ($sector) use ($search) {
-                                        $sector->where('name', 'like', '%' . $search . '%');
                                     });
+                                    // ->orWhereHas('assistance', function ($assistance) use ($search) {
+                                    //     $assistance->where('name', 'like', '%' . $search . '%');
+                                    // })
+                                    // ->orWhereHas('sector', function ($sector) use ($search) {
+                                    //     $sector->where('name', 'like', '%' . $search . '%');
+                                    // });
                         });
                 })
                 ->when(Auth::user()->role_type !== 'LIAISON', function ($query) {
                     $query->where(function ($query) {
                         $search = request()->search;
-                        $query->where('client_type', 'like', '%' . $search . '%')
-                              ->orWhere('municipality', 'like', '%' . $search . '%')
-                              ->orWhereHas('intake', function ($claimant) use ($search) {
+                        $query->orWhereHas('intake', function ($claimant) use ($search) {
                                   $claimant->where('first_name', 'like', '%' . $search . '%')
                                            ->orWhere('middle_name', 'like', '%' . $search . '%')
                                            ->orWhere('last_name', 'like', '%' . $search . '%')
                                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
                                            ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
                                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
-                              })
-                              ->orWhereHas('assistance', function ($assistance) use ($search) {
-                                  $assistance->where('name', 'like', '%' . $search . '%');
-                              })
-                              ->orWhereHas('sector', function ($sector) use ($search) {
-                                  $sector->where('name', 'like', '%' . $search . '%');
                               });
+                            //   ->orWhereHas('assistance', function ($assistance) use ($search) {
+                            //       $assistance->where('name', 'like', '%' . $search . '%');
+                            //   })
+                            //   ->orWhereHas('sector', function ($sector) use ($search) {
+                            //       $sector->where('name', 'like', '%' . $search . '%');
+                            //   });
                     });
                 })
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
         }
 
+        $assistanceType = AssistanceResource::collection(AssistanceType::all());
+        $sectorType = SectorResource::collection(Sector::all());
+        $municipalityName = MunicipalityResource::collection(Municipality::all());
+
         return inertia('MonitoringIndex', [
-            'monitoring' => $monitoringData,
-            'search' => request()->search ?? ''
+            'monitorings' => $monitoringData,
+            'search' => request()->search ?? '',
+            'assistanceType' => $assistanceType,
+            'sectorType' => $sectorType,
+            'municipalityName' => $municipalityName
         ]);
     }
 
@@ -261,4 +268,32 @@ class MonitoringController extends Controller
         ]);
     }
 
+
+    /**
+     * Filter the specified assistance, sector, municipality, month and year
+     */
+    public function filter($assistanceId = '*', $sectorId = '*', $month = '*')
+    {
+        $data = Monitoring::with(['intake', 'assistance', 'sector']);
+
+
+        if ($assistanceId !== '*') {
+            $data->where('assistance_type', $assistanceId);
+        }
+
+        if ($sectorId !== '*') {
+            $data->where('sector', $sectorId);
+        }
+
+        // if ($municipalName !== '*') {
+        //     $data->where('municipality', $municipalName);
+        // }
+
+        if ($month !== '*') {
+            $data->whereMonth('date_intake', $month);
+        }
+
+
+        return response()->json($data->get());
+    }
 }

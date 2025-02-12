@@ -3,7 +3,7 @@ import { defineComponent, onMounted, ref, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { debounce } from "lodash";
-import { Link, router, usePage } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import Pagination from "../components/Pagination.vue";
 import vSelect from "vue-select";
 
@@ -196,7 +196,7 @@ watch(
                     </div>
                 </div>
 
-                <div class="table-responsive mt-4">
+                <div class="table-responsive mt-5">
                     <table class="table">
                         <thead class="text-center">
                             <tr>

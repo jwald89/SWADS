@@ -445,6 +445,9 @@ class IntakeController extends Controller
     }
 
 
+    /**
+     * Filter the specified assistance, municipality, month and year
+     */
     public function filter($assistanceId = '*', $month = '*')
     {
         $data = PersonalInformation::with(['assistance']);

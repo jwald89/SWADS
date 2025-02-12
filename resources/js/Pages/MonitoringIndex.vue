@@ -6,9 +6,10 @@ import { debounce } from "lodash";
 import Pagination from "../components/Pagination.vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
+import vSelect from "vue-select";
 
 const props = defineProps({
-    monitoring: {
+    monitorings: {
         type: Object,
         requried: true,
     },
@@ -16,6 +17,46 @@ const props = defineProps({
         type: String,
         default: "",
     },
+    assistanceType: {
+        type: Object,
+        required: true,
+    },
+    sectorType: {
+        type: Object,
+        required: true,
+    },
+    municipalityName: {
+        type: Object,
+        required: true,
+    },
+});
+
+const selectedAssistance = ref({ id: "*", name: "All" });
+const selectedSector = ref({ id: "*", name: "All" });
+// const selectedMunicipal = ref({ id: "*", municipality: "All" });
+const selectedMonth = ref({ id: "*", name: "All" });
+
+const filterData = async () => {
+    try {
+        const assistanceId = selectedAssistance.value.id || "*";
+        const sectorId = selectedSector.value.id || "*";
+        // const municipalId = selectedMunicipal.value.municipality || "*";
+        const month = selectedMonth.value.id || "*";
+
+        const response = await axios.get(
+            `/monitoring/filter/${assistanceId}/${sectorId}/${month}`
+        );
+
+        // console.log("API Response:", response.data);
+        props.monitorings.data = response.data;
+    } catch (error) {
+        console.error("Error fetching filtered data:", error);
+    }
+};
+
+// Watch for changes in props.data and update filteredData accordingly
+watch([selectedAssistance, selectedSector, selectedMonth], () => {
+    filterData();
 });
 
 const page = usePage();
@@ -99,66 +140,126 @@ watch(
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                Monitoring Lists
-            </div>
-            <div class="card-body">
-                <div class="d-flex justify-space-around mt-4">
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <input
-                                type="text"
-                                v-model="search"
-                                class="form-control border border-dark"
-                                autofocus
-                                placeholder="Search here.."
-                            />
-                        </div>
-                    </div>
+                <div class="col-lg-12 d-flex">
+                    <div class="col-lg-6">Monitoring List</div>
                     <div
                         class="col-lg-6 float-end"
                         v-if="hasAccess(['admin', 'user'])"
                     >
                         <Link
-                            class="btn btn-md btn-primary float-end"
                             :href="`/monitoring/create`"
+                            class="btn btn-sm btn-light float-end"
                         >
                             <i class="bi bi-journal-plus"></i>
                             Create New
                         </Link>
                     </div>
                 </div>
+            </div>
+            <div class="card-body mt-4">
+                <div class="d-flex justify-around">
+                    <div class="row col-lg-10">
+                        <div class="col-lg-3">
+                            <label class="fw-bold" for=""
+                                >Assistance Type</label
+                            >
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    ...assistanceType.data,
+                                ]"
+                                v-model="selectedAssistance"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label class="fw-bold" for="">Sector</label>
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    ...sectorType.data,
+                                ]"
+                                v-model="selectedSector"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label class="fw-bold" for="">Municipality</label>
+                            <v-select></v-select>
+                        </div>
+                        <div class="col-lg-2 ms-1">
+                            <label class="fw-bold" for="">Month</label>
+                            <v-select
+                                :options="[
+                                    { id: '*', name: 'All' },
+                                    { id: '01', name: 'January' },
+                                    { id: '02', name: 'February' },
+                                    { id: '03', name: 'March' },
+                                    { id: '04', name: 'April' },
+                                    { id: '05', name: 'May' },
+                                    { id: '06', name: 'June' },
+                                    { id: '07', name: 'July' },
+                                    { id: '08', name: 'August' },
+                                    { id: '09', name: 'September' },
+                                    { id: '10', name: 'October' },
+                                    { id: '11', name: 'November' },
+                                    { id: '12', name: 'December' },
+                                ]"
+                                v-model="selectedMonth"
+                                label="name"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="fw-bold" for=""
+                            >Search by claimant
+                        </label>
+                        <input
+                            type="text"
+                            v-model="search"
+                            class="form-control border border-secondary"
+                            autofocus
+                            placeholder="search here.."
+                        />
+                    </div>
+                </div>
 
-                <div class="table-responsive mt-4">
+                <div class="table-responsive mt-5">
                     <table class="table table-hover">
                         <thead class="text-center">
                             <tr>
                                 <th>No.</th>
                                 <th>Assistance Type</th>
                                 <th>Claimant</th>
-                                <th>Date of Intake</th>
+                                <th>Date Intake</th>
                                 <th>Sector</th>
                                 <th>Municipality</th>
+                                <th>Charge To</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody
-                            v-if="monitoring.data.length"
+                            v-if="monitorings.data.length"
                             class="text-center"
                         >
                             <tr
-                                v-for="(data, index) in monitoring.data"
+                                v-for="(monitoring, index) in monitorings.data"
                                 :key="index"
                                 :class="{
-                                    'bg-claimed': data.status === 'CLAIMED',
+                                    'bg-claimed':
+                                        monitoring.status === 'CLAIMED',
                                 }"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ data.assistance.name }}</td>
+                                <td>{{ monitoring.assistance.name }}</td>
                                 <td>
                                     {{
-                                        data.intake.first_name
+                                        monitoring.intake.first_name
                                             .split(" ")
                                             .map(
                                                 (word) =>
@@ -170,12 +271,12 @@ watch(
                                             .join(" ")
                                     }}
                                     {{
-                                        data.intake.middle_name
+                                        monitoring.intake.middle_name
                                             .substr(0, 1)
                                             .toUpperCase()
                                     }}.
                                     {{
-                                        data.intake.last_name
+                                        monitoring.intake.last_name
                                             .split(" ")
                                             .map(
                                                 (word) =>
@@ -188,58 +289,59 @@ watch(
                                     }}
                                 </td>
                                 <td>
-                                    {{ formatDate(data.date_intake) }}
+                                    {{ formatDate(monitoring.date_intake) }}
                                 </td>
-                                <td>{{ data.sector.name }}</td>
-                                <td>{{ data.municipality }}</td>
+                                <td>{{ monitoring.sector.name }}</td>
+                                <td>{{ monitoring.municipality }}</td>
+                                <td>{{ monitoring.charges }}</td>
                                 <td class="text-primary">
                                     {{
                                         new Intl.NumberFormat("en-US", {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
-                                        }).format(data.amount)
+                                        }).format(monitoring.amount)
                                     }}
                                 </td>
                                 <td
-                                    v-if="data.status == 'PSWDO'"
+                                    v-if="monitoring.status == 'PSWDO'"
                                     class="bg-pswdo text-light fw-bold"
                                 >
-                                    {{ data.status }}
+                                    {{ monitoring.status }}
                                 </td>
                                 <td
-                                    v-if="data.status == 'PGO'"
+                                    v-if="monitoring.status == 'PGO'"
                                     class="bg-pgo text-light fw-bold"
                                 >
-                                    {{ data.status }}
+                                    {{ monitoring.status }}
                                 </td>
                                 <td
-                                    v-if="data.status == 'PBO'"
+                                    v-if="monitoring.status == 'PBO'"
                                     class="bg-pbo text-dark fw-bold"
                                 >
-                                    {{ data.status }}
+                                    {{ monitoring.status }}
                                 </td>
                                 <td
-                                    v-if="data.status == 'PACCO'"
+                                    v-if="monitoring.status == 'PACCO'"
                                     class="bg-pacco text-dark fw-bold"
                                 >
-                                    {{ data.status }}
+                                    {{ monitoring.status }}
                                 </td>
                                 <td
-                                    v-if="data.status == 'PTO'"
+                                    v-if="monitoring.status == 'PTO'"
                                     class="bg-pto text-light fw-bold"
                                 >
-                                    {{ data.status }}
+                                    {{ monitoring.status }}
                                 </td>
                                 <td
-                                    v-if="data.status == 'CLAIMED'"
+                                    v-if="monitoring.status == 'CLAIMED'"
                                     class="fw-bold"
                                 >
-                                    {{ data.status }}
+                                    {{ monitoring.status }}
                                 </td>
                                 <td>
                                     <!-- For ADMIN and USER role button -->
                                     <Link
-                                        :href="`/monitoring/edit/${data.id}`"
+                                        :href="`/monitoring/edit/${monitoring.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['admin', 'user'])"
                                         title="Edit"
@@ -249,7 +351,7 @@ watch(
                                     </Link>
                                     <!-- For LIAISON role button -->
                                     <Link
-                                        :href="`/liaison/monitoring/edit/${data.id}`"
+                                        :href="`/liaison/monitoring/edit/${monitoring.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['liaison'])"
                                         title="Edit"
@@ -259,7 +361,7 @@ watch(
                                     </Link>
                                     <!-- For ADMIN and USER role button -->
                                     <Link
-                                        :href="`/monitoring/show/${data.id}`"
+                                        :href="`/monitoring/show/${monitoring.id}`"
                                         class="btn btn-sm btn-info me-2"
                                         v-if="
                                             hasAccess([
@@ -278,7 +380,7 @@ watch(
                                         class="btn btn-sm btn-danger"
                                         v-if="hasAccess(['admin', 'user'])"
                                         title="Delete"
-                                        @click="delData(data.id)"
+                                        @click="delData(monitoring.id)"
                                     >
                                         <i class="bi bi-trash"></i>
                                         <!-- Delete -->
@@ -294,7 +396,10 @@ watch(
                             </tr>
                         </tbody>
                     </table>
-                    <pagination :records="monitoring" :link="monitoring.path" />
+                    <pagination
+                        :records="monitorings"
+                        :link="monitorings.path"
+                    />
                 </div>
             </div>
         </div>
