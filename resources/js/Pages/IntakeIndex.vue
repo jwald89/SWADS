@@ -194,7 +194,7 @@ watch(
                 <div class="table-responsive mt-5">
                     <table class="table">
                         <thead class="text-center">
-                            <tr>
+                            <tr class="bg-primary text-white">
                                 <th>No.</th>
                                 <th>Client</th>
                                 <th>Assistance</th>

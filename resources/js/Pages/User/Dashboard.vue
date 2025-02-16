@@ -11,7 +11,7 @@ const props = defineProps({
         type: Array,
         required: true,
     },
-    sectorAvg: String,
+    sectorAvg: Object,
 });
 
 const assistanceData = ref([]);
@@ -576,7 +576,7 @@ const formatDate = (dateString) => {
                                                     </th>
                                                     <th scope="col">Sector</th>
                                                     <th scope="col">
-                                                        Charge To
+                                                        Office Charge
                                                     </th>
                                                     <th scope="col">Amount</th>
                                                     <th scope="col">Status</th>
@@ -638,10 +638,16 @@ const formatDate = (dateString) => {
                                                         }}
                                                     </td>
                                                     <td>
-                                                        {{ data.sector.name }}
+                                                        {{
+                                                            data.sector_name
+                                                                .name
+                                                        }}
                                                     </td>
                                                     <td>
-                                                        {{ data.charges }}
+                                                        {{
+                                                            data.charging_office
+                                                                .description
+                                                        }}
                                                     </td>
                                                     <td>
                                                         {{

@@ -87,6 +87,7 @@ const claimantName = computed(() => {
 watchEffect(() => {
     props.dataMonitors.liaison = parseInt(props.dataMonitors.liaison);
     props.dataMonitors.sector = parseInt(props.dataMonitors.sector);
+    props.dataMonitors.charges = parseInt(props.dataMonitors.charges);
 });
 
 defineComponent({
@@ -268,7 +269,7 @@ defineComponent({
                         <v-select
                             name="officeCharge"
                             :options="officeCharge.data"
-                            :reduce="(data) => data.description"
+                            :reduce="(data) => data.id"
                             id="officeCharge"
                             v-model="dataMonitors.charges"
                             label="description"

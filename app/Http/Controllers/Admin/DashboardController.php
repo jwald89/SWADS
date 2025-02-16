@@ -26,7 +26,7 @@ class DashboardController extends Controller
 
         $parseTotalAmt = number_format($totalAmt,2,".",",");
 
-        $status = Monitoring::with(['intake', 'sector', 'assistance', 'municipal'])->get();
+        $status = Monitoring::with(['intake', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])->orderByDesc('date_intake')->get();
 
         return inertia('Dashboard', [
             'totalNums' => $totalAssistance,

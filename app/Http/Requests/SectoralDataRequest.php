@@ -37,7 +37,9 @@ class SectoralDataRequest extends FormRequest
             'birthdate' => 'required',
             'place_birth' => 'required',
             'civil_status' => 'required',
-            'fam_members' => 'integer'
+            'fam_members' => 'required|integer',
+            'ISY_OSY' => 'required',
+            'status' => 'required'
         ];
     }
 }

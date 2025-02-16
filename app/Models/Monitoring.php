@@ -30,7 +30,7 @@ class Monitoring extends Model
         return $this->belongsTo(PersonalInformation::class, 'claimant', 'id');
     }
 
-    public function sector()
+    public function sectorName()
     {
         return $this->belongsTo(Sector::class, 'sector', 'id');
     }
@@ -50,4 +50,8 @@ class Monitoring extends Model
         return $this->belongsTo(Municipality::class, 'municipality', 'id');
     }
 
+    public function chargingOffice()
+    {
+        return $this->belongsTo(Office::class, 'charges', 'id');
+    }
 }

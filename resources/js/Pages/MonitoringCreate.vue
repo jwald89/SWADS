@@ -465,7 +465,7 @@ onMounted(fetchMonitoringRecords);
                             id="charges"
                             :options="officeCharge.data"
                             v-model="monitorForm.charges"
-                            :reduce="(data) => data.description"
+                            :reduce="(data) => data.id"
                             label="description"
                             :class="{
                                 'form-control is-invalid': errors.charges,

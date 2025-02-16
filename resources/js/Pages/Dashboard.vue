@@ -26,7 +26,7 @@ watch(
         if (newValue && Array.isArray(newValue)) {
             sectorData.value = newValue
                 .map((data) => ({
-                    name: data.sector.name,
+                    name: data.sector_name.name,
                     y: parseFloat(data.amount), // Ensure this is a number
                 }))
                 .filter((item) => !isNaN(item.y))
@@ -563,7 +563,7 @@ const formatDate = (dateString) => {
                                                     </th>
                                                     <th scope="col">Sector</th>
                                                     <th scope="col">
-                                                        Charge To
+                                                        Office Charge
                                                     </th>
                                                     <th scope="col">Amount</th>
                                                     <th scope="col">Status</th>
@@ -632,10 +632,16 @@ const formatDate = (dateString) => {
                                                         }}
                                                     </td>
                                                     <td>
-                                                        {{ data.sector.name }}
+                                                        {{
+                                                            data.sector_name
+                                                                .name
+                                                        }}
                                                     </td>
                                                     <td>
-                                                        {{ data.charges }}
+                                                        {{
+                                                            data.charging_office
+                                                                .description
+                                                        }}
                                                     </td>
                                                     <td class="fw-bold">
                                                         {{
@@ -931,7 +937,7 @@ const formatDate = (dateString) => {
                             <div id="municipalChartReport"></div>
                         </div>
                     </div>
-                    <!-- End Website Traffic -->
+                    <!-- End Municipality Report -->
                 </div>
                 <!-- End Right side columns -->
             </div>

@@ -202,13 +202,18 @@ watch(
                 <div class="table-responsive mt-5">
                     <table class="table table-hover">
                         <thead class="text-center">
-                            <tr>
+                            <tr class="bg-primary text-white">
                                 <th>No.</th>
                                 <th>Sector</th>
                                 <th>Client</th>
                                 <th>Age</th>
                                 <th>Date of Birth</th>
-                                <th>Municipality</th>
+                                <th v-if="hasAccess(['admin', 'user'])">
+                                    Municipality
+                                </th>
+                                <th v-if="hasAccess(['municipal'])">
+                                    Barangay
+                                </th>
                                 <th>Date Encoded</th>
                                 <th>Action</th>
                             </tr>
@@ -247,8 +252,11 @@ watch(
                                 </td>
                                 <td>{{ sectoral.age }}</td>
                                 <td>{{ formatDate(sectoral.birthdate) }}</td>
-                                <td>
+                                <td v-if="hasAccess(['admin', 'user'])">
                                     {{ sectoral.municipality.municipality }}
+                                </td>
+                                <td v-if="hasAccess(['municipal'])">
+                                    {{ sectoral.barangay.barangay }}
                                 </td>
                                 <td class="text-primary">
                                     {{ formatDate(sectoral.date_encoded) }}

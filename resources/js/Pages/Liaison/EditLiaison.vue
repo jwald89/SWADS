@@ -193,7 +193,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             name="sectorType"
                             id="sectorType"
-                            v-model="monitoring.sector.name"
+                            v-model="monitoring.sector_name.name"
                             readonly
                         />
                     </div>
@@ -205,7 +205,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             name="municipal"
                             id="municipal"
-                            v-model="monitoring.municipality"
+                            v-model="monitoring.municipal.municipality"
                             readonly
                         />
                     </div>
@@ -217,7 +217,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             name="barangay"
                             id="barangay"
-                            v-model="monitoring.barangay"
+                            v-model="monitoring.brgy.barangay"
                             readonly
                         />
                     </div>
@@ -261,7 +261,7 @@ defineComponent({
                             class="form-control text-white bg-secondary"
                             id="charges"
                             name="charges"
-                            v-model="monitoring.charges"
+                            v-model="monitoring.charging_office.description"
                             readonly
                         />
                     </div>

@@ -184,7 +184,7 @@ const formatName = (fName) => {
                                     Sector Type:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ monitorings.sector.name }}
+                                    {{ monitorings.sector_name.name }}
                                 </div>
                             </div>
 
@@ -220,7 +220,9 @@ const formatName = (fName) => {
                                     Charges:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ monitorings.charges }}
+                                    {{
+                                        monitorings.charging_office.description
+                                    }}
                                 </div>
                             </div>
 

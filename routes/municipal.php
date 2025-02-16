@@ -19,30 +19,23 @@ Route::group(['prefix' => 'municipal', 'middleware' => [
     EnsureFeaturesAreActive::using('municipal')]
 ], function () {
     Route::get('/dashboard', function () {
-        $totalAssistance = DB::table('personal_information')->count();
-        $totalAmt = DB::table('monitorings')->sum('amount');
-        $monitorData = Monitoring::with(['intake', 'assistance'])
-                    ->whereDate('created_at', '>=', Carbon::now()->subDays(3))
-                    ->get();
-        $totalSectors = Sectoral::count();
-        $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
-        $sumOfSectors = $totalMonitors + $totalSectors;
+        $totalBrgy = DB::table('sectorals')->where('municipality', Auth::user()->municipality)->count('barangay');
 
-        $status = Monitoring::with(['intake', 'sector'])->get();
+        $totalSectors = Sectoral::where('municipality', Auth::user()->municipality)->count('sector');
+
+        $barangays = Sectoral::with(['barangay', 'sector'])->where('municipality', Auth::user()->municipality)->get();
 
         return inertia('Municipal/Dashboard',  [
-            'totalNums' => $totalAssistance,
-            'totalAmt' => $totalAmt,
-            'monitorings' => $monitorData,
-            'monitorStatus' => $status,
-            'sectorAvg' => $sumOfSectors,
+            'sectorAvg' => $totalSectors,
+            'totalBrgy' => $totalBrgy,
+            'barangays' => $barangays,
         ]);
     });
 
     Route::get('/sectoral/edit/{id}', function($id) {
         $sectoral = Sectoral::findOrFail($id);
 
-        $sectors = SectorResource::collection(Sector::all());
+        $sectors = SectorResource::collection(Sector::get());
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
 

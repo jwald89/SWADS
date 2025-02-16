@@ -10,4 +10,11 @@ class Office extends Model
     use HasFactory;
 
     protected $fillable = ['id', 'description', 'modified_by', 'modified_date'];
+
+    public function monitoring()
+    {
+        return $this->hasMany(Monitoring::class, 'id', 'charges');
+    }
 }
+
+

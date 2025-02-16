@@ -19,7 +19,7 @@ Route::group([
     function () {
 
         Route::get('/monitoring/edit/{id}', function ($id) {
-            $monitoring = Monitoring::with(['user', 'assistance', 'intake', 'sector'])->findOrFail($id);
+            $monitoring = Monitoring::with(['user', 'assistance', 'intake', 'sectorName', 'brgy', 'municipal', 'chargingOffice'])->findOrFail($id);
 
             $offices = OfficeResource::collection(Office::all());
 

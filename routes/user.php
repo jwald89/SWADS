@@ -22,7 +22,7 @@ Route::group(['prefix' => 'user','middleware' => [
         $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
         $sumOfSectors = $totalMonitors + $totalSectors;
 
-        $status = Monitoring::with(['intake', 'sector', 'assistance', 'municipal'])->get();
+        $status = Monitoring::with(['intake', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])->orderByDesc('date_intake')->get();
 
         return inertia('User/Dashboard', [
             'totalNums' => $totalAssistance,

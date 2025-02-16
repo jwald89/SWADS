@@ -240,14 +240,14 @@ watch(
                 <div class="table-responsive mt-5">
                     <table class="table table-hover">
                         <thead class="text-center">
-                            <tr>
+                            <tr class="bg-primary text-white">
                                 <th>No.</th>
                                 <th>Assistance Type</th>
                                 <th>Claimant</th>
                                 <th>Date Intake</th>
                                 <th>Sector</th>
                                 <th>Municipality</th>
-                                <th>Charge To</th>
+                                <th>Office Charge</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -301,9 +301,11 @@ watch(
                                 <td>
                                     {{ formatDate(monitoring.date_intake) }}
                                 </td>
-                                <td>{{ monitoring.sector.name }}</td>
+                                <td>{{ monitoring.sector_name.name }}</td>
                                 <td>{{ monitoring.municipal.municipality }}</td>
-                                <td>{{ monitoring.charges }}</td>
+                                <td>
+                                    {{ monitoring.charging_office.description }}
+                                </td>
                                 <td class="text-primary">
                                     {{
                                         new Intl.NumberFormat("en-US", {

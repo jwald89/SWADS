@@ -32,7 +32,7 @@ class MonitoringController extends Controller
     public function index()
     {
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
-            $monitoringData = Monitoring::with(['intake', 'sector', 'assistance', 'brgy', 'municipal'])
+            $monitoringData = Monitoring::with(['intake', 'sectorName', 'assistance', 'brgy', 'municipal', 'chargingOffice'])
                 ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
                     $query->where('liaison', Auth::user()->id)
                         ->where(function ($query) {
@@ -45,12 +45,6 @@ class MonitoringController extends Controller
                                                 ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
                                                 ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
                                     });
-                                    // ->orWhereHas('assistance', function ($assistance) use ($search) {
-                                    //     $assistance->where('name', 'like', '%' . $search . '%');
-                                    // })
-                                    // ->orWhereHas('sector', function ($sector) use ($search) {
-                                    //     $sector->where('name', 'like', '%' . $search . '%');
-                                    // });
                         });
                 })
                 ->when(Auth::user()->role_type !== 'LIAISON', function ($query) {
@@ -64,12 +58,6 @@ class MonitoringController extends Controller
                                            ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
                                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
                               });
-                            //   ->orWhereHas('assistance', function ($assistance) use ($search) {
-                            //       $assistance->where('name', 'like', '%' . $search . '%');
-                            //   })
-                            //   ->orWhereHas('sector', function ($sector) use ($search) {
-                            //       $sector->where('name', 'like', '%' . $search . '%');
-                            //   });
                     });
                 })
                 ->orderBy('created_at', 'DESC')
@@ -217,7 +205,7 @@ class MonitoringController extends Controller
      */
     public function show($id)
     {
-        $monitorings = Monitoring::with(['intake', 'sector', 'assistance', 'user', 'brgy', 'municipal'])->find($id);
+        $monitorings = Monitoring::with(['intake', 'sectorName', 'assistance', 'user', 'brgy', 'municipal', 'chargingOffice'])->find($id);
 
         // Initialize variables
         $createdBy = '';
@@ -274,7 +262,7 @@ class MonitoringController extends Controller
      */
     public function filter($assistanceId = '*', $sectorId = '*', $municipalId = '*', $month = '*')
     {
-        $data = Monitoring::with(['intake', 'assistance', 'sector', 'municipal']);
+        $data = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'chargingOffice']);
 
 
         // // If the user is admin

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\MunicipalityController;
 use App\Http\Controllers\Admin\SectoralDataController;
 use App\Http\Controllers\Admin\UserRegisterController;
 use App\Http\Controllers\Admin\OfficeChargesController;
+use App\Http\Controllers\Admin\SummaryReportController;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
@@ -155,6 +156,12 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('/aics-per-municipal', 'perMunicipality');
             Route::get('/aics-served-per-sectoral', 'servedPerSectoral');
             Route::get('/aics-per-sectoral-group', 'perSectoral');
+        });
+
+    Route::controller(SummaryReportController::class)
+        ->group(function() {
+            Route::get('/summary-report', 'index');
+            Route::get('/summary-report/filter/{assistanceId?}/{sectorId?}/{municipalId?}/{officeId?}/{dateFrom?}/{dateTo?}', 'filter');
         });
 });
 

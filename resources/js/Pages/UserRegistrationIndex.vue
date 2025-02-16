@@ -640,7 +640,7 @@ watch(
                     <div class="col-lg-6">
                         <button
                             type="button"
-                            class="btn btn-primary float-end"
+                            class="btn btn-success float-end"
                             data-bs-toggle="modal"
                             data-bs-target="#addUser"
                         >
@@ -652,7 +652,7 @@ watch(
                 <div class="table-responsive mt-4">
                     <table class="table table-hover">
                         <thead class="text-center">
-                            <tr>
+                            <tr class="bg-primary text-white">
                                 <th>No.</th>
                                 <th>Username</th>
                                 <th>Full Name</th>

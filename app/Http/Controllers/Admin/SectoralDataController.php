@@ -28,7 +28,7 @@ class SectoralDataController extends Controller
     {
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
-            $sectoral = Sectoral::with(['sector', 'municipality'])
+            $sectoral = Sectoral::with(['sector', 'municipality', 'barangay'])
                 ->when(Auth::user()->role_type === 'MUNICIPAL', function($query) {
                     $query->where('municipality', Auth::user()->municipality)
                         ->where(function ($query) {
@@ -156,7 +156,7 @@ class SectoralDataController extends Controller
      */
     public function filter($sectorId = '*', $municipality = '*', $month = '*')
     {
-        $data = Sectoral::with(['municipality', 'sector']);
+        $data = Sectoral::with(['municipality', 'sector', 'barangay']);
 
         // If the user is admin
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER') {

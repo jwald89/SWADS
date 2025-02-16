@@ -525,6 +525,32 @@ onMounted(() => {
 
             <!-- REPORT MODULE -->
             <div v-if="hasAccess(['admin'])">
+                <li class="nav-heading">REPORTS</li>
+                <li class="nav-item">
+                    <Link
+                        class="nav-link"
+                        :href="`/summary-report`"
+                        :class="{
+                            'bg-highlight':
+                                currentRoute.includes('summary-report'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-newspaper"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('summary-report'),
+                            }"
+                        ></i>
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('summary-report'),
+                            }"
+                            >SUMMARY REPORT</span
+                        >
+                    </Link>
+                </li>
                 <a
                     class="nav-link collapsed"
                     :class="{
@@ -538,7 +564,7 @@ onMounted(() => {
                     data-bs-toggle="collapse"
                 >
                     <i
-                        class="bi bi-card-list"
+                        class="bi bi-bar-chart-line"
                         :class="{
                             'text-primary':
                                 currentRoute.includes('aics-coe-served') ||
@@ -563,7 +589,7 @@ onMounted(() => {
                                     'aics-per-sectoral-group'
                                 ),
                         }"
-                        >CHART REPORTS</span
+                        >CHART REPORT</span
                     >
                     <i
                         class="bi bi-chevron-down ms-auto"
@@ -668,7 +694,7 @@ onMounted(() => {
                     <li>
                         <Link
                             class="nav-link collapsed"
-                            :href="`aics-per-sectoral-group`"
+                            :href="`/aics-per-sectoral-group`"
                         >
                             <i
                                 class="bi bi-card-list"
