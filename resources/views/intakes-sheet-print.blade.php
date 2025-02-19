@@ -124,7 +124,11 @@
 
         <div id="container-1">
             <div class="case">
-                <h3>CASE NO. ________</h3>
+                @foreach ($intakes as $intake)
+                    <h3>CASE NO.
+                        &nbsp;<span style="border-bottom:1px solid #000000; padding-bottom: 0.1px; font-weight: normal">{{ $intake->case_no }}</span>
+                    </h3>
+                @endforeach
             </div>
             <div class="date" style="margin-left: 40%">
                 @foreach($intakes as $intake)

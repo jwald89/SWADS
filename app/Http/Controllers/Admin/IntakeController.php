@@ -102,9 +102,26 @@ class IntakeController extends Controller
     public function storeP1(IntakeRequest $request)
     {
         $userId = Auth::id();
-        // $personalInformation = PersonalInformation::create($request->all());
+
+       // Fetch the highest current case_no
+        $lastCaseNo = PersonalInformation::orderBy('case_no', 'desc')->first();
+        $nextCaseNoNumber = 1;
+
+        if ($lastCaseNo) {
+            // Extract the number from the last case_no
+            preg_match('/(\d+)/', $lastCaseNo->case_no, $matches);
+            $nextCaseNoNumber = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
+        }
+
+        // Create the new case_no
+        $caseNo = '' . $nextCaseNoNumber;
+
+        // Create the personal information record
         $personalInformation = PersonalInformation::create(
-            array_merge($request->all(), ['created_by' => $userId])
+            array_merge($request->all(), [
+                'case_no' => $caseNo,
+                'created_by' => $userId
+            ])
         );
 
         return response()->json($personalInformation, 201);
@@ -212,10 +229,50 @@ class IntakeController extends Controller
      */
     public function show($id)
     {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'assistance', 'brgy', 'municipal'])->find($id);
+        $intakes = PersonalInformation::with([
+            'famCompose',
+            'referral',
+            'remark',
+            'assistance',
+            'brgy',
+            'municipal',
+            'sectorName',
+            'chargingOffice',
+            'indigent',
+            'user'
+        ])->find($id);
+
+        $createdBy = '';
+        $modifiedBy = '';
+
+        // Retrieve the created_by user details
+        $createdByUser = null;
+        if ($intakes && $intakes->created_by !== null) {
+            $createdByUser = User::find($intakes->created_by);
+        }
+
+        if ($createdByUser) {
+            $createdBy = ucwords($createdByUser->first_name) . ' '
+                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($createdByUser->last_name);
+        }
+
+        // Retrieve the modified_by user details
+        $modifiedByUser = null;
+        if ($intakes && $intakes->modified_by !== null) {
+            $modifiedByUser = User::find($intakes->modified_by);
+        }
+
+        if ($modifiedByUser) {
+            $modifiedBy = ucwords($modifiedByUser->first_name) . ' '
+                . ucfirst(substr($modifiedByUser->middle_init ?? '', 0, 1)) . '. '
+                . ucfirst($modifiedByUser->last_name);
+        }
 
         return inertia('ShowIntake', [
-            'intakes' => $intakes
+            'intakes' => $intakes,
+            'createdBy' => $createdBy,
+            'modifiedBy' => $modifiedBy,
         ]);
     }
 
@@ -363,6 +420,7 @@ class IntakeController extends Controller
         }
 
         $templateProcessor = new TemplateProcessor('word-template/intake-sheet.docx');
+        $templateProcessor->setValue('case_no', $intakes?->case_no);
         $templateProcessor->setValue('first_name', strtoupper($intakes?->first_name ?? ''));
         $templateProcessor->setValue('middle_name', strtoupper(substr($intakes?->middle_name ?? '', 0, 1)));
         $templateProcessor->setValue('last_name', strtoupper($intakes?->last_name ?? ''));

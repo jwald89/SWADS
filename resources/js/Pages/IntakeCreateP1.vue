@@ -80,7 +80,7 @@ defineComponent({
                 <div class="col-md-12">
                     <h6 class="mt-2">Filter Section</h6>
                     <div class="card">
-                        <div class="card-body row g-3 mt-1">
+                        <div class="card-body row g-2 mt-3">
                             <div class="col-md-3">
                                 <label for="classification"
                                     >Classification<span class="text-danger"
@@ -132,7 +132,7 @@ defineComponent({
                                     >{{ errors.category }}</small
                                 >
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="sector_type"
                                     >Sector
                                     <span class="text-danger">*</span></label
@@ -158,51 +158,7 @@ defineComponent({
                                 >
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="dateIntake"
-                                    >Date<span class="text-danger"
-                                        >*</span
-                                    ></label
-                                >
-                                <input
-                                    type="date"
-                                    class="form-control"
-                                    name="date_intake"
-                                    id="dateIntake"
-                                    v-model="form.date_intake"
-                                    :class="{
-                                        'is-invalid': errors.date_intake,
-                                    }"
-                                />
-                                <small
-                                    v-if="errors.date_intake"
-                                    class="text-danger"
-                                    >{{ errors.date_intake }}</small
-                                >
-                            </div>
-                            <div class="col-md-3">
-                                <label for="ips"
-                                    >IPs
-                                    <span class="text-danger">*</span></label
-                                >
-                                <v-select
-                                    name="ips"
-                                    id="ips"
-                                    :options="indigents.data"
-                                    v-model="form.ips"
-                                    :reduce="(data) => data.id"
-                                    label="name"
-                                    :class="{
-                                        'form-control is-invalid': errors.ips,
-                                    }"
-                                    placeholder="Select"
-                                >
-                                </v-select>
-                                <small v-if="errors.ips" class="text-danger">{{
-                                    errors.ips
-                                }}</small>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="ofis_charge"
                                     >Office Charge
                                     <span class="text-danger">*</span></label
@@ -226,6 +182,51 @@ defineComponent({
                                     class="text-danger"
                                     >{{ errors.ofis_charge }}</small
                                 >
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="dateIntake"
+                                    >Date<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    name="date_intake"
+                                    id="dateIntake"
+                                    v-model="form.date_intake"
+                                    :class="{
+                                        'is-invalid': errors.date_intake,
+                                    }"
+                                />
+                                <small
+                                    v-if="errors.date_intake"
+                                    class="text-danger"
+                                    >{{ errors.date_intake }}</small
+                                >
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ips"
+                                    >IPs Affiliates
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="ips"
+                                    id="ips"
+                                    :options="indigents.data"
+                                    v-model="form.ips"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    :class="{
+                                        'form-control is-invalid': errors.ips,
+                                    }"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                                <small v-if="errors.ips" class="text-danger">{{
+                                    errors.ips
+                                }}</small>
                             </div>
                         </div>
                     </div>
@@ -492,7 +493,22 @@ defineComponent({
                     <h6>Others</h6>
                     <div class="card">
                         <div class="card-body">
-                            <diva class="row g-3 mt-1">
+                            <div class="row g-3 mt-1">
+                                <div class="col-md-12">
+                                    <label for="case"
+                                        >Case <small>(Optional)</small></label
+                                    >
+                                    <textarea
+                                        class="form-control"
+                                        rows="2"
+                                        id="case"
+                                        name="case"
+                                        v-model="form.case"
+                                        placeholder="What is the case.."
+                                    >
+                                    </textarea>
+                                </div>
+
                                 <div class="col-md-3">
                                     <label for="birthDate" class="form-label"
                                         >Date of Birth<span class="text-danger"
@@ -608,7 +624,6 @@ defineComponent({
                                         class="form-label"
                                         >Educational Attainment</label
                                     >
-                                    <span class="text-danger">*</span>
                                     <input
                                         type="text"
                                         class="form-control"
@@ -673,7 +688,7 @@ defineComponent({
                                     >
                                 </div>
 
-                                <div class="mt-4">
+                                <div class="mt-2">
                                     <button
                                         v-if="!tabs[tabIndex].saved"
                                         type="submit"
@@ -683,7 +698,7 @@ defineComponent({
                                         Save
                                     </button>
                                 </div>
-                            </diva>
+                            </div>
                         </div>
                     </div>
                 </div>

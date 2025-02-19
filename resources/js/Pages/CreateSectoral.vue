@@ -27,6 +27,10 @@ defineProps({
         type: Object,
         required: true,
     },
+    indigents: {
+        type: Object,
+        required: true,
+    },
     errors: Object,
 });
 
@@ -624,13 +628,16 @@ defineComponent({
                                 </div>
                                 <div class="col-md-3">
                                     <label for="ethnicity">Ethnicity</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="ethnicity"
+                                    <v-select
                                         name="ethnicity"
+                                        id="ethnicity"
+                                        :options="indigents.data"
+                                        :reduce="(data) => data.id"
+                                        label="name"
                                         v-model="sectoralForm.ethnicity"
-                                    />
+                                        placeholder="Select"
+                                    >
+                                    </v-select>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="physical">Disability</label>

@@ -332,6 +332,12 @@ onMounted(() => {
             <!-- MAINTENANCE MODULE -->
             <div v-if="hasAccess(['admin'])">
                 <li class="nav-heading">OTHERS</li>
+                <li class="nav-item">
+                    <Link class="nav-link" href="">
+                        <i class="bi bi-journal"></i>
+                        <span>CDC / CDW</span>
+                    </Link>
+                </li>
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#components-nav-2"

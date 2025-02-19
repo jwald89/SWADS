@@ -41,6 +41,7 @@ const personalForm = reactive({
     street: "",
     barangay: "",
     municipality: "",
+    case: "",
     age: "",
     birthdate: "",
     sex: "",

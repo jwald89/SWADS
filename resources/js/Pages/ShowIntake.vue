@@ -8,6 +8,8 @@ const props = defineProps({
     intakes: {
         type: Object,
     },
+    createdBy: String,
+    modifiedBy: String,
 });
 
 const intakes = ref(props.intakes);
@@ -22,201 +24,380 @@ defineComponent({
     <LayoutApp>
         <div class="clearfix mb-2">
             <div class="float-end">
-                <Link :href="`/intake`" class="btn btn-md btn-outline-dark">
+                <Link :href="`/intake`" class="btn btn-sm btn-primary">
                     <i class="bi bi-backspace"></i>
                     Back
                 </Link>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body p-4">
-                <div class="row">
-                    <div class="row row-cols-12">
-                        <div
-                            class="col border fw-bold p-2 text-center text-uppercase text-white"
-                            style="background-color: #581b98"
-                        >
-                            Identifying Data
-                        </div>
-                    </div>
-                    <div class="row row-cols-6">
-                        <div class="col border fw-bold p-2">Classification</div>
-                        <div class="col border p-2">
-                            {{ intakes.classification }}
-                        </div>
-                        <div class="col border fw-bold p-2">Category</div>
-                        <div class="col border p-2">
-                            {{ intakes.assistance.name }}
-                        </div>
-                        <div class="col border fw-bold p-2">Date Intake</div>
-                        <div class="col border p-2">
-                            {{ intakes.date_intake }}
-                        </div>
-                    </div>
-                    <div class="row row-cols-8">
-                        <div class="col border fw-bold p-2">Lastname</div>
-                        <div class="col border p-2">
-                            {{ intakes.last_name }}
-                        </div>
-                        <div class="col border fw-bold p-2">Firstname</div>
-                        <div class="col border p-2">
-                            {{ intakes.first_name }}
-                        </div>
-                        <div class="col border fw-bold p-2">Middlename</div>
-                        <div class="col border p-2">
-                            {{ intakes.middle_name }}
-                        </div>
-                        <div class="col border fw-bold p-2">Nickname</div>
-                        <div class="col border p-2">
-                            {{ intakes.nick_name }}
-                        </div>
-                    </div>
-                    <div class="row row-cols-8">
-                        <div class="col border fw-bold p-2">Age</div>
-                        <div class="col border p-2">{{ intakes.age }}</div>
-                        <div class="col border fw-bold p-2">Birthdate</div>
-                        <div class="col border p-2">
-                            {{ intakes.birthdate }}
-                        </div>
-                        <div class="col border fw-bold p-2">Sex</div>
-                        <div class="col border p-2">{{ intakes.sex }}</div>
-                        <div class="col border fw-bold p-2">Civil Status</div>
-                        <div class="col border p-2">
-                            {{ intakes.civil_stats }}
-                        </div>
-                    </div>
-                    <div class="row row-cols-8">
-                        <div class="col border fw-bold p-2">Purok</div>
-                        <div class="col border p-2">{{ intakes.purok }}</div>
-                        <div class="col border fw-bold p-2">Street</div>
-                        <div class="col border p-2">{{ intakes.street }}</div>
-                        <div class="col border fw-bold p-2">Barangay</div>
-                        <div class="col border p-2">
-                            {{ intakes.brgy.barangay }}
-                        </div>
-                        <div class="col border fw-bold p-2">Municipal</div>
-                        <div class="col border p-2">
-                            {{ intakes.municipal.municipality }}
-                        </div>
-                    </div>
-                    <div class="row row-cols-6">
-                        <div class="col border fw-bold p-2">Job</div>
-                        <div class="col border p-2">{{ intakes.job }}</div>
-                        <div class="col border fw-bold p-2">Contact No.</div>
-                        <div class="col border p-2">
-                            {{ intakes.contact_no }}
-                        </div>
-                        <div class="col border fw-bold p-2">Income</div>
-                        <div class="col border p-2">{{ intakes.income }}</div>
-                    </div>
-                    <div class="row row-cols-12 mt-3">
-                        <div
-                            class="col border fw-bold p-2 text-center text-uppercase text-white"
-                            style="background-color: #581b98"
-                        >
-                            Family Composition
+
+        <!-- Identifying Data Card -->
+        <div class="card col-lg-12">
+            <h6
+                class="card-header text-light text-center fw-bold"
+                style="background-color: #581b98"
+            >
+                IDENTIFYING DATA
+            </h6>
+            <div class="card-body">
+                <div class="row col-lg-12 mt-2">
+                    <!-- First Row Card -->
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Case No:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.case_no }}
+                            </div>
                         </div>
 
-                        <div class="table-response px-1">
-                            <table class="table table-bordered">
-                                <thead class="text-center">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Age</th>
-                                        <th>Relationship</th>
-                                        <th>Educational Attainment</th>
-                                        <th>Remark</th>
-                                    </tr>
-                                </thead>
-                                <tbody
-                                    v-for="famCompose in intakes.fam_compose"
-                                    :key="famCompose.id"
-                                >
-                                    <tr>
-                                        <td>
-                                            {{
-                                                famCompose.firstname
-                                                    ? famCompose.firstname.toUpperCase()
-                                                    : ""
-                                            }}
-                                            {{
-                                                famCompose.middlename
-                                                    ? famCompose.lastname.substr(
-                                                          0,
-                                                          1
-                                                      ) + "."
-                                                    : ""
-                                            }}
-                                            {{
-                                                famCompose.lastname
-                                                    ? famCompose.lastname.toUpperCase()
-                                                    : ""
-                                            }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{
-                                                famCompose.age
-                                                    ? famCompose.age +
-                                                      " years old"
-                                                    : ""
-                                            }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ famCompose.relationship }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ famCompose.educ_attainment }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ famCompose.remarks }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Classification:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.classification }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Ethnicity:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.indigent.name }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Assistance type:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.assistance.name }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Sector type:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.sector_name.name }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Office Charge:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.charging_office.description }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Date Intake:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.date_intake }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Case:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.case }}
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    First name:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ intakes.first_name }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Middle name:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ intakes.middle_name }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Last name:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ intakes.last_name }}
+                                    {{
+                                        intakes.extn_name
+                                            ? ", " + intakes.extn_name
+                                            : ""
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                    Nickname:
+                                </div>
+                                <div class="col-lg-8 col-md-10">
+                                    {{ intakes.nick_name }}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row row-cols-12 mt-3">
-                        <div
-                            class="col border fw-bold p-2 text-center text-uppercase text-white"
-                            style="background-color: #581b98"
-                        >
-                            Circumstances of Referral
+                    <!-- End of First Row Card -->
+
+                    <!-- Second Row Card -->
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Purok:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.purok }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Street:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.street }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Barangay:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.brgy.barangay }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Municipality:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.municipal.municipality }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Birthdate:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.birthdate }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Age:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{
+                                    intakes.age
+                                        ? intakes.age + " years old"
+                                        : ""
+                                }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Sex:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.sex }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Civil Status:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.civil_stats }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Educational Attainment:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.educ_attainment }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Occupation:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.job }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Contact No:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.contact_no }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-2 label fw-bold">
+                                Income:
+                            </div>
+                            <div class="col-lg-8 col-md-10">
+                                {{ intakes.income }}
+                            </div>
                         </div>
                     </div>
+                    <!-- End of Second Row Card -->
+                </div>
+            </div>
+        </div>
+        <!-- End Identifying Data Card -->
+
+        <!-- Family Composition Card -->
+        <div class="card col-lg-12">
+            <h6
+                class="card-header text-light text-center fw-bold"
+                style="background-color: #581b98"
+            >
+                FAMILY COMPOSITION
+            </h6>
+            <div class="card-body">
+                <div class="row mt-2">
                     <div
-                        class="row row-cols-12"
-                        v-for="referral in intakes.referral"
-                        :key="referral"
+                        class="col-lg-12"
+                        v-for="famCompose in intakes.fam_compose"
+                        :key="famCompose.id"
                     >
-                        <div
-                            class="col border p-3"
-                            style="text-indent: 2em; text-align: justify"
-                        >
-                            {{ referral.content }}
+                        <div class="d-flex justify-content-content col-lg-12">
+                            <div class="d-flex col-lg-4">
+                                <div class="label fw-bold">First name:</div>
+                                <div class="ms-3">
+                                    {{ famCompose.firstname }}
+                                </div>
+                            </div>
+
+                            <div class="d-flex col-lg-4">
+                                <div class="label fw-bold">Middle name:</div>
+                                <div class="ms-3">
+                                    {{ famCompose.middlename }}
+                                </div>
+                            </div>
+
+                            <div class="d-flex col-lg-4">
+                                <div class="label fw-bold">Last name:</div>
+                                <div class="ms-3">
+                                    {{ famCompose.lastname }}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row row-cols-12 mt-3">
-                        <div
-                            class="col border fw-bold p-2 text-center text-uppercase text-white"
-                            style="background-color: #581b98"
-                        >
-                            Remarks/ Recommendations
+
+                        <div class="d-flex col-lg-12 mt-1">
+                            <div class="d-flex col-lg-4">
+                                <div class="label fw-bold">Age:</div>
+                                <div class="ms-2">
+                                    {{
+                                        famCompose.age
+                                            ? famCompose.age + " years old"
+                                            : ""
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="d-flex col-lg-8 mt-1">
+                                <div class="label fw-bold">Relationship:</div>
+                                <div class="ms-3">
+                                    {{ famCompose.relationship }}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div
-                        class="row row-cols-12"
-                        v-for="remark in intakes.remark"
-                        :key="remark.id"
-                    >
-                        <div
-                            class="col border p-3"
-                            style="text-indent: 2em; text-align: justify"
-                        >
-                            {{ remark.content }}
+
+                        <div class="d-flex">
+                            <div class="label fw-bold">
+                                Educational Attainment :
+                            </div>
+                            <div class="ms-3">
+                                {{ famCompose.educ_attainment }}
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="label fw-bold">Remarks:</div>
+                            <div class="ms-3">
+                                {{ famCompose.remarks }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- End Family Composition Card -->
+
+        <div class="row col-lg-12">
+            <!-- Circumstances/Referral Card -->
+            <div class="card col-lg-6">
+                <h6
+                    class="card-header text-light text-center fw-bold"
+                    style="background-color: #581b98"
+                >
+                    CIRCUMSTANCES & REFERRAL
+                </h6>
+                <div class="card-body p-3">
+                    <div
+                        v-for="referral in intakes.referral"
+                        :key="referral.id"
+                    >
+                        {{ referral.content }}
+                    </div>
+                </div>
+            </div>
+            <!-- End Circumstances/Referral Card -->
+
+            <!-- Remark Card -->
+            <div class="card col-lg-6">
+                <h6
+                    class="card-header text-light text-center fw-bold"
+                    style="background-color: #581b98"
+                >
+                    REMARKS
+                </h6>
+                <div class="card-body p-3">
+                    <div
+                        v-for="remark in intakes.remark"
+                        :key="remark.id"
+                        class="mt-2"
+                    >
+                        {{ remark.content }}
+                    </div>
+                </div>
+            </div>
+            <!-- End Remark Card -->
         </div>
     </LayoutApp>
 </template>

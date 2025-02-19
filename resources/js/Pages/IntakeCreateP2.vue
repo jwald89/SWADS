@@ -151,7 +151,6 @@ const finalSubmit = async () => {
             autoClose: 2000,
         });
         emit("incrementIndex", props.index);
-        console.log("Data successfully stored in the database:", response.data);
     } catch (error) {
         toast.error("Failed to submit data. Please try again.", {
             autoClose: 2000,

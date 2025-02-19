@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\BarangayResource;
 use App\Http\Requests\SectoralDataRequest;
+use App\Http\Resources\IndigentResource;
 use App\Http\Resources\MunicipalityResource;
+use App\Models\IndigentPeople;
 
 class SectoralDataController extends Controller
 {
@@ -89,6 +91,7 @@ class SectoralDataController extends Controller
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
         $sectors = SectorResource::collection(Sector::all());
+        $indigents = IndigentResource::collection(IndigentPeople::all());
 
         return inertia('CreateSectoral', [
             'municipality' => $municipality,
@@ -96,6 +99,7 @@ class SectoralDataController extends Controller
             'civilStatus' => CivilStatus::names(),
             'gender' => GenderTypes::names(),
             'sectors' => $sectors,
+            'indigents' => $indigents,
         ]);
     }
 

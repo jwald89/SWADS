@@ -53,7 +53,17 @@ watchEffect(() => {
                     <h6 class="mt-2">Filter Section</h6>
                     <div class="card">
                         <div class="card-body row g-3 mt-1">
-                            <div class="col-md-3">
+                            <div class="col-md-1">
+                                <label for="caseNo">Case No.</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="caseNo"
+                                    id="caseno"
+                                    v-model="intakes.case_no"
+                                />
+                            </div>
+                            <div class="col-md-2">
                                 <label for="classification"
                                     >Classification<span class="text-danger"
                                         >*</span
@@ -72,7 +82,7 @@ watchEffect(() => {
                             </div>
                             <div class="col-md-3">
                                 <label for="category"
-                                    >Please select type of assistance
+                                    >Assistance Type
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
@@ -85,7 +95,7 @@ watchEffect(() => {
                                 >
                                 </v-select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label for="sector_type"
                                     >Sector
                                     <span class="text-danger">*</span></label
@@ -100,7 +110,22 @@ watchEffect(() => {
                                 >
                                 </v-select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <label for="ofis_charge"
+                                    >Office Charge
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="ofis_charge"
+                                    id="ofis_charge"
+                                    :options="officeCharge.data"
+                                    v-model="intakes.ofis_charge"
+                                    :reduce="(data) => data.id"
+                                    label="description"
+                                >
+                                </v-select>
+                            </div>
+                            <div class="col-md-2">
                                 <label for="dateIntake"
                                     >Date<span class="text-danger"
                                         >*</span
@@ -117,7 +142,7 @@ watchEffect(() => {
 
                             <div class="col-md-3">
                                 <label for="ips"
-                                    >IPs
+                                    >IPs Affiliates
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
@@ -127,21 +152,6 @@ watchEffect(() => {
                                     v-model="intakes.ips"
                                     :reduce="(data) => data.id"
                                     label="name"
-                                >
-                                </v-select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="ofis_charge"
-                                    >Office Charge
-                                    <span class="text-danger">*</span></label
-                                >
-                                <v-select
-                                    name="ofis_charge"
-                                    id="ofis_charge"
-                                    :options="officeCharge.data"
-                                    v-model="intakes.ofis_charge"
-                                    :reduce="(data) => data.id"
-                                    label="description"
                                 >
                                 </v-select>
                             </div>
@@ -347,6 +357,21 @@ watchEffect(() => {
                     <div class="card">
                         <div class="card-body">
                             <div class="row g-3 mt-1">
+                                <div class="col-md-12">
+                                    <label for="cases"
+                                        >Case <small>(Optional)</small></label
+                                    >
+                                    <textarea
+                                        class="form-control"
+                                        rows="2"
+                                        id="case"
+                                        name="case"
+                                        v-model="intakes.case"
+                                        placeholder="What is the case.."
+                                    >
+                                    </textarea>
+                                </div>
+
                                 <div class="col-md-3">
                                     <label for="birthDate" class="form-label"
                                         >Date of Birth<span class="text-danger"
@@ -369,12 +394,13 @@ watchEffect(() => {
                                         ></label
                                     >
                                     <input
-                                        type="number"
+                                        type="text"
                                         class="form-control"
                                         name="age"
                                         id="age"
                                         placeholder="Age"
                                         v-model="intakes.age"
+                                        readonly
                                     />
                                 </div>
 
@@ -439,7 +465,6 @@ watchEffect(() => {
                                     <label for="occupation" class="form-label"
                                         >Occupation</label
                                     >
-                                    <small> (optional)</small>
                                     <input
                                         type="text"
                                         class="form-control"

@@ -14,7 +14,7 @@ class PersonalInformation extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'classification', 'ips', 'category', 'sector_type', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'educ_attainment', 'contact_no', 'income', 'ofis_charge', 'created_by', 'deleted_at'];
+    protected $fillable = ['id', 'case_no', 'classification', 'ips', 'category', 'sector_type', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'case', 'sex', 'civil_stats', 'birthdate', 'job', 'educ_attainment', 'contact_no', 'income', 'ofis_charge', 'created_by', 'deleted_at'];
 
 
     public function famCompose()
