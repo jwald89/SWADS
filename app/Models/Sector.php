@@ -22,4 +22,9 @@ class Sector extends Model
     {
         return $this->hasMany(Monitoring::class, 'id', 'sector');
     }
+
+    public function intake()
+    {
+        return $this->hasMany(PersonalInformation::class, 'id', 'sector_type');
+    }
 }

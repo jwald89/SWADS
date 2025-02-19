@@ -15,10 +15,7 @@ class SectorSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Men'
-            ],
-            [
-                'name' => 'Women',
+                'name' => 'Men/Women'
             ],
             [
                 'name' => 'Youth',

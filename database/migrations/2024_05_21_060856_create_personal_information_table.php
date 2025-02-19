@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('personal_information', function (Blueprint $table) {
             $table->id();
             $table->string('classification');
+            $table->string('ips')->nullable();
             $table->string('category');
+            $table->string('sector_type');
             $table->date('date_intake');
             $table->string('last_name');
             $table->string('first_name');
@@ -32,8 +34,10 @@ return new class extends Migration
             $table->string('municipality');
             $table->enum('civil_stats', CivilStatus::values())->default(CivilStatus::Single->value);
             $table->string('job')->nullable();
+            $table->string('educ_attainment')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('income')->nullable();
+            $table->string('ofis_charge');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('modified_by')->nullable();

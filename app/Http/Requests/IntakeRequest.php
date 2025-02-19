@@ -25,7 +25,10 @@ class IntakeRequest extends FormRequest
     {
         return [
             'classification' => 'required|string',
+            'ips' => 'required',
             'category' => 'required',
+            'sector_type' => 'required',
+            'ofis_charge' => 'required',
             'date_intake' => 'required|date',
             'last_name' => 'required|string|max:100',
             'first_name' => 'required|string|max:100',

@@ -18,6 +18,15 @@ const props = defineProps({
     assistances: {
         type: String,
     },
+    sectorType: {
+        type: String,
+    },
+    indigents: {
+        type: String,
+    },
+    officeCharge: {
+        type: String,
+    },
     municipality: {
         type: String,
     },
@@ -279,6 +288,9 @@ provide("submitFormP4", submitRemark);
                 <div class="tab-content pt-2" id="borderedTabJustifiedContent">
                     <EditIntake1
                         :assistances="assistances"
+                        :sectorType="sectorType"
+                        :indigents="indigents"
+                        :officeCharge="officeCharge"
                         :municipality="municipality"
                         :barangays="barangays"
                     />

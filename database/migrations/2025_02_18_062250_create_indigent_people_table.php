@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('remarks', function (Blueprint $table) {
+        Schema::create('indigent_people', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('applicant_id')->nullable();
-            $table->foreign('applicant_id')->references('id')->on('personal_information');
-            $table->longText('content');
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->foreign('created_by')->references('id')->on('users');
+            $table->string('name');
             $table->unsignedBigInteger('modified_by')->nullable();
             $table->foreign('modified_by')->references('id')->on('users');
             $table->timestamp('modified_date')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('remarks');
+        Schema::dropIfExists('indigent_people');
     }
 };

@@ -15,6 +15,11 @@ class Office extends Model
     {
         return $this->hasMany(Monitoring::class, 'id', 'charges');
     }
+
+    public function intake()
+    {
+        return $this->hasMany(PersonalInformation::class, 'id', 'ofis_charge');
+    }
 }
 
 

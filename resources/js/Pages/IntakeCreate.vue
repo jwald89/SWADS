@@ -27,7 +27,10 @@ const tabs = ref([
 // initialize the data from the Personal Information model
 const personalForm = reactive({
     classification: "",
+    ips: "",
     category: "",
+    sector_type: "",
+    ofis_charge: "",
     date_intake: "",
     last_name: "",
     first_name: "",
@@ -42,6 +45,7 @@ const personalForm = reactive({
     birthdate: "",
     sex: "",
     civil_stats: "",
+    educ_attainment: "",
     job: "",
     contact_no: "",
     income: "",
@@ -59,6 +63,15 @@ const submitPersonalDetails = async () => {
     }
     if (personalForm.category) {
         errors.category = "";
+    }
+    if (personalForm.sector_type) {
+        errors.sector_type = "";
+    }
+    if (personalForm.ofis_charge) {
+        errors.ofis_charge = "";
+    }
+    if (personalForm.ips) {
+        errors.ips = "";
     }
     if (personalForm.date_intake) {
         errors.date_intake = "";
@@ -286,15 +299,21 @@ const gender = usePage().props.gender;
 const props = defineProps({
     assistances: {
         type: Object,
-        required: true,
+    },
+    sectorType: {
+        type: Object,
     },
     municipality: {
         type: Object,
-        required: true,
     },
     barangays: {
         type: Object,
-        required: true,
+    },
+    indigents: {
+        type: Object,
+    },
+    officeCharge: {
+        type: Object,
     },
 });
 
@@ -478,6 +497,9 @@ onMounted(() => {});
                     <IntakeCreateP1
                         :index="currentIndex"
                         :assistances="assistances"
+                        :sectorType="sectorType"
+                        :indigents="indigents"
+                        :officeCharge="officeCharge"
                         :civilStatus="civilStatus"
                         :municipality="municipality"
                         :barangays="barangays"

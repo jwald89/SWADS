@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\IndigentPeople;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AssistanceTypeSeeder::class,
             SectorSeeder::class,
             OfficeChargeSeeder::class,
+            IndigentSeeder::class,
         ]);
     }
 }

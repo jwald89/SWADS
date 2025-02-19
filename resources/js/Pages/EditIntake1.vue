@@ -9,6 +9,15 @@ defineProps({
     assistances: {
         type: String,
     },
+    sectorType: {
+        type: String,
+    },
+    indigents: {
+        type: String,
+    },
+    officeCharge: {
+        type: String,
+    },
     municipality: {
         type: String,
     },
@@ -25,6 +34,9 @@ watchEffect(() => {
     intakes.category = parseInt(intakes.category);
     intakes.barangay = parseInt(intakes.barangay);
     intakes.municipality = parseInt(intakes.municipality);
+    intakes.sector_type = parseInt(intakes.sector_type);
+    intakes.ips = parseInt(intakes.ips);
+    intakes.ofis_charge = parseInt(intakes.ofis_charge);
 });
 </script>
 
@@ -38,9 +50,10 @@ watchEffect(() => {
         <form @submit.prevent="submitForm">
             <div class="row">
                 <div class="col-md-12">
+                    <h6 class="mt-2">Filter Section</h6>
                     <div class="card">
                         <div class="card-body row g-3 mt-1">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="classification"
                                     >Classification<span class="text-danger"
                                         >*</span
@@ -52,13 +65,12 @@ watchEffect(() => {
                                     id="classification"
                                     v-model="intakes.classification"
                                 >
-                                    <option value="non-poor 4Ps">
-                                        Non-poor 4Ps
-                                    </option>
+                                    <option value="non-4Ps">Non-4Ps</option>
                                     <option value="4Ps">4Ps</option>
+                                    <option value="IPs">IPs</option>
                                 </select>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label for="category"
                                     >Please select type of assistance
                                     <span class="text-danger">*</span></label
@@ -68,8 +80,23 @@ watchEffect(() => {
                                     id="category"
                                     :options="assistances.data"
                                     :reduce="(data) => data.id"
-                                    label="name"
                                     v-model="intakes.category"
+                                    label="name"
+                                >
+                                </v-select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="sector_type"
+                                    >Sector
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="sector_type"
+                                    id="sector_type"
+                                    :options="sectorType.data"
+                                    :reduce="(data) => data.id"
+                                    v-model="intakes.sector_type"
+                                    label="name"
                                 >
                                 </v-select>
                             </div>
@@ -86,6 +113,37 @@ watchEffect(() => {
                                     id="dateIntake"
                                     v-model="intakes.date_intake"
                                 />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="ips"
+                                    >IPs
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="ips"
+                                    id="ips"
+                                    :options="indigents.data"
+                                    v-model="intakes.ips"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                >
+                                </v-select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ofis_charge"
+                                    >Office Charge
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="ofis_charge"
+                                    id="ofis_charge"
+                                    :options="officeCharge.data"
+                                    v-model="intakes.ofis_charge"
+                                    :reduce="(data) => data.id"
+                                    label="description"
+                                >
+                                </v-select>
                             </div>
                         </div>
                     </div>
@@ -359,6 +417,22 @@ watchEffect(() => {
                                             Separated
                                         </option>
                                     </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label
+                                        for="educ_attainment"
+                                        class="form-label"
+                                        >Educational Attainment</label
+                                    >
+                                    <span class="text-danger">*</span>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="educ_attainment"
+                                        name="educ_attainment"
+                                        v-model="intakes.educ_attainment"
+                                    />
                                 </div>
 
                                 <div class="col-md-6">

@@ -11,23 +11,27 @@ const tabIndex = 0;
 const props = defineProps({
     assistances: {
         type: Object,
-        required: true,
+    },
+    sectorType: {
+        type: Object,
     },
     municipality: {
         type: Object,
-        required: true,
     },
     barangays: {
         type: Object,
-        required: true,
+    },
+    indigents: {
+        type: Object,
     },
     civilStatus: {
         type: Object,
-        required: true,
     },
     gender: {
         type: Object,
-        required: true,
+    },
+    officeCharge: {
+        type: Object,
     },
     errors: Object,
     index: Number,
@@ -74,9 +78,10 @@ defineComponent({
         <form @submit.prevent="submitForm">
             <div class="row">
                 <div class="col-md-12">
+                    <h6 class="mt-2">Filter Section</h6>
                     <div class="card">
                         <div class="card-body row g-3 mt-1">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="classification"
                                     >Classification<span class="text-danger"
                                         >*</span
@@ -92,10 +97,9 @@ defineComponent({
                                     }"
                                 >
                                     <option value="" disabled>Select</option>
-                                    <option value="non-poor 4Ps">
-                                        Non-poor 4Ps
-                                    </option>
+                                    <option value="non-4Ps">Non-4Ps</option>
                                     <option value="4Ps">4Ps</option>
+                                    <option value="IPs">IPs</option>
                                 </select>
                                 <small
                                     v-if="errors.classification"
@@ -103,9 +107,9 @@ defineComponent({
                                     >{{ errors.classification }}</small
                                 >
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <label for="category"
-                                    >Please select type of assistance
+                                    >Assistance Type
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
@@ -129,6 +133,32 @@ defineComponent({
                                 >
                             </div>
                             <div class="col-md-3">
+                                <label for="sector_type"
+                                    >Sector
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="sector_type"
+                                    id="sector_type"
+                                    :options="sectorType.data"
+                                    v-model="form.sector_type"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    :class="{
+                                        'form-control is-invalid':
+                                            errors.sector_type,
+                                    }"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                                <small
+                                    v-if="errors.sector_type"
+                                    class="text-danger"
+                                    >{{ errors.sector_type }}</small
+                                >
+                            </div>
+
+                            <div class="col-md-3">
                                 <label for="dateIntake"
                                     >Date<span class="text-danger"
                                         >*</span
@@ -148,6 +178,53 @@ defineComponent({
                                     v-if="errors.date_intake"
                                     class="text-danger"
                                     >{{ errors.date_intake }}</small
+                                >
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ips"
+                                    >IPs
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="ips"
+                                    id="ips"
+                                    :options="indigents.data"
+                                    v-model="form.ips"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    :class="{
+                                        'form-control is-invalid': errors.ips,
+                                    }"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                                <small v-if="errors.ips" class="text-danger">{{
+                                    errors.ips
+                                }}</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ofis_charge"
+                                    >Office Charge
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    name="ofis_charge"
+                                    id="ofis_charge"
+                                    :options="officeCharge.data"
+                                    v-model="form.ofis_charge"
+                                    :reduce="(data) => data.id"
+                                    label="description"
+                                    :class="{
+                                        'form-control is-invalid':
+                                            errors.ofis_charge,
+                                    }"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                                <small
+                                    v-if="errors.ofis_charge"
+                                    class="text-danger"
+                                    >{{ errors.ofis_charge }}</small
                                 >
                             </div>
                         </div>
@@ -415,7 +492,7 @@ defineComponent({
                     <h6>Others</h6>
                     <div class="card">
                         <div class="card-body">
-                            <div class="row g-3 mt-1">
+                            <diva class="row g-3 mt-1">
                                 <div class="col-md-3">
                                     <label for="birthDate" class="form-label"
                                         >Date of Birth<span class="text-danger"
@@ -454,6 +531,7 @@ defineComponent({
                                         v-model="age"
                                         placeholder="Age"
                                         :class="{ 'is-invalid': errors.age }"
+                                        readonly
                                     />
                                     <small
                                         v-if="errors.age"
@@ -525,6 +603,22 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-6">
+                                    <label
+                                        for="educ_attainment"
+                                        class="form-label"
+                                        >Educational Attainment</label
+                                    >
+                                    <span class="text-danger">*</span>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="educ_attainment"
+                                        name="educ_attainment"
+                                        v-model="form.educ_attainment"
+                                    />
+                                </div>
+
+                                <div class="col-md-6">
                                     <label for="occupation" class="form-label"
                                         >Occupation</label
                                     >
@@ -544,6 +638,7 @@ defineComponent({
                                         >{{ errors.job }}</small
                                     >
                                 </div>
+
                                 <div class="col-md-4">
                                     <label for="contactNo" class="form-label"
                                         >Contact No.</label
@@ -556,6 +651,7 @@ defineComponent({
                                         placeholder="Enter a phone or mobile number.."
                                     />
                                 </div>
+
                                 <div class="col-md-2">
                                     <label for="income" class="form-label"
                                         >Income</label
@@ -587,7 +683,7 @@ defineComponent({
                                         Save
                                     </button>
                                 </div>
-                            </div>
+                            </diva>
                         </div>
                     </div>
                 </div>

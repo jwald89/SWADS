@@ -23,7 +23,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BarangayResource;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\AssistanceResource;
+use App\Http\Resources\IndigentResource;
 use App\Http\Resources\MunicipalityResource;
+use App\Http\Resources\OfficeResource;
+use App\Http\Resources\SectorResource;
+use App\Models\IndigentPeople;
+use App\Models\Office;
+use App\Models\Sector;
+use Database\Seeders\OfficeChargeSeeder;
 
 class IntakeController extends Controller
 {
@@ -71,13 +78,19 @@ class IntakeController extends Controller
     public function create()
     {
         $assistances = AssistanceResource::collection(AssistanceType::all());
-        $municipality = MunicipalityResource::collection(Municipality::all());
+        $sectorType = SectorResource::collection(Sector::all());
         $barangays = BarangayResource::collection(Barangay::all());
+        $municipality = MunicipalityResource::collection(Municipality::all());
+        $indigents = IndigentResource::collection(IndigentPeople::all());
+        $officeCharge = OfficeResource::collection(Office::all());
 
         return inertia('IntakeCreate', [
-            'barangays' => $barangays,
             'assistances' => $assistances,
+            'sectorType' => $sectorType,
+            'barangays' => $barangays,
             'municipality' => $municipality,
+            'indigents' => $indigents,
+            'officeCharge' => $officeCharge,
             'civilStatus' => CivilStatus::names(),
             'gender' => GenderTypes::names(),
         ]);
@@ -211,15 +224,22 @@ class IntakeController extends Controller
      */
     public function edit($id)
     {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'brgy', 'municipal'])->find($id);
+        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'brgy', 'municipal', 'sectorName', 'chargingOffice', 'indigent'])->find($id);
 
+        $assistances = AssistanceResource::collection(AssistanceType::all());
+        $sectorType = SectorResource::collection(Sector::all());
+        $officeCharge = OfficeResource::collection(Office::all());
         $assistances = AssistanceResource::collection(AssistanceType::all());
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
+        $indigents = IndigentResource::collection(IndigentPeople::all());
 
         return inertia('EditIntake', [
             'intakes' => $intakes,
             'assistances' => $assistances,
+            'sectorType' => $sectorType,
+            'officeCharge' => $officeCharge,
+            'indigents' => $indigents,
             'barangays' => $barangays,
             'municipality' => $municipality,
         ]);

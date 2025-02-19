@@ -14,7 +14,7 @@ class PersonalInformation extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'classification', 'category', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'contact_no', 'income', 'created_by', 'deleted_at'];
+    protected $fillable = ['id', 'classification', 'ips', 'category', 'sector_type', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'sex', 'civil_stats', 'birthdate', 'job', 'educ_attainment', 'contact_no', 'income', 'ofis_charge', 'created_by', 'deleted_at'];
 
 
     public function famCompose()
@@ -55,5 +55,20 @@ class PersonalInformation extends Model
     public function municipal()
     {
         return $this->belongsTo(Municipality::class, 'municipality', 'id');
+    }
+
+    public function sectorName()
+    {
+        return $this->belongsTo(Sector::class, 'sector_type', 'id');
+    }
+
+    public function chargingOffice()
+    {
+        return $this->belongsTo(Office::class, 'ofis_charge', 'id');
+    }
+
+    public function indigent()
+    {
+        return $this->belongsTo(IndigentPeople::class, 'ips', 'id');
     }
 }

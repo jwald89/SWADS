@@ -457,9 +457,7 @@ defineComponent({
                                     />
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="physical"
-                                        >Physical Disability</label
-                                    >
+                                    <label for="physical">Disability</label>
                                     <input
                                         type="text"
                                         class="form-control"
