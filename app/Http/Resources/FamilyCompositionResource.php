@@ -15,9 +15,13 @@ class FamilyCompositionResource extends JsonResource
     public function toArray(Request $request): array
     {
 
+        $firstname = $this->firstname ?? 'N';
+        $middlename = $this->middlename ? ucfirst(substr($this->middlename, 0, 1)) . '. ' : '';
+        $lastname = $this->lastname ?? 'A';
+
         return [
             'id' => $this->id,
-            'fullname' => ucwords($this->firstname) .' '. ucfirst(substr($this->middlename, 0, 1)) .'. '. ucwords($this->lastname),
+            'fullname' => trim(ucwords($firstname) . ' ' . $middlename . ucwords($lastname)),
         ];
     }
 }

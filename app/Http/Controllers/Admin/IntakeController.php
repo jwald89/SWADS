@@ -4,34 +4,35 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\Month;
 use App\Models\User;
+use App\Models\Office;
 use App\Models\Remark;
+use App\Models\Sector;
 use App\Models\Barangay;
 use App\Models\Referral;
 use App\Enums\CivilStatus;
 use App\Enums\GenderTypes;
+use App\Models\Monitoring;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Models\AssistanceType;
+use App\Models\Classification;
+
+use App\Models\IndigentPeople;
 use App\Models\FamilyComposition;
 use Illuminate\Support\Facades\DB;
 use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\App;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IntakeRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\BarangayResource;
-use PhpOffice\PhpWord\TemplateProcessor;
-use App\Http\Resources\AssistanceResource;
-use App\Http\Resources\ClassificationResource;
-use App\Http\Resources\IndigentResource;
-use App\Http\Resources\MunicipalityResource;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
-use App\Models\Classification;
-use App\Models\IndigentPeople;
-use App\Models\Office;
-use App\Models\Sector;
+use App\Http\Resources\BarangayResource;
+use App\Http\Resources\IndigentResource;
+use PhpOffice\PhpWord\TemplateProcessor;
+use App\Http\Resources\AssistanceResource;
+use App\Http\Resources\MunicipalityResource;
+use App\Http\Resources\ClassificationResource;
 
 class IntakeController extends Controller
 {
@@ -492,6 +493,22 @@ class IntakeController extends Controller
         return DB::transaction(function() use($id, $request) {
             $personalData = PersonalInformation::findOrFail($id);
             $personalData->update($request->except('family_compositions'));
+
+            // Update the monitoring data based on the claimant
+            $dataMonitoring = Monitoring::where('claimant', $id)->first();
+            if ($dataMonitoring) {
+                $dataMonitoring->update([
+                    'age' => $personalData->age,
+                    'sex' => $personalData->sex,
+                    'contact_no' => $personalData->contact_no,
+                    'sector' => $personalData->sector_type,
+                    'assistance_type' => $personalData->category,
+                    'barangay' => $personalData->barangay,
+                    'municipality' => $personalData->municipality,
+                    'charges' => $personalData->ofis_charge,
+                    'date_intake' => $personalData->date_intake,
+                ]);
+            }
 
             foreach($request->fam_compose as $familyCompose) {
                 $family = FamilyComposition::find($familyCompose['id']);

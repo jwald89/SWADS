@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, inject, ref, computed } from "vue";
+import { defineComponent, inject, ref, computed, watchEffect } from "vue";
 import vSelect from "vue-select";
 
 const form = inject("personalData");
@@ -22,6 +22,7 @@ const props = defineProps({
     index: Number,
 });
 
+// Initialize refs
 const birthdate = ref(form.birthdate);
 const age = ref(form.age);
 
@@ -39,17 +40,23 @@ const calculateAge = () => {
         ) {
             calculatedAge--;
         }
+        // Update form age and local age ref
         form.age = calculatedAge;
-        form.birthdate = birthdate.value;
         age.value = calculatedAge;
     } else {
-        age.value = null; // Reset age if no date is selected
+        age.value = null;
+        form.age = null;
     }
 };
 
 // Computed property to determine visibility of the IPs field
 const showIpsField = computed(() => {
     return form.classification === 3;
+});
+
+watchEffect(() => {
+    birthdate.value = form.birthdate; // Sync birthdate with form
+    calculateAge(); // Calculate age whenever birthdate changes
 });
 
 defineComponent({
@@ -510,8 +517,8 @@ defineComponent({
                                         class="form-control"
                                         name="birthDate"
                                         id="birthDate"
-                                        v-model="birthdate"
-                                        @keyup="calculateAge"
+                                        v-model="form.birthdate"
+                                        @change="calculateAge"
                                         :class="{
                                             'is-invalid': errors.birthdate,
                                         }"
@@ -534,7 +541,7 @@ defineComponent({
                                         class="form-control"
                                         name="age"
                                         id="age"
-                                        v-model="age"
+                                        v-model="form.age"
                                         placeholder="Age"
                                         :class="{ 'is-invalid': errors.age }"
                                         readonly

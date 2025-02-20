@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, inject, watchEffect, computed } from "vue";
+import { defineComponent, inject, watchEffect, computed, ref } from "vue";
 import vSelect from "vue-select";
 
 const submitForm = inject("submitFormP1");
@@ -15,9 +15,31 @@ defineProps({
     classType: Object,
 });
 
-defineComponent({
-    vSelect,
-});
+const birthdate = ref(intakes.birthdate);
+const age = ref(intakes.age);
+
+const calculateAge = () => {
+    if (birthdate.value) {
+        const birthDate = new Date(birthdate.value);
+        const currentYear = new Date().getFullYear();
+        let calculatedAge = currentYear - birthDate.getFullYear();
+        const monthDifference = new Date().getMonth() - birthDate.getMonth();
+
+        // Adjust age if the birth date hasn't occurred yet this year
+        if (
+            monthDifference < 0 ||
+            (monthDifference === 0 && new Date() < birthDate)
+        ) {
+            calculatedAge--;
+        }
+        // Update intakes age and local age ref
+        intakes.age = calculatedAge;
+        age.value = calculatedAge;
+    } else {
+        age.value = null;
+        intakes.age = null; // Clear age in intakes if no birthdate
+    }
+};
 
 // Computed property to determine visibility of the IPs field
 const showIpsField = computed(() => {
@@ -32,6 +54,16 @@ watchEffect(() => {
     intakes.ips = parseInt(intakes.ips);
     intakes.ofis_charge = parseInt(intakes.ofis_charge);
     intakes.classification = parseInt(intakes.classification);
+});
+
+// Watch for changes in birthdate to calculate age
+watchEffect(() => {
+    birthdate.value = intakes.birthdate;
+    calculateAge();
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -379,6 +411,7 @@ watchEffect(() => {
                                         name="birthDate"
                                         id="birthDate"
                                         v-model="intakes.birthdate"
+                                        @change="calculateAge"
                                     />
                                 </div>
 

@@ -82,7 +82,15 @@ class MonitoringController extends Controller
     */
     public function create()
     {
-        $intakeData = PersonalDetailResource::collection(PersonalInformation::with(['assistance', 'user', 'brgy', 'municipal'])->get());
+        $intakeData = PersonalDetailResource::collection(PersonalInformation::with([
+            'assistance',
+            'user',
+            'brgy',
+            'municipal',
+            'sectorName',
+            'chargingOffice'
+        ])->get());
+
         $sectors = SectorResource::collection(Sector::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
@@ -142,7 +150,16 @@ class MonitoringController extends Controller
     */
     public function edit($id)
     {
-        $monitoring = Monitoring::with(['user', 'intake', 'assistance', 'brgy', 'municipal'])->findOrFail($id);
+        $monitoring = Monitoring::with([
+            'user',
+            'intake',
+            'assistance',
+            'brgy',
+            'municipal',
+            'sectorName',
+            'chargingOffice'
+        ])->findOrFail($id);
+
         $sectors = SectorResource::collection(Sector::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $users = UserResource::collection(User::where('role_type', '=', 'LIAISON')->get());
@@ -205,7 +222,15 @@ class MonitoringController extends Controller
      */
     public function show($id)
     {
-        $monitorings = Monitoring::with(['intake', 'sectorName', 'assistance', 'user', 'brgy', 'municipal', 'chargingOffice'])->find($id);
+        $monitorings = Monitoring::with([
+            'intake',
+            'sectorName',
+            'assistance',
+            'user',
+            'brgy',
+            'municipal',
+            'chargingOffice'
+        ])->find($id);
 
         // Initialize variables
         $createdBy = '';

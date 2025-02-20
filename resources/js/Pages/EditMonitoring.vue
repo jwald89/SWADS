@@ -11,14 +11,6 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    sectors: {
-        type: Object,
-        required: true,
-    },
-    officeCharge: {
-        type: Object,
-        required: true,
-    },
     users: {
         type: Object,
         required: true,
@@ -26,6 +18,14 @@ const props = defineProps({
     staffAdmin: {
         type: String,
     },
+    // sectors: {
+    //     type: Object,
+    //     required: true,
+    // },
+    // officeCharge: {
+    //     type: Object,
+    //     required: true,
+    // },
 });
 
 const errors = reactive({});
@@ -86,8 +86,8 @@ const claimantName = computed(() => {
 
 watchEffect(() => {
     props.dataMonitors.liaison = parseInt(props.dataMonitors.liaison);
-    props.dataMonitors.sector = parseInt(props.dataMonitors.sector);
-    props.dataMonitors.charges = parseInt(props.dataMonitors.charges);
+    // props.dataMonitors.sector = parseInt(props.dataMonitors.sector);
+    // props.dataMonitors.charges = parseInt(props.dataMonitors.charges);
 });
 
 defineComponent({
@@ -183,7 +183,7 @@ defineComponent({
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <v-select
+                        <!-- <v-select
                             name="sector"
                             :options="sectors.data"
                             :reduce="(data) => data.id"
@@ -191,7 +191,15 @@ defineComponent({
                             label="name"
                             v-model="dataMonitors.sector"
                         >
-                        </v-select>
+                        </v-select> -->
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="sector"
+                            id="sector"
+                            v-model="dataMonitors.sector_name.name"
+                            disabled
+                        />
                     </div>
 
                     <div class="col-md-4">
@@ -266,14 +274,22 @@ defineComponent({
                         <label for="charges"
                             >Charges<span class="text-danger">*</span></label
                         >
-                        <v-select
+                        <!-- <v-select
                             name="officeCharge"
                             :options="officeCharge.data"
                             :reduce="(data) => data.id"
                             id="officeCharge"
                             v-model="dataMonitors.charges"
                             label="description"
-                        ></v-select>
+                        ></v-select> -->
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="officeCharge"
+                            id="officeCharge"
+                            v-model="dataMonitors.charging_office.description"
+                            disabled
+                        />
                     </div>
                     <div class="col-md-3">
                         <label for="intakeDate">Date of Intake</label>

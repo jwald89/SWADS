@@ -56,30 +56,35 @@ const monitorForm = reactive({
     date_intake: "",
     status: "",
     assistanceType: "",
+    sectorType: "",
+    ofisCharge: "",
     username: "",
 });
 
 const resetForm = () => {
-    // Clear all the fields by setting them to their initial empty values
     monitorForm.claimant = "";
     monitorForm.beneficiary = "";
-    monitorForm.sector = "";
+    monitorForm.sectorType = "";
     monitorForm.client_type = "";
     monitorForm.age = "";
     monitorForm.amount = "";
-    monitorForm.charges = "";
+    monitorForm.ofisCharge = "";
     monitorForm.liaison = "";
     monitorForm.status_date = "";
     monitorForm.remarks = "";
     monitorForm.age = "";
     monitorForm.gender = "";
     monitorForm.contact_no = "";
-    monitorForm.barangay = "";
-    monitorForm.municipality = "";
-    monitorForm.assistance_type = "";
+    monitorForm.brgy = "";
+    monitorForm.municipal = "";
+    monitorForm.assistanceType = "";
     monitorForm.date_intake = "";
-    monitorForm.staff_admin = "";
+    monitorForm.username = "";
     monitorForm.status = "";
+
+    // Clear the claimant reference
+    claimant.value = null;
+    beneficiaryData.value = null;
 };
 
 // Fetch records from the Monitoring table to filter out existing claimants
@@ -127,39 +132,29 @@ const fetchBeneficiaries = async () => {
     } catch (error) {
         console.error("Error fetching beneficiaries:", error);
     }
+    ("");
 };
 
 const submitForm = async () => {
-    if (monitorForm.claimant) {
-        errors.claimant = "";
-    }
-    if (monitorForm.beneficiary) {
-        errors.beneficiary = "";
-    }
-    if (monitorForm.sector) {
-        errors.sector = "";
-    }
-    if (monitorForm.client_type) {
-        errors.client_type = "";
-    }
-    if (monitorForm.amount) {
-        errors.amount = "";
-    }
-    if (monitorForm.charges) {
-        errors.charges = "";
-    }
-    if (monitorForm.contact_no) {
-        errors.contact_no = "";
-    }
-    if (monitorForm.staff_admin) {
-        errors.staff_admin = "";
-    }
-    if (monitorForm.liaison) {
-        errors.liaison = "";
-    }
-    if (monitorForm.status) {
-        errors.status = "";
-    }
+    // Clear previous errors
+    const fields = [
+        "claimant",
+        "beneficiary",
+        "sector",
+        "client_type",
+        "amount",
+        "charges",
+        "contact_no",
+        "staff_admin",
+        "liaison",
+        "status",
+    ];
+
+    fields.forEach((field) => {
+        if (monitorForm[field]) {
+            errors[field] = "";
+        }
+    });
 
     try {
         const response = await axios.post(
@@ -174,16 +169,19 @@ const submitForm = async () => {
         // Clear the form after saving
         resetForm();
 
-        console.log("working..");
+        console.log("Form submitted successfully:", response.data);
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
-            for (const key in validationErrors) {
-                if (Object.hasOwnProperty.call(validationErrors, key)) {
-                    errors[key] = validationErrors[key][0];
-                }
+            for (const [key, messages] of Object.entries(validationErrors)) {
+                errors[key] = messages[0]; // Get the first error message
             }
             toast.error("Please fill in the blanks error!", {
+                autoClose: 2000,
+            });
+        } else {
+            // Handle other errors
+            toast.error("An unexpected error occurred.", {
                 autoClose: 2000,
             });
         }
@@ -203,6 +201,10 @@ watch(claimant, (newClaimant) => {
         monitorForm.municipal = newClaimant.municipal;
         monitorForm.assistance_type = newClaimant.category;
         monitorForm.assistanceType = newClaimant.assistanceType;
+        monitorForm.sector = newClaimant.sector_type;
+        monitorForm.sectorType = newClaimant.sectorType;
+        monitorForm.charges = newClaimant.ofis_charge;
+        monitorForm.ofisCharge = newClaimant.ofisCharge;
         monitorForm.date_intake = newClaimant.date_intake;
         monitorForm.staff_admin = newClaimant.created_by;
         monitorForm.username = newClaimant.username;
@@ -339,7 +341,7 @@ onMounted(fetchMonitoringRecords);
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <v-select
+                        <!-- <v-select
                             class="fw-bold"
                             name="sector"
                             id="sector"
@@ -355,7 +357,20 @@ onMounted(fetchMonitoringRecords);
                         </v-select>
                         <small v-if="errors.sector" class="text-danger">{{
                             errors.sector
-                        }}</small>
+                        }}</small> -->
+                        <input
+                            type="text"
+                            class="form-control fw-bold"
+                            name="sector"
+                            id="sector"
+                            v-model="monitorForm.sectorType"
+                            disabled
+                        />
+                        <input
+                            type="hidden"
+                            name="sector"
+                            v-model="monitorForm.sector"
+                        />
                     </div>
 
                     <div class="col-md-4">
@@ -460,7 +475,7 @@ onMounted(fetchMonitoringRecords);
                         <label for="charges"
                             >Charges<span class="text-danger">*</span></label
                         >
-                        <v-select
+                        <!-- <v-select
                             name="charges"
                             id="charges"
                             :options="officeCharge.data"
@@ -475,7 +490,20 @@ onMounted(fetchMonitoringRecords);
 
                         <small v-if="errors.charges" class="text-danger">{{
                             errors.charges
-                        }}</small>
+                        }}</small> -->
+                        <input
+                            type="text"
+                            class="form-control fw-bold"
+                            name="charges"
+                            id="charges"
+                            v-model="monitorForm.ofisCharge"
+                            disabled
+                        />
+                        <input
+                            type="hidden"
+                            name="charges"
+                            v-model="monitorForm.charges"
+                        />
                     </div>
                     <div class="col-md-3">
                         <label for="intakeDate"
