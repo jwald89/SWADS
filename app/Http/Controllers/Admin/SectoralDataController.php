@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\BarangayResource;
 use App\Http\Requests\SectoralDataRequest;
+use App\Http\Resources\DisabilityResource;
 use App\Http\Resources\IndigentResource;
 use App\Http\Resources\MunicipalityResource;
+use App\Models\Disability;
 use App\Models\IndigentPeople;
 
 class SectoralDataController extends Controller
@@ -92,6 +94,7 @@ class SectoralDataController extends Controller
         $barangays = BarangayResource::collection(Barangay::all());
         $sectors = SectorResource::collection(Sector::all());
         $indigents = IndigentResource::collection(IndigentPeople::all());
+        $disabilities = DisabilityResource::collection(Disability::all());
 
         return inertia('CreateSectoral', [
             'municipality' => $municipality,
@@ -100,6 +103,7 @@ class SectoralDataController extends Controller
             'gender' => GenderTypes::names(),
             'sectors' => $sectors,
             'indigents' => $indigents,
+            'disabilities' => $disabilities,
         ]);
     }
 
@@ -127,12 +131,16 @@ class SectoralDataController extends Controller
         $sectors = SectorResource::collection(Sector::all());
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
+        $disabilities = DisabilityResource::collection(Disability::all());
+        $indigents = IndigentResource::collection(IndigentPeople::all());
 
         return inertia('EditSectoral', [
             'sectoral' => $sectoral,
             'sectors' => $sectors,
             'municipality' => $municipality,
-            'barangays' => $barangays
+            'barangays' => $barangays,
+            'disabilities' => $disabilities,
+            'indigents' => $indigents,
         ]);
     }
 
@@ -212,7 +220,14 @@ class SectoralDataController extends Controller
      */
     public function show($id)
     {
-        $sectoral = Sectoral::with(['user', 'barangay', 'municipality', 'sector'])->find($id);
+        $sectoral = Sectoral::with([
+            'user',
+            'barangay',
+            'municipality',
+            'sector',
+            'disabilityType',
+            'indigentType'
+        ])->find($id);
 
         $createdBy = '';
         $modifiedBy = '';

@@ -31,6 +31,10 @@ defineProps({
         type: Object,
         required: true,
     },
+    disabilities: {
+        type: Object,
+        required: true,
+    },
     errors: Object,
 });
 
@@ -641,7 +645,7 @@ defineComponent({
                                 </div>
                                 <div class="col-md-3">
                                     <label for="physical">Disability</label>
-                                    <input
+                                    <!-- <input
                                         type="text"
                                         class="form-control"
                                         id="physical_disability"
@@ -649,7 +653,19 @@ defineComponent({
                                         v-model="
                                             sectoralForm.physical_disability
                                         "
-                                    />
+                                    /> -->
+                                    <v-select
+                                        name="physical_disability"
+                                        id="physical_disability"
+                                        :options="disabilities.data"
+                                        :reduce="(data) => data.id"
+                                        label="description"
+                                        v-model="
+                                            sectoralForm.physical_disability
+                                        "
+                                        placeholder="Select"
+                                    >
+                                    </v-select>
                                 </div>
                             </div>
                             <!-- end 1st row -->

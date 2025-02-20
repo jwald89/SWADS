@@ -36,4 +36,14 @@ class Sectoral extends Model
     {
         return $this->belongsTo(User::class, 'municipality', 'municipality');
     }
+
+    public function disabilityType()
+    {
+        return $this->belongsTo(Disability::class, 'physical_disability', 'id');
+    }
+
+    public function indigentType()
+    {
+        return $this->belongsTo(IndigentPeople::class, 'ethnicity', 'id');
+    }
 }

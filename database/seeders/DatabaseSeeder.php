@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             OfficeChargeSeeder::class,
             IndigentSeeder::class,
             ClassificationSeeder::class,
+            DisabilitySeeder::class,
         ]);
     }
 }

@@ -15,4 +15,9 @@ class IndigentPeople extends Model
     {
         return $this->hasMany(PersonalInformation::class, 'id', 'ips');
     }
+
+    public function sectoral()
+    {
+        return $this->hasMany(Sectoral::class, 'id', 'ethnicity');
+    }
 }

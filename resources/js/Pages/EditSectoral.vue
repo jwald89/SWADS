@@ -24,6 +24,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    disabilities: {
+        type: Object,
+        required: true,
+    },
+    indigents: {
+        type: Object,
+        required: true,
+    },
 });
 
 const errors = reactive({});
@@ -60,6 +68,10 @@ watchEffect(() => {
     props.sectoral.sector = parseInt(props.sectoral.sector);
     props.sectoral.municipality = parseInt(props.sectoral.municipality);
     props.sectoral.barangay = parseInt(props.sectoral.barangay);
+    props.sectoral.physical_disability = parseInt(
+        props.sectoral.physical_disability
+    );
+    props.sectoral.ethnicity = parseInt(props.sectoral.ethnicity);
 });
 
 defineComponent({
@@ -448,23 +460,41 @@ defineComponent({
                                 </div>
                                 <div class="col-md-3">
                                     <label for="ethnicity">Ethnicity</label>
-                                    <input
+                                    <!-- <input
                                         type="text"
                                         class="form-control"
                                         id="ethnicity"
                                         name="ethnicity"
                                         v-model="sectoral.ethnicity"
-                                    />
+                                    /> -->
+                                    <v-select
+                                        name="ethnicity"
+                                        :options="indigents.data"
+                                        :reduce="(data) => data.id"
+                                        id="ethnicity"
+                                        label="name"
+                                        v-model="sectoral.ethnicity"
+                                    >
+                                    </v-select>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="physical">Disability</label>
-                                    <input
+                                    <!-- <input
                                         type="text"
                                         class="form-control"
                                         id="physical_disability"
                                         name="physical_disability"
                                         v-model="sectoral.physical_disability"
-                                    />
+                                    /> -->
+                                    <v-select
+                                        name="physical_disability"
+                                        :options="disabilities.data"
+                                        :reduce="(data) => data.id"
+                                        id="physical_disability"
+                                        label="description"
+                                        v-model="sectoral.physical_disability"
+                                    >
+                                    </v-select>
                                 </div>
                             </div>
                             <!-- end 1st row -->

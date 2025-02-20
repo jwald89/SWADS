@@ -276,21 +276,24 @@ const formatName = (fName) => {
                                     {{
                                         sectoral.ethnicity === null
                                             ? "N/A"
-                                            : formatName(sectoral.ethnicity)
+                                            : formatName(
+                                                  sectoral.indigent_type.name
+                                              )
                                     }}
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-2 label fw-bold">
-                                    Physical disability:
+                                    Disability:
                                 </div>
                                 <div class="col-lg-7 col-md-10">
                                     {{
                                         sectoral.physical_disability === null
                                             ? "N/A"
                                             : formatName(
-                                                  sectoral.physical_disability
+                                                  sectoral.disability_type
+                                                      .description
                                               )
                                     }}
                                 </div>

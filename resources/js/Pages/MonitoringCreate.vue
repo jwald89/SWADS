@@ -132,7 +132,6 @@ const fetchBeneficiaries = async () => {
     } catch (error) {
         console.error("Error fetching beneficiaries:", error);
     }
-    ("");
 };
 
 const submitForm = async () => {
@@ -169,7 +168,7 @@ const submitForm = async () => {
         // Clear the form after saving
         resetForm();
 
-        console.log("Form submitted successfully:", response.data);
+        // console.log("Form submitted successfully:", response.data);
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
