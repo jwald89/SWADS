@@ -11,28 +11,14 @@ import { toast } from "vue3-toastify";
 import { defineProps } from "vue";
 
 const props = defineProps({
-    intakes: {
-        type: Object,
-        required: true,
-    },
-    assistances: {
-        type: String,
-    },
-    sectorType: {
-        type: String,
-    },
-    indigents: {
-        type: String,
-    },
-    officeCharge: {
-        type: String,
-    },
-    municipality: {
-        type: String,
-    },
-    barangays: {
-        type: String,
-    },
+    intakes: Object,
+    assistances: Object,
+    sectorType: Object,
+    indigents: Object,
+    officeCharge: Object,
+    municipality: Object,
+    barangays: Object,
+    classType: Object,
 });
 
 // initialize to inherit the data to the child file
@@ -290,6 +276,7 @@ provide("submitFormP4", submitRemark);
                         :assistances="assistances"
                         :sectorType="sectorType"
                         :indigents="indigents"
+                        :classType="classType"
                         :officeCharge="officeCharge"
                         :municipality="municipality"
                         :barangays="barangays"

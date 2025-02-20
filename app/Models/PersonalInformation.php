@@ -71,4 +71,9 @@ class PersonalInformation extends Model
     {
         return $this->belongsTo(IndigentPeople::class, 'ips', 'id');
     }
+
+    public function classific()
+    {
+        return $this->belongsTo(Classification::class, 'classification', 'id');
+    }
 }

@@ -24,8 +24,7 @@ class IntakeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'classification' => 'required|string',
-            'ips' => 'required',
+            'classification' => 'required',
             'category' => 'required',
             'sector_type' => 'required',
             'ofis_charge' => 'required',

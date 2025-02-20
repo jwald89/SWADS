@@ -180,8 +180,8 @@
     </div>
 
     <div class="text-centered" style="margin-top: 5%; line-height: 0.5; margin-left: -50%">
-        <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">ALEXANDER T. PIMENTEL</p>
-        <p>Provincial Governor</p>
+        <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">{{ strtoupper($intake->chargingOffice->first_name) }} {{ strtoupper(substr($intake->chargingOffice->middle_name, 0, 1)) }}. {{ strtoupper($intake->chargingOffice->last_name) }}</p>
+        <p>{{ $intake->chargingOffice->title }}</p>
     </div>
     @endforeach
 </body>

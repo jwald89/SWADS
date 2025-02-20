@@ -14,6 +14,15 @@ const props = defineProps({
 
 const intakes = ref(props.intakes);
 
+const formatName = (fName) => {
+    return fName
+        .split(" ")
+        .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+};
+
 defineComponent({
     Link,
     LayoutApp,
@@ -57,7 +66,7 @@ defineComponent({
                                 Classification:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.classification }}
+                                {{ intakes.classific.name }}
                             </div>
                         </div>
 
@@ -66,7 +75,11 @@ defineComponent({
                                 Ethnicity:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.indigent.name }}
+                                {{
+                                    intakes.indigent === null
+                                        ? "N/A"
+                                        : intakes.indigent.name
+                                }}
                             </div>
                         </div>
 
@@ -121,7 +134,7 @@ defineComponent({
                                     First name:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ intakes.first_name }}
+                                    {{ formatName(intakes.first_name) }}
                                 </div>
                             </div>
 
@@ -130,7 +143,7 @@ defineComponent({
                                     Middle name:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ intakes.middle_name }}
+                                    {{ formatName(intakes.middle_name) }}
                                 </div>
                             </div>
 
@@ -139,7 +152,7 @@ defineComponent({
                                     Last name:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ intakes.last_name }}
+                                    {{ formatName(intakes.last_name) }}
                                     {{
                                         intakes.extn_name
                                             ? ", " + intakes.extn_name
@@ -153,7 +166,7 @@ defineComponent({
                                     Nickname:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ intakes.nick_name }}
+                                    {{ formatName(intakes.nick_name) }}
                                 </div>
                             </div>
                         </div>
@@ -225,7 +238,7 @@ defineComponent({
                                 Sex:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.sex }}
+                                {{ formatName(intakes.sex) }}
                             </div>
                         </div>
 
@@ -234,7 +247,7 @@ defineComponent({
                                 Civil Status:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.civil_stats }}
+                                {{ formatName(intakes.civil_stats) }}
                             </div>
                         </div>
 
@@ -243,7 +256,11 @@ defineComponent({
                                 Educational Attainment:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.educ_attainment }}
+                                {{
+                                    intakes.educ_attainment === null
+                                        ? ""
+                                        : formatName(intakes.educ_attainment)
+                                }}
                             </div>
                         </div>
 
@@ -252,7 +269,11 @@ defineComponent({
                                 Occupation:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.job }}
+                                {{
+                                    intakes.job === null
+                                        ? "NA"
+                                        : formatName(intakes.job)
+                                }}
                             </div>
                         </div>
 

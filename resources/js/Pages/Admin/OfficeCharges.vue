@@ -21,15 +21,32 @@ const errors = reactive({});
 
 const data = reactive({
     description: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    title: "",
 });
 
 const resetForm = () => {
     data.description = "";
+    data.first_name = "";
+    data.middle_name = "";
+    data.last_name = "";
+    data.title = "";
 };
 
 const submitData = async () => {
     if (data.description) {
         errors.description = "";
+    }
+    if (data.first_name) {
+        errors.first_name = "";
+    }
+    if (data.last_name) {
+        errors.last_name = "";
+    }
+    if (data.title) {
+        errors.title = "";
     }
     try {
         const response = await axios.post("/office-charges/post", data);
@@ -70,6 +87,10 @@ const fetchEditData = async (id) => {
         const response = await axios.get(`/office-charges/edit/${id}`);
         editData.id = response.data.id;
         editData.description = response.data.description;
+        editData.first_name = response.data.first_name;
+        editData.middle_name = response.data.middle_name;
+        editData.last_name = response.data.last_name;
+        editData.title = response.data.title;
     } catch (error) {
         toast.error("Failed to fetch data for editing.", { autoClose: 2000 });
         console.error(error);
@@ -171,7 +192,7 @@ watch(
             aria-labelledby="addOffChargeLabel"
             aria-hidden="true"
         >
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div
                         class="modal-header text-light"
@@ -189,26 +210,130 @@ watch(
                     </div>
                     <form @submit.prevent="submitData">
                         <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="description" class="col-form-label"
-                                    >Name:</label
-                                >
-                                <input
-                                    type="text"
-                                    class="form-control form-control-md"
-                                    name="description"
-                                    id="description"
-                                    v-model="data.description"
-                                    :class="{
-                                        'is-invalid': errors.description,
-                                    }"
-                                    placeholder="Enter a name.."
-                                />
-                                <small
-                                    v-if="errors.description"
-                                    class="text-danger"
-                                    >{{ errors.description }}</small
-                                >
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mt-1">
+                                        <label
+                                            for="description"
+                                            class="col-form-label"
+                                            >Office name<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="description"
+                                            id="description"
+                                            v-model="data.description"
+                                            :class="{
+                                                'is-invalid':
+                                                    errors.description,
+                                            }"
+                                            placeholder="Enter a name.."
+                                        />
+                                        <small
+                                            v-if="errors.description"
+                                            class="text-danger"
+                                            >{{ errors.description }}</small
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h6>Signatory Name</h6>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group mt-4">
+                                        <label for="firstname"
+                                            >First name<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="firstname"
+                                            id="firstname"
+                                            v-model="data.first_name"
+                                            :class="{
+                                                'is-invalid': errors.first_name,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.first_name"
+                                            class="text-danger"
+                                            >{{ errors.first_name }}</small
+                                        >
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label for="middlename"
+                                            >Middle name<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="middlename"
+                                            id="middlename"
+                                            v-model="data.middle_name"
+                                        />
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label for="lastname"
+                                            >Last name<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="lastname"
+                                            id="lastname"
+                                            v-model="data.last_name"
+                                            :class="{
+                                                'is-invalid': errors.last_name,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.last_name"
+                                            class="text-danger"
+                                            >{{ errors.last_name }}</small
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group mt-4">
+                                        <label for="title"
+                                            >Title<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="title"
+                                            id="title"
+                                            v-model="data.title"
+                                            :class="{
+                                                'is-invalid': errors.title,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.title"
+                                            class="text-danger"
+                                            >{{ errors.title }}</small
+                                        >
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -238,7 +363,7 @@ watch(
             aria-labelledby="offChargeLabel"
             aria-hidden="true"
         >
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div
                         class="modal-header text-light"
@@ -256,17 +381,106 @@ watch(
                     </div>
                     <form @submit.prevent="updateData">
                         <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="description" class="col-form-label"
-                                    >Name:</label
-                                >
-                                <input
-                                    type="text"
-                                    class="form-control form-control-md"
-                                    name="description"
-                                    id="description"
-                                    v-model="editData.description"
-                                />
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mt-1">
+                                        <label
+                                            for="description"
+                                            class="col-form-label"
+                                            >Office name<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="description"
+                                            id="description"
+                                            v-model="editData.description"
+                                            :class="{
+                                                'is-invalid':
+                                                    errors.description,
+                                            }"
+                                            placeholder="Enter a name.."
+                                        />
+                                        <small
+                                            v-if="errors.description"
+                                            class="text-danger"
+                                            >{{ errors.description }}</small
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h6>Signatory Name</h6>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group mt-4">
+                                        <label for="firstname"
+                                            >First name<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="firstname"
+                                            id="firstname"
+                                            v-model="editData.first_name"
+                                        />
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label for="middlename"
+                                            >Middle name<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="middlename"
+                                            id="middlename"
+                                            v-model="editData.middle_name"
+                                        />
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label for="lastname"
+                                            >Last name<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="lastname"
+                                            id="lastname"
+                                            v-model="editData.last_name"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group mt-4">
+                                        <label for="title"
+                                            >Title<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="title"
+                                            id="title"
+                                            v-model="editData.title"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -320,22 +534,31 @@ watch(
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead class="text-center">
+                        <thead>
                             <tr class="bg-primary text-white">
-                                <th>No.</th>
+                                <th class="text-center">No.</th>
+                                <th>Office Head</th>
+                                <th>Title</th>
                                 <th>Description</th>
-                                <th>Action</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody
-                            class="text-center"
                             v-for="(office, index) in offices.data"
                             :key="index"
                         >
                             <tr>
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ office.description }}</td>
+                                <td class="text-center">{{ index + 1 }}</td>
+                                <td class="text-start">
+                                    {{ office.first_name }}
+                                    {{ office.middle_name }}
+                                    {{ office.last_name }}
+                                </td>
+                                <td>{{ office.title }}</td>
                                 <td>
+                                    {{ office.description }}
+                                </td>
+                                <td class="text-center">
                                     <button
                                         type="button"
                                         class="btn btn-sm btn-primary me-2"

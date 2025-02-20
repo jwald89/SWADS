@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, inject, ref } from "vue";
+import { defineComponent, inject, ref, computed } from "vue";
 import vSelect from "vue-select";
 
 const form = inject("personalData");
@@ -9,30 +9,15 @@ const tabs = inject("tabs");
 const tabIndex = 0;
 
 const props = defineProps({
-    assistances: {
-        type: Object,
-    },
-    sectorType: {
-        type: Object,
-    },
-    municipality: {
-        type: Object,
-    },
-    barangays: {
-        type: Object,
-    },
-    indigents: {
-        type: Object,
-    },
-    civilStatus: {
-        type: Object,
-    },
-    gender: {
-        type: Object,
-    },
-    officeCharge: {
-        type: Object,
-    },
+    assistances: Object,
+    sectorType: Object,
+    municipality: Object,
+    barangays: Object,
+    indigents: Object,
+    civilStatus: Object,
+    gender: Object,
+    officeCharge: Object,
+    classType: Object,
     errors: Object,
     index: Number,
 });
@@ -62,6 +47,11 @@ const calculateAge = () => {
     }
 };
 
+// Computed property to determine visibility of the IPs field
+const showIpsField = computed(() => {
+    return form.classification === 3;
+});
+
 defineComponent({
     vSelect,
 });
@@ -87,20 +77,20 @@ defineComponent({
                                         >*</span
                                     ></label
                                 >
-                                <select
-                                    class="form-select"
+                                <v-select
                                     name="classification"
                                     id="classification"
+                                    :options="classType.data"
                                     v-model="form.classification"
+                                    :reduce="(data) => data.id"
+                                    label="name"
                                     :class="{
-                                        'is-invalid': errors.classification,
+                                        'form-control is-invalid':
+                                            errors.classification,
                                     }"
+                                    placeholder="Select"
                                 >
-                                    <option value="" disabled>Select</option>
-                                    <option value="non-4Ps">Non-4Ps</option>
-                                    <option value="4Ps">4Ps</option>
-                                    <option value="IPs">IPs</option>
-                                </select>
+                                </v-select>
                                 <small
                                     v-if="errors.classification"
                                     class="text-danger"
@@ -206,11 +196,12 @@ defineComponent({
                                     >{{ errors.date_intake }}</small
                                 >
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" v-if="showIpsField">
                                 <label for="ips"
                                     >IPs Affiliates
                                     <span class="text-danger">*</span></label
                                 >
+
                                 <v-select
                                     name="ips"
                                     id="ips"
@@ -222,8 +213,7 @@ defineComponent({
                                         'form-control is-invalid': errors.ips,
                                     }"
                                     placeholder="Select"
-                                >
-                                </v-select>
+                                ></v-select>
                                 <small v-if="errors.ips" class="text-danger">{{
                                     errors.ips
                                 }}</small>

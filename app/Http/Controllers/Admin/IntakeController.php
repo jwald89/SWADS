@@ -23,14 +23,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BarangayResource;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\AssistanceResource;
+use App\Http\Resources\ClassificationResource;
 use App\Http\Resources\IndigentResource;
 use App\Http\Resources\MunicipalityResource;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
+use App\Models\Classification;
 use App\Models\IndigentPeople;
 use App\Models\Office;
 use App\Models\Sector;
-use Database\Seeders\OfficeChargeSeeder;
 
 class IntakeController extends Controller
 {
@@ -83,6 +84,7 @@ class IntakeController extends Controller
         $municipality = MunicipalityResource::collection(Municipality::all());
         $indigents = IndigentResource::collection(IndigentPeople::all());
         $officeCharge = OfficeResource::collection(Office::all());
+        $classType = ClassificationResource::collection(Classification::all());
 
         return inertia('IntakeCreate', [
             'assistances' => $assistances,
@@ -91,6 +93,7 @@ class IntakeController extends Controller
             'municipality' => $municipality,
             'indigents' => $indigents,
             'officeCharge' => $officeCharge,
+            'classType' => $classType,
             'civilStatus' => CivilStatus::names(),
             'gender' => GenderTypes::names(),
         ]);
@@ -239,7 +242,8 @@ class IntakeController extends Controller
             'sectorName',
             'chargingOffice',
             'indigent',
-            'user'
+            'user',
+            'classific',
         ])->find($id);
 
         $createdBy = '';
@@ -281,7 +285,17 @@ class IntakeController extends Controller
      */
     public function edit($id)
     {
-        $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'brgy', 'municipal', 'sectorName', 'chargingOffice', 'indigent'])->find($id);
+        $intakes = PersonalInformation::with([
+            'famCompose',
+            'referral',
+            'remark',
+            'brgy',
+            'municipal',
+            'sectorName',
+            'chargingOffice',
+            'indigent',
+            'classific'
+        ])->find($id);
 
         $assistances = AssistanceResource::collection(AssistanceType::all());
         $sectorType = SectorResource::collection(Sector::all());
@@ -290,6 +304,7 @@ class IntakeController extends Controller
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
         $indigents = IndigentResource::collection(IndigentPeople::all());
+        $classType = ClassificationResource::collection(Classification::all());
 
         return inertia('EditIntake', [
             'intakes' => $intakes,
@@ -297,6 +312,7 @@ class IntakeController extends Controller
             'sectorType' => $sectorType,
             'officeCharge' => $officeCharge,
             'indigents' => $indigents,
+            'classType' => $classType,
             'barangays' => $barangays,
             'municipality' => $municipality,
         ]);
@@ -363,7 +379,7 @@ class IntakeController extends Controller
      */
     public function coePrint($id)
     {
-        $intakes = PersonalInformation::with(['assistance', 'user', 'brgy', 'municipal'])
+        $intakes = PersonalInformation::with(['assistance', 'user', 'brgy', 'municipal', 'chargingOffice'])
                     ->where('id', $id)
                     ->orderBy('created_at', 'desc')
                     ->get();
@@ -403,7 +419,7 @@ class IntakeController extends Controller
      */
     public function export($id)
     {
-        $intakes = PersonalInformation::with(['assistance', 'brgy', 'municipal'])->findOrFail($id);
+        $intakes = PersonalInformation::with(['assistance', 'brgy', 'municipal', 'chargingOffice'])->findOrFail($id);
 
         $createdBy = '';
 
@@ -437,6 +453,10 @@ class IntakeController extends Controller
         $templateProcessor->setValue('income', $intakes?->income ?? '');
         $templateProcessor->setValue('contact_no', $intakes->contact_no ?? '');
         $templateProcessor->setValue('created_by', strtoupper($createdBy ?? ''));
+        $templateProcessor->setValue('fname', strtoupper($intakes?->chargingOffice->first_name) ?? '');
+        $templateProcessor->setValue('mname', strtoupper(substr($intakes?->chargingOffice->middle_name, 0, 1)) ?? '');
+        $templateProcessor->setValue('lname', strtoupper($intakes?->chargingOffice->last_name) ?? '');
+        $templateProcessor->setValue('title', $intakes?->chargingOffice->title ?? '');
 
         $families = FamilyComposition::where('applicant_id', $id)->get();
         $templateProcessor->cloneRow('firstname', $families->count());

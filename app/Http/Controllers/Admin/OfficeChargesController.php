@@ -35,6 +35,9 @@ class OfficeChargesController extends Controller
     {
         $request->validate([
             'description' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'title' => 'required',
         ]);
 
         $data = Office::create($request->all());

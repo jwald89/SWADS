@@ -127,7 +127,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::controller(BarangayController::class)
             ->group(function() {
                 Route::get('/barangay', 'index');
-                Route::get('/barangay/create', 'create')->name('barangay.create');
                 Route::post('/barangay/post', 'store')->name('barangay.post');
     });
 

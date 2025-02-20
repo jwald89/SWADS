@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SectorSeeder::class,
             OfficeChargeSeeder::class,
             IndigentSeeder::class,
+            ClassificationSeeder::class,
         ]);
     }
 }

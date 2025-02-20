@@ -1,33 +1,27 @@
 <script setup>
-import { defineComponent, inject, watchEffect } from "vue";
+import { defineComponent, inject, watchEffect, computed } from "vue";
 import vSelect from "vue-select";
 
 const submitForm = inject("submitFormP1");
 const intakes = inject("intakeData");
 
 defineProps({
-    assistances: {
-        type: String,
-    },
-    sectorType: {
-        type: String,
-    },
-    indigents: {
-        type: String,
-    },
-    officeCharge: {
-        type: String,
-    },
-    municipality: {
-        type: String,
-    },
-    barangays: {
-        type: String,
-    },
+    assistances: Object,
+    sectorType: Object,
+    indigents: Object,
+    officeCharge: Object,
+    municipality: Object,
+    barangays: Object,
+    classType: Object,
 });
 
 defineComponent({
     vSelect,
+});
+
+// Computed property to determine visibility of the IPs field
+const showIpsField = computed(() => {
+    return intakes.classification === 3;
 });
 
 watchEffect(() => {
@@ -37,6 +31,7 @@ watchEffect(() => {
     intakes.sector_type = parseInt(intakes.sector_type);
     intakes.ips = parseInt(intakes.ips);
     intakes.ofis_charge = parseInt(intakes.ofis_charge);
+    intakes.classification = parseInt(intakes.classification);
 });
 </script>
 
@@ -69,16 +64,15 @@ watchEffect(() => {
                                         >*</span
                                     ></label
                                 >
-                                <select
-                                    class="form-select"
+                                <v-select
                                     name="classification"
                                     id="classification"
+                                    :options="classType.data"
+                                    :reduce="(data) => data.id"
                                     v-model="intakes.classification"
+                                    label="name"
                                 >
-                                    <option value="non-4Ps">Non-4Ps</option>
-                                    <option value="4Ps">4Ps</option>
-                                    <option value="IPs">IPs</option>
-                                </select>
+                                </v-select>
                             </div>
                             <div class="col-md-3">
                                 <label for="category"
@@ -140,7 +134,7 @@ watchEffect(() => {
                                 />
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-3" v-if="showIpsField">
                                 <label for="ips"
                                     >IPs Affiliates
                                     <span class="text-danger">*</span></label
@@ -152,6 +146,7 @@ watchEffect(() => {
                                     v-model="intakes.ips"
                                     :reduce="(data) => data.id"
                                     label="name"
+                                    placeholder="Select"
                                 >
                                 </v-select>
                             </div>

@@ -298,24 +298,13 @@ const civilStatus = usePage().props.civilStatus;
 const gender = usePage().props.gender;
 
 const props = defineProps({
-    assistances: {
-        type: Object,
-    },
-    sectorType: {
-        type: Object,
-    },
-    municipality: {
-        type: Object,
-    },
-    barangays: {
-        type: Object,
-    },
-    indigents: {
-        type: Object,
-    },
-    officeCharge: {
-        type: Object,
-    },
+    assistances: Object,
+    sectorType: Object,
+    municipality: Object,
+    barangays: Object,
+    indigents: Object,
+    officeCharge: Object,
+    classType: Object,
 });
 
 defineComponent({
@@ -501,6 +490,7 @@ onMounted(() => {});
                         :sectorType="sectorType"
                         :indigents="indigents"
                         :officeCharge="officeCharge"
+                        :classType="classType"
                         :civilStatus="civilStatus"
                         :municipality="municipality"
                         :barangays="barangays"
