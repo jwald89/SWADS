@@ -88,7 +88,12 @@ defineComponent({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Update Sectoral Data</h5>
+                        <h5 class="fw-bold">
+                            Edit Record
+                            <small class="font-monospace"
+                                >(Sectoral Data Form)</small
+                            >
+                        </h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
@@ -382,7 +387,7 @@ defineComponent({
                                     <v-select
                                         name="municipality"
                                         :options="municipality.data"
-                                        :reduce="(data) => parseInt(data.id)"
+                                        :reduce="(data) => data.id"
                                         id="municipality"
                                         label="municipality"
                                         v-model="sectoral.municipality"
@@ -460,13 +465,6 @@ defineComponent({
                                 </div>
                                 <div class="col-md-3">
                                     <label for="ethnicity">Ethnicity</label>
-                                    <!-- <input
-                                        type="text"
-                                        class="form-control"
-                                        id="ethnicity"
-                                        name="ethnicity"
-                                        v-model="sectoral.ethnicity"
-                                    /> -->
                                     <v-select
                                         name="ethnicity"
                                         :options="indigents.data"
@@ -479,13 +477,6 @@ defineComponent({
                                 </div>
                                 <div class="col-md-3">
                                     <label for="physical">Disability</label>
-                                    <!-- <input
-                                        type="text"
-                                        class="form-control"
-                                        id="physical_disability"
-                                        name="physical_disability"
-                                        v-model="sectoral.physical_disability"
-                                    /> -->
                                     <v-select
                                         name="physical_disability"
                                         :options="disabilities.data"

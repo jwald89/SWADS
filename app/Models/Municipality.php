@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\ChildDevRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,5 +36,10 @@ class Municipality extends Model
     public function monitoring()
     {
         return $this->hasMany(Monitoring::class, 'id', 'municipality');
+    }
+
+    public function childDevelop()
+    {
+        return $this->hasMany(ChildDevelopment::class, 'id', 'municipality');
     }
 }

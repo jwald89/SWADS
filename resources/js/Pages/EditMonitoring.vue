@@ -104,7 +104,12 @@ defineComponent({
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Edit Record</h5>
+                        <h5 class="fw-bold">
+                            Edit Record
+                            <small class="font-monospace"
+                                >(Monitoring Form)</small
+                            >
+                        </h5>
                     </div>
                     <div class="col-lg-6">
                         <Link

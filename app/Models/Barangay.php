@@ -26,11 +26,16 @@ class Barangay extends Model
 
     public function monitoring()
     {
-        return $this->belongsTo(Monitoring::class, 'barangay', 'id');
+        return $this->hasMany(Monitoring::class, 'id', 'barangay');
     }
 
     public function intake()
     {
         return $this->belongsTo(Monitoring::class, 'barangay', 'id');
+    }
+
+    public function childDevelop()
+    {
+        return $this->hasMany(ChildDevelopment::class, 'id', 'barangay');
     }
 }

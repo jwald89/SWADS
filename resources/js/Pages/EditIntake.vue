@@ -195,7 +195,10 @@ provide("submitFormP4", submitRemark);
             >
                 <div class="d-flex justify-space-around">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Edit Intake</h5>
+                        <h5 class="fw-bold">
+                            Edit Record
+                            <small class="font-monospace">(Intake Form)</small>
+                        </h5>
                     </div>
                     <div class="col-lg-6">
                         <Link

@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\IntakeController;
@@ -19,6 +18,7 @@ use App\Http\Controllers\Admin\OfficeChargesController;
 use App\Http\Controllers\Admin\SummaryReportController;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use App\Http\Controllers\Admin\TypeAssistanceController;
+use App\Http\Controllers\Admin\ChildDevelopmentController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 Route::redirect('/login', '/login-page')->name('login');
@@ -104,6 +104,18 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/sectoral-data/filter/{sectorId?}/{municipalId?}/{month?}', 'filter');
                 Route::get('/sectoral-data/show/{id}', 'show');
     });
+
+    // Child Development Controller
+    Route::controller(ChildDevelopmentController::class)
+            ->group(function() {
+                Route::get('/child-development', 'index');
+                Route::get('/child-development/create', 'create');
+                Route::post('/child-development/post', 'store');
+                Route::get('/child-development/edit/{id}', 'edit');
+                Route::put('/child-development/update/{id}', 'update');
+                Route::get('/child-development/filter/{brgyId?}/{municipalId?}/{month?}', 'filter');
+    });
+
 
     // Type Assistance Controller
     Route::controller(TypeAssistanceController::class)

@@ -70,8 +70,7 @@ class SectoralDataController extends Controller
                 })
                 ->orderBy('created_at', 'DESC')
                 ->paginate(10);
-
-            }
+        }
 
         $municipalities = MunicipalityResource::collection(Municipality::all());
         $sectors = SectorResource::collection(Sector::all());

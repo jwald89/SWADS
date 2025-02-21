@@ -159,7 +159,7 @@
                         <p class="fw-bold">Contact # </p>
                     </div>
                     <div>
-                        <p style="font-weight: normal">: {{ strtoupper($intake->first_name) }} {{ strtoupper(substr($intake->middle_name, 0, 1)) }}. {{ strtoupper($intake->last_name) }}</p>
+                        <p style="font-weight: normal">: {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}</p>
                         <p style="font-weight: normal">: {{ strtoupper($intake->nick_name) }}</p>
                         <p style="font-weight: normal">: {{ $intake->age }}</p>
                         <p style="font-weight: normal">: {{ ucwords($intake->sex) }}</p>

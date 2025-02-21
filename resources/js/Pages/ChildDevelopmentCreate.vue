@@ -1,0 +1,460 @@
+<script setup>
+import { defineComponent, reactive } from "vue";
+import LayoutApp from "../Shared/Layout.vue";
+import { Link } from "@inertiajs/vue3";
+import axios from "axios";
+import { toast } from "vue3-toastify";
+import vSelect from "vue-select";
+
+const childDevForm = reactive({
+    cdc_name: "",
+    date_encoded: "",
+    municipality: "",
+    barangay: "",
+    purok: "",
+    sitio: "",
+    cdw_name: "",
+    status: "",
+    lvl_recognition: "",
+    validity_of_cor: "",
+    no_entered_children: "",
+    no_feed_recepients: "",
+});
+
+defineProps({
+    barangays: Object,
+    municipalities: Object,
+});
+
+const resetForm = () => {
+    childDevForm.cdc_name = "";
+    childDevForm.date_encoded = "";
+    childDevForm.municipality = "";
+    childDevForm.barangay = "";
+    childDevForm.cdw_name = "";
+    childDevForm.status = "";
+    childDevForm.lvl_recognition = "";
+    childDevForm.validity_of_cor = "";
+    childDevForm.no_entered_children = "";
+    childDevForm.no_feed_recepients = "";
+    childDevForm.sitio = "";
+};
+
+const errors = reactive({});
+
+const submitForm = async () => {
+    // Clear previous errors
+    const fields = [
+        "cdc_name",
+        "barangay",
+        "municipality",
+        "cdw_name",
+        "status",
+        "lvl_recognition",
+        "validity_of_cor",
+        "no_entered_children",
+        "no_feed_recepients",
+        "sitio",
+    ];
+
+    fields.forEach((field) => {
+        if (childDevForm[field]) {
+            errors[field] = "";
+        }
+    });
+
+    try {
+        const response = await axios.post(
+            "/child-development/post",
+            childDevForm
+        );
+
+        toast.success("Successfully created.", {
+            autoClose: 1000,
+        });
+
+        console.log("working..");
+        resetForm();
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0];
+                }
+            }
+            toast.error("Please check the error in fields!", {
+                autoClose: 2000,
+            });
+        }
+        console.error("Error submitting form:", error);
+    }
+};
+
+defineComponent({
+    vSelect,
+});
+</script>
+
+<template>
+    <LayoutApp>
+        <div class="card">
+            <div
+                class="card-header text-white"
+                style="background-color: #581b98"
+            >
+                <div class="d-flex justify-space-around">
+                    <div class="col-lg-6">
+                        <h5 class="fw-bold">Child Development Form</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        <Link
+                            class="btn btn-sm btn-light float-end"
+                            :href="`/child-development`"
+                        >
+                            <i class="bi bi-backspace"></i>
+                            Back
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <form @submit.prevent="submitForm">
+                    <div>
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div
+                                    class="col-lg-12 d-flex justify-content-between mt-2"
+                                >
+                                    <div class="col-lg-6">
+                                        <label
+                                            for="cdc"
+                                            class="font-monospace fw-bold"
+                                            >Name of CDC<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="cdc"
+                                            v-model="childDevForm.cdc_name"
+                                            placeholder="Child Development Center.."
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.cdc_name,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.cdc_name"
+                                            class="text-danger"
+                                            >{{ errors.cdc_name }}</small
+                                        >
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="dateEncoded"
+                                            class="font-monospace fw-bold"
+                                            >Date Encoded<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="date"
+                                            class="form-control form-control-md"
+                                            name="dateEncoded"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h6>Address</h6>
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="purok"
+                                            class="font-monospace fw-bold"
+                                            >Purok</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="purok"
+                                            v-model="childDevForm.purok"
+                                        />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="municipality"
+                                            class="font-monospace fw-bold"
+                                            >Municipality<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <v-select
+                                            name="municipality"
+                                            id="municipality"
+                                            :options="municipalities.data"
+                                            :reduce="(data) => data.id"
+                                            v-model="childDevForm.municipality"
+                                            label="municipality"
+                                            placeholder="Select"
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.municipality,
+                                            }"
+                                        >
+                                        </v-select>
+                                        <small
+                                            v-if="errors.municipality"
+                                            class="text-danger"
+                                            >{{ errors.municipality }}</small
+                                        >
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="barangay"
+                                            class="font-monospace fw-bold"
+                                            >Barangay<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <v-select
+                                            name="barangay"
+                                            id="barangay"
+                                            :options="barangays.data"
+                                            :reduce="(data) => data.id"
+                                            v-model="childDevForm.barangay"
+                                            label="barangay"
+                                            placeholder="Select"
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.barangay,
+                                            }"
+                                        >
+                                        </v-select>
+                                        <small
+                                            v-if="errors.barangay"
+                                            class="text-danger"
+                                            >{{ errors.barangay }}</small
+                                        >
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="sitio"
+                                            class="font-monospace fw-bold"
+                                            >Sitio</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="sitio"
+                                            v-model="childDevForm.sitio"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div
+                                    class="col-lg-12 d-flex justify-content-between mt-2"
+                                >
+                                    <div class="col-lg-6">
+                                        <label
+                                            for="cdw"
+                                            class="font-monospace fw-bold"
+                                            >Name of CDW<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="cdw"
+                                            v-model="childDevForm.cdw_name"
+                                            placeholder="Child Development Worker.."
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.cdw_name,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.cdw_name"
+                                            class="text-danger"
+                                            >{{ errors.cdw_name }}</small
+                                        >
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="validity"
+                                            class="font-monospace fw-bold"
+                                            >Validity of Certificate of
+                                            Recognition<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="date"
+                                            class="form-control form-control-md"
+                                            name="validity"
+                                            v-model="
+                                                childDevForm.validity_of_cor
+                                            "
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.validity_of_cor,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.validity_of_cor"
+                                            class="text-danger"
+                                            >{{ errors.validity_of_cor }}</small
+                                        >
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="col-lg-12 d-flex justify-content-between mt-4"
+                                >
+                                    <div class="col-lg-3">
+                                        <label
+                                            for="status"
+                                            class="font-monospace fw-bold"
+                                            >Status</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="status"
+                                            v-model="childDevForm.status"
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label
+                                            for="level"
+                                            class="font-monospace fw-bold"
+                                            >Level of Recognition<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <select
+                                            class="form-select"
+                                            name="level"
+                                            id="level"
+                                            v-model="
+                                                childDevForm.lvl_recognition
+                                            "
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.lvl_recognition,
+                                            }"
+                                        >
+                                            <option
+                                                class="text-muted"
+                                                value=""
+                                                disabled
+                                            >
+                                                Select
+                                            </option>
+                                            <option class="" value="I">
+                                                I
+                                            </option>
+                                            <option value="II">II</option>
+                                            <option value="III">III</option>
+                                            <option value="IV">IV</option>
+                                            <option value="V">V</option>
+                                        </select>
+                                        <small
+                                            v-if="errors.lvl_recognition"
+                                            class="text-danger"
+                                            >{{ errors.lvl_recognition }}</small
+                                        >
+                                    </div>
+
+                                    <div class="col-lg-2">
+                                        <label
+                                            for="noChildren"
+                                            class="font-monospace fw-bold"
+                                            >No. of Entered Children<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="noChildren"
+                                            v-model="
+                                                childDevForm.no_entered_children
+                                            "
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.no_entered_children,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.no_entered_children"
+                                            class="text-danger"
+                                            >{{
+                                                errors.no_entered_children
+                                            }}</small
+                                        >
+                                    </div>
+
+                                    <div class="col-lg-2">
+                                        <label
+                                            for="feedingRecep"
+                                            class="font-monospace fw-bold"
+                                            >No. of Feeding Recepients<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-md"
+                                            name="feedingRecep"
+                                            v-model="
+                                                childDevForm.no_feed_recepients
+                                            "
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.no_feed_recepients,
+                                            }"
+                                        />
+                                        <small
+                                            v-if="errors.no_feed_recepients"
+                                            class="text-danger"
+                                            >{{
+                                                errors.no_feed_recepients
+                                            }}</small
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                class="btn btn-md btn-success mt-3"
+                            >
+                                <i class="bi bi-save"></i>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </LayoutApp>
+</template>

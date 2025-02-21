@@ -329,15 +329,55 @@ onMounted(() => {
             </div>
             <!-- END MUNICIPAL ROLE -->
 
-            <!-- MAINTENANCE MODULE -->
+            <!-- OTHERS SECTION -->
             <div v-if="hasAccess(['admin'])">
                 <li class="nav-heading">OTHERS</li>
+                <!-- CHILD DEVELOPMENT MODULE -->
                 <li class="nav-item">
-                    <Link class="nav-link" href="">
-                        <i class="bi bi-journal"></i>
-                        <span>CDC / CDW</span>
+                    <Link
+                        class="nav-link"
+                        :href="`/child-development`"
+                        :class="{
+                            'bg-highlight':
+                                currentRoute.includes('child-development'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-journal"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('child-development'),
+                            }"
+                        ></i>
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('child-development'),
+                            }"
+                            >CDC / CDW</span
+                        >
                     </Link>
                 </li>
+                <!-- END OF CHILD DEVELOPMENT MODULE -->
+
+                <!-- MEDICAL MODULE -->
+                <li class="nav-item">
+                    <Link class="nav-link">
+                        <i class="bi bi-journal"></i>
+                        <span>MEDICAL</span>
+                    </Link>
+                </li>
+                <!-- END OF MEDICAL MODULE -->
+
+                <!-- TRANSACTION MODULE -->
+                <li class="nav-item">
+                    <Link class="nav-link">
+                        <i class="bi bi-journal"></i>
+                        <span>TRANSACTION</span>
+                    </Link>
+                </li>
+                <!-- END OF TRANSACTION MODULE -->
+
                 <a
                     class="nav-link collapsed"
                     data-bs-target="#components-nav-2"
@@ -528,6 +568,7 @@ onMounted(() => {
                     </li>
                 </ul>
             </div>
+            <!-- END OF MAINTENANCE MODULE -->
 
             <!-- REPORT MODULE -->
             <div v-if="hasAccess(['admin'])">
@@ -723,9 +764,10 @@ onMounted(() => {
                 </ul>
             </div>
         </ul>
+        <!-- END OF REPORT MODULE -->
 
+        <!-- USER ROLE ACCESS -->
         <ul class="sidebar-nav" v-if="hasAccess(['user'])">
-            <!-- USER ROLE ACCESS -->
             <li class="nav-heading">AICS</li>
 
             <li class="nav-item">
@@ -798,8 +840,8 @@ onMounted(() => {
                     >
                 </Link>
             </li>
-            <!-- END USER ROLE -->
         </ul>
+        <!-- END USER ROLE ACCESS -->
     </aside>
     <!-- End Sidebar-->
 
