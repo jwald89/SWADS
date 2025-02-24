@@ -193,18 +193,15 @@ provide("submitFormP4", submitRemark);
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">
                             Edit Record
                             <small class="font-monospace">(Intake Form)</small>
                         </h5>
                     </div>
-                    <div class="col-lg-6">
-                        <Link
-                            class="btn btn-sm btn-light float-end"
-                            :href="`/intake`"
-                        >
+                    <div class="col-lg-6 text-end">
+                        <Link class="btn btn-sm btn-light" :href="`/intake`">
                             <i class="bi bi-backspace"></i>
                             Back
                         </Link>
@@ -217,7 +214,10 @@ provide("submitFormP4", submitRemark);
                     id="borderedTabJustified"
                     role="tablist"
                 >
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100 active"
                             id="home-tab"
@@ -231,7 +231,10 @@ provide("submitFormP4", submitRemark);
                             I. IDENTIFYING DATA
                         </button>
                     </li>
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             id="profile-tab"
@@ -245,7 +248,10 @@ provide("submitFormP4", submitRemark);
                             II. FAMILY COMPOSITION
                         </button>
                     </li>
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             id="contact-tab"
@@ -259,7 +265,10 @@ provide("submitFormP4", submitRemark);
                             III. CIRCUMSTANCES & REFERRAL
                         </button>
                     </li>
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             id="contact-tab"

@@ -26,7 +26,7 @@ const tabIndex = 3;
                 <div class="card-body mt-4">
                     <form class="row g-3" @submit.prevent="submitForm">
                         <textarea
-                            class="form-control"
+                            class="form-control fw-bold"
                             rows="5"
                             id="recommendation"
                             name="recommendation"

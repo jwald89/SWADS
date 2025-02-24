@@ -59,18 +59,19 @@ defineComponent({
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">
+                            <i class="bi bi-pen-fill"></i>
                             Edit Record
                             <small class="font-monospace"
                                 >(Child Development Form)</small
                             >
                         </h5>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 text-end">
                         <Link
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                             :href="`/child-development`"
                         >
                             <i class="bi bi-backspace"></i>
@@ -83,12 +84,16 @@ defineComponent({
             <div class="card-body p-4">
                 <form @submit.prevent="submitForm">
                     <div>
+                        <h6>
+                            <i class="bi bi-credit-card-2-front-fill"></i>
+                            Information
+                        </h6>
                         <div class="card">
                             <div class="card-body p-3">
                                 <div
-                                    class="col-lg-12 d-flex justify-content-between mt-2"
+                                    class="d-flex flex-column flex-md-row justify-content-between mt-2"
                                 >
-                                    <div class="col-lg-6">
+                                    <div class="col-12 col-md-6 mb-3">
                                         <label
                                             for="cdc"
                                             class="font-monospace fw-bold"
@@ -105,7 +110,7 @@ defineComponent({
                                             placeholder="Child Development Center.."
                                         />
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="dateEncoded"
                                             class="font-monospace fw-bold"
@@ -124,11 +129,11 @@ defineComponent({
                             </div>
                         </div>
 
-                        <h6>Address</h6>
+                        <h6><i class="bi bi-house-fill"></i> Address</h6>
                         <div class="card">
                             <div class="card-body p-3">
                                 <div class="row">
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="purok"
                                             class="font-monospace fw-bold"
@@ -141,7 +146,7 @@ defineComponent({
                                             v-model="childData.purok"
                                         />
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="municipality"
                                             class="font-monospace fw-bold"
@@ -161,7 +166,7 @@ defineComponent({
                                         >
                                         </v-select>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="barangay"
                                             class="font-monospace fw-bold"
@@ -180,7 +185,7 @@ defineComponent({
                                         >
                                         </v-select>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="sitio"
                                             class="font-monospace fw-bold"
@@ -197,12 +202,13 @@ defineComponent({
                             </div>
                         </div>
 
+                        <h6><i class="bi bi-file-text-fill"></i> Others</h6>
                         <div class="card">
                             <div class="card-body p-3">
                                 <div
-                                    class="col-lg-12 d-flex justify-content-between mt-2"
+                                    class="d-flex flex-column flex-md-row justify-content-between mt-2"
                                 >
-                                    <div class="col-lg-6">
+                                    <div class="col-12 col-md-6 mb-3">
                                         <label
                                             for="cdw"
                                             class="font-monospace fw-bold"
@@ -219,7 +225,7 @@ defineComponent({
                                             placeholder="Child Development Worker.."
                                         />
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="validity"
                                             class="font-monospace fw-bold"
@@ -237,10 +243,8 @@ defineComponent({
                                     </div>
                                 </div>
 
-                                <div
-                                    class="col-lg-12 d-flex justify-content-between mt-4"
-                                >
-                                    <div class="col-lg-3">
+                                <div class="row mt-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="status"
                                             class="font-monospace fw-bold"
@@ -254,7 +258,7 @@ defineComponent({
                                         />
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="level"
                                             class="font-monospace fw-bold"
@@ -280,7 +284,7 @@ defineComponent({
                                         </select>
                                     </div>
 
-                                    <div class="col-lg-2">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="noChildren"
                                             class="font-monospace fw-bold"
@@ -299,7 +303,7 @@ defineComponent({
                                         />
                                     </div>
 
-                                    <div class="col-lg-2">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="feedingRecep"
                                             class="font-monospace fw-bold"

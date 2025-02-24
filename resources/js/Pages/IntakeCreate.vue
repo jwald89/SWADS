@@ -59,60 +59,33 @@ const currentIndex = ref(0);
 
 // create a store method for Personal Information form
 const submitPersonalDetails = async () => {
-    if (personalForm.classification) {
-        errors.classification = "";
-    }
-    if (personalForm.category) {
-        errors.category = "";
-    }
-    if (personalForm.sector_type) {
-        errors.sector_type = "";
-    }
-    if (personalForm.ofis_charge) {
-        errors.ofis_charge = "";
-    }
-    if (personalForm.ips) {
-        errors.ips = "";
-    }
-    if (personalForm.date_intake) {
-        errors.date_intake = "";
-    }
-    if (personalForm.last_name) {
-        errors.last_name = "";
-    }
-    if (personalForm.first_name) {
-        errors.first_name = "";
-    }
-    if (personalForm.middle_name) {
-        errors.middle_name = "";
-    }
-    if (personalForm.nick_name) {
-        errors.nick_name = "";
-    }
-    if (personalForm.barangay) {
-        errors.barangay = "";
-    }
-    if (personalForm.municipality) {
-        errors.municipality = "";
-    }
-    if (personalForm.age) {
-        errors.age = "";
-    }
-    if (personalForm.birthdate) {
-        errors.birthdate = "";
-    }
-    if (personalForm.sex) {
-        errors.sex = "";
-    }
-    if (personalForm.civil_stats) {
-        errors.civil_stats = "";
-    }
-    if (personalForm.job) {
-        errors.job = "";
-    }
-    if (personalForm.income) {
-        errors.income = "";
-    }
+    // Clear previous errors
+    const fields = [
+        "classification",
+        "category",
+        "sector_type",
+        "ofis_charge",
+        "ips",
+        "date_intake",
+        "last_name",
+        "first_name",
+        "middle_name",
+        "nick_name",
+        "barangay",
+        "municipality",
+        "age",
+        "birthdate",
+        "sex",
+        "civil_stats",
+        "job",
+        "income",
+    ];
+
+    fields.forEach((field) => {
+        if (personalForm[field]) {
+            errors[field] = "";
+        }
+    });
 
     try {
         const response = await axios.post(
@@ -384,13 +357,13 @@ onMounted(() => {});
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Create Intake</h5>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 text-end">
                         <Link
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                             v-if="!personalForm.last_name"
                             :href="`/intake`"
                         >
@@ -414,7 +387,10 @@ onMounted(() => {});
                     id="borderedTabJustified"
                     role="tablist"
                 >
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             :class="{
@@ -431,7 +407,10 @@ onMounted(() => {});
                             I. IDENTIFYING DATA
                         </button>
                     </li>
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             id="profile-tab"
@@ -448,7 +427,10 @@ onMounted(() => {});
                             II. FAMILY COMPOSITION
                         </button>
                     </li>
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             id="contact-tab"
@@ -465,7 +447,10 @@ onMounted(() => {});
                             III. CIRCUMSTANCES & REFERRAL
                         </button>
                     </li>
-                    <li class="nav-item flex-fill" role="presentation">
+                    <li
+                        class="nav-item flex-fill col-12 col-md-3"
+                        role="presentation"
+                    >
                         <button
                             class="nav-link w-100"
                             id="contact-tab"

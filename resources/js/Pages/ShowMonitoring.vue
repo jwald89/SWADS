@@ -40,13 +40,13 @@ const formatName = (fName) => {
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Details</h5>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 text-end">
                         <Link
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                             :href="`/monitoring`"
                         >
                             <i class="bi bi-backspace"></i>
@@ -56,14 +56,14 @@ const formatName = (fName) => {
                 </div>
             </div>
             <div class="card-body p-4">
-                <div class="row col-12">
-                    <div class="row col-6">
+                <div class="row">
+                    <div class="row col-12 col-md-6">
                         <div class="mt-3 mb-4">
                             <div class="row">
-                                <div class="col-lg-3 col-md-6 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Claimant:
                                 </div>
-                                <div class="col-lg-9 col-md-6">
+                                <div class="col-6 col-md-9">
                                     {{
                                         formatName(
                                             monitorings.intake.first_name
@@ -81,72 +81,72 @@ const formatName = (fName) => {
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Age:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.age }} years old
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Sex:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ formatName(monitorings.sex) }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Contact No.:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.contact_no }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Barangay:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.brgy.barangay }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Municipality:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.municipal.municipality }}
                                 </div>
                             </div>
                         </div>
                         <div class="mt-4">
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Created By:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ createdBy }}
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Modified By:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ modifiedBy }}
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-3 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Modified Date:
                                 </div>
-                                <div class="col-lg-9 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{
                                         monitorings.modified_date === null
                                             ? ""
@@ -159,67 +159,67 @@ const formatName = (fName) => {
                         </div>
                     </div>
 
-                    <div class="row col-6">
+                    <div class="row col-12 col-md-6">
                         <div class="mt-3">
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Date Intake:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ formatDate(monitorings.date_intake) }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Beneficiary:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ formatName(monitorings.beneficiary) }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Sector Type:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.sector_name.name }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Type of Assistance:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.assistance.name }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Client Type:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ formatName(monitorings.client_type) }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Amount:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.amount }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Charges:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{
                                         monitorings.charging_office.description
                                     }}
@@ -227,19 +227,19 @@ const formatName = (fName) => {
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Staff Administered:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ staffAdmin }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Liaison:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{
                                         formatName(monitorings.user.first_name)
                                     }}
@@ -253,19 +253,19 @@ const formatName = (fName) => {
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Status Date:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ formatDate(monitorings.status_date) }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Remarks:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{
                                         monitorings.remarks === null
                                             ? ""
@@ -275,10 +275,10 @@ const formatName = (fName) => {
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-4 col-md-2 label fw-bold">
+                                <div class="col-6 col-md-3 label fw-bold">
                                     Status:
                                 </div>
-                                <div class="col-lg-8 col-md-10">
+                                <div class="col-6 col-md-9">
                                     {{ monitorings.status }}
                                 </div>
                             </div>

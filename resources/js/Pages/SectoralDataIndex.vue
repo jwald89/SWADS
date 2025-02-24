@@ -101,14 +101,8 @@ watch(
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                <div class="col-lg-12 d-flex">
-                    <div class="col-lg-6">
-                        Sectoral Data
-                        <span class="h6">
-                            - Inventory of “Pag-asa Youth Association of the
-                            Philippines” (PYAP)</span
-                        >
-                    </div>
+                <div class="d-flex justify-content-between">
+                    <div class="col-lg-6">Sectoral Data List</div>
                     <div class="col-lg-6 float-end">
                         <Link
                             :href="`/sectoral-data/create`"
@@ -120,10 +114,12 @@ watch(
                     </div>
                 </div>
             </div>
-            <div class="card-body p-4 mt-1">
-                <div class="d-flex justify-around">
-                    <div class="row col-lg-10">
-                        <div class="col-lg-3">
+            <div class="card-body mt-4">
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between"
+                >
+                    <div class="row col-md-10">
+                        <div class="col-12 col-sm-6 col-md-3 mb-3">
                             <label class="fw-bold" for=""
                                 >Filter a sector type</label
                             >
@@ -138,7 +134,7 @@ watch(
                             ></v-select>
                         </div>
                         <div
-                            class="col-lg-3 ms-1"
+                            class="col-12 col-sm-6 col-md-3 mb-3"
                             v-if="hasAccess(['admin', 'user'])"
                         >
                             <label class="fw-bold" for=""
@@ -154,7 +150,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-lg-2 ms-1">
+                        <div class="col-12 col-sm-6 col-md-3 mb-3">
                             <label class="fw-bold" for="">Month</label>
                             <v-select
                                 :options="[
@@ -177,7 +173,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-md-2 ms-1">
+                        <div class="col-12 col-sm-6 col-md-2 mb-2">
                             <label class="fw-bold" for="">Year</label>
                             <select name="" id="" class="form-select">
                                 <option value="2025">2025</option>
@@ -186,7 +182,7 @@ watch(
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-md-2">
                         <label class="fw-bold" for=""
                             >Search by client name
                         </label>

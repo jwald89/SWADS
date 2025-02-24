@@ -229,7 +229,7 @@ onMounted(fetchMonitoringRecords);
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Create Record</h5>
                     </div>
@@ -248,7 +248,10 @@ onMounted(fetchMonitoringRecords);
                 <form class="row g-3 mt-3" @submit.prevent="submitForm">
                     <div class="col-md-6">
                         <label for="claimant"
-                            >Claimant<span class="text-danger">*</span></label
+                            ><i class="bi bi-person-fill"></i> Claimant<span
+                                class="text-danger"
+                                >*</span
+                            ></label
                         >
                         <v-select
                             class="fw-bold"
@@ -270,7 +273,8 @@ onMounted(fetchMonitoringRecords);
                     </div>
                     <div class="col-md-6">
                         <label for="beneficiary"
-                            >Beneficiary<span class="text-danger"
+                            ><i class="bi bi-people-fill"></i> Beneficiary<span
+                                class="text-danger"
                                 >*</span
                             ></label
                         >
@@ -325,7 +329,7 @@ onMounted(fetchMonitoringRecords);
                             ></label
                         >
                         <input
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="contactNo"
                             id="contactNo"
                             v-model="monitorForm.contact_no"
@@ -419,7 +423,7 @@ onMounted(fetchMonitoringRecords);
                         >
                         <select
                             type="text"
-                            class="form-select"
+                            class="form-control fw-bold"
                             name="clientType"
                             id="clientType"
                             v-model="monitorForm.client_type"
@@ -460,7 +464,7 @@ onMounted(fetchMonitoringRecords);
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="amount"
                             name="amount"
                             v-model="monitorForm.amount"
@@ -544,6 +548,7 @@ onMounted(fetchMonitoringRecords);
                             >Liaison<span class="text-danger">*</span></label
                         >
                         <v-select
+                            class="fw-bold"
                             name="liaison"
                             id="liaison"
                             :options="users.data"
@@ -568,7 +573,7 @@ onMounted(fetchMonitoringRecords);
                         >
                         <input
                             type="date"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="dateStatus"
                             name="dateStatus"
                             v-model="monitorForm.status_date"
@@ -580,7 +585,7 @@ onMounted(fetchMonitoringRecords);
                         >
                         <textarea
                             type="date"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="remarks"
                             name="remarks"
                             rows="1"
@@ -594,7 +599,7 @@ onMounted(fetchMonitoringRecords);
                         >
                         <select
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="status"
                             name="status"
                             v-model="monitorForm.status"

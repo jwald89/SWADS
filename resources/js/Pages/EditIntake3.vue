@@ -20,7 +20,7 @@ const submitForms = inject("submitFormP3");
                 <div class="card-body mt-4">
                     <form class="row g-3" @submit.prevent="submitForms">
                         <textarea
-                            class="form-control"
+                            class="form-control fw-bold"
                             rows="5"
                             id="referral"
                             name="referral"

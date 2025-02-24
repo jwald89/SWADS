@@ -206,6 +206,7 @@ watch(
                         style="background-color: #581b98"
                     >
                         <h1 class="modal-title fs-5" id="addStaffLabel">
+                            <i class="bi bi-person-plus-fill"></i>
                             Create User
                         </h1>
                         <button
@@ -450,6 +451,7 @@ watch(
                         style="background-color: #581b98"
                     >
                         <h1 class="modal-title fs-5" id="editUserModal">
+                            <i class="bi bi-person-dash-fill"></i>
                             Edit User
                         </h1>
                         <button
@@ -624,23 +626,32 @@ watch(
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <h5 class="fw-bold">Users</h5>
+                <h5 class="fw-bold"><i class="bi bi-people-fill"></i> Users</h5>
             </div>
             <div class="card-body p-4">
-                <div class="d-flex justify-space-around mb-4">
-                    <div class="col-lg-6">
-                        <input
-                            type="text"
-                            v-model="search"
-                            class="form-control border border-dark"
-                            autofocus
-                            placeholder="Search here.."
-                        />
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between mb-4"
+                >
+                    <div class="col-12 col-md-6 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"
+                                ><i class="bi bi-search"></i
+                            ></span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="search"
+                                autofocus
+                                placeholder="Search here.."
+                                aria-label="Search here.."
+                                aria-describedby="basic-addon1"
+                            />
+                        </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6 text-end">
                         <button
                             type="button"
-                            class="btn btn-success float-end"
+                            class="btn btn-success"
                             data-bs-toggle="modal"
                             data-bs-target="#addUser"
                         >

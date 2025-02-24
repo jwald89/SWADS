@@ -103,13 +103,13 @@ defineComponent({
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">Child Development Form</h5>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 text-end">
                         <Link
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                             :href="`/child-development`"
                         >
                             <i class="bi bi-backspace"></i>
@@ -118,16 +118,19 @@ defineComponent({
                     </div>
                 </div>
             </div>
-
             <div class="card-body p-4">
                 <form @submit.prevent="submitForm">
                     <div>
+                        <h6>
+                            <i class="bi bi-credit-card-2-front-fill"></i>
+                            Information
+                        </h6>
                         <div class="card">
                             <div class="card-body p-3">
                                 <div
-                                    class="col-lg-12 d-flex justify-content-between mt-2"
+                                    class="d-flex flex-column flex-md-row justify-content-between mt-2"
                                 >
-                                    <div class="col-lg-6">
+                                    <div class="col-12 col-md-6 mb-3">
                                         <label
                                             for="cdc"
                                             class="font-monospace fw-bold"
@@ -138,13 +141,12 @@ defineComponent({
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="cdc"
                                             v-model="childDevForm.cdc_name"
                                             placeholder="Child Development Center.."
                                             :class="{
-                                                'form-control is-invalid':
-                                                    errors.cdc_name,
+                                                'is-invalid': errors.cdc_name,
                                             }"
                                         />
                                         <small
@@ -153,7 +155,7 @@ defineComponent({
                                             >{{ errors.cdc_name }}</small
                                         >
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="dateEncoded"
                                             class="font-monospace fw-bold"
@@ -164,7 +166,7 @@ defineComponent({
                                         >
                                         <input
                                             type="date"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="dateEncoded"
                                         />
                                     </div>
@@ -172,11 +174,11 @@ defineComponent({
                             </div>
                         </div>
 
-                        <h6>Address</h6>
+                        <h6><i class="bi bi-house-fill"></i> Address</h6>
                         <div class="card">
                             <div class="card-body p-3">
                                 <div class="row">
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="purok"
                                             class="font-monospace fw-bold"
@@ -184,12 +186,12 @@ defineComponent({
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="purok"
                                             v-model="childDevForm.purok"
                                         />
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="municipality"
                                             class="font-monospace fw-bold"
@@ -207,18 +209,17 @@ defineComponent({
                                             label="municipality"
                                             placeholder="Select"
                                             :class="{
-                                                'form-control is-invalid':
+                                                'is-invalid':
                                                     errors.municipality,
                                             }"
-                                        >
-                                        </v-select>
+                                        />
                                         <small
                                             v-if="errors.municipality"
                                             class="text-danger"
                                             >{{ errors.municipality }}</small
                                         >
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="barangay"
                                             class="font-monospace fw-bold"
@@ -235,18 +236,16 @@ defineComponent({
                                             label="barangay"
                                             placeholder="Select"
                                             :class="{
-                                                'form-control is-invalid':
-                                                    errors.barangay,
+                                                'is-invalid': errors.barangay,
                                             }"
-                                        >
-                                        </v-select>
+                                        />
                                         <small
                                             v-if="errors.barangay"
                                             class="text-danger"
                                             >{{ errors.barangay }}</small
                                         >
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="sitio"
                                             class="font-monospace fw-bold"
@@ -254,7 +253,7 @@ defineComponent({
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="sitio"
                                             v-model="childDevForm.sitio"
                                         />
@@ -263,12 +262,13 @@ defineComponent({
                             </div>
                         </div>
 
+                        <h6><i class="bi bi-file-text-fill"></i> Others</h6>
                         <div class="card">
                             <div class="card-body p-3">
                                 <div
-                                    class="col-lg-12 d-flex justify-content-between mt-2"
+                                    class="d-flex flex-column flex-md-row justify-content-between mt-2"
                                 >
-                                    <div class="col-lg-6">
+                                    <div class="col-12 col-md-6 mb-3">
                                         <label
                                             for="cdw"
                                             class="font-monospace fw-bold"
@@ -279,13 +279,12 @@ defineComponent({
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="cdw"
                                             v-model="childDevForm.cdw_name"
                                             placeholder="Child Development Worker.."
                                             :class="{
-                                                'form-control is-invalid':
-                                                    errors.cdw_name,
+                                                'is-invalid': errors.cdw_name,
                                             }"
                                         />
                                         <small
@@ -294,7 +293,7 @@ defineComponent({
                                             >{{ errors.cdw_name }}</small
                                         >
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="validity"
                                             class="font-monospace fw-bold"
@@ -305,13 +304,13 @@ defineComponent({
                                         >
                                         <input
                                             type="date"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="validity"
                                             v-model="
                                                 childDevForm.validity_of_cor
                                             "
                                             :class="{
-                                                'form-control is-invalid':
+                                                'is-invalid':
                                                     errors.validity_of_cor,
                                             }"
                                         />
@@ -323,10 +322,8 @@ defineComponent({
                                     </div>
                                 </div>
 
-                                <div
-                                    class="col-lg-12 d-flex justify-content-between mt-4"
-                                >
-                                    <div class="col-lg-3">
+                                <div class="row mt-3">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="status"
                                             class="font-monospace fw-bold"
@@ -334,13 +331,12 @@ defineComponent({
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="status"
                                             v-model="childDevForm.status"
                                         />
                                     </div>
-
-                                    <div class="col-lg-4">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="level"
                                             class="font-monospace fw-bold"
@@ -357,7 +353,7 @@ defineComponent({
                                                 childDevForm.lvl_recognition
                                             "
                                             :class="{
-                                                'form-control is-invalid':
+                                                'is-invalid':
                                                     errors.lvl_recognition,
                                             }"
                                         >
@@ -368,9 +364,7 @@ defineComponent({
                                             >
                                                 Select
                                             </option>
-                                            <option class="" value="I">
-                                                I
-                                            </option>
+                                            <option value="I">I</option>
                                             <option value="II">II</option>
                                             <option value="III">III</option>
                                             <option value="IV">IV</option>
@@ -382,8 +376,7 @@ defineComponent({
                                             >{{ errors.lvl_recognition }}</small
                                         >
                                     </div>
-
-                                    <div class="col-lg-2">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="noChildren"
                                             class="font-monospace fw-bold"
@@ -394,13 +387,13 @@ defineComponent({
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="noChildren"
                                             v-model="
                                                 childDevForm.no_entered_children
                                             "
                                             :class="{
-                                                'form-control is-invalid':
+                                                'is-invalid':
                                                     errors.no_entered_children,
                                             }"
                                         />
@@ -412,25 +405,24 @@ defineComponent({
                                             }}</small
                                         >
                                     </div>
-
-                                    <div class="col-lg-2">
+                                    <div class="col-12 col-md-3 mb-3">
                                         <label
                                             for="feedingRecep"
                                             class="font-monospace fw-bold"
-                                            >No. of Feeding Recepients<span
+                                            >No. of Feeding Recipients<span
                                                 class="text-danger"
                                                 >*</span
                                             ></label
                                         >
                                         <input
                                             type="text"
-                                            class="form-control form-control-md"
+                                            class="form-control"
                                             name="feedingRecep"
                                             v-model="
                                                 childDevForm.no_feed_recepients
                                             "
                                             :class="{
-                                                'form-control is-invalid':
+                                                'is-invalid':
                                                     errors.no_feed_recepients,
                                             }"
                                         />

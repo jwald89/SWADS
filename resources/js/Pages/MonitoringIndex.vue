@@ -142,15 +142,15 @@ watch(
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                <div class="col-lg-12 d-flex">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">Monitoring List</div>
                     <div
-                        class="col-lg-6 float-end"
+                        class="col-lg-6 text-end"
                         v-if="hasAccess(['admin', 'user'])"
                     >
                         <Link
                             :href="`/monitoring/create`"
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                         >
                             <i class="bi bi-journal-plus"></i>
                             Create New
@@ -159,9 +159,11 @@ watch(
                 </div>
             </div>
             <div class="card-body mt-4">
-                <div class="d-flex justify-around">
-                    <div class="row col-lg-10">
-                        <div class="col-lg-3">
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between"
+                >
+                    <div class="row col-md-10">
+                        <div class="col-12 col-md-3 mb-2">
                             <label class="fw-bold" for=""
                                 >Assistance Type</label
                             >
@@ -175,7 +177,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-12 col-md-3 mb-2">
                             <label class="fw-bold" for="">Sector</label>
                             <v-select
                                 :options="[
@@ -187,7 +189,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-12 col-md-2 mb-2">
                             <label class="fw-bold" for="">Municipality</label>
                             <v-select
                                 :options="[
@@ -199,7 +201,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-lg-2 ms-1">
+                        <div class="col-12 col-md-2 mb-2">
                             <label class="fw-bold" for="">Month</label>
                             <v-select
                                 :options="[
@@ -223,7 +225,7 @@ watch(
                             ></v-select>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-md-2">
                         <label class="fw-bold" for=""
                             >Search by claimant
                         </label>

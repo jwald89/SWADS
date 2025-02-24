@@ -102,7 +102,7 @@ defineComponent({
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <div class="d-flex justify-space-around">
+                <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
                         <h5 class="fw-bold">
                             Edit Record
@@ -111,9 +111,9 @@ defineComponent({
                             >
                         </h5>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 text-end">
                         <Link
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                             :href="`/monitoring`"
                         >
                             <i class="bi bi-backspace"></i>
@@ -125,9 +125,11 @@ defineComponent({
             <div class="card-body">
                 <form class="row g-3 mt-3" @submit.prevent="submitData">
                     <div class="col-md-6">
-                        <label for="claimant">Claimant</label>
+                        <label for="claimant"
+                            ><i class="bi bi-person-fill"></i> Claimant</label
+                        >
                         <input
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="claimant"
                             id="claimant"
                             v-model="claimantName"
@@ -136,13 +138,14 @@ defineComponent({
                     </div>
                     <div class="col-md-6">
                         <label for="beneficiary"
-                            >Beneficiary<span class="text-danger"
+                            ><i class="bi bi-people-fill"></i> Beneficiary<span
+                                class="text-danger"
                                 >*</span
                             ></label
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="beneficiary"
                             id="beneficiary"
                             v-model="dataMonitors.beneficiary"
@@ -153,7 +156,7 @@ defineComponent({
                         <label for="age">Age</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="age"
                             name="age"
                             v-model="dataMonitors.age"
@@ -164,7 +167,7 @@ defineComponent({
                         <label for="gender">Gender</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="gender"
                             id="gender"
                             v-model="dataMonitors.sex"
@@ -178,7 +181,7 @@ defineComponent({
                             ></label
                         >
                         <input
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="contactNo"
                             id="contactNo"
                             v-model="dataMonitors.contact_no"
@@ -199,7 +202,7 @@ defineComponent({
                         </v-select> -->
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="sector"
                             id="sector"
                             v-model="dataMonitors.sector_name.name"
@@ -211,7 +214,7 @@ defineComponent({
                         <label for="municipal">Municipality</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="municipal"
                             id="municipal"
                             v-model="dataMonitors.municipal.municipality"
@@ -223,7 +226,7 @@ defineComponent({
                         <label for="barangay">Barangay</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="barangay"
                             id="barangay"
                             v-model="dataMonitors.brgy.barangay"
@@ -238,7 +241,7 @@ defineComponent({
                         >
                         <select
                             type="text"
-                            class="form-select"
+                            class="form-select fw-bold"
                             name="clientType"
                             id="clientType"
                             v-model="dataMonitors.client_type"
@@ -252,7 +255,7 @@ defineComponent({
                         <label for="assistanceType">Type of Assistance</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="assistanceType"
                             id="assistanceType"
                             v-model="dataMonitors.assistance.name"
@@ -265,7 +268,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="amount"
                             name="amount"
                             v-model="dataMonitors.amount"
@@ -289,7 +292,7 @@ defineComponent({
                         ></v-select> -->
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             name="officeCharge"
                             id="officeCharge"
                             v-model="dataMonitors.charging_office.description"
@@ -300,7 +303,7 @@ defineComponent({
                         <label for="intakeDate">Date of Intake</label>
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="intakeDate"
                             name="intakeDate"
                             v-model="dataMonitors.date_intake"
@@ -315,7 +318,7 @@ defineComponent({
                         >
                         <input
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="staff_admin"
                             name="staff_admin"
                             v-model="props.staffAdmin"
@@ -327,6 +330,7 @@ defineComponent({
                             >Liaison<span class="text-danger">*</span></label
                         >
                         <v-select
+                            class="fw-bold"
                             name="liaison"
                             :options="users.data"
                             :reduce="(data) => data.id"
@@ -344,7 +348,7 @@ defineComponent({
                         >
                         <input
                             type="date"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="dateStatus"
                             name="dateStatus"
                             v-model="dataMonitors.status_date"
@@ -356,7 +360,7 @@ defineComponent({
                         >
                         <textarea
                             type="date"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="remarks"
                             name="remarks"
                             rows="1"
@@ -370,7 +374,7 @@ defineComponent({
                         >
                         <select
                             type="text"
-                            class="form-control"
+                            class="form-control fw-bold"
                             id="status"
                             name="status"
                             v-model="dataMonitors.status"

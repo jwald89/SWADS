@@ -24,7 +24,7 @@ const tabs = inject("tabs");
                 <div class="card-body mt-4">
                     <form @submit.prevent="submitForm" class="row g-3">
                         <textarea
-                            class="form-control"
+                            class="form-control fw-bold"
                             rows="5"
                             id="referral"
                             name="referral"

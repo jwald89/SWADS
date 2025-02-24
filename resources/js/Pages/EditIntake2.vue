@@ -17,7 +17,7 @@ const submitForm = inject("submitFormP2");
                 v-for="(famCompose, index) in intakes.fam_compose"
                 :key="famCompose.index"
             >
-                <card-header class="bg-secondary px-2 py-1 text-light">
+                <card-header class="bg-primary px-2 py-1 text-light">
                     Family Member No.
                     <span class="badge text-bg-light">{{ index + 1 }}</span>
                 </card-header>
@@ -31,7 +31,7 @@ const submitForm = inject("submitFormP2");
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="lastName"
                                 name="lastName"
                                 placeholder="Family name"
@@ -46,7 +46,7 @@ const submitForm = inject("submitFormP2");
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="firstName"
                                 name="firstName"
                                 placeholder="Given name"
@@ -61,7 +61,7 @@ const submitForm = inject("submitFormP2");
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="middleName"
                                 name="middleName"
                                 placeholder="Middle name"
@@ -73,8 +73,8 @@ const submitForm = inject("submitFormP2");
                                 >Age<span class="text-danger">*</span></label
                             >
                             <input
-                                type="number"
-                                class="form-control"
+                                type="text"
+                                class="form-control fw-bold"
                                 id="age"
                                 name="age"
                                 placeholder="age"
@@ -89,7 +89,7 @@ const submitForm = inject("submitFormP2");
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="relationship"
                                 name="relationship"
                                 v-model="famCompose.relationship"
@@ -101,7 +101,7 @@ const submitForm = inject("submitFormP2");
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="educationalBg"
                                 name="educationalBg"
                                 v-model="famCompose.educ_attainment"
@@ -111,7 +111,7 @@ const submitForm = inject("submitFormP2");
                             <label for="remarks">Remarks</label>
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="remarks"
                                 name="remarks"
                                 v-model="famCompose.remarks"

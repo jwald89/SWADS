@@ -79,12 +79,14 @@ watch(
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                <div class="col-lg-12 d-flex">
-                    <div class="col-lg-6">Child Development Data List</div>
-                    <div class="col-lg-6 float-end">
+                <div class="d-flex justify-content-between">
+                    <div class="col-lg-6">
+                        <h5 class="fw-bold">Child Development Data List</h5>
+                    </div>
+                    <div class="col-lg-6 text-end">
                         <Link
                             :href="`/child-development/create`"
-                            class="btn btn-sm btn-light float-end"
+                            class="btn btn-sm btn-light"
                         >
                             <i class="bi bi-journal-plus"></i>
                             Create New
@@ -93,9 +95,11 @@ watch(
                 </div>
             </div>
             <div class="card-body mt-4">
-                <div class="d-flex justify-around">
-                    <div class="row col-lg-10">
-                        <div class="col-lg-3">
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-around"
+                >
+                    <div class="row col-md-10">
+                        <div class="col-12 col-sm-6 col-md-3 mb-3">
                             <label class="fw-bold" for="">Barangay</label>
                             <v-select
                                 :options="[
@@ -107,7 +111,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-lg-2 ms-1">
+                        <div class="col-12 col-sm-6 col-md-3 mb-3">
                             <label class="fw-bold" for="">Municipality</label>
                             <v-select
                                 :options="[
@@ -119,7 +123,7 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
-                        <div class="col-lg-2 ms-1">
+                        <div class="col-12 col-sm-6 col-md-3 mb-3">
                             <label class="fw-bold" for="">Month</label>
                             <v-select
                                 :options="[
@@ -143,7 +147,7 @@ watch(
                             ></v-select>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-12 col-md-2 mb-3">
                         <label class="fw-bold" for="">Search</label>
                         <input
                             type="text"
@@ -165,7 +169,7 @@ watch(
                                 <th>Barangay</th>
                                 <th>Municipality</th>
                                 <th>Status</th>
-                                <th>Recogniton Level</th>
+                                <th>Recognition Level</th>
                                 <th>Date Encoded</th>
                                 <th>Action</th>
                             </tr>
@@ -188,15 +192,14 @@ watch(
                                 <td>
                                     <Link
                                         :href="`/child-development/edit/${children.id}`"
-                                        class="btn btn-sm btn-primary me-2"
+                                        class="btn btn-sm btn-primary"
                                         title="Edit"
                                     >
                                         <i class="bi bi-pencil-square"></i>
                                     </Link>
-
                                     <Link
                                         href="#"
-                                        class="btn btn-sm btn-info me-2"
+                                        class="btn btn-sm btn-info ms-2"
                                         title="Details"
                                     >
                                         <i class="bi bi-eye"></i>

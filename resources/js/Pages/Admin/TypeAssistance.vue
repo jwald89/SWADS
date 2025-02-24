@@ -261,20 +261,29 @@ watch(
                 <h5 class="fw-bold">Type Assistance</h5>
             </div>
             <div class="card-body p-4">
-                <div class="d-flex justify-space-around mb-4">
-                    <div class="col-lg-6">
-                        <input
-                            type="text"
-                            v-model="search"
-                            class="form-control border border-dark"
-                            autofocus
-                            placeholder="Search here.."
-                        />
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between mb-4"
+                >
+                    <div class="col-12 col-md-6 mb-2">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"
+                                ><i class="bi bi-search"></i
+                            ></span>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="search"
+                                autofocus
+                                placeholder="Search here.."
+                                aria-label="Search here.."
+                                aria-describedby="basic-addon1"
+                            />
+                        </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-md-6 text-end">
                         <button
                             type="button"
-                            class="btn btn-success float-end"
+                            class="btn btn-success"
                             data-bs-toggle="modal"
                             data-bs-target="#addAssistanceType"
                             data-bs-whatever="@fat"

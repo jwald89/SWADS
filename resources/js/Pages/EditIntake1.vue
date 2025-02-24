@@ -77,14 +77,16 @@ defineComponent({
         <form @submit.prevent="submitForm">
             <div class="row">
                 <div class="col-md-12">
-                    <h6 class="mt-2">Filter Section</h6>
+                    <h6 class="mt-2">
+                        <i class="bi bi-filter-circle-fill"></i> Filter Section
+                    </h6>
                     <div class="card">
-                        <div class="card-body row g-3 mt-1">
+                        <div class="card-body row g-2 mt-1">
                             <div class="col-md-1">
                                 <label for="caseNo">Case No.</label>
                                 <input
                                     type="text"
-                                    class="form-control"
+                                    class="form-control fw-bold"
                                     name="caseNo"
                                     id="caseno"
                                     v-model="intakes.case_no"
@@ -97,6 +99,7 @@ defineComponent({
                                     ></label
                                 >
                                 <v-select
+                                    class="fw-bold"
                                     name="classification"
                                     id="classification"
                                     :options="classType.data"
@@ -112,6 +115,7 @@ defineComponent({
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
+                                    class="fw-bold"
                                     name="category"
                                     id="category"
                                     :options="assistances.data"
@@ -127,6 +131,7 @@ defineComponent({
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
+                                    class="fw-bold"
                                     name="sector_type"
                                     id="sector_type"
                                     :options="sectorType.data"
@@ -142,6 +147,7 @@ defineComponent({
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
+                                    class="fw-bold"
                                     name="ofis_charge"
                                     id="ofis_charge"
                                     :options="officeCharge.data"
@@ -159,7 +165,7 @@ defineComponent({
                                 >
                                 <input
                                     type="date"
-                                    class="form-control"
+                                    class="form-control fw-bold"
                                     name="date_intake"
                                     id="dateIntake"
                                     v-model="intakes.date_intake"
@@ -172,6 +178,7 @@ defineComponent({
                                     <span class="text-danger">*</span></label
                                 >
                                 <v-select
+                                    class="fw-bold"
                                     name="ips"
                                     id="ips"
                                     :options="indigents.data"
@@ -186,11 +193,13 @@ defineComponent({
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <h6>Person's Name</h6>
+                            <h6>
+                                <i class="bi bi-person-fill"></i> Person's Name
+                            </h6>
                             <div class="card">
                                 <div class="card-body p-4">
                                     <form>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="lastName"
                                                 class="col-sm-2 col-form-label"
@@ -202,7 +211,7 @@ defineComponent({
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="lastName"
                                                     id="lastName"
                                                     placeholder="Family name"
@@ -210,7 +219,7 @@ defineComponent({
                                                 />
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="firstName"
                                                 class="col-sm-2 col-form-label"
@@ -222,7 +231,7 @@ defineComponent({
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="firstName"
                                                     id="firstName"
                                                     placeholder="Given name"
@@ -230,7 +239,7 @@ defineComponent({
                                                 />
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="middleName"
                                                 class="col-sm-2 col-form-label"
@@ -242,7 +251,7 @@ defineComponent({
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="middleName"
                                                     id="middleName"
                                                     placeholder="Middle name"
@@ -253,7 +262,7 @@ defineComponent({
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mb-2">
                                                 <label for="extension"
                                                     >Extension</label
                                                 >
@@ -263,7 +272,7 @@ defineComponent({
                                                 >
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="extension"
                                                     id="extension"
                                                     placeholder="Suffix"
@@ -279,7 +288,7 @@ defineComponent({
                                                 >
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="nickName"
                                                     id="nickName"
                                                     placeholder="Nickname"
@@ -293,11 +302,11 @@ defineComponent({
                         </div>
 
                         <div class="col-md-6">
-                            <h6>Address</h6>
+                            <h6><i class="bi bi-house-fill"></i> Address</h6>
                             <div class="card">
                                 <div class="card-body p-4">
                                     <form>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="purok"
                                                 class="col-sm-2 col-form-label"
@@ -306,7 +315,7 @@ defineComponent({
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="purok"
                                                     id="purok"
                                                     placeholder="Purok"
@@ -314,7 +323,7 @@ defineComponent({
                                                 />
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="street"
                                                 class="col-sm-2 col-form-label"
@@ -323,7 +332,7 @@ defineComponent({
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
-                                                    class="form-control"
+                                                    class="form-control fw-bold"
                                                     name="street"
                                                     id="street"
                                                     placeholder="Sample St.,"
@@ -331,7 +340,7 @@ defineComponent({
                                                 />
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="barangay"
                                                 class="col-sm-2 col-form-label"
@@ -342,6 +351,7 @@ defineComponent({
                                             >
                                             <div class="col-sm-10">
                                                 <v-select
+                                                    class="fw-bold"
                                                     name="barangay"
                                                     :options="barangays.data"
                                                     :reduce="(data) => data.id"
@@ -352,7 +362,7 @@ defineComponent({
                                                 </v-select>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        <div class="row mb-2">
                                             <label
                                                 for="municipal"
                                                 class="col-sm-2 col-form-label"
@@ -363,6 +373,7 @@ defineComponent({
                                             >
                                             <div class="col-sm-10">
                                                 <v-select
+                                                    class="fw-bold"
                                                     name="municipal"
                                                     :options="municipality.data"
                                                     :reduce="(data) => data.id"
@@ -380,7 +391,7 @@ defineComponent({
                             </div>
                         </div>
                     </div>
-                    <h6>Others</h6>
+                    <h6><i class="bi bi-file-text-fill"></i> Others</h6>
                     <div class="card">
                         <div class="card-body">
                             <div class="row g-3 mt-1">
@@ -389,7 +400,7 @@ defineComponent({
                                         >Case <small>(Optional)</small></label
                                     >
                                     <textarea
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         rows="2"
                                         id="case"
                                         name="case"
@@ -400,14 +411,14 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="birthDate" class="form-label"
+                                    <label for="birthDate"
                                         >Date of Birth<span class="text-danger"
                                             >*</span
                                         ></label
                                     >
                                     <input
                                         type="date"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         name="birthDate"
                                         id="birthDate"
                                         v-model="intakes.birthdate"
@@ -416,14 +427,14 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="age" class="form-label"
+                                    <label for="age"
                                         >Age<span class="text-danger"
                                             >*</span
                                         ></label
                                     >
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         name="age"
                                         id="age"
                                         placeholder="Age"
@@ -433,13 +444,13 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="gender" class="form-label"
+                                    <label for="gender"
                                         >Gender<span class="text-danger"
                                             >*</span
                                         ></label
                                     >
                                     <select
-                                        class="form-select"
+                                        class="form-control fw-bold"
                                         id="sex"
                                         name="sex"
                                         v-model="intakes.sex"
@@ -450,13 +461,13 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-3">
-                                    <label for="civilStatus" class="form-label"
+                                    <label for="civilStatus"
                                         >Civil Status<span class="text-danger"
                                             >*</span
                                         ></label
                                     >
                                     <select
-                                        class="form-select"
+                                        class="form-control fw-bold"
                                         id="civil_stats"
                                         name="civil_stats"
                                         v-model="intakes.civil_stats"
@@ -474,15 +485,13 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label
-                                        for="educ_attainment"
-                                        class="form-label"
+                                    <label for="educ_attainment"
                                         >Educational Attainment</label
                                     >
                                     <span class="text-danger">*</span>
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="educ_attainment"
                                         name="educ_attainment"
                                         v-model="intakes.educ_attainment"
@@ -490,12 +499,10 @@ defineComponent({
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label for="occupation" class="form-label"
-                                        >Occupation</label
-                                    >
+                                    <label for="occupation">Occupation</label>
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="occupation"
                                         name="occupation"
                                         placeholder="Job"
@@ -503,13 +510,13 @@ defineComponent({
                                     />
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="contactNo" class="form-label"
+                                    <label for="contactNo"
                                         >Contact No.<span class="text-danger"
                                             >*</span
                                         ></label
                                     >
                                     <input
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="contactNo"
                                         name="contact_no"
                                         placeholder="Mobile number or Tel number"
@@ -517,13 +524,11 @@ defineComponent({
                                     />
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="income" class="form-label"
-                                        >Income</label
-                                    >
+                                    <label for="income">Income</label>
                                     <small> (optional)</small>
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="income"
                                         name="income"
                                         placeholder="Amount"
@@ -531,7 +536,7 @@ defineComponent({
                                     />
                                 </div>
 
-                                <div class="mt-4">
+                                <div class="mt-2">
                                     <button
                                         type="submit"
                                         class="btn btn-success float-end"

@@ -43,10 +43,13 @@ defineComponent({
 
             <div class="card-body mt-3">
                 <!-- Filter Card -->
+                <h6 class="mt-2">
+                    <i class="bi bi-filter-circle-fill"></i> Filter Section
+                </h6>
                 <div class="card">
                     <div class="card-body p-4">
                         <div class="row">
-                            <div class="col-lg-3">
+                            <div class="col-md-3 mb-2">
                                 <label class="fw-bold" for=""
                                     >Assistance Type</label
                                 >
@@ -61,7 +64,7 @@ defineComponent({
                                     v-model="selectedAssistance"
                                 ></v-select>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-md-3 mb-2">
                                 <label class="fw-bold" for="">Sector</label>
                                 <v-select
                                     name="sector"
@@ -74,7 +77,7 @@ defineComponent({
                                     v-model="selectedSector"
                                 ></v-select>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-md-3 mb-2">
                                 <label class="fw-bold" for=""
                                     >Office Charge</label
                                 >
@@ -89,7 +92,7 @@ defineComponent({
                                     v-model="selectedOffice"
                                 ></v-select>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-md-3">
                                 <label class="fw-bold" for=""
                                     >Municipality</label
                                 >
@@ -116,10 +119,15 @@ defineComponent({
                     the date.
                 </div>
 
+                <h6 class="mt-2">
+                    <i class="bi bi-calendar2-range-fill"></i> Date Section
+                </h6>
                 <div class="card">
                     <div class="card-body p-4">
-                        <div class="d-flex justify-content-between">
-                            <div class="form-group col-lg-5 ms-4">
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between"
+                        >
+                            <div class="col-12 col-md-5 mb-2">
                                 <label class="fw-bold">Date - From</label>
                                 <input
                                     type="date"
@@ -127,7 +135,7 @@ defineComponent({
                                     v-model="dateFrom"
                                 />
                             </div>
-                            <div class="form-group col-lg-5 me-4">
+                            <div class="col-12 col-md-5">
                                 <label class="fw-bold ms-1">Date - To</label>
                                 <input
                                     type="date"
@@ -137,7 +145,7 @@ defineComponent({
                             </div>
                         </div>
 
-                        <div class="mt-5 me-4">
+                        <div class="mt-5">
                             <a
                                 :href="generateReportUrl()"
                                 class="btn btn-md btn-primary float-end"

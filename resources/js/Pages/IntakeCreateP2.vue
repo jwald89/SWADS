@@ -226,7 +226,7 @@ onMounted(() => {
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="lastName"
                                 name="lastName"
                                 placeholder="Family name"
@@ -245,7 +245,7 @@ onMounted(() => {
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="firstName"
                                 name="firstName"
                                 placeholder="Given name"
@@ -266,7 +266,7 @@ onMounted(() => {
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="middleName"
                                 name="middleName"
                                 placeholder="Middle name"
@@ -284,8 +284,8 @@ onMounted(() => {
                                 >Age<span class="text-danger">*</span></label
                             >
                             <input
-                                type="number"
-                                class="form-control"
+                                type="text"
+                                class="form-control fw-bold"
                                 id="age"
                                 name="age"
                                 placeholder="age"
@@ -304,7 +304,7 @@ onMounted(() => {
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="relationship"
                                 name="relationship"
                                 v-model="form.relationship"
@@ -322,7 +322,7 @@ onMounted(() => {
                             >
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="educationalBg"
                                 name="educationalBg"
                                 v-model="form.educ_attainment"
@@ -340,7 +340,7 @@ onMounted(() => {
                             <label for="remarks">Remarks</label>
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control fw-bold"
                                 id="remarks"
                                 name="remarks"
                                 v-model="form.remarks"
