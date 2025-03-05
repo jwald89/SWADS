@@ -74,14 +74,20 @@ const claimantName = computed(() => {
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         )
-        .join(" ")} ${props.dataMonitors.intake.middle_name
-        .charAt(0)
-        .toUpperCase()}. ${props.dataMonitors.intake.last_name
+        .join(" ")} ${
+        props.dataMonitors.intake.middle_name === null
+            ? ""
+            : props.dataMonitors.intake.middle_name.substr(0, 1) + "."
+    } ${props.dataMonitors.intake.last_name
         .split(" ")
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         )
-        .join(" ")}`;
+        .join(" ")}${
+        props.dataMonitors.intake.extn_name === null
+            ? ""
+            : ", " + props.dataMonitors.intake.extn_name
+    }`;
 });
 
 watchEffect(() => {
@@ -191,15 +197,6 @@ defineComponent({
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <!-- <v-select
-                            name="sector"
-                            :options="sectors.data"
-                            :reduce="(data) => data.id"
-                            id="sector"
-                            label="name"
-                            v-model="dataMonitors.sector"
-                        >
-                        </v-select> -->
                         <input
                             type="text"
                             class="form-control fw-bold"
@@ -282,14 +279,6 @@ defineComponent({
                         <label for="charges"
                             >Charges<span class="text-danger">*</span></label
                         >
-                        <!-- <v-select
-                            name="officeCharge"
-                            :options="officeCharge.data"
-                            :reduce="(data) => data.id"
-                            id="officeCharge"
-                            v-model="dataMonitors.charges"
-                            label="description"
-                        ></v-select> -->
                         <input
                             type="text"
                             class="form-control fw-bold"

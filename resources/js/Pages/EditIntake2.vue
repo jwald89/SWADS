@@ -1,7 +1,22 @@
 <script setup>
-import { inject } from "vue";
+import { inject, defineComponent, watchEffect } from "vue";
 const intakes = inject("intakeData");
 const submitForm = inject("submitFormP2");
+import vSelect from "vue-select";
+
+defineProps({
+    relationships: Object,
+});
+
+// Initialize fam_relation if it does not exist
+watchEffect(() => {
+    intakes.fam_compose.forEach((famCompose) => {
+        famCompose.relationship = parseInt(famCompose.relationship);
+    });
+});
+defineComponent({
+    vSelect,
+});
 </script>
 
 <template>
@@ -77,7 +92,7 @@ const submitForm = inject("submitFormP2");
                                 class="form-control fw-bold"
                                 id="age"
                                 name="age"
-                                placeholder="age"
+                                placeholder="Age"
                                 v-model="famCompose.age"
                             />
                         </div>
@@ -87,13 +102,16 @@ const submitForm = inject("submitFormP2");
                                     >*</span
                                 ></label
                             >
-                            <input
-                                type="text"
-                                class="form-control fw-bold"
-                                id="relationship"
+                            <v-select
+                                class="fw-bold"
                                 name="relationship"
+                                id="relationship"
+                                :options="relationships.data"
                                 v-model="famCompose.relationship"
-                            />
+                                :reduce="(data) => data.id"
+                                label="name"
+                            >
+                            </v-select>
                         </div>
                         <div class="col-12">
                             <label for="educationalBg"

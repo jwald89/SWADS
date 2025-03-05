@@ -23,7 +23,7 @@ return new class extends Migration
             $table->date('date_intake');
             $table->string('last_name');
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('extn_name')->nullable();
             $table->string('nick_name');
             $table->integer('age');

@@ -283,10 +283,12 @@ watch(
                                             .join(" ")
                                     }}
                                     {{
-                                        monitoring.intake.middle_name
-                                            .substr(0, 1)
-                                            .toUpperCase()
-                                    }}.
+                                        monitoring.intake.middle_name === null
+                                            ? ""
+                                            : monitoring.intake.middle_name
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
+                                    }}
                                     {{
                                         monitoring.intake.last_name
                                             .split(" ")
@@ -297,7 +299,10 @@ watch(
                                                         .toUpperCase() +
                                                     word.slice(1).toLowerCase()
                                             )
-                                            .join(" ")
+                                            .join(" ") +
+                                        (monitoring.intake.extn_name
+                                            ? ", " + monitoring.intake.extn_name
+                                            : "")
                                     }}
                                 </td>
                                 <td>

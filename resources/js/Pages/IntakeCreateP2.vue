@@ -1,10 +1,12 @@
 <script setup>
-import { inject, ref, onMounted } from "vue";
+import { inject, ref, onMounted, defineComponent } from "vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
+import vSelect from "vue-select";
 
 const props = defineProps({
     index: Number,
+    famRelation: Object,
 });
 // Inject the existing states and methods from the parent component
 const errors = inject("formErrors");
@@ -86,7 +88,9 @@ const saveToLocalStorage = async () => {
         "familyCompositions",
         JSON.stringify(familyList.value)
     );
-    toast.success("Data saved to local storage!", { autoClose: 2000 });
+    toast.success("You have successfully saved a person's data.", {
+        autoClose: 2000,
+    });
 
     // Clear the form after saving
     resetForm();
@@ -117,7 +121,7 @@ const finalSubmit = async () => {
             familyCompositions = JSON.parse(familyCompositionsFromStorage);
         } else {
             toast.error(
-                "No family data found. Please save at least one entry.",
+                "No family data found. Please fill in the fields then click 'Add Person' button, if not required click 'Skip' button.",
                 { autoClose: 8000 }
             );
             return;
@@ -129,7 +133,6 @@ const finalSubmit = async () => {
             applicant_id: applicantId,
             lastname: item.lastname || form.lastname,
             firstname: item.firstname || form.firstname,
-            middlename: item.middlename || form.middlename,
             age: item.age || form.age,
             relationship: item.relationship || form.relationship,
             educ_attainment: item.educ_attainment || form.educ_attainment,
@@ -145,9 +148,9 @@ const finalSubmit = async () => {
         // Clear localStorage after successful submission
         localStorage.removeItem("familyCompositions");
 
-        // Update UI and notify the user
-        familyList.value = []; // Clear the family list
-        toast.success("Successfully submitted to the database!", {
+        // Clear the family list
+        familyList.value = [];
+        toast.success("You have successfully created a record!", {
             autoClose: 2000,
         });
         emit("incrementIndex", props.index);
@@ -194,11 +197,21 @@ const handleUpdateFamilyMember = () => {
         "familyCompositions",
         JSON.stringify(familyList.value)
     );
+
+    toast.success("Successfully updated a person's record!", {
+        autoClose: 2000,
+    });
+
+    resetForm();
 };
 
 // Load saved data when component is mounted
 onMounted(() => {
     loadSavedFamilyData();
+});
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -271,13 +284,7 @@ onMounted(() => {
                                 name="middleName"
                                 placeholder="Middle name"
                                 v-model="form.middlename"
-                                :class="{ 'is-invalid': errors.middlename }"
                             />
-                            <small
-                                v-if="errors.middlename"
-                                class="text-danger"
-                                >{{ errors.middlename }}</small
-                            >
                         </div>
                         <div class="col-md-5">
                             <label for="age"
@@ -288,7 +295,7 @@ onMounted(() => {
                                 class="form-control fw-bold"
                                 id="age"
                                 name="age"
-                                placeholder="age"
+                                placeholder="Age"
                                 v-model="form.age"
                                 :class="{ 'is-invalid': errors.age }"
                             />
@@ -302,14 +309,21 @@ onMounted(() => {
                                     >*</span
                                 ></label
                             >
-                            <input
-                                type="text"
-                                class="form-control fw-bold"
-                                id="relationship"
+                            <v-select
+                                class="fw-bold"
                                 name="relationship"
+                                id="relationship"
+                                :options="famRelation.data"
                                 v-model="form.relationship"
-                                :class="{ 'is-invalid': errors.relationship }"
-                            />
+                                :reduce="(data) => data.id"
+                                label="name"
+                                :class="{
+                                    'form-control is-invalid':
+                                        errors.relationship,
+                                }"
+                                placeholder="Select"
+                            >
+                            </v-select>
                             <small
                                 v-if="errors.relationship"
                                 class="text-danger"
@@ -387,9 +401,10 @@ onMounted(() => {
                             <button
                                 @click="submitForm"
                                 v-if="!tabs[tabIndex].saved"
-                                class="btn btn-warning float-end me-3"
+                                class="btn btn-warning float-end me-3 fw-bold"
                             >
-                                !Skip
+                                <i class="bi bi-skip-forward"></i>
+                                Skip
                             </button>
                         </div>
                     </div>

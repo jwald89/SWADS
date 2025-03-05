@@ -1,9 +1,8 @@
 <?php
 
-use App\Enums\UserTypes;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -12,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('fam_relationships', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('middle_init')->nullable();
-            $table->string('last_name');
-            $table->string('username', 50);
-            $table->enum('role_type', UserTypes::values());
-            $table->string('password');
+            $table->string('name');
             $table->unsignedBigInteger('modified_by')->nullable();
             $table->foreign('modified_by')->references('id')->on('users');
             $table->timestamp('modified_date')->nullable();
@@ -32,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('fam_relationships');
     }
 };

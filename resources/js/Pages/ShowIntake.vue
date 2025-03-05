@@ -15,6 +15,10 @@ const props = defineProps({
 const intakes = ref(props.intakes);
 
 const formatName = (fName) => {
+    if (fName == null) {
+        return ""; // Return an empty string or handle null case as needed
+    }
+
     return fName
         .split(" ")
         .map(
@@ -152,11 +156,11 @@ defineComponent({
                                     Last name:
                                 </div>
                                 <div class="col-lg-8 col-md-10">
-                                    {{ formatName(intakes.last_name) }}
                                     {{
-                                        intakes.extn_name
+                                        formatName(intakes.last_name) +
+                                        (intakes.extn_name
                                             ? ", " + intakes.extn_name
-                                            : ""
+                                            : "")
                                     }}
                                 </div>
                             </div>
@@ -180,7 +184,7 @@ defineComponent({
                                 Purok:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.purok }}
+                                {{ formatName(intakes.purok) }}
                             </div>
                         </div>
 
@@ -189,7 +193,7 @@ defineComponent({
                                 Street:
                             </div>
                             <div class="col-lg-8 col-md-10">
-                                {{ intakes.street }}
+                                {{ formatName(intakes.street) }}
                             </div>
                         </div>
 
@@ -320,21 +324,21 @@ defineComponent({
                             <div class="d-flex col-lg-4">
                                 <div class="label fw-bold">First name:</div>
                                 <div class="ms-3">
-                                    {{ famCompose.firstname }}
+                                    {{ formatName(famCompose.firstname) }}
                                 </div>
                             </div>
 
                             <div class="d-flex col-lg-4">
                                 <div class="label fw-bold">Middle name:</div>
                                 <div class="ms-3">
-                                    {{ famCompose.middlename }}
+                                    {{ formatName(famCompose.middlename) }}
                                 </div>
                             </div>
 
                             <div class="d-flex col-lg-4">
                                 <div class="label fw-bold">Last name:</div>
                                 <div class="ms-3">
-                                    {{ famCompose.lastname }}
+                                    {{ formatName(famCompose.lastname) }}
                                 </div>
                             </div>
                         </div>
@@ -354,7 +358,7 @@ defineComponent({
                             <div class="d-flex col-lg-8 mt-1">
                                 <div class="label fw-bold">Relationship:</div>
                                 <div class="ms-3">
-                                    {{ famCompose.relationship }}
+                                    {{ famCompose.fam_relation.name }}
                                 </div>
                             </div>
                         </div>
@@ -374,6 +378,7 @@ defineComponent({
                                 {{ famCompose.remarks }}
                             </div>
                         </div>
+                        <hr v-if="intakes.fam_compose.length > 1" />
                     </div>
                 </div>
             </div>

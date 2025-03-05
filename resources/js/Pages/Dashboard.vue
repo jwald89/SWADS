@@ -608,10 +608,18 @@ const formatDate = (dateString) => {
                                                                 .join(" ")
                                                         }}
                                                         {{
-                                                            data.intake.middle_name
-                                                                .substr(0, 1)
-                                                                .toUpperCase()
-                                                        }}.
+                                                            data.intake
+                                                                .middle_name ===
+                                                            null
+                                                                ? ""
+                                                                : data.intake.middle_name
+                                                                      .substr(
+                                                                          0,
+                                                                          1
+                                                                      )
+                                                                      .toUpperCase() +
+                                                                  "."
+                                                        }}
                                                         {{
                                                             data.intake.last_name
                                                                 .split(" ")
@@ -799,10 +807,18 @@ const formatDate = (dateString) => {
                                                                 .join(" ")
                                                         }}
                                                         {{
-                                                            monitoring.intake.middle_name
-                                                                .substr(0, 1)
-                                                                .toUpperCase()
-                                                        }}.
+                                                            monitoring.intake
+                                                                .middle_name ===
+                                                            null
+                                                                ? ""
+                                                                : monitoring.intake.middle_name
+                                                                      .substr(
+                                                                          0,
+                                                                          1
+                                                                      )
+                                                                      .toUpperCase() +
+                                                                  "."
+                                                        }}
                                                         {{
                                                             monitoring.intake.last_name
                                                                 .split(" ")

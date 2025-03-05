@@ -51,59 +51,59 @@ class OfficeChargeSeeder extends Seeder
             ],
             [
                 'description' => 'PSWDO',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (Disaster)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (Senior Citizen)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (PWD)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (Children)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (GAD)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (E-CLIP)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
             [
                 'description' => 'PSWDO (Mentally ill)',
-                'first_name' => 'Hershe',
-                'middle_name' => 'Lorenzana',
-                'last_name' => 'Nuñez, RSW',
-                'title' => 'Provincial Social Welfare and Dev’t Officer'
+                'first_name' => 'Alexander',
+                'middle_name' => 'Ty',
+                'last_name' => 'Pimentel',
+                'title' => 'Provincial Governor'
             ],
         ];
 

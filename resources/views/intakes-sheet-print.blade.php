@@ -25,7 +25,8 @@
 
         .container-1 {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Adjusts spacing between the two divs */
+            align-items: flex-start; /* Align items to the start */
         }
 
         .case, .date {
@@ -66,10 +67,6 @@
         .fw-bold {
             font-weight: bold;
         }
-
-        /* .text-centered {
-            display: flex;
-        } */
 
         .text-centered > p {
             text-align: center;
@@ -118,19 +115,22 @@
 
         {{-- Title --}}
         <div style="text-align: center; margin-top: 3%">
-            <h3>INTAKE SHEET 2024</h3>
+            <h3>INTAKE SHEET</h3>
         </div>
         {{-- End of Title --}}
 
         <div id="container-1">
-            <div class="case">
+            <div class="case" style="flex: 1;  margin-right: 20%;">
                 @foreach ($intakes as $intake)
                     <h3>CASE NO.
-                        &nbsp;<span style="border-bottom:1px solid #000000; padding-bottom: 0.1px; font-weight: normal">{{ $intake->case_no }}</span>
+                        &nbsp;<span style="line-height: 0; border-bottom:1px solid #000000; padding-bottom: 0.1px; font-weight: normal">{{ $intake->case_no }}</span>
                     </h3>
+                    <p class="fw-bold" style="line-height: 0">TYPE OF CASE :
+                        <span style="font-weight: normal; margin-left: 10px; font-size: 1.2rem"> {{ $intake->case }}</span>
+                    </p>
                 @endforeach
             </div>
-            <div class="date" style="margin-left: 40%">
+            <div class="date" style="flex: 1;">
                 @foreach($intakes as $intake)
                 <p class="fw-bold" style="line-height: 1; font-size: 1.1rem">Date Administered: <span style="font-weight: normal">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span></p>
                 <p class="fw-bold" style="line-height: 0; font-size: 1.1rem">Category: <span style="font-weight: normal">{{ ucwords($intake->assistance->name) }}</span></p>
@@ -141,7 +141,7 @@
 
         {{-- Identify Data --}}
         <div>
-            <div style="margin-top: -20px">
+            <div style="margin-top: -10px">
                 <h3 style="text-indent: 2rem">I. <span style="margin-left: 2%">IDENTIFYING DATA</span></h3>
             </div>
             <div class="roboto-regular d-flex" style="margin-left: 6%; line-height: 0.5; font-size: 1.1rem; margin-top: -10px">
@@ -159,7 +159,7 @@
                         <p class="fw-bold">Contact # </p>
                     </div>
                     <div>
-                        <p style="font-weight: normal">: {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}</p>
+                        <p style="font-weight: normal">: {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}{{ $intake->extn_name ? ', ' . strtoupper($intake->extn_name) : '' }}</p>
                         <p style="font-weight: normal">: {{ strtoupper($intake->nick_name) }}</p>
                         <p style="font-weight: normal">: {{ $intake->age }}</p>
                         <p style="font-weight: normal">: {{ ucwords($intake->sex) }}</p>
@@ -192,7 +192,7 @@
                 <tr>
                     <td>{{ ucwords($data->firstname) }} {{ $data->middlename != null ? strtoupper(substr($data->middlename, 0, 1)) . '.' : "" }} {{ ucwords($data->lastname) }}</td>
                     <td>{{ $data->age != null ? $data->age . " years old" : "" }} </td>
-                    <td>{{ ucfirst($data->relationship) }}</td>
+                    <td>{{ ucfirst($data->famRelation->name) }}</td>
                     <td><?php echo !empty(trim($data->educ_attainment)) ? ucwords($data->educ_attainment) : "" ?></td>
                     <td>{{ ucfirst($data->remarks) }}</td>
                 </tr>
@@ -236,7 +236,7 @@
             </div>
             <div class="date text-centered" style="line-height: 0.5; margin-left: 35%; font-size: 1.1rem">
                 @foreach ($intakes as $data)
-                    <p class="fw-bold">Attested by: &nbsp;<span style="text-decoration: underline">{{ strtoupper($data->first_name) }} {{ strtoupper(substr($data->middle_name, 0, 1)) }}. {{ strtoupper($data->last_name) }}</span></p>
+                    <p class="fw-bold">Attested by: &nbsp;<span style="text-decoration: underline">{{ strtoupper($data->first_name) }} {{ $data->middle_name ? strtoupper(substr($data->middle_name, 0, 1)) ."." : "" }} {{ strtoupper($data->last_name) }}{{ $data->extn_name ? ", " . strtoupper($data->extn_name) : "" }}</span></p>
                 @endforeach
                 <p style="text-indent: 3rem">Client</p>
             </div>

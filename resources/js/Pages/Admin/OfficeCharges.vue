@@ -243,7 +243,9 @@ watch(
                                 </div>
                             </div>
 
-                            <h6>Signatory Name</h6>
+                            <h6>
+                                <i class="bi bi-person-fill"></i> Signatory Name
+                            </h6>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group mt-4">
@@ -271,11 +273,9 @@ watch(
 
                                     <div class="form-group mt-4">
                                         <label for="middlename"
-                                            >Middle name<span
-                                                class="text-danger"
-                                                >*</span
-                                            ></label
-                                        >
+                                            >Middle name
+                                            <small>(Optional)</small>
+                                        </label>
                                         <input
                                             type="text"
                                             class="form-control form-control-md"
@@ -414,7 +414,9 @@ watch(
                                 </div>
                             </div>
 
-                            <h6>Signatory Name</h6>
+                            <h6>
+                                <i class="bi bi-person-fill"></i> Signatory Name
+                            </h6>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="form-group mt-4">
@@ -434,11 +436,9 @@ watch(
 
                                     <div class="form-group mt-4">
                                         <label for="middlename"
-                                            >Middle name<span
-                                                class="text-danger"
-                                                >*</span
-                                            ></label
-                                        >
+                                            >Middle name
+                                            <small>(Optional)</small>
+                                        </label>
                                         <input
                                             type="text"
                                             class="form-control form-control-md"

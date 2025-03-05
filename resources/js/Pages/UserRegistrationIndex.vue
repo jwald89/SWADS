@@ -2,7 +2,7 @@
 import LayoutApp from "../Shared/Layout.vue";
 import { ref, watch, reactive } from "vue";
 import { debounce } from "lodash";
-import { Link, router } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import Pagination from "../components/Pagination.vue";
 import axios from "axios";
 import { toast } from "vue3-toastify";
@@ -28,7 +28,6 @@ const errors = reactive({});
 const userData = reactive({
     last_name: "",
     first_name: "",
-    middle_init: "",
     username: "",
     password: "",
     municipality: "",
@@ -53,9 +52,6 @@ const submitUserData = async () => {
     }
     if (userData.first_name) {
         errors.first_name = "";
-    }
-    if (userData.middle_init) {
-        errors.middle_init = "";
     }
     if (userData.username) {
         errors.username = "";
@@ -276,8 +272,8 @@ watch(
                                 <label
                                     for="middleName"
                                     class="col-sm-2 col-form-label"
-                                    >Middle Name <small>(Optional)</small
-                                    ><span class="text-danger">*</span></label
+                                    >Middle name
+                                    <small>(Optional)</small></label
                                 >
                                 <div class="col-sm-10">
                                     <input
@@ -286,16 +282,8 @@ watch(
                                         name="middle_name"
                                         id="middle_name"
                                         v-model="userData.middle_init"
-                                        :class="{
-                                            'is-invalid': errors.middle_init,
-                                        }"
                                         placeholder="Middlename"
                                     />
-                                    <small
-                                        v-if="errors.middle_init"
-                                        class="text-danger"
-                                        >{{ errors.middle_init }}</small
-                                    >
                                 </div>
                             </div>
                             <hr width="100%" />
@@ -503,7 +491,7 @@ watch(
                                 <label
                                     for="middleName"
                                     class="col-sm-2 col-form-label"
-                                    >Middle Name<span class="text-danger"
+                                    >Middle name<span class="text-danger"
                                         >*</span
                                     ></label
                                 >
@@ -694,10 +682,12 @@ watch(
                                             .join(" ")
                                     }}
                                     {{
-                                        user.middle_init
-                                            .substr(0, 1)
-                                            .toUpperCase()
-                                    }}.
+                                        user.middle_init === null
+                                            ? ""
+                                            : user.middle_init
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
+                                    }}
                                     {{
                                         user.last_name
                                             .split(" ")

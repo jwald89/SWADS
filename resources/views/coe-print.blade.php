@@ -10,22 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Intakes print</title>
     <style>
-
-        table, th, td {
-            border: 1px solid black;
-            text-align: center;
-            border-collapse: collapse;
-        }
-
-        #container {
+        .container {
             white-space: nowrap;
             margin: 80px;
             margin-bottom: -15px;
-        }
-
-        .container-1 {
-            display: flex;
-            justify-content: space-between;
         }
 
         .case, .date {
@@ -53,20 +41,9 @@
             text-align: center;
         }
 
-        .roboto-regular {
-            font-family: "Roboto", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .tree {
-            page-break-inside: avoid;
-        }
-
         .fw-bold {
             font-weight: bold;
         }
-
 
         .text-centered > p {
             text-align: center;
@@ -84,7 +61,7 @@
     </style>
 </head>
 <body>
-    <div id="container">
+    <div class="container">
         <div class="logo">
             <img src="file:///laragon/www/SWADS/public/assets/img/sds.png" alt="logo">
         </div>
@@ -92,8 +69,8 @@
             <h3 style="line-height: 0.8">Republic of the Philippines</h3>
             <h2 style="line-height: 0">PROVINCE OF SURIGAO DEL SUR</h2>
 
-            <h3 style="line-height: 0.3; font-weight: normal">Capitol Hills, Telaje, Tandag City</h3>
-            <h3 style="line-height: 0.3; font-weight: normal">Telefax No. (086) 211-3656</h3>
+            <h3 style="line-height: 0.2; font-weight: normal">Capitol Hills, Telaje, Tandag City</h3>
+            <h3 style="line-height: 0.2; font-weight: normal">Telefax No. (086) 211-3656</h3>
         </div>
         <div class="logo">
             <img src="file:///laragon/www/SWADS/public/assets/img/pswdo-logo.jpg" alt="logo">
@@ -104,7 +81,7 @@
     {{-- Office --}}
     <div style="text-align: center; line-height: 0; margin-top: 5%">
         <h3>PROVINCIAL SOCIAL WELFARE AND DEVELOPMENT OFFICE</h3>
-        <hr style="border-style: solid; width: 65%">
+        <hr style="border-bottom: double; width: 70%">
     </div>
     {{-- End of Office --}}
 
@@ -116,35 +93,36 @@
 
     @foreach($intakes as $intake)
     <div style="margin-top: 5%">
-        <div class="roboto-regular" style="margin-left: 4%;">
+        <div style="margin-left: 4%;">
             <p style="font-size: 1.1rem; text-indent: 3rem; text-align: justify">
-                <span class="fw-bold">THIS IS TO CERTIFY &nbsp;</span> that
-                <span class="fw-bold">
-                    {{ strtoupper($intake->first_name) }} {{ strtoupper(substr($intake->middle_name, 0, 1)) }}. {{ strtoupper($intake->last_name) }},
-                </span>
-                &nbsp; legal age, resident at
-                <span class="fw-bold">
-                    <?php echo !empty(trim($intake->purok)) ? 'Purok '.ucwords($intake->purok).',' : '' ?> {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao del Sur
-                </span>
-                &nbsp;has been found eligible for
-                <span class="fw-bold">{{ ucwords($intake->assistance->name) }}</span>
-                &nbsp;after having been interviewed and a case summary had been made.
+                <strong>THIS IS TO CERTIFY</strong> that
+                <strong>
+                    {{ strtoupper($intake->first_name) }}
+                    {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . ". " : "" }}
+                    {{ strtoupper($intake->last_name) }}
+                    {{ $intake->extn_name ? ", " . strtoupper($intake->extn_name) : "" }},
+                </strong> legal age, resident at
+                <strong>
+                    {{ !empty(trim($intake->purok)) ? 'Purok ' . ucwords($intake->purok) . ', ' : '' }}
+                    {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao del Sur
+                </strong> has been found eligible for
+                <strong>{{ ucwords($intake->assistance->name) }}</strong> after having been interviewed and a case summary had been made.
             </p>
         </div>
     </div>
 
     <div style="margin-top: 3%">
-        <div class="roboto-regular" style="margin-left: 4%;">
+        <div style="margin-left: 4%;">
             @foreach($intakes as $intake)
             <p style="font-size: 1.1rem; text-indent: 3rem; text-align: justify">
-                Records of the Case Summary Reports dated &nbsp;<span class="fw-bold">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span>, are in the confidential file of the Provincial Social Welfare and Development Office.
+                Records of the Case Summary Reports dated <span class="fw-bold">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span>, are in the confidential file of the Provincial Social Welfare and Development Office.
             </p>
             @endforeach
         </div>
     </div>
 
     <div style="margin-top: 3%">
-        <div class="roboto-regular" style="margin-left: 4%;">
+        <div style="margin-left: 4%;">
             <p style="font-size: 1.1rem; text-indent: 3rem">
                 This client has been recommended for financial assistance.
             </p>
@@ -153,13 +131,13 @@
 
     <div class="text-centered" style="margin-top: 10%; margin-left: 70%; line-height: 0.5">
         <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">
-            {{ strtoupper($intake->first_name) }} {{ strtoupper(substr($intake->middle_name, 0, 1)) }}. {{ strtoupper($intake->last_name) }}
+            {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}{{ $intake->extn_name ? ", " . strtoupper($intake->extn_name) : "" }}
         </p>
         <p>Client</p>
     </div>
 
     <div>
-        <div class="roboto-regular" style="margin-left: 4%;">
+        <div style="margin-left: 4%;">
             <p class="fw-bold" style="margin-top: 10%; font-size: 1.1rem">
                 RECORDS AND INTAKE REVIEWED
             </p>

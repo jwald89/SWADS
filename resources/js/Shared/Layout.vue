@@ -343,7 +343,7 @@ onMounted(() => {
                         }"
                     >
                         <i
-                            class="bi bi-journal"
+                            class="bi bi-badge-cc"
                             :class="{
                                 'color-highlight':
                                     currentRoute.includes('child-development'),
@@ -363,8 +363,8 @@ onMounted(() => {
                 <!-- MEDICAL MODULE -->
                 <li class="nav-item">
                     <Link class="nav-link">
-                        <i class="bi bi-journal"></i>
-                        <span>MEDICAL</span>
+                        <i class="bi bi-file-earmark-medical"></i>
+                        <span>MEDICINE</span>
                     </Link>
                 </li>
                 <!-- END OF MEDICAL MODULE -->
@@ -372,7 +372,7 @@ onMounted(() => {
                 <!-- TRANSACTION MODULE -->
                 <li class="nav-item">
                     <Link class="nav-link">
-                        <i class="bi bi-journal"></i>
+                        <i class="bi bi-file-post-fill"></i>
                         <span>TRANSACTION</span>
                     </Link>
                 </li>

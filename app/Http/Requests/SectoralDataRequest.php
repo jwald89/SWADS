@@ -25,21 +25,17 @@ class SectoralDataRequest extends FormRequest
             'sector' => 'required',
             'date_encoded' => 'required',
             'first_name' => 'required',
-            'middle_name' => 'required',
             'last_name' => 'required',
             'age' => 'required',
             'sex' => 'required',
             'nationality' => 'required',
             'religion' => 'required',
-            'purok' => 'required',
             'barangay' => 'required',
             'municipality' => 'required',
             'birthdate' => 'required',
             'place_birth' => 'required',
             'civil_status' => 'required',
             'fam_members' => 'required|integer',
-            'ISY_OSY' => 'required',
-            'status' => 'required'
         ];
     }
 }

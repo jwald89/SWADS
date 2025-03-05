@@ -17,7 +17,9 @@ class PersonalDetailResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'fullname' => ucwords($this->first_name) .' '. ucfirst(substr($this->middle_name, 0, 1)) .'. '. ucwords($this->last_name),
+            'fullname' => ucwords($this->first_name) . ' ' .
+                      ($this->middle_name ? ucfirst(substr($this->middle_name, 0, 1)) . '. ' : '') .
+                      ucwords($this->last_name) . ($this->extn_name ? ', ' .  $this->extn_name : ''),
             'age' => $this->age,
             'gender' => $this->sex,
             'contact_no' => $this->contact_no,
@@ -31,7 +33,7 @@ class PersonalDetailResource extends JsonResource
             'assistanceType' => $this->assistance->name ?? null,
             'sectorType' => $this->sectorName->name ?? null,
             'ofisCharge' => $this->chargingOffice->description ?? null,
-            'username' => ucwords($this->user->first_name) .' '. ucfirst(substr($this->user->middle_init, 0, 1)) .'. '. ucwords($this->user->last_name),
+            'username' => ucwords($this->user->first_name) .' '. ($this->user->middle_init ? ucfirst(substr($this->user->middle_init, 0, 1)) . '. ' : '') . ucwords($this->user->last_name),
             'brgy' => $this->brgy->barangay,
             'municipal' => $this->municipal->municipality,
         ];

@@ -19,4 +19,9 @@ class FamilyComposition extends Model
     {
         return $this->belongsTo(PersonalInformation::class, 'id', 'applicant_id');
     }
+
+    public function famRelation()
+    {
+        return $this->belongsTo(FamRelationship::class, 'relationship', 'id');
+    }
 }

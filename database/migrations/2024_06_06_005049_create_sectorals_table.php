@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sectorals', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->date('date_encoded')->nullable();
             $table->string('sector')->nullable();

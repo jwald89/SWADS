@@ -49,11 +49,6 @@ const calculateAge = () => {
     }
 };
 
-// Computed property to determine visibility of the IPs field
-const showIpsField = computed(() => {
-    return form.classification === 3;
-});
-
 watchEffect(() => {
     birthdate.value = form.birthdate; // Sync birthdate with form
     calculateAge(); // Calculate age whenever birthdate changes
@@ -209,12 +204,13 @@ defineComponent({
                                     >{{ errors.date_intake }}</small
                                 >
                             </div>
-                            <div class="col-md-3" v-if="showIpsField">
+                            <div class="col-md-3">
                                 <label for="ips"
-                                    >IPs Affiliates
-                                    <span class="text-danger">*</span></label
+                                    >Ethnicity
+                                    <small class="font-monospace"
+                                        >(IPs Affiliates)</small
+                                    ></label
                                 >
-
                                 <v-select
                                     class="fw-bold"
                                     name="ips"
@@ -223,14 +219,8 @@ defineComponent({
                                     v-model="form.ips"
                                     :reduce="(data) => data.id"
                                     label="name"
-                                    :class="{
-                                        'form-control is-invalid': errors.ips,
-                                    }"
                                     placeholder="Select"
                                 ></v-select>
-                                <small v-if="errors.ips" class="text-danger">{{
-                                    errors.ips
-                                }}</small>
                             </div>
                         </div>
                     </div>
@@ -308,11 +298,9 @@ defineComponent({
                                             <label
                                                 for="middleName"
                                                 class="col-sm-2 col-form-label"
-                                                >Middle name<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
+                                                >Middle name
+                                                <small>(Optional)</small>
+                                            </label>
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
@@ -321,18 +309,7 @@ defineComponent({
                                                     id="middleName"
                                                     v-model="form.middle_name"
                                                     placeholder="Middle name"
-                                                    :class="{
-                                                        'is-invalid':
-                                                            errors.middle_name,
-                                                    }"
                                                 />
-                                                <small
-                                                    v-if="errors.middle_name"
-                                                    class="text-danger"
-                                                    >{{
-                                                        errors.middle_name
-                                                    }}</small
-                                                >
                                             </div>
                                         </div>
                                         <div class="row">
@@ -341,17 +318,33 @@ defineComponent({
                                                     >Extension</label
                                                 >
                                                 <small>
-                                                    (Jr. Sr. I II III
-                                                    etc.)</small
+                                                    (Jr. Sr. II III etc.)</small
                                                 >
-                                                <input
-                                                    type="text"
+                                                <select
                                                     class="form-control fw-bold"
-                                                    name="extension"
                                                     id="extension"
+                                                    name="extension"
                                                     v-model="form.extn_name"
-                                                    placeholder="Suffix"
-                                                />
+                                                >
+                                                    <option value="" disabled>
+                                                        Select
+                                                    </option>
+                                                    <option value="Jr.">
+                                                        Junior (Jr.)
+                                                    </option>
+                                                    <option value="Sr.">
+                                                        Senior (Sr.)
+                                                    </option>
+                                                    <option value="II">
+                                                        II
+                                                    </option>
+                                                    <option value="III">
+                                                        III
+                                                    </option>
+                                                    <option value="IV">
+                                                        IV
+                                                    </option>
+                                                </select>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="nickName"
@@ -661,6 +654,7 @@ defineComponent({
                                 <div class="col-md-4">
                                     <label for="contactNo">Contact No.</label>
                                     <input
+                                        type="text"
                                         class="form-control fw-bold"
                                         id="contactNo"
                                         name="contact_no"

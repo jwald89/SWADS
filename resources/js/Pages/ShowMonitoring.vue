@@ -70,12 +70,18 @@ const formatName = (fName) => {
                                         )
                                     }}
                                     {{
-                                        monitorings.intake.middle_name
-                                            .substr(0, 1)
-                                            .toUpperCase()
-                                    }}.
-                                    {{
-                                        formatName(monitorings.intake.last_name)
+                                        monitorings.intake.middle_name === null
+                                            ? ""
+                                            : monitorings.intake.middle_name
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
+                                    }}
+                                    {{ formatName(monitorings.intake.last_name)
+                                    }}{{
+                                        monitorings.intake.extn_name === null
+                                            ? ""
+                                            : ", " +
+                                              monitorings.intake.extn_name
                                     }}
                                 </div>
                             </div>

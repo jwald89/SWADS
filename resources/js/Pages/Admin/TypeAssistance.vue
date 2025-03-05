@@ -143,6 +143,7 @@ watch(
                         style="background-color: #581b98"
                     >
                         <h1 class="modal-title fs-5" id="assistanceTypeLabel">
+                            <i class="bi bi-collection"></i>
                             Add Assitance type
                         </h1>
                         <button
@@ -258,7 +259,9 @@ watch(
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <h5 class="fw-bold">Type Assistance</h5>
+                <h5 class="fw-bold">
+                    <i class="bi bi-collection"></i> Type Assistance
+                </h5>
             </div>
             <div class="card-body p-4">
                 <div

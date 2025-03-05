@@ -106,7 +106,6 @@ class UserRegisterController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'middle_init' => 'required',
             'username' => 'required',
             'password' => 'required|string',
             'municipality' => 'required',

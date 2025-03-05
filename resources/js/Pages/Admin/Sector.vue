@@ -143,6 +143,7 @@ watch(
                         style="background-color: #581b98"
                     >
                         <h1 class="modal-title fs-5" id="addSectorLabel">
+                            <i class="bi bi-collection-fill"></i>
                             Add Sector
                         </h1>
                         <button
@@ -254,7 +255,9 @@ watch(
                 class="card-header text-white"
                 style="background-color: #581b98"
             >
-                <h5 class="fw-bold">Sector</h5>
+                <h5 class="fw-bold">
+                    <i class="bi bi-collection-fill"></i> Sector
+                </h5>
             </div>
             <div class="card-body p-4">
                 <div

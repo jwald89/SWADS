@@ -20,9 +20,6 @@ class ClassificationSeeder extends Seeder
             [
                 'name' => '4Ps',
             ],
-            [
-                'name' => 'IPs',
-            ],
         ];
 
         foreach($data as $key => $classification)

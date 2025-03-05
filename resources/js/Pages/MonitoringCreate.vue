@@ -344,23 +344,6 @@ onMounted(fetchMonitoringRecords);
                         <label for="sector"
                             >Sector<span class="text-danger">*</span></label
                         >
-                        <!-- <v-select
-                            class="fw-bold"
-                            name="sector"
-                            id="sector"
-                            :options="sectors.data"
-                            :reduce="(data) => data.id"
-                            label="name"
-                            v-model="monitorForm.sector"
-                            :class="{
-                                'form-control is-invalid': errors.sector,
-                            }"
-                            placeholder="Select"
-                        >
-                        </v-select>
-                        <small v-if="errors.sector" class="text-danger">{{
-                            errors.sector
-                        }}</small> -->
                         <input
                             type="text"
                             class="form-control fw-bold"

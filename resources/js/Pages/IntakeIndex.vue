@@ -229,9 +229,11 @@ watch(
                                     }}
                                     {{
                                         detail.middle_name
-                                            .substr(0, 1)
-                                            .toUpperCase()
-                                    }}.
+                                            ? detail.middle_name
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + ". "
+                                            : ""
+                                    }}
                                     {{
                                         detail.last_name
                                             .split(" ")
@@ -242,7 +244,10 @@ watch(
                                                         .toUpperCase() +
                                                     word.slice(1).toLowerCase()
                                             )
-                                            .join(" ")
+                                            .join(" ") +
+                                        (detail.extn_name
+                                            ? ", " + detail.extn_name
+                                            : "")
                                     }}
                                 </td>
                                 <td>

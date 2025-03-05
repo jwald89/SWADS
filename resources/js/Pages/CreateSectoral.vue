@@ -110,21 +110,17 @@ const submitForm = async () => {
         "sector",
         "date_encoded",
         "first_name",
-        "middle_name",
         "last_name",
         "age",
         "sex",
         "nationality",
         "religion",
-        "purok",
         "barangay",
         "municipality",
         "birthdate",
         "place_birth",
         "civil_status",
         "fam_members",
-        "ISY_OSY",
-        "status",
     ];
 
     fields.forEach((field) => {
@@ -285,10 +281,8 @@ defineComponent({
                                     </div>
                                     <div class="col-12 col-md-4 mb-2">
                                         <label for="middlename"
-                                            >Middle name<span
-                                                class="text-danger"
-                                                >*</span
-                                            ></label
+                                            >Middle name
+                                            <span>(Optional)</span></label
                                         >
                                         <input
                                             type="text"
@@ -296,18 +290,8 @@ defineComponent({
                                             name="middle_name"
                                             id="middle_name"
                                             v-model="sectoralForm.middle_name"
-                                            :class="{
-                                                'is-invalid':
-                                                    errors.middle_name,
-                                            }"
                                             placeholder="Middle name"
                                         />
-                                        <small
-                                            v-if="errors.middle_name"
-                                            class="text-danger"
-                                        >
-                                            {{ errors.middle_name }}
-                                        </small>
                                     </div>
                                     <div class="col-12 col-md-4 mb-2">
                                         <label for="lastname"

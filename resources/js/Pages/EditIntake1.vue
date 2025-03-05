@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, inject, watchEffect, computed, ref } from "vue";
+import { defineComponent, inject, watchEffect, ref } from "vue";
 import vSelect from "vue-select";
 
 const submitForm = inject("submitFormP1");
@@ -41,19 +41,17 @@ const calculateAge = () => {
     }
 };
 
-// Computed property to determine visibility of the IPs field
-const showIpsField = computed(() => {
-    return intakes.classification === 3;
-});
-
 watchEffect(() => {
     intakes.category = parseInt(intakes.category);
     intakes.barangay = parseInt(intakes.barangay);
     intakes.municipality = parseInt(intakes.municipality);
     intakes.sector_type = parseInt(intakes.sector_type);
-    intakes.ips = parseInt(intakes.ips);
     intakes.ofis_charge = parseInt(intakes.ofis_charge);
     intakes.classification = parseInt(intakes.classification);
+
+    if (intakes?.ips) {
+        intakes.ips = parseInt(intakes.ips);
+    }
 });
 
 // Watch for changes in birthdate to calculate age
@@ -172,10 +170,12 @@ defineComponent({
                                 />
                             </div>
 
-                            <div class="col-md-3" v-if="showIpsField">
+                            <div class="col-md-3">
                                 <label for="ips"
-                                    >IPs Affiliates
-                                    <span class="text-danger">*</span></label
+                                    >Ethnicity
+                                    <span class="font-monospace"
+                                        >(IPs Affiliates)</span
+                                    ></label
                                 >
                                 <v-select
                                     class="fw-bold"
@@ -243,11 +243,9 @@ defineComponent({
                                             <label
                                                 for="middleName"
                                                 class="col-sm-2 col-form-label"
-                                                >Middle name<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
+                                                >Middle name
+                                                <small>(Optional)</small>
+                                            </label>
                                             <div class="col-sm-10">
                                                 <input
                                                     type="text"
@@ -262,24 +260,38 @@ defineComponent({
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6 mb-2">
+                                            <div class="col-sm-6 mb-2">
                                                 <label for="extension"
                                                     >Extension</label
                                                 >
                                                 <small>
-                                                    (Jr. Sr. I II III
-                                                    etc.)</small
+                                                    (Jr. Sr. II III etc.)</small
                                                 >
-                                                <input
-                                                    type="text"
+                                                <select
                                                     class="form-control fw-bold"
-                                                    name="extension"
                                                     id="extension"
-                                                    placeholder="Suffix"
+                                                    name="extension"
                                                     v-model="intakes.extn_name"
-                                                />
+                                                >
+                                                    <option value="">NA</option>
+                                                    <option value="Jr">
+                                                        Junior (Jr.)
+                                                    </option>
+                                                    <option value="Sr">
+                                                        Senior (Sr.)
+                                                    </option>
+                                                    <option value="II">
+                                                        II
+                                                    </option>
+                                                    <option value="III">
+                                                        III
+                                                    </option>
+                                                    <option value="IV">
+                                                        IV
+                                                    </option>
+                                                </select>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-sm-6">
                                                 <label for="nickName"
                                                     >Nick name<span
                                                         class="text-danger"
@@ -516,10 +528,11 @@ defineComponent({
                                         ></label
                                     >
                                     <input
+                                        type="text"
                                         class="form-control fw-bold"
                                         id="contactNo"
                                         name="contact_no"
-                                        placeholder="Mobile number or Tel number"
+                                        placeholder="Enter a phone or mobile number.."
                                         v-model="intakes.contact_no"
                                     />
                                 </div>

@@ -33,6 +33,8 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
 use App\Http\Resources\ClassificationResource;
+use App\Http\Resources\FamRelationshipResource;
+use App\Models\FamRelationship;
 
 class IntakeController extends Controller
 {
@@ -86,6 +88,7 @@ class IntakeController extends Controller
         $indigents = IndigentResource::collection(IndigentPeople::all());
         $officeCharge = OfficeResource::collection(Office::all());
         $classType = ClassificationResource::collection(Classification::all());
+        $famRelation = FamRelationshipResource::collection(FamRelationship::all());
 
         return inertia('IntakeCreate', [
             'assistances' => $assistances,
@@ -95,6 +98,7 @@ class IntakeController extends Controller
             'indigents' => $indigents,
             'officeCharge' => $officeCharge,
             'classType' => $classType,
+            'famRelation' => $famRelation,
             'civilStatus' => CivilStatus::names(),
             'gender' => GenderTypes::names(),
         ]);
@@ -139,9 +143,8 @@ class IntakeController extends Controller
         $request->validate([
             '*.firstname' => 'required|string|max:255',
             '*.lastname' => 'required|string|max:255',
-            '*.middlename' => 'required|string|max:255',
-            '*.age' => 'required',
-            '*.relationship' => 'required|string|max:255',
+            '*.age' => 'required|integer',
+            '*.relationship' => 'required',
             '*.educ_attainment' => 'required|string|max:255',
             '*.remarks' => 'required|string|max:255',
         ]);
@@ -234,7 +237,7 @@ class IntakeController extends Controller
     public function show($id)
     {
         $intakes = PersonalInformation::with([
-            'famCompose',
+            'famCompose.famRelation',
             'referral',
             'remark',
             'assistance',
@@ -287,7 +290,7 @@ class IntakeController extends Controller
     public function edit($id)
     {
         $intakes = PersonalInformation::with([
-            'famCompose',
+            'famCompose.famRelation',
             'referral',
             'remark',
             'brgy',
@@ -295,7 +298,7 @@ class IntakeController extends Controller
             'sectorName',
             'chargingOffice',
             'indigent',
-            'classific'
+            'classific',
         ])->find($id);
 
         $assistances = AssistanceResource::collection(AssistanceType::all());
@@ -306,6 +309,7 @@ class IntakeController extends Controller
         $barangays = BarangayResource::collection(Barangay::all());
         $indigents = IndigentResource::collection(IndigentPeople::all());
         $classType = ClassificationResource::collection(Classification::all());
+        $famRelation = FamRelationshipResource::collection(FamRelationship::all());
 
         return inertia('EditIntake', [
             'intakes' => $intakes,
@@ -316,6 +320,7 @@ class IntakeController extends Controller
             'classType' => $classType,
             'barangays' => $barangays,
             'municipality' => $municipality,
+            'relationships' => $famRelation,
         ]);
     }
 
@@ -345,11 +350,10 @@ class IntakeController extends Controller
                 . strtoupper($createdByUser->last_name);
         }
 
-        $famCompose = DB::table('family_compositions')
-            ->select('id', 'lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks')
-            ->where('applicant_id', $id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $famCompose = FamilyComposition::with(['famRelation'])
+                        ->where('applicant_id', $id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
 
         $referrals = DB::table('referrals')
             ->select('id', 'content')
@@ -438,9 +442,11 @@ class IntakeController extends Controller
 
         $templateProcessor = new TemplateProcessor('word-template/intake-sheet.docx');
         $templateProcessor->setValue('case_no', $intakes?->case_no);
+        $templateProcessor->setValue('caseType', $intakes?->case);
         $templateProcessor->setValue('first_name', strtoupper($intakes?->first_name ?? ''));
-        $templateProcessor->setValue('middle_name', strtoupper(substr($intakes?->middle_name ?? '', 0, 1)));
+        $templateProcessor->setValue('middle_name', $intakes->middle_name ? strtoupper(substr($intakes?->middle_name, 0, 1)) . "." : "");
         $templateProcessor->setValue('last_name', strtoupper($intakes?->last_name ?? ''));
+        $templateProcessor->setValue('extn_name', $intakes->extn_name ? ", " . strtoupper($intakes?->extn_name ?? '') : "");
         $templateProcessor->setValue('nick_name', strtoupper($intakes?->nick_name ?? ''));
         $templateProcessor->setValue('date_intake', \Carbon\Carbon::parse($intakes?->date_intake ?? '')->format('j F Y'));
         $templateProcessor->setValue('category', ucwords($intakes?->assistance->name ?? ''));
@@ -459,7 +465,7 @@ class IntakeController extends Controller
         $templateProcessor->setValue('lname', strtoupper($intakes?->chargingOffice->last_name) ?? '');
         $templateProcessor->setValue('title', $intakes?->chargingOffice->title ?? '');
 
-        $families = FamilyComposition::where('applicant_id', $id)->get();
+        $families = FamilyComposition::with(['famRelation'])->where('applicant_id', $id)->get();
         $templateProcessor->cloneRow('firstname', $families->count());
 
         foreach ($families as $index => $family) {
@@ -468,7 +474,7 @@ class IntakeController extends Controller
             $templateProcessor->setValue('middlename#' . $rowIndex, substr($family?->middlename ?? '', 0, 1));
             $templateProcessor->setValue('lastname#' . $rowIndex, $family?->lastname ?? '');
             $templateProcessor->setValue('ageNo#' . $rowIndex, $family?->age ? $family?->age . " years old" : '');
-            $templateProcessor->setValue('relationship#' . $rowIndex, $family?->relationship ?? '');
+            $templateProcessor->setValue('relationship#' . $rowIndex, $family?->famRelation->name ?? '');
             $templateProcessor->setValue('educ_attainment#' . $rowIndex, $family?->educ_attainment ?? '');
             $templateProcessor->setValue('remarks#' . $rowIndex, $family?->remarks ?? '');
         }

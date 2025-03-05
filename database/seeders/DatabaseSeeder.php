@@ -4,8 +4,16 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\IndigentPeople;
 use Illuminate\Database\Seeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\SectorSeeder;
+use Database\Seeders\IndigentSeeder;
+use Database\Seeders\DisabilitySeeder;
+use Database\Seeders\MunicipalitySeeder;
+use Database\Seeders\OfficeChargeSeeder;
+use Database\Seeders\AssistanceTypeSeeder;
+use Database\Seeders\ClassificationSeeder;
+use Database\Seeders\FamRelationshipSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,6 +33,7 @@ class DatabaseSeeder extends Seeder
             IndigentSeeder::class,
             ClassificationSeeder::class,
             DisabilitySeeder::class,
+            FamRelationshipSeeder::class,
         ]);
     }
 }

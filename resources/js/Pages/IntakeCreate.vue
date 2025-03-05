@@ -65,11 +65,9 @@ const submitPersonalDetails = async () => {
         "category",
         "sector_type",
         "ofis_charge",
-        "ips",
         "date_intake",
         "last_name",
         "first_name",
-        "middle_name",
         "nick_name",
         "barangay",
         "municipality",
@@ -278,6 +276,7 @@ const props = defineProps({
     indigents: Object,
     officeCharge: Object,
     classType: Object,
+    famRelation: Object,
 });
 
 defineComponent({
@@ -376,6 +375,7 @@ onMounted(() => {});
                             @click="removeRecords()"
                             v-else
                         >
+                            <i class="bi bi-trash"></i>
                             Discard
                         </button>
                     </div>
@@ -484,6 +484,7 @@ onMounted(() => {});
                     <IntakeCreateP2
                         @incrementIndex="nextTab"
                         :index="currentIndex"
+                        :famRelation="famRelation"
                     />
                     <IntakeCreateP3 :index="currentIndex" />
                     <IntakeCreateP4 :index="currentIndex" />

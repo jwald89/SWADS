@@ -81,7 +81,7 @@ watch(
             >
                 <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Child Development Data List</h5>
+                        <h6 class="fw-bold">Child Development Data List</h6>
                     </div>
                     <div class="col-lg-6 text-end">
                         <Link
