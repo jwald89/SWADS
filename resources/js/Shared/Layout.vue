@@ -63,7 +63,8 @@ onMounted(() => {
                         <i class="bi bi-person-circle"></i>
                         <span
                             class="d-none d-md-block dropdown-toggle ps-2 text-uppercase"
-                            >{{ page.props.fullname }}</span
+                            >{{ page.props.fullname }}
+                            {{ page.props.middle_init }}</span
                         >
                     </a>
 

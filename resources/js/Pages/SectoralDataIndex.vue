@@ -235,10 +235,12 @@ watch(
                                             .join(" ")
                                     }}
                                     {{
-                                        sectoral.middle_name
-                                            .substr(0, 1)
-                                            .toUpperCase()
-                                    }}.
+                                        sectoral.middle_name === null
+                                            ? ""
+                                            : sectoral.middle_name
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
+                                    }}
                                     {{
                                         sectoral.last_name
                                             .charAt(0)

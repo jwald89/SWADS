@@ -250,10 +250,12 @@ const formatName = (fName) => {
                                         formatName(monitorings.user.first_name)
                                     }}
                                     {{
-                                        monitorings.user.middle_init
-                                            .substr(0, 1)
-                                            .toUpperCase()
-                                    }}.
+                                        monitorings.user.middle_init !== null
+                                            ? monitorings.user.middle_init
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
+                                            : ""
+                                    }}
                                     {{ formatName(monitorings.user.last_name) }}
                                 </div>
                             </div>

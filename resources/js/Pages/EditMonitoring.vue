@@ -18,14 +18,6 @@ const props = defineProps({
     staffAdmin: {
         type: String,
     },
-    // sectors: {
-    //     type: Object,
-    //     required: true,
-    // },
-    // officeCharge: {
-    //     type: Object,
-    //     required: true,
-    // },
 });
 
 const errors = reactive({});
@@ -92,8 +84,6 @@ const claimantName = computed(() => {
 
 watchEffect(() => {
     props.dataMonitors.liaison = parseInt(props.dataMonitors.liaison);
-    // props.dataMonitors.sector = parseInt(props.dataMonitors.sector);
-    // props.dataMonitors.charges = parseInt(props.dataMonitors.charges);
 });
 
 defineComponent({

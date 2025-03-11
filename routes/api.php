@@ -1,13 +1,9 @@
 <?php
 
-use App\Enums\Month;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\IntakeController;
 use App\Http\Controllers\Admin\MonitoringController;
-use App\Http\Controllers\Admin\SectoralDataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +36,16 @@ Route::get('/fetch-beneficiaries', [MonitoringController::class, 'fetchBeneficia
 /**
  * Discard the process in intake module and delete data on database table
  */
-Route::delete('remove-records', [IntakeController::class, 'deleteRecords']);
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::delete('/remove-records', [IntakeController::class, 'deleteRecords']);
+});
 
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::delete('/intake/delete/{id}', [IntakeController::class, 'destroy']);
+});
+
+Route::middleware(['auth:sanctum'])->group(function() {
+    Route::delete('/monitoring/delete/{id}', [MonitoringController::class, 'destroy']);
+});
 
 // Route::get('/sectoral-data/filter/{sector?}/{municipality?}', [SectoralDataController::class, 'filter']);

@@ -60,9 +60,12 @@ const fullName = computed(() => {
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         )
-        .join(" ")} ${props.monitoring.user.middle_init
-        .substr(0, 1)
-        .toUpperCase()}. ${props.monitoring.user.last_name
+        .join(" ")} ${
+        props.monitoring.user.middle_init !== null
+            ? props.monitoring.user.middle_init.substr(0, 1).toUpperCase() +
+              ". "
+            : ""
+    }${props.monitoring.user.last_name
         .split(" ")
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
@@ -76,9 +79,12 @@ const claimant = computed(() => {
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         )
-        .join(" ")} ${props.monitoring.intake.middle_name
-        .substr(0, 1)
-        .toUpperCase()}. ${props.monitoring.intake.last_name
+        .join(" ")} ${
+        props.monitoring.intake.middle_name !== null
+            ? props.monitoring.intake.middle_name.substr(0, 1).toUpperCase() +
+              ". "
+            : ""
+    }${props.monitoring.intake.last_name
         .split(" ")
         .map(
             (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()

@@ -86,7 +86,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/monitoring/create-post', 'store');
                 Route::get('/monitoring/edit/{id}', 'edit');
                 Route::put('/monitoring/update/{id}', 'update');
-                Route::delete('/monitoring/destroy/{id}', 'destroy');
+                // Route::delete('/monitoring/destroy/{id}', 'destroy');
                 Route::get('/monitoring/show/{id}', 'show');
                 Route::get('/monitoring/filter/{assistanceId?}/{sectorId?}/{municipalName?}/{month?}', 'filter');
     });

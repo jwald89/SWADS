@@ -13,7 +13,7 @@ class Referral extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'applicant_id', 'content', 'created_by', 'deleted_at'];
+    protected $fillable = ['id', 'applicant_id', 'content', 'created_by', 'modified_by', 'modified_date', 'deleted_at'];
 
     public function personalInfo()
     {

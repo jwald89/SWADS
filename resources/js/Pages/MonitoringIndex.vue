@@ -87,34 +87,42 @@ const formatDate = (dateString) => {
 
 const delData = async (id) => {
     try {
-        alertify.confirm(
-            "Delete Record",
-            "Are you sure you want to delete this record?",
-            function (_, value) {
-                axios
-                    .post(`/monitoring/destroy/${id}`, {
-                        key: value,
-                        _method: "DELETE",
-                    })
-                    .then((_) => {
-                        toast.success(
-                            "You have successfully delete a record!",
-                            {
+        alertify
+            .confirm(
+                "Delete Record",
+                "Are you sure you want to delete this record?",
+                function () {
+                    axios
+                        .delete(`/api/monitoring/delete/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem(
+                                    "token"
+                                )}`,
+                            },
+                            data: {
+                                id: id,
+                            },
+                        })
+                        .then((_) => {
+                            toast.success(
+                                "You have successfully delete a record!",
+                                {
+                                    autoClose: 2000,
+                                }
+                            );
+                            router.visit("/monitoring", {
+                                preserveScroll: true,
+                            });
+                        })
+                        .catch((error) => {
+                            toast.error(error.response.data.message, {
                                 autoClose: 2000,
-                            }
-                        );
-                        router.visit("/monitoring", {
-                            preserveScroll: true,
+                            });
                         });
-                    })
-                    .catch((error) => {
-                        toast.error(error.response.data.message, {
-                            autoClose: 2000,
-                        });
-                    });
-            },
-            function () {}
-        );
+                },
+                function () {}
+            )
+            .set("labels", { ok: "Yes" });
     } catch (error) {
         console.error("Error submitting form:", error);
     }

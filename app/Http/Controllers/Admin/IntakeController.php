@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Log;
+use Carbon\Carbon;
 use App\Enums\Month;
 use App\Models\User;
 use App\Models\Office;
@@ -14,10 +16,11 @@ use App\Enums\GenderTypes;
 use App\Models\Monitoring;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
+
 use App\Models\AssistanceType;
 use App\Models\Classification;
-
 use App\Models\IndigentPeople;
+use App\Models\FamRelationship;
 use App\Models\FamilyComposition;
 use Illuminate\Support\Facades\DB;
 use App\Models\PersonalInformation;
@@ -34,7 +37,6 @@ use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
 use App\Http\Resources\ClassificationResource;
 use App\Http\Resources\FamRelationshipResource;
-use App\Models\FamRelationship;
 
 class IntakeController extends Controller
 {
@@ -150,7 +152,7 @@ class IntakeController extends Controller
         ]);
 
         $userId = Auth::id();
-        // $famComps = array_map(fn ($r) => FamilyComposition::create($r), $request->all());
+
         foreach ($request->all() as $familyComposition) {
             $familyComposition['created_by'] = $userId;
             $famComps[] = FamilyComposition::create($familyComposition);
@@ -346,7 +348,7 @@ class IntakeController extends Controller
 
          if ($createdByUser) {
             $createdBy = strtoupper($createdByUser->first_name) . ' '
-                . strtoupper(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ($createdByUser->middle_init === null ? "" : strtoupper(substr($createdByUser->middle_init, 0, 1)) . '. ')
                 . strtoupper($createdByUser->last_name);
         }
 
@@ -401,7 +403,7 @@ class IntakeController extends Controller
 
         if ($createdByUser) {
             $createdBy = ucfirst($createdByUser->first_name) . ' '
-            . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+            . ($createdByUser->middle_init === null ? "" : strtoupper(substr($createdByUser->middle_init, 0, 1)) . '. ')
             . ucfirst($createdByUser->last_name);
         }
 
@@ -436,7 +438,7 @@ class IntakeController extends Controller
 
          if ($createdByUser) {
             $createdBy = ucfirst($createdByUser->first_name) . ' '
-                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ($createdByUser->middle_init === null ? "" : strtoupper(substr($createdByUser->middle_init, 0, 1)) . ". ")
                 . ucfirst($createdByUser->last_name);
         }
 
@@ -470,13 +472,13 @@ class IntakeController extends Controller
 
         foreach ($families as $index => $family) {
             $rowIndex = $index + 1;
-            $templateProcessor->setValue('firstname#' . $rowIndex, $family?->firstname ?? '');
-            $templateProcessor->setValue('middlename#' . $rowIndex, substr($family?->middlename ?? '', 0, 1));
-            $templateProcessor->setValue('lastname#' . $rowIndex, $family?->lastname ?? '');
+            $templateProcessor->setValue('firstname#' . $rowIndex, ucwords($family?->firstname ?? ''));
+            $templateProcessor->setValue('middlename#' . $rowIndex, ucwords(substr($family?->middlename ?? '', 0, 1)));
+            $templateProcessor->setValue('lastname#' . $rowIndex, ucwords($family?->lastname ?? ''));
             $templateProcessor->setValue('ageNo#' . $rowIndex, $family?->age ? $family?->age . " years old" : '');
             $templateProcessor->setValue('relationship#' . $rowIndex, $family?->famRelation->name ?? '');
-            $templateProcessor->setValue('educ_attainment#' . $rowIndex, $family?->educ_attainment ?? '');
-            $templateProcessor->setValue('remarks#' . $rowIndex, $family?->remarks ?? '');
+            $templateProcessor->setValue('educ_attainment#' . $rowIndex, ucwords($family?->educ_attainment ?? ''));
+            $templateProcessor->setValue('remarks#' . $rowIndex, ucwords($family?->remarks ?? ''));
         }
 
         $referral = Referral::where('applicant_id', $id)->first();
@@ -491,14 +493,21 @@ class IntakeController extends Controller
         return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
     }
 
+
     /**
      *  Update Intake Sheets
      */
     public function update(Request $request, $id)
     {
         return DB::transaction(function() use($id, $request) {
+            $userId = Auth::id();
+            $currentDate = Carbon::now();
+
             $personalData = PersonalInformation::findOrFail($id);
-            $personalData->update($request->except('family_compositions'));
+            $personalData->update(array_merge(
+                $request->except('family_compositions', 'referral', 'remark'),
+                ['modified_by' => $userId, 'modified_date' => $currentDate]
+            ));
 
             // Update the monitoring data based on the claimant
             $dataMonitoring = Monitoring::where('claimant', $id)->first();
@@ -513,31 +522,33 @@ class IntakeController extends Controller
                     'municipality' => $personalData->municipality,
                     'charges' => $personalData->ofis_charge,
                     'date_intake' => $personalData->date_intake,
+                    'modified_by' => $userId,
+                    'modified_date' => $currentDate,
                 ]);
             }
 
             foreach($request->fam_compose as $familyCompose) {
                 $family = FamilyComposition::find($familyCompose['id']);
-                $family['lastname'] = $familyCompose['lastname'];
-                $family['firstname'] = $familyCompose['firstname'];
-                $family['middlename'] = $familyCompose['middlename'];
-                $family['age'] = $familyCompose['age'];
-                $family['relationship'] = $familyCompose['relationship'];
-                $family['educ_attainment'] = $familyCompose['educ_attainment'];
-                $family['remarks'] = $familyCompose['remarks'];
-                $family->save();
+                $family->update(array_merge(
+                    $familyCompose,
+                    ['modified_by' => $userId, 'modified_date' => $currentDate]
+                ));
             }
 
             foreach ($request->referral as $referralData) {
                 $referral = Referral::find($referralData['id']);
-                $referral['content'] = $referralData['content'];
-                $referral->save();
+                $referral->update(array_merge(
+                    $referralData,
+                    ['modified_by' => $userId, 'modified_date' => $currentDate]
+                ));
             }
 
             foreach ($request->remark as $remarkData) {
                 $remark = Remark::find($remarkData['id']);
-                $remark['content'] = $remarkData['content'];
-                $remark->save();
+                $remark->update(array_merge(
+                    $remarkData,
+                    ['modified_by' => $userId, 'modified_date' => $currentDate]
+                ));
             }
 
             return response()->json([
@@ -555,15 +566,51 @@ class IntakeController extends Controller
      */
     public function deleteRecords(Request $request)
     {
-        // validate id key
-        return DB::transaction(function () use($request) {
+        return DB::transaction(function () use ($request) {
+            // Retrieve the PersonalInformation record with related models
             $data = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($request->id);
-            $data->delete();
-            $data->famCompose()?->delete();
-            $data->referral()?->delete();
-            $data->remark()?->delete();
 
-            return response()->json(['success' => true], 200);
+            if ($data) {
+                // Set the deleted_by field to the authenticated user's ID
+                $data->deleted_by = Auth::id();
+
+                try {
+                    $data->save(); // Save the changes to update the deleted_by field
+                    \Log::info('Record saved successfully.');
+                } catch (\Exception $e) {
+                    \Log::error('Error saving record: ' . $e->getMessage());
+                    return response()->json(['success' => false, 'message' => 'Error saving record'], 500);
+                }
+
+                // Retrieve the record again to check if the deleted_by field is set
+                $data = PersonalInformation::find($request->id);
+
+                // Delete related records
+                $data->famCompose()->each(function ($fam) {
+                    $fam->delete();
+                });
+
+                $data->referral()->each(function ($ref) {
+                    $ref->delete();
+                });
+
+                $data->remark()->each(function ($rem) {
+                    $rem->delete();
+                });
+
+                 // Now delete the main record
+                try {
+                    $data->delete();
+                    \Log::info('Main record deleted successfully.');
+                } catch (\Exception $e) {
+                    \Log::error('Error deleting main record: ' . $e->getMessage());
+                    return response()->json(['success' => false, 'message' => 'Error deleting main record'], 500);
+                }
+
+                return response()->json(['success' => true], 200);
+            }
+
+            return response()->json(['success' => false, 'message' => 'Record not found'], 404);
         });
     }
 
@@ -592,14 +639,29 @@ class IntakeController extends Controller
 
 
     /**
-     * Not is use
+     * Delete the data from the datatable personal information, family composition, referral and remark
      */
-    // public function destroy($id)
-    // {
-    //     $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+    public function destroy($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
 
-    //     $intakes->delete();
+            if (!$intakes) {
+                return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+            }
 
-    //     return response()->json(['success' => true]);
-    // }
+            if ($intakes->deleted_by === null) {
+                $intakes->deleted_by = Auth::id();
+                $intakes->save();
+            }
+
+            $intakes->famCompose()->delete();
+            $intakes->referral()->delete();
+            $intakes->remark()->delete();
+            $intakes->delete();
+
+            return response()->json(['success' => true]);
+        });
+    }
+
 }

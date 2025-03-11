@@ -17,7 +17,7 @@ class Monitoring extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'claimant', 'date_encoded', 'beneficiary', 'age', 'sex', 'contact_no', 'sector', 'municipality', 'barangay', 'client_type', 'assistance_type', 'amount', 'charges', 'date_intake', 'staff_admin', 'liaison', 'status_date', 'remarks', 'status', 'created_by', 'deleted_at', 'modified_by', 'modified_date'];
+    protected $fillable = ['id', 'claimant', 'date_encoded', 'beneficiary', 'age', 'sex', 'contact_no', 'sector', 'municipality', 'barangay', 'client_type', 'assistance_type', 'amount', 'charges', 'date_intake', 'staff_admin', 'liaison', 'status_date', 'remarks', 'status', 'created_by', 'deleted_by', 'deleted_at', 'modified_by', 'modified_date'];
 
 
     public function user()

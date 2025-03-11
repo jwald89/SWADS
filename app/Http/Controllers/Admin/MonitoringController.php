@@ -8,9 +8,11 @@ use App\Models\Office;
 use App\Models\Sector;
 use App\Enums\StatusType;
 use App\Models\Monitoring;
+use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Models\AssistanceType;
 use App\Models\FamilyComposition;
+use Illuminate\Support\Facades\DB;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
@@ -19,10 +21,9 @@ use App\Http\Requests\MonitorRequest;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\AssistanceResource;
+use App\Http\Resources\MunicipalityResource;
 use App\Http\Resources\PersonalDetailResource;
 use App\Http\Resources\FamilyCompositionResource;
-use App\Http\Resources\MunicipalityResource;
-use App\Models\Municipality;
 
 class MonitoringController extends Controller
 {
@@ -32,37 +33,38 @@ class MonitoringController extends Controller
     public function index()
     {
         if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
-            $monitoringData = Monitoring::with(['intake', 'sectorName', 'assistance', 'brgy', 'municipal', 'chargingOffice'])
-                ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
-                    $query->where('liaison', Auth::user()->id)
-                        ->where(function ($query) {
+                $monitoringData = Monitoring::with(['intake', 'sectorName', 'assistance', 'brgy', 'municipal', 'chargingOffice'])
+                    ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
+                        $query->where('liaison', Auth::user()->id)
+                            ->where(function ($query) {
+                                $search = request()->search;
+                                $query->orWhereHas('intake', function ($claimant) use ($search) {
+                                            $claimant->where('first_name', 'like', '%' . $search . '%')
+                                                    ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                                    ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                                    ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                                        });
+                            });
+                    })
+                    ->when(Auth::user()->role_type !== 'LIAISON', function ($query) {
+                        $query->where(function ($query) {
                             $search = request()->search;
                             $query->orWhereHas('intake', function ($claimant) use ($search) {
-                                        $claimant->where('first_name', 'like', '%' . $search . '%')
-                                                ->orWhere('middle_name', 'like', '%' . $search . '%')
-                                                ->orWhere('last_name', 'like', '%' . $search . '%')
-                                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
-                                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                                    $claimant->where('first_name', 'like', '%' . $search . '%')
+                                            ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                            ->orWhere('last_name', 'like', '%' . $search . '%')
+                                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                            ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                            ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
                                     });
                         });
-                })
-                ->when(Auth::user()->role_type !== 'LIAISON', function ($query) {
-                    $query->where(function ($query) {
-                        $search = request()->search;
-                        $query->orWhereHas('intake', function ($claimant) use ($search) {
-                                  $claimant->where('first_name', 'like', '%' . $search . '%')
-                                           ->orWhere('middle_name', 'like', '%' . $search . '%')
-                                           ->orWhere('last_name', 'like', '%' . $search . '%')
-                                           ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
-                                           ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
-                                           ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
-                              });
-                    });
-                })
-                ->orderBy('created_at', 'DESC')
-                ->paginate(10);
-        }
+                    })
+                    ->orderBy('created_at', 'DESC')
+                    ->paginate(10);
+            }
+
 
         $assistanceType = AssistanceResource::collection(AssistanceType::all());
         $sectorType = SectorResource::collection(Sector::all());
@@ -174,7 +176,7 @@ class MonitoringController extends Controller
 
         if ($createdByUser) {
             $staffAdmin = ucwords($createdByUser->first_name) . ' '
-                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ($createdByUser->middle_init !== null ? ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. ' : "")
                 . ucfirst($createdByUser->last_name);
         }
 
@@ -210,11 +212,22 @@ class MonitoringController extends Controller
      */
     public function destroy($id)
     {
-        $monitoring = Monitoring::find($id);
+        return DB::transaction(function () use ($id) {
+            $monitoring = Monitoring::find($id);
 
-        $monitoring->delete();
+            if (!$monitoring) {
+                return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+            }
 
-        return response()->json(['success' => true]);
+            if ($monitoring->deleted_by === null) {
+                $monitoring->deleted_by = Auth::id();
+                $monitoring->save();
+            }
+
+            $monitoring->delete();
+
+            return response()->json(['success' => true]);
+        });
     }
 
      /**
@@ -244,7 +257,7 @@ class MonitoringController extends Controller
 
         if ($createdByUser) {
             $createdBy = ucwords($createdByUser->first_name) . ' '
-                . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                . ($createdByUser->middle_init !== null ? ucfirst(substr($createdByUser->middle_init, 0, 1)) . '. ' : "")
                 . ucfirst($createdByUser->last_name);
         }
 
@@ -257,7 +270,7 @@ class MonitoringController extends Controller
 
         if ($staffAdmin) {
             $staffAdmin = ucwords($staffAdmin->first_name) . ' '
-                . ucfirst(substr($staffAdmin->middle_init ?? '', 0, 1)) . '. '
+                . ($staffAdmin !== null ? ucfirst(substr($staffAdmin->middle_init, 0, 1)) . '. ' : "")
                 . ucfirst($staffAdmin->last_name);
         }
 
@@ -269,7 +282,7 @@ class MonitoringController extends Controller
 
         if ($modifiedByUser) {
             $modifiedBy = ucwords($modifiedByUser->first_name) . ' '
-                . ucfirst(substr($modifiedByUser->middle_init ?? '', 0, 1)) . '. '
+                . ($modifiedByUser !== null ? ucfirst(substr($modifiedByUser->middle_init, 0, 1)) . '. ' : "")
                 . ucfirst($modifiedByUser->last_name);
         }
 
@@ -288,29 +301,6 @@ class MonitoringController extends Controller
     public function filter($assistanceId = '*', $sectorId = '*', $municipalId = '*', $month = '*')
     {
         $data = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'chargingOffice']);
-
-
-        // // If the user is admin
-        // if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER') {
-        //     // If sectorId is "All", show all data regardless of municipality
-        //     if ($sectorId == '*') {
-        //         // No additional filtering by municipality for admins
-        //     } else {
-        //         // If a specific sector is selected, filter by that sector
-        //         $data->where('sector', $sectorId);
-        //     }
-        // } else if (Auth::user()->role_type === 'MUNICIPAL') {
-        //     // If the user is municipal
-        //     if ($sectorId == '*') {
-        //         // Show data for the user's municipality
-        //         $data->where('municipality', Auth::user()->municipality);
-        //     } else {
-        //         // If a specific sector is selected, filter by sector and municipality
-        //         $data->where('sector', $sectorId)
-        //             ->where('municipality', Auth::user()->municipality);
-        //     }
-        // }
-
 
         if ($assistanceId !== '*') {
             $data->where('assistance_type', $assistanceId);

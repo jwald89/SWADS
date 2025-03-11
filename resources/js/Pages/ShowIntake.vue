@@ -358,7 +358,11 @@ defineComponent({
                             <div class="d-flex col-lg-8 mt-1">
                                 <div class="label fw-bold">Relationship:</div>
                                 <div class="ms-3">
-                                    {{ famCompose.fam_relation.name }}
+                                    {{
+                                        famCompose.relationship !== null
+                                            ? famCompose.fam_relation.name
+                                            : ""
+                                    }}
                                 </div>
                             </div>
                         </div>

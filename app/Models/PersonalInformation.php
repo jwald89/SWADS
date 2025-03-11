@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AssistanceType;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,8 +15,7 @@ class PersonalInformation extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'case_no', 'classification', 'ips', 'category', 'sector_type', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'case', 'sex', 'civil_stats', 'birthdate', 'job', 'educ_attainment', 'contact_no', 'income', 'ofis_charge', 'created_by', 'deleted_at'];
-
+    protected $fillable = ['id', 'case_no', 'classification', 'ips', 'category', 'sector_type', 'date_intake', 'last_name', 'first_name', 'middle_name', 'nick_name', 'extn_name', 'age', 'barangay', 'purok', 'street', 'municipality', 'case', 'sex', 'civil_stats', 'birthdate', 'job', 'educ_attainment', 'contact_no', 'income', 'ofis_charge', 'created_by', 'modified_by', 'modified_date', 'deleted_by', 'deleted_at'];
 
     public function famCompose()
     {

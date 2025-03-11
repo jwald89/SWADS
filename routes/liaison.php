@@ -41,7 +41,7 @@ Route::group([
 
             if ($createdByUser) {
                 $staffAdmin = ucwords($createdByUser->first_name) . ' '
-                    . ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. '
+                    . ($createdByUser->middle_init !== null ? ucfirst(substr($createdByUser->middle_init ?? '', 0, 1)) . '. ' : "")
                     . ucfirst($createdByUser->last_name);
             }
 

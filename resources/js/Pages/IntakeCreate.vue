@@ -290,30 +290,37 @@ defineComponent({
 const removeRecords = () => {
     const applicant = localStorage.getItem("applicant_id");
 
-    alertify.confirm(
-        "Are you sure you want to cancel this record?",
-        function () {
-            axios
-                .post(`/api/remove-records`, {
-                    id: applicant,
-                    _method: "DELETE",
-                })
-                .then((response) => {
-                    if (response.status === 200) {
-                        localStorage.clear();
-                        location.reload();
-                    }
-                })
-                .catch((err) => {
-                    alertify.error(
-                        "Something went wrong, please contact the developer!"
-                    );
-                });
-        },
-        function () {
-            alertify.message("Cancelled");
-        }
-    );
+    alertify
+        .confirm(
+            "Cancel Record",
+            "Are you sure you want to cancel this record?",
+            function () {
+                axios
+                    .delete(`/api/remove-records`, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                        data: {
+                            id: applicant,
+                        },
+                    })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            localStorage.clear();
+                            location.reload();
+                        }
+                    })
+                    .catch((err) => {
+                        alertify.error(
+                            "Something went wrong, please contact the developer!"
+                        );
+                    });
+            },
+            function () {}
+        )
+        .set("labels", { ok: "Yes", cancel: "No" });
 };
 
 onMounted(() => {});

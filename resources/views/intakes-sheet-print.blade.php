@@ -192,7 +192,7 @@
                 <tr>
                     <td>{{ ucwords($data->firstname) }} {{ $data->middlename != null ? strtoupper(substr($data->middlename, 0, 1)) . '.' : "" }} {{ ucwords($data->lastname) }}</td>
                     <td>{{ $data->age != null ? $data->age . " years old" : "" }} </td>
-                    <td>{{ ucfirst($data->famRelation->name) }}</td>
+                    <td>{{ $data->relationship !== null ? ucfirst($data->famRelation->name) : "" }}</td>
                     <td><?php echo !empty(trim($data->educ_attainment)) ? ucwords($data->educ_attainment) : "" ?></td>
                     <td>{{ ucfirst($data->remarks) }}</td>
                 </tr>

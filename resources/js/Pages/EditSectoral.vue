@@ -68,10 +68,15 @@ watchEffect(() => {
     props.sectoral.sector = parseInt(props.sectoral.sector);
     props.sectoral.municipality = parseInt(props.sectoral.municipality);
     props.sectoral.barangay = parseInt(props.sectoral.barangay);
-    props.sectoral.physical_disability = parseInt(
-        props.sectoral.physical_disability
-    );
-    props.sectoral.ethnicity = parseInt(props.sectoral.ethnicity);
+
+    if (props.sectoral?.ethnicity) {
+        props.sectoral.ethnicity = parseInt(props.sectoral.ethnicity);
+    }
+    if (props.sectoral?.physical_disability) {
+        props.sectoral.physical_disability = parseInt(
+            props.sectoral.physical_disability
+        );
+    }
 });
 
 defineComponent({
@@ -498,6 +503,7 @@ defineComponent({
                                             id="ethnicity"
                                             label="name"
                                             v-model="sectoral.ethnicity"
+                                            placeholder="Select"
                                         >
                                         </v-select>
                                     </div>
@@ -513,6 +519,7 @@ defineComponent({
                                             v-model="
                                                 sectoral.physical_disability
                                             "
+                                            placeholder="Select"
                                         >
                                         </v-select>
                                     </div>

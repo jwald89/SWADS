@@ -3,9 +3,10 @@ import { defineComponent, onMounted, ref, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { debounce } from "lodash";
-import { Link, router } from "@inertiajs/vue3";
+import { Link, router, usePage } from "@inertiajs/vue3";
 import Pagination from "../components/Pagination.vue";
 import vSelect from "vue-select";
+import { toast } from "vue3-toastify";
 
 const props = defineProps({
     intake: {
@@ -92,6 +93,56 @@ defineComponent({
 onMounted(() => {
     getData();
 });
+
+const page = usePage();
+
+const hasAccess = (type) => {
+    type = type.map((t) => t.toUpperCase());
+    return type.includes(page.props.role_type);
+};
+
+const delData = async (id) => {
+    try {
+        alertify
+            .confirm(
+                "Are you sure you want to delete this record?",
+                "<h5 class='text-danger fw-bold'>Warning!</h5><h5 class='fw-normal'>If you continue to delete this record, it will also delete the existing record in the monitoring module.</h5>",
+                function () {
+                    axios
+                        .delete(`/api/intake/delete/${id}`, {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem(
+                                    "token"
+                                )}`,
+                            },
+                            data: {
+                                id: id,
+                            },
+                        })
+                        .then((_) => {
+                            toast.success(
+                                "You have successfully deleted a record!",
+                                {
+                                    autoClose: 2000,
+                                }
+                            );
+                            router.visit("/intake", {
+                                preserveScroll: true,
+                            });
+                        })
+                        .catch((error) => {
+                            toast.error(error.response.data.message, {
+                                autoClose: 2000,
+                            });
+                        });
+                },
+                function () {}
+            )
+            .set("labels", { ok: "Yes" });
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
 
 watch(
     search,
@@ -322,6 +373,16 @@ watch(
                                     >
                                         <i class="bi bi-download"></i>
                                     </a>
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        v-if="hasAccess(['admin', 'user'])"
+                                        title="Delete"
+                                        @click="delData(detail.id)"
+                                    >
+                                        <i class="bi bi-trash"></i>
+                                        <!-- Delete -->
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -339,3 +400,10 @@ watch(
         </div>
     </LayoutApp>
 </template>
+
+<style>
+.alertify .ajs-header {
+    background-color: #ff0000;
+    color: #fff;
+}
+</style>
