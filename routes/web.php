@@ -57,7 +57,6 @@ Route::group(['middleware' => 'auth'], function() {
                 // Store the data from the form
                 Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1')->middleware('validate.client.record');
                 Route::post('/intake/create-post/p2', 'storeP2')->name('intake.post2');
-                Route::post('/intake/create-post/null/p2', 'storeP2Null');
                 Route::post('/intake/create-post/p3', 'storeP3')->name('intake.post3');
                 Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');
 
@@ -86,7 +85,6 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/monitoring/create-post', 'store');
                 Route::get('/monitoring/edit/{id}', 'edit');
                 Route::put('/monitoring/update/{id}', 'update');
-                // Route::delete('/monitoring/destroy/{id}', 'destroy');
                 Route::get('/monitoring/show/{id}', 'show');
                 Route::get('/monitoring/filter/{assistanceId?}/{sectorId?}/{municipalName?}/{month?}', 'filter');
     });

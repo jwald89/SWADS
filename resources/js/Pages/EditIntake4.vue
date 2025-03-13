@@ -25,6 +25,7 @@ const submitFormP4 = inject("submitFormP4");
                             id="recommendation"
                             name="recommendation"
                             v-model="remarks.content"
+                            placeholder="Enter a remark.."
                         >
                         </textarea>
 

@@ -43,6 +43,7 @@ const resetForm = () => {
 
 // Save the form data to local storage
 const saveToLocalStorage = async () => {
+    const applicantId = localStorage.getItem("applicant_id");
     // Check if any required field in the form is empty
     const requiredFields = [
         "lastname",
@@ -82,7 +83,8 @@ const saveToLocalStorage = async () => {
     }
 
     // If validation passes, save the data to local storage
-    const newEntry = { ...form };
+    const newEntry = { ...form, applicant_id: applicantId };
+
     familyList.value.push(newEntry);
     localStorage.setItem(
         "familyCompositions",

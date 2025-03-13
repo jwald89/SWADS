@@ -34,8 +34,7 @@ const tabIndex = 3;
                             :class="{ 'is-invalid': errors.content }"
                             placeholder="Enter a remark.."
                         >
-                Remarks/ Recommendation</textarea
-                        >
+                        </textarea>
                         <small v-if="errors.content" class="text-danger">{{
                             errors.content
                         }}</small>

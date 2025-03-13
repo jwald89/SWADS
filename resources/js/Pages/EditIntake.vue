@@ -145,6 +145,7 @@ const submitReferral = async () => {
 };
 
 provide("submitFormP3", submitReferral);
+provide("formErrors", errors);
 // END SUBMIT REFERRAL //
 
 // START SUBMIT REMARK //

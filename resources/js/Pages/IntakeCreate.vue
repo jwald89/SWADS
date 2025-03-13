@@ -150,23 +150,6 @@ const familyForm = reactive({
  */
 const submitFamCompositions = async () => {
     try {
-        const applicantId = localStorage.getItem("applicant_id");
-        const famForm = {
-            applicant_id: JSON.parse(applicantId),
-            lastname: null,
-            firstname: null,
-            middlename: null,
-            age: null,
-            relationship: null,
-            educ_attainment: null,
-            remarks: null,
-        };
-
-        const response = await axios.post(
-            "/intake/create-post/null/p2",
-            famForm
-        );
-
         nextTab();
     } catch (error) {
         console.error("Error submitting form:", error);

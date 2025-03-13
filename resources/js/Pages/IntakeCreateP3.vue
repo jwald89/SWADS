@@ -32,8 +32,7 @@ const tabs = inject("tabs");
                             :class="{ 'is-invalid': errors.content }"
                             placeholder="Enter a referrral.."
                         >
-                Circumstances/ Referral</textarea
-                        >
+                        </textarea>
                         <small v-if="errors.content" class="text-danger">{{
                             errors.content
                         }}</small>

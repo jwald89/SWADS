@@ -2,6 +2,7 @@
 import { inject } from "vue";
 const intakes = inject("intakeData");
 const submitForms = inject("submitFormP3");
+const errors = inject("formErrors");
 </script>
 
 <template>
@@ -25,6 +26,7 @@ const submitForms = inject("submitFormP3");
                             id="referral"
                             name="referral"
                             v-model="referrals.content"
+                            placeholder="Enter a referrral.."
                         >
                         </textarea>
                         <div class="mt-4">

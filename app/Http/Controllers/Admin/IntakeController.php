@@ -133,6 +133,31 @@ class IntakeController extends Controller
                 'created_by' => $userId
             ])
         );
+        // Create temporary family composition record
+        FamilyComposition::create([
+            'applicant_id' => $personalInformation->id,
+            'firstname' => null,
+            'lastname' => null,
+            'age' => null,
+            'relationship' => null,
+            'educ_attainment' => null,
+            'remarks' => null,
+            'created_by' => $userId
+        ]);
+
+        // Create temporary referral record
+        Referral::create([
+            'applicant_id' => $personalInformation->id,
+            'content' => null,
+            'created_by' => $userId
+        ]);
+
+        // Create temporary remark record
+        Remark::create([
+            'applicant_id' => $personalInformation->id,
+            'content' => null,
+            'created_by' => $userId
+        ]);
 
         return response()->json($personalInformation, 201);
     }
@@ -149,48 +174,46 @@ class IntakeController extends Controller
             '*.relationship' => 'required',
             '*.educ_attainment' => 'required|string|max:255',
             '*.remarks' => 'required|string|max:255',
+            '*.applicant_id' => 'required|integer',
         ]);
 
         $userId = Auth::id();
+        $famComps = [];
 
-        foreach ($request->all() as $familyComposition) {
-            $familyComposition['created_by'] = $userId;
-            $famComps[] = FamilyComposition::create($familyComposition);
+       // Determine the count of records in the request
+        $recordCount = count($request->all());
+
+        // If there's only one record, check if it exists and update it
+        if ($recordCount === 1) {
+            $familyComposition = $request->input(0); // Access the first item directly
+            $applicantId = $familyComposition['applicant_id'];
+
+            // Try to find an existing record
+            $existingFamilyComposition = FamilyComposition::where('applicant_id', $applicantId)->first();
+
+            if ($existingFamilyComposition) {
+                // Update the existing record
+                $existingFamilyComposition->update(array_merge($familyComposition, ['created_by' => $userId]));
+                $famComps[] = $existingFamilyComposition;
+            } else {
+                // Create a new record if none exists
+                $familyComposition['created_by'] = $userId;
+                $famComps[] = FamilyComposition::create($familyComposition);
+            }
+        } else {
+            // If there are two or more records, delete existing ones with the same applicant_id
+            $applicantIds = collect($request->all())->pluck('applicant_id')->unique();
+            FamilyComposition::whereIn('applicant_id', $applicantIds)->delete();
+
+            // Create new records from the request
+            foreach ($request->all() as $familyComposition) {
+                $familyComposition['created_by'] = $userId;
+                $famComps[] = FamilyComposition::create($familyComposition);
+            }
         }
 
+
         return response()->json($famComps, 201);
-    }
-
-    /**
-     * Family Compositions null store process
-     */
-    public function storeP2Null(Request $request)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'applicant_id' => 'required',
-            'lastname' => 'nullable',
-            'firstname' => 'nullable',
-            'middlename' => 'nullable',
-            'age' => 'nullable|integer',
-            'relationship' => 'nullable',
-            'educ_attainment' => 'nullable',
-            'remarks' => 'nullable',
-        ]);
-
-        // Get the authenticated user's ID
-        $userId = Auth::id();
-
-        // Create a new FamilyComposition entry
-        $famComps = FamilyComposition::create(
-            array_merge($validatedData, ['created_by' => $userId])
-        );
-
-        // Return a JSON response with the created entry
-        return response()->json([
-            'success' => true,
-            'data' => $famComps,
-        ], 201);
     }
 
     /**
@@ -203,9 +226,21 @@ class IntakeController extends Controller
         ]);
 
         $userId = Auth::id();
-        $referrals = Referral::create(
-            array_merge($request->all(), ['created_by' => $userId])
-        );
+
+        $existingReferral = Referral::where('applicant_id', $request->applicant_id)->first();
+
+        if ($existingReferral) {
+            $existingReferral->update([
+                'content' => $request->content,
+                'created_by' => $userId
+            ]);
+
+            $referrals = $existingReferral;
+        } else {
+            $referrals = Referral::create(
+                array_merge($request->all(), ['created_by' => $userId])
+            );
+        }
 
         return response()->json([
             'message' => 'You have successfully created!',
@@ -223,9 +258,21 @@ class IntakeController extends Controller
         ]);
 
         $userId = Auth::id();
-        $remarks = Remark::create(
-            array_merge($request->all(), ['created_by' => $userId])
-        );
+
+        $existingRemark = Remark::where('applicant_id', $request->applicant_id)->first();
+
+        if ($existingRemark) {
+            $existingRemark->update([
+                'content' => $request->content,
+                'created_by' => $userId
+            ]);
+
+            $remarks = $existingRemark;
+        } else {
+            $remarks = Remark::create(
+                array_merge($request->all(), ['created_by' => $userId])
+            );
+        }
 
         return response()->json([
             'message' => "You have successfully created!",
