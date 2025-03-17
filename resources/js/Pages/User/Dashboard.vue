@@ -167,12 +167,15 @@ onMounted(() => {
 });
 
 const formatName = (fname) => {
-    return fname
-        .split(" ")
-        .map(
-            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        )
-        .join(" ");
+    return fname !== null
+        ? fname
+              .split(" ")
+              .map(
+                  (word) =>
+                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+              )
+              .join(" ")
+        : "";
 };
 
 const formatDate = (dateString) => {

@@ -841,7 +841,57 @@ onMounted(() => {
                     >
                 </Link>
             </li>
+
+            <div v-if="hasAccess(['user'])">
+                <li class="nav-heading">OTHERS</li>
+                <!-- CHILD DEVELOPMENT MODULE -->
+                <li class="nav-item">
+                    <Link
+                        class="nav-link"
+                        :href="`/child-development`"
+                        :class="{
+                            'bg-highlight':
+                                currentRoute.includes('child-development'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-badge-cc"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('child-development'),
+                            }"
+                        ></i>
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('child-development'),
+                            }"
+                            >CDC / CDW</span
+                        >
+                    </Link>
+                </li>
+                <!-- END OF CHILD DEVELOPMENT MODULE -->
+
+                <!-- MEDICAL MODULE -->
+                <li class="nav-item">
+                    <Link class="nav-link">
+                        <i class="bi bi-file-earmark-medical"></i>
+                        <span>MEDICINE</span>
+                    </Link>
+                </li>
+                <!-- END OF MEDICAL MODULE -->
+
+                <!-- TRANSACTION MODULE -->
+                <li class="nav-item">
+                    <Link class="nav-link">
+                        <i class="bi bi-file-post-fill"></i>
+                        <span>TRANSACTION</span>
+                    </Link>
+                </li>
+                <!-- END OF TRANSACTION MODULE -->
+            </div>
         </ul>
+
         <!-- END USER ROLE ACCESS -->
     </aside>
     <!-- End Sidebar-->

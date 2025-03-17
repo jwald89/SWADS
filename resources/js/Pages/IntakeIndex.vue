@@ -376,7 +376,7 @@ watch(
                                     <button
                                         type="submit"
                                         class="btn btn-sm btn-danger"
-                                        v-if="hasAccess(['admin', 'user'])"
+                                        v-if="hasAccess(['admin'])"
                                         title="Delete"
                                         @click="delData(detail.id)"
                                     >

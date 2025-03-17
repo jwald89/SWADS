@@ -48,4 +48,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
     Route::delete('/monitoring/delete/{id}', [MonitoringController::class, 'destroy']);
 });
 
+Route::delete('/family-member/{id}', [IntakeController::class, 'deleteFamilyMember']);
+
 // Route::get('/sectoral-data/filter/{sector?}/{municipality?}', [SectoralDataController::class, 'filter']);

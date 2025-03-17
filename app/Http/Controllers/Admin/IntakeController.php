@@ -575,11 +575,18 @@ class IntakeController extends Controller
             }
 
             foreach($request->fam_compose as $familyCompose) {
-                $family = FamilyComposition::find($familyCompose['id']);
-                $family->update(array_merge(
-                    $familyCompose,
-                    ['modified_by' => $userId, 'modified_date' => $currentDate]
-                ));
+                if(isset($familyCompose['id'])) {
+                    $family = FamilyComposition::find($familyCompose['id']);
+                    $family->update(array_merge(
+                        $familyCompose,
+                        ['modified_by' => $userId, 'modified_date' => $currentDate]
+                    ));
+                }else {
+                    FamilyComposition::create(array_merge(
+                        $familyCompose,
+                        ['applicant_id' => $id, 'created_by' => $userId]
+                    ));
+                }
             }
 
             foreach ($request->referral as $referralData) {
@@ -711,4 +718,24 @@ class IntakeController extends Controller
         });
     }
 
+    /**
+     * Delete a family member by ID.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteFamilyMember($id)
+    {
+        return DB::transaction(function() use($id) {
+            $familyMember = FamilyComposition::find($id);
+
+            if (!$familyMember) {
+                return response()->json(['message' => 'Family member not found.'], 404);
+            }
+
+            $familyMember->delete();
+
+            return response()->json(['message' => 'Family member deleted successfully.'], 200);
+        });
+    }
 }

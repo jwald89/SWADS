@@ -31,6 +31,7 @@ const beneficiaryData = ref(null);
 const errors = reactive({});
 const filteredMonitors = ref([]); // Clone initial options
 const beneficiaries = ref([]);
+const isSubmitting = ref(false);
 
 // Monitor form reactive object
 const monitorForm = reactive({
@@ -165,6 +166,8 @@ const submitForm = async () => {
             autoClose: 1000,
         });
 
+        isSubmitting.value = true;
+
         // Clear the form after saving
         resetForm();
 
@@ -178,13 +181,14 @@ const submitForm = async () => {
             toast.error("Please fill in the blanks error!", {
                 autoClose: 2000,
             });
-        } else {
-            // Handle other errors
+        } else if (error.response && error.response.status === 409) {
             toast.error("An unexpected error occurred.", {
                 autoClose: 2000,
             });
         }
         console.error("Error submitting form:", error);
+    } finally {
+        isSubmitting.value = false;
     }
 };
 

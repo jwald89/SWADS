@@ -138,6 +138,17 @@ class MonitoringController extends Controller
     public function store(MonitorRequest $request)
     {
         $userId = Auth::id();
+        $timeFrame = Carbon::now()->subMinutes(2); // Change to the desired number of minutes
+
+        // Check if the record already exists within the specified short time frame
+        $existingRecord = Monitoring::where('claimant', $request->claimant)
+            ->where('created_by', $userId)
+            ->where('created_at', '>=', $timeFrame)
+            ->first();
+
+        if ($existingRecord) {
+            return response()->json(['message' => 'Record already exists within the specified time frame'], 409);
+        }
 
         $data = Monitoring::create(
             array_merge($request->all(), ['created_by' => $userId])

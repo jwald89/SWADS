@@ -112,6 +112,19 @@ class SectoralDataController extends Controller
     public function store(SectoralDataRequest $request)
     {
         $userId = Auth::id();
+        $timeFrame = Carbon::now()->subMinutes(2); // Change to the desired number of minutes
+
+        // Check if the record already exists within the specified short time frame
+        $existingRecord = Sectoral::where('first_name', $request->first_name)
+            ->where('middle_name', $request->middle_name)
+            ->where('last_name', $request->last_name)
+            ->where('created_by', $userId)
+            ->where('created_at', '>=', $timeFrame)
+            ->first();
+
+        if ($existingRecord) {
+            return response()->json(['message' => 'Record already exists within the specified time frame'], 409);
+        }
 
         $sectoralData = Sectoral::create(
             array_merge($request->all(), ['created_by' => $userId])

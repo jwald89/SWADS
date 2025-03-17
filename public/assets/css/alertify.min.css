@@ -174,7 +174,8 @@
 }
 
 .alertify.ajs-closable .ajs-commands button.ajs-close {
-    display: inline-block
+    display: inline-block;
+    background-color: white;
 }
 
 .alertify.ajs-maximized .ajs-dialog {

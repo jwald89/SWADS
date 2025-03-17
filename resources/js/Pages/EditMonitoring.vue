@@ -69,7 +69,8 @@ const claimantName = computed(() => {
         .join(" ")} ${
         props.dataMonitors.intake.middle_name === null
             ? ""
-            : props.dataMonitors.intake.middle_name.substr(0, 1) + "."
+            : props.dataMonitors.intake.middle_name.substr(0, 1).toUpperCase() +
+              "."
     } ${props.dataMonitors.intake.last_name
         .split(" ")
         .map(

@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
@@ -39,6 +39,7 @@ defineProps({
 });
 
 const errors = reactive({});
+const isSubmitting = ref(false);
 
 const sectoralForm = reactive({
     sector: "",
@@ -129,6 +130,8 @@ const submitForm = async () => {
         }
     });
 
+    isSubmitting.value = true;
+
     try {
         const response = await axios.post(
             "/sectoral-data/create-post",
@@ -152,8 +155,14 @@ const submitForm = async () => {
             toast.error("Please check the error in fields!", {
                 autoClose: 2000,
             });
+        } else if (error.response && error.response.status === 409) {
+            toast.error("The record already exists!", {
+                autoClose: 2000,
+            });
         }
         console.error("Error submitting form:", error);
+    } finally {
+        isSubmitting.value = false;
     }
 };
 

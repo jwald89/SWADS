@@ -3,6 +3,7 @@ import { inject, defineComponent, watchEffect } from "vue";
 const intakes = inject("intakeData");
 const submitForm = inject("submitFormP2");
 import vSelect from "vue-select";
+import axios from "axios";
 
 defineProps({
     relationships: Object,
@@ -11,9 +12,48 @@ defineProps({
 // Initialize fam_relation if it does not exist
 watchEffect(() => {
     intakes.fam_compose.forEach((famCompose) => {
-        famCompose.relationship = parseInt(famCompose.relationship);
+        if (famCompose?.relationship) {
+            famCompose.relationship = parseInt(famCompose.relationship);
+        }
     });
 });
+
+const addFamilyMember = () => {
+    intakes.fam_compose.push({
+        lastname: "",
+        firstname: "",
+        middlename: "",
+        age: "",
+        relationship: null,
+        educ_attainment: "",
+        remarks: "",
+    });
+};
+
+const deleteFamilyMember = async (index, id) => {
+    console.log("ID:", id);
+    if (id) {
+        try {
+            alertify.confirm(
+                "Remove Family Member",
+                "Are you sure you want to remove this family member?",
+                function () {
+                    axios.delete(`/api/family-member/${id}`);
+                    intakes.fam_compose.splice(index, 1);
+                    console.log(`Family member with ID ${id} deleted.`);
+                },
+                () => {
+                    console.log("Family member deletion cancelled.");
+                }
+            );
+        } catch (error) {
+            console.error("Error deleting family member:", error);
+        }
+    } else {
+        intakes.fam_compose.splice(index, 1);
+    }
+};
+
 defineComponent({
     vSelect,
 });
@@ -35,6 +75,14 @@ defineComponent({
                 <card-header class="bg-primary px-2 py-1 text-light">
                     Family Member No.
                     <span class="badge text-bg-light">{{ index + 1 }}</span>
+                    <button
+                        type="button"
+                        class="btn btn-light btn-sm text-danger fw-bold float-end"
+                        @click="deleteFamilyMember(index, famCompose.id)"
+                    >
+                        <i class="bi bi-trash"></i>
+                        Remove
+                    </button>
                 </card-header>
                 <div class="card-body mt-2">
                     <form class="row g-3">
@@ -110,6 +158,7 @@ defineComponent({
                                 v-model="famCompose.relationship"
                                 :reduce="(data) => data.id"
                                 label="name"
+                                placeholder="Select"
                             >
                             </v-select>
                         </div>
@@ -139,6 +188,14 @@ defineComponent({
                 </div>
             </div>
             <div class="mt-4">
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="addFamilyMember"
+                >
+                    <i class="bi bi-plus"></i>
+                    Add Family Member
+                </button>
                 <button
                     type="submit"
                     class="btn btn-success float-end"
