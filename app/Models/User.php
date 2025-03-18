@@ -76,4 +76,8 @@ class User extends Authenticatable
         return $this->hasMany(PersonalInformation::class, 'id', 'created_at');
     }
 
+    public function medicine()
+    {
+        return $this->hasMany(Medicine::class, 'id', 'created_by');
+    }
 }

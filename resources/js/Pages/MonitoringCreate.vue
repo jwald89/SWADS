@@ -235,7 +235,7 @@ onMounted(fetchMonitoringRecords);
             >
                 <div class="d-flex justify-content-between">
                     <div class="col-lg-6">
-                        <h5 class="fw-bold">Create Record</h5>
+                        <h5 class="fw-bold">Monitoring Form</h5>
                     </div>
                     <div class="col-lg-6">
                         <Link
@@ -456,6 +456,7 @@ onMounted(fetchMonitoringRecords);
                             name="amount"
                             v-model="monitorForm.amount"
                             :class="{ 'is-invalid': errors.amount }"
+                            placeholder="Enter the amount.."
                         />
                         <small v-if="errors.amount" class="text-danger">{{
                             errors.amount
@@ -577,6 +578,7 @@ onMounted(fetchMonitoringRecords);
                             name="remarks"
                             rows="1"
                             v-model="monitorForm.remarks"
+                            placeholder="Enter remarks here.."
                         >
                         </textarea>
                     </div>

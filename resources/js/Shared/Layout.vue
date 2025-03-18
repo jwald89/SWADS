@@ -363,9 +363,27 @@ onMounted(() => {
 
                 <!-- MEDICAL MODULE -->
                 <li class="nav-item">
-                    <Link class="nav-link">
-                        <i class="bi bi-file-earmark-medical"></i>
-                        <span>MEDICINE</span>
+                    <Link
+                        class="nav-link"
+                        :href="`/medicine`"
+                        :class="{
+                            'bg-highlight': currentRoute.includes('medicine'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-file-earmark-medical"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('medicine'),
+                            }"
+                        ></i>
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('medicine'),
+                            }"
+                            >MEDICINE</span
+                        >
                     </Link>
                 </li>
                 <!-- END OF MEDICAL MODULE -->
@@ -874,9 +892,27 @@ onMounted(() => {
 
                 <!-- MEDICAL MODULE -->
                 <li class="nav-item">
-                    <Link class="nav-link">
-                        <i class="bi bi-file-earmark-medical"></i>
-                        <span>MEDICINE</span>
+                    <Link
+                        class="nav-link"
+                        :href="`/medicine`"
+                        :class="{
+                            'bg-highlight': currentRoute.includes('medicine'),
+                        }"
+                    >
+                        <i
+                            class="bi bi-file-earmark-medical"
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('medicine'),
+                            }"
+                        ></i>
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('medicine'),
+                            }"
+                            >MEDICINE</span
+                        >
                     </Link>
                 </li>
                 <!-- END OF MEDICAL MODULE -->

@@ -95,7 +95,7 @@
     <div style="margin-top: 5%">
         <div style="margin-left: 4%;">
             <p style="font-size: 1.1rem; text-indent: 3rem; text-align: justify">
-                <strong>THIS IS TO CERTIFY</strong> that
+                <strong>THIS IS TO CERTIFY &nbsp;</strong> that
                 <strong>
                     {{ strtoupper($intake->first_name) }}
                     {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . ". " : "" }}
@@ -104,7 +104,7 @@
                 </strong> legal age, resident at
                 <strong>
                     {{ !empty(trim($intake->purok)) ? 'Purok ' . ucwords($intake->purok) . ', ' : '' }}
-                    {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao del Sur
+                    {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao del Sur &nbsp;
                 </strong> has been found eligible for
                 <strong>{{ ucwords($intake->assistance->name) }}</strong> after having been interviewed and a case summary had been made.
             </p>
@@ -115,7 +115,7 @@
         <div style="margin-left: 4%;">
             @foreach($intakes as $intake)
             <p style="font-size: 1.1rem; text-indent: 3rem; text-align: justify">
-                Records of the Case Summary Reports dated <span class="fw-bold">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span>, are in the confidential file of the Provincial Social Welfare and Development Office.
+                Records of the Case Summary Reports dated &nbsp;<span class="fw-bold">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span>, are in the confidential file of the Provincial Social Welfare and Development Office.
             </p>
             @endforeach
         </div>

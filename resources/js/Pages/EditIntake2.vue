@@ -31,21 +31,21 @@ const addFamilyMember = () => {
 };
 
 const deleteFamilyMember = async (index, id) => {
-    console.log("ID:", id);
     if (id) {
         try {
-            alertify.confirm(
-                "Remove Family Member",
-                "Are you sure you want to remove this family member?",
-                function () {
-                    axios.delete(`/api/family-member/${id}`);
-                    intakes.fam_compose.splice(index, 1);
-                    console.log(`Family member with ID ${id} deleted.`);
-                },
-                () => {
-                    console.log("Family member deletion cancelled.");
-                }
-            );
+            alertify
+                .confirm(
+                    "Remove Family Member",
+                    "Are you sure you want to remove this family member?",
+                    function () {
+                        axios.delete(`/api/family-member/${id}`);
+                        intakes.fam_compose.splice(index, 1);
+                    },
+                    () => {
+                        console.log("Family member deletion cancelled.");
+                    }
+                )
+                .set("labels", { ok: "Yes", cancel: "No" });
         } catch (error) {
             console.error("Error deleting family member:", error);
         }

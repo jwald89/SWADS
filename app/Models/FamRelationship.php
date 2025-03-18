@@ -13,4 +13,9 @@ class FamRelationship extends Model
     {
         return $this->hasMany(FamilyComposition::class, 'id', 'relationship');
     }
+
+    public function medicine()
+    {
+        return $this->hasMany(Medicine::class, 'id', 'relationship');
+    }
 }

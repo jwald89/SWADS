@@ -9,7 +9,16 @@ class Office extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'description', 'first_name', 'middle_name', 'last_name', 'title', 'modified_by', 'modified_date'];
+    protected $fillable = [
+        'id',
+        'description',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'title',
+        'modified_by',
+        'modified_date'
+    ];
 
     public function monitoring()
     {

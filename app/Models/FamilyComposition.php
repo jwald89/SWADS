@@ -13,7 +13,21 @@ class FamilyComposition extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'applicant_id', 'lastname', 'firstname', 'middlename', 'age', 'relationship', 'educ_attainment', 'remarks', 'created_by', 'modified_by', 'modified_date', 'deleted_at'];
+    protected $fillable = [
+        'id',
+        'applicant_id',
+        'lastname',
+        'firstname',
+        'middlename',
+        'age',
+        'relationship',
+        'educ_attainment',
+        'remarks',
+        'created_by',
+        'modified_by',
+        'modified_date',
+        'deleted_at'
+    ];
 
     public function personalInfo()
     {

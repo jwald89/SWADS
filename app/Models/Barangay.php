@@ -12,7 +12,13 @@ class Barangay extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'municipality_id', 'barangay', 'modified_by', 'modified_date'];
+    protected $fillable = [
+        'id',
+        'municipality_id',
+        'barangay',
+        'modified_by',
+        'modified_date'
+    ];
 
     public function municipal()
     {
@@ -37,5 +43,10 @@ class Barangay extends Model
     public function childDevelop()
     {
         return $this->hasMany(ChildDevelopment::class, 'id', 'barangay');
+    }
+
+    public function medicine()
+    {
+        return $this->hasMany(Medicine::class, 'barangay', 'id');
     }
 }

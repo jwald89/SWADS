@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SectorController;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\Admin\BarangayController;
+use App\Http\Controllers\Admin\MedicineController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\MunicipalityController;
@@ -112,6 +113,12 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/child-development/filter/{brgyId?}/{municipalId?}/{month?}', 'filter');
     });
 
+    // Medicine Controller
+    Route::controller(MedicineController::class)
+            ->group(function() {
+                Route::get('/medicine', 'index');
+                Route::get('/medicine/create', 'create');
+            });
 
     // Type Assistance Controller
     Route::controller(TypeAssistanceController::class)

@@ -346,6 +346,7 @@ defineComponent({
                                             :class="{
                                                 'is-invalid': errors.age,
                                             }"
+                                            placeholder="Age"
                                         />
                                         <small
                                             v-if="errors.age"
@@ -426,6 +427,7 @@ defineComponent({
                                                 'is-invalid':
                                                     errors.place_birth,
                                             }"
+                                            placeholder="City or Municipality"
                                         />
                                         <small
                                             v-if="errors.place_birth"
@@ -484,6 +486,7 @@ defineComponent({
                                             :class="{
                                                 'is-invalid': errors.purok,
                                             }"
+                                            placeholder="Purok"
                                         />
                                         <small
                                             v-if="errors.purok"

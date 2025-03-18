@@ -15,7 +15,42 @@ class Sectoral extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id', 'first_name', 'middle_name', 'last_name', 'date_encoded', 'sector', 'age', 'sex', 'nationality', 'religion', 'ethnicity', 'purok', 'barangay', 'municipality', 'birthdate', 'place_birth', 'physical_disability', 'civil_status', 'contact_no', 'fb_accnt', 'school_last_attend', 'month_year', 'skills', 'interest_hobby', 'work_exp', 'org_membership', 'fam_members', 'ISY_OSY', 'position', 'status', 'created_by', 'deleted_at', 'modified_by', 'modified_date'];
+    protected $fillable = [
+        'id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'date_encoded',
+        'sector',
+        'age',
+        'sex',
+        'nationality',
+        'religion',
+        'ethnicity',
+        'purok',
+        'barangay',
+        'municipality',
+        'birthdate',
+        'place_birth',
+        'physical_disability',
+        'civil_status',
+        'contact_no',
+        'fb_accnt',
+        'school_last_attend',
+        'month_year',
+        'skills',
+        'interest_hobby',
+        'work_exp',
+        'org_membership',
+        'fam_members',
+        'ISY_OSY',
+        'position',
+        'status',
+        'created_by',
+        'deleted_at',
+        'modified_by',
+        'modified_date'
+    ];
 
     public function sector()
     {

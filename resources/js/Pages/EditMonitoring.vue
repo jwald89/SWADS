@@ -345,6 +345,7 @@ defineComponent({
                             name="remarks"
                             rows="1"
                             v-model="dataMonitors.remarks"
+                            placeholder="Enter remarks here..."
                         >
                         </textarea>
                     </div>

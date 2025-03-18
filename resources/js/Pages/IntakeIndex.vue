@@ -251,8 +251,8 @@ watch(
                                 <th>No.</th>
                                 <th>Client</th>
                                 <th>Assistance</th>
-                                <th>Gender</th>
-                                <th>Birth Date</th>
+                                <!-- <th>Gender</th> -->
+                                <!-- <th>Birth Date</th> -->
                                 <th>Address</th>
                                 <th>Date Intake</th>
                                 <th>COE</th>
@@ -265,7 +265,7 @@ watch(
                                 :key="index"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>
+                                <td class="text-start fw-bold px-3" width="20%">
                                     {{
                                         detail.first_name
                                             .split(" ")
@@ -300,6 +300,33 @@ watch(
                                             ? ", " + detail.extn_name
                                             : "")
                                     }}
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex align-items-center">
+                                            <div
+                                                class="text-secondary text-center fw-normal font-monospace"
+                                            >
+                                                Sex:
+                                                {{
+                                                    detail.sex
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    detail.sex.slice(1)
+                                                }}
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center font-monospace"
+                                        >
+                                            <div
+                                                class="text-secondary text-center fw-normal"
+                                            >
+                                                Birthdate:
+                                                {{
+                                                    formatDate(detail.birthdate)
+                                                }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     {{
@@ -309,13 +336,13 @@ watch(
                                         detail.assistance.name.slice(1)
                                     }}
                                 </td>
-                                <td>
+                                <!-- <td>
                                     {{
                                         detail.sex.charAt(0).toUpperCase() +
                                         detail.sex.slice(1)
                                     }}
-                                </td>
-                                <td>{{ formatDate(detail.birthdate) }}</td>
+                                </td> -->
+                                <!-- <td>{{ formatDate(detail.birthdate) }}</td> -->
                                 <td>
                                     {{
                                         detail.purok

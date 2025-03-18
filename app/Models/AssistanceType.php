@@ -12,7 +12,12 @@ class AssistanceType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'name', 'modified_by', 'modified_date'];
+    protected $fillable = [
+        'id',
+        'name',
+        'modified_by',
+        'modified_date'
+    ];
 
     public function monitoring()
     {
