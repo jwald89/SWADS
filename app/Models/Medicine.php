@@ -33,12 +33,12 @@ class Medicine extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'created_by');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function brgy()
     {
-        return $this->belongsTo(Barangay::class, 'id', 'barangay');
+        return $this->belongsTo(Barangay::class, 'brgy', 'id');
     }
 
     public function municipal()

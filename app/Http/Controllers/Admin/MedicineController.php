@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Enums\Month;
+use App\Models\Barangay;
+use App\Models\Medicine;
+use App\Models\Municipality;
 use Illuminate\Http\Request;
+use App\Models\FamRelationship;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\MedicineRequest;
+use App\Http\Resources\BarangayResource;
+use App\Http\Resources\MunicipalityResource;
+use App\Http\Resources\FamRelationshipResource;
 
 class MedicineController extends Controller
 {
@@ -12,7 +22,17 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        return inertia('MedicineIndex');
+        $medicines = Medicine::with(['brgy', 'municipal', 'user'])->get();
+
+        $barangays = BarangayResource::collection(Barangay::all());
+        $municipalities = MunicipalityResource::collection(Municipality::all());
+
+        return inertia('MedicineIndex', [
+            'medicines' => $medicines,
+            'barangays' => $barangays,
+            'municipalities' => $municipalities,
+            'months' => Month::names(),
+        ]);
     }
 
     /**
@@ -20,15 +40,29 @@ class MedicineController extends Controller
      */
     public function create()
     {
-        return inertia('MedicineCreate');
+        $barangays = BarangayResource::collection(Barangay::all());
+        $municipalities = MunicipalityResource::collection(Municipality::all());
+        $famRelationships = FamRelationshipResource::collection(FamRelationship::all());
+
+        return inertia('MedicineCreate', [
+            'barangays' => $barangays,
+            'municipalities' => $municipalities,
+            'famRelationships' => $famRelationships,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MedicineRequest $request)
     {
-        //
+        $userId = Auth::id();
+
+        $medicine = Medicine::create(
+            array_merge($request->all(), ['created_by' => $userId])
+        );
+
+        return response()->json($medicine, 201);
     }
 
     /**

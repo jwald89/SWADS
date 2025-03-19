@@ -47,6 +47,6 @@ class Barangay extends Model
 
     public function medicine()
     {
-        return $this->hasMany(Medicine::class, 'barangay', 'id');
+        return $this->hasMany(Medicine::class, 'id', 'brgy');
     }
 }

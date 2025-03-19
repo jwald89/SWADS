@@ -118,6 +118,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->group(function() {
                 Route::get('/medicine', 'index');
                 Route::get('/medicine/create', 'create');
+                Route::post('/medicine/post', 'store')->name('medicine.post');
             });
 
     // Type Assistance Controller

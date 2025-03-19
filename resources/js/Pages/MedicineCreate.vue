@@ -1,25 +1,115 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { ref } from "vue";
+import { defineComponent, ref, reactive } from "vue";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
+import { toast } from "vue3-toastify";
+import axios from "axios";
 
-const form = ref({
-    firstname: "",
-    middlename: "",
-    lastname: "",
-    barangay: "",
-    municipality: "",
-    province: "",
-    dateStarted: "",
-    dateEnded: "",
-    pharmacy: "",
-    amount: "",
-    assistanceType: "",
-    beneficiary: "",
-    relationship: "",
-    problemPresented: "",
-    assistanceNeeded: "",
+defineProps({
+    municipalities: {
+        type: Object,
+        required: true,
+    },
+    barangays: {
+        type: Object,
+        required: true,
+    },
+    famRelationships: {
+        type: Object,
+        required: true,
+    },
+    errors: Object,
+});
+
+const errors = reactive({});
+
+const form = reactive({
+    first_name: "",
+});
+
+const resetForm = () => {
+    form.first_name = "";
+    form.middle_name = "";
+    form.last_name = "";
+    form.suffix = "";
+    form.brgy = "";
+    form.municipality = "";
+    form.province = "";
+    form.date_started = "";
+    form.date_ended = "";
+    form.pharmacy = "";
+    form.amount = "";
+    form.assistanceType = "";
+    form.beneficiary = "";
+    form.relationship = "";
+    form.problem_present = "";
+    form.assistance_need = "";
+};
+
+const submitForm = async () => {
+    // Clear previous errors
+    const fields = [
+        "first_name",
+        "middle_name",
+        "last_name",
+        "suffix",
+        "brgy",
+        "municipality",
+        "province",
+        "date_started",
+        "date_ended",
+        "pharmacy",
+        "amount",
+        "assistanceType",
+        "beneficiary",
+        "relationship",
+        "problem_present",
+        "assistance_need",
+    ];
+
+    fields.forEach((field) => {
+        if (form[field]) {
+            errors[field] = "";
+        }
+    });
+
+    // isSubmitting.value = true;
+
+    try {
+        const response = await axios.post("/medicine/post", form);
+
+        toast.success("Successfully created.", {
+            autoClose: 1000,
+        });
+
+        console.log("working..");
+        resetForm();
+    } catch (error) {
+        if (error.response && error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            for (const key in validationErrors) {
+                if (Object.hasOwnProperty.call(validationErrors, key)) {
+                    errors[key] = validationErrors[key][0];
+                }
+            }
+            toast.error("Please check the error in fields!", {
+                autoClose: 2000,
+            });
+        } else if (error.response && error.response.status === 409) {
+            toast.error("The record already exists!", {
+                autoClose: 2000,
+            });
+        }
+        console.error("Error submitting form:", error);
+    }
+    //  finally {
+    //     isSubmitting.value = false;
+    // }
+};
+
+defineComponent({
+    vSelect,
 });
 </script>
 
@@ -46,117 +136,127 @@ const form = ref({
                 </div>
             </div>
             <div class="card-body p-4">
-                <form>
+                <form @submit.prevent="submitForm">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-6">
                             <h6>
                                 <i class="bi bi-person-fill"></i> Person's Name
                             </h6>
                             <div class="card">
                                 <div class="card-body p-4">
-                                    <form>
-                                        <div class="row mb-2">
-                                            <label
-                                                for="lastname"
-                                                class="col-sm-2 col-form-label"
-                                                >Last name<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
+                                    <div class="row mb-2">
+                                        <label
+                                            for="lastname"
+                                            class="col-sm-3 col-form-label"
+                                            >Last name<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <div class="col-sm-9">
+                                            <input
+                                                type="text"
+                                                class="form-control fw-bold"
+                                                name="lastname"
+                                                id="lastname"
+                                                v-model="form.last_name"
+                                                placeholder="Family name"
+                                                :class="{
+                                                    'is-invalid':
+                                                        errors.last_name,
+                                                }"
+                                            />
+                                            <small
+                                                v-if="errors.last_name"
+                                                class="text-danger"
+                                                >{{ errors.last_name }}</small
                                             >
-                                            <div class="col-sm-10">
-                                                <input
-                                                    type="text"
-                                                    class="form-control fw-bold"
-                                                    name="lastname"
-                                                    id="lastname"
-                                                    v-model="form.lastname"
-                                                    placeholder="Family name"
-                                                />
-                                            </div>
                                         </div>
-                                        <div class="row mb-2">
-                                            <label
-                                                for="firstname"
-                                                class="col-sm-2 col-form-label"
-                                                >First name<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
+                                    </div>
+                                    <div class="row mb-2">
+                                        <label
+                                            for="firstname"
+                                            class="col-sm-3 col-form-label"
+                                            >First name<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <div class="col-sm-9">
+                                            <input
+                                                type="text"
+                                                class="form-control fw-bold"
+                                                name="firstname"
+                                                id="firstname"
+                                                v-model="form.first_name"
+                                                placeholder="Given name"
+                                                :class="{
+                                                    'is-invalid':
+                                                        errors.first_name,
+                                                }"
+                                            />
+                                            <small
+                                                v-if="errors.first_name"
+                                                class="text-danger"
+                                                >{{ errors.first_name }}</small
                                             >
-                                            <div class="col-sm-10">
-                                                <input
-                                                    type="text"
-                                                    class="form-control fw-bold"
-                                                    name="firstname"
-                                                    id="firstname"
-                                                    v-model="form.firstname"
-                                                    placeholder="Given name"
-                                                />
-                                            </div>
                                         </div>
-                                        <div class="row mb-2">
-                                            <label
-                                                for="middlename"
-                                                class="col-sm-2 col-form-label"
-                                                >Middle name
-                                                <small>(Optional)</small>
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input
-                                                    type="text"
-                                                    class="form-control fw-bold"
-                                                    name="middlename"
-                                                    id="middlename"
-                                                    placeholder="Middle name"
-                                                />
-                                            </div>
+                                    </div>
+                                    <div class="row mb-0">
+                                        <label
+                                            for="middlename"
+                                            class="col-sm-3 col-form-label"
+                                            >Middle name
+                                            <small>(Optional)</small>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <input
+                                                type="text"
+                                                class="form-control fw-bold"
+                                                name="middlename"
+                                                id="middlename"
+                                                v-model="form.middle_name"
+                                                placeholder="Middle name"
+                                            />
                                         </div>
-                                        <div class="row mb-2">
-                                            <label
-                                                for="suffix"
-                                                class="col-sm-2 col-form-label"
-                                                >Suffix
-                                                <small> (Optional)</small>
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <select
-                                                    class="form-control fw-bold"
-                                                    id="suffix"
-                                                    name="suffix"
-                                                >
-                                                    <option value="" disabled>
-                                                        Select
-                                                    </option>
-                                                    <option value="Jr.">
-                                                        Junior (Jr.)
-                                                    </option>
-                                                    <option value="Sr.">
-                                                        Senior (Sr.)
-                                                    </option>
-                                                    <option value="II">
-                                                        II
-                                                    </option>
-                                                    <option value="III">
-                                                        III
-                                                    </option>
-                                                    <option value="IV">
-                                                        IV
-                                                    </option>
-                                                </select>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <label
+                                            for="suffix"
+                                            class="col-sm-3 col-form-label"
+                                            >Suffix
+                                            <small> (Optional)</small>
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select
+                                                class="form-control fw-bold"
+                                                id="suffix"
+                                                name="suffix"
+                                                v-model="form.suffix"
+                                            >
+                                                <option value="" disabled>
+                                                    Select
+                                                </option>
+                                                <option value="Jr.">
+                                                    Junior (Jr.)
+                                                </option>
+                                                <option value="Sr.">
+                                                    Senior (Sr.)
+                                                </option>
+                                                <option value="II">II</option>
+                                                <option value="III">III</option>
+                                                <option value="IV">IV</option>
+                                            </select>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <h6><i class="bi bi-house-fill"></i> Address</h6>
                             <div class="card">
                                 <div class="card-body p-4">
                                     <form>
-                                        <div class="row mb-2">
+                                        <div class="row mb-4">
                                             <label
                                                 for="barangay"
                                                 class="col-sm-3 col-form-label"
@@ -170,12 +270,23 @@ const form = ref({
                                                     class="fw-bold"
                                                     name="barangay"
                                                     id="barangay"
-                                                    v-model="form.barangay"
+                                                    :options="barangays.data"
+                                                    :reduce="(data) => data.id"
+                                                    v-model="form.brgy"
                                                     label="barangay"
                                                     placeholder="Select"
+                                                    :class="{
+                                                        'is-invalid form-control':
+                                                            errors.brgy,
+                                                    }"
                                                 >
                                                 </v-select>
                                             </div>
+                                            <small
+                                                v-if="errors.brgy"
+                                                class="text-danger"
+                                                >{{ errors.brgy }}</small
+                                            >
                                         </div>
                                         <div class="row mb-2">
                                             <label
@@ -191,10 +302,26 @@ const form = ref({
                                                     class="fw-bold"
                                                     name="municipal"
                                                     id="municipal"
+                                                    :options="
+                                                        municipalities.data
+                                                    "
+                                                    :reduce="(data) => data.id"
+                                                    v-model="form.municipality"
                                                     label="municipality"
                                                     placeholder="Select"
+                                                    :class="{
+                                                        'is-invalid form-control':
+                                                            errors.municipality,
+                                                    }"
                                                 >
                                                 </v-select>
+                                                <small
+                                                    v-if="errors.municipality"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.municipality
+                                                    }}</small
+                                                >
                                             </div>
                                         </div>
                                     </form>
@@ -217,8 +344,16 @@ const form = ref({
                                         type="date"
                                         class="form-control"
                                         id="dateStarted"
-                                        v-model="form.dateStarted"
+                                        v-model="form.date_started"
+                                        :class="{
+                                            'is-invalid': errors.date_started,
+                                        }"
                                     />
+                                    <small
+                                        v-if="errors.date_started"
+                                        class="text-danger"
+                                        >{{ errors.date_started }}</small
+                                    >
                                 </div>
                                 <div class="col-md-6">
                                     <label for="dateEnded"
@@ -230,8 +365,16 @@ const form = ref({
                                         type="date"
                                         class="form-control"
                                         id="dateEnded"
-                                        v-model="form.dateEnded"
+                                        v-model="form.date_ended"
+                                        :class="{
+                                            'is-invalid': errors.date_ended,
+                                        }"
                                     />
+                                    <small
+                                        v-if="errors.date_ended"
+                                        class="text-danger"
+                                        >{{ errors.date_ended }}</small
+                                    >
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -243,11 +386,19 @@ const form = ref({
                                     >
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="pharmacy"
                                         v-model="form.pharmacy"
-                                        placeholder="Enter pharmacy"
+                                        placeholder="Enter pharmacy.."
+                                        :class="{
+                                            'is-invalid': errors.pharmacy,
+                                        }"
                                     />
+                                    <small
+                                        v-if="errors.pharmacy"
+                                        class="text-danger"
+                                        >{{ errors.pharmacy }}</small
+                                    >
                                 </div>
                                 <div class="col-md-6">
                                     <label for="amount"
@@ -257,11 +408,19 @@ const form = ref({
                                     >
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="amount"
                                         v-model="form.amount"
-                                        placeholder="Enter amount"
+                                        placeholder="Enter amount.."
+                                        :class="{
+                                            'is-invalid': errors.amount,
+                                        }"
                                     />
+                                    <small
+                                        v-if="errors.amount"
+                                        class="text-danger"
+                                        >{{ errors.amount }}</small
+                                    >
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -269,23 +428,27 @@ const form = ref({
                                     <label for="beneficiary">Beneficiary</label>
                                     <input
                                         type="text"
-                                        class="form-control"
+                                        class="form-control fw-bold"
                                         id="beneficiary"
                                         v-model="form.beneficiary"
-                                        placeholder="Enter beneficiary"
+                                        placeholder="Enter beneficiary.."
                                     />
                                 </div>
                                 <div class="col-md-6">
                                     <label for="relationship"
                                         >Relationship</label
                                     >
-                                    <input
-                                        type="text"
-                                        class="form-control"
+                                    <v-select
+                                        class="fw-bold"
+                                        name="relationship"
                                         id="relationship"
+                                        :options="famRelationships.data"
+                                        :reduce="(data) => data.id"
                                         v-model="form.relationship"
-                                        placeholder="Enter relationship"
-                                    />
+                                        label="name"
+                                        placeholder="Select"
+                                    >
+                                    </v-select>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -295,30 +458,49 @@ const form = ref({
                                     ></label
                                 >
                                 <textarea
-                                    class="form-control"
+                                    class="form-control fw-bold"
                                     id="problemPresented"
-                                    v-model="form.problemPresented"
-                                    placeholder="Enter problem presented"
+                                    v-model="form.problem_present"
+                                    placeholder="Enter problem presented.."
                                     rows="3"
+                                    :class="{
+                                        'is-invalid': errors.problem_present,
+                                    }"
                                 ></textarea>
+                                <small
+                                    v-if="errors.problem_present"
+                                    class="text-danger"
+                                    >{{ errors.problem_present }}</small
+                                >
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-2">
                                 <label for="assistanceNeeded"
                                     >Assistance Needed<span class="text-danger"
                                         >*</span
                                     ></label
                                 >
                                 <textarea
-                                    class="form-control"
+                                    class="form-control fw-bold"
                                     id="assistanceNeeded"
-                                    v-model="form.assistanceNeeded"
-                                    placeholder="Enter assistance needed"
+                                    v-model="form.assistance_need"
+                                    placeholder="Enter assistance needed.."
                                     rows="3"
+                                    :class="{
+                                        'is-invalid': errors.assistance_need,
+                                    }"
                                 ></textarea>
+                                <small
+                                    v-if="errors.assistance_need"
+                                    class="text-danger"
+                                    >{{ errors.assistance_need }}</small
+                                >
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-end">
+                    <button
+                        type="submit"
+                        class="btn btn-success mt-0 float-end"
+                    >
                         <i class="bi bi-save"></i> Save
                     </button>
                 </form>

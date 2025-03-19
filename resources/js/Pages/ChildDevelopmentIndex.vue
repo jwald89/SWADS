@@ -180,11 +180,50 @@ watch(
                                 :key="index"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ children.cdc_name }}</td>
-                                <td>{{ children.cdw_name }}</td>
+                                <td>
+                                    {{
+                                        children.cdc_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                </td>
+                                <td>
+                                    {{
+                                        children.cdw_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                </td>
                                 <td>{{ children.brgy.barangay }}</td>
                                 <td>{{ children.municipal.municipality }}</td>
-                                <td>{{ children.status }}</td>
+                                <td>
+                                    {{
+                                        children.status
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                </td>
                                 <td>{{ children.lvl_recognition }}</td>
                                 <td>
                                     {{ formatDate(children.validity_of_cor) }}

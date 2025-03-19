@@ -29,6 +29,7 @@ defineProps({
 const resetForm = () => {
     childDevForm.cdc_name = "";
     childDevForm.date_encoded = "";
+    childDevForm.purok = "";
     childDevForm.municipality = "";
     childDevForm.barangay = "";
     childDevForm.cdw_name = "";
@@ -46,6 +47,8 @@ const submitForm = async () => {
     // Clear previous errors
     const fields = [
         "cdc_name",
+        "date_encoded",
+        "purok",
         "barangay",
         "municipality",
         "cdw_name",

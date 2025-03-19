@@ -249,12 +249,11 @@ watch(
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
-                                <th>Client</th>
-                                <th>Assistance</th>
-                                <!-- <th>Gender</th> -->
-                                <!-- <th>Birth Date</th> -->
-                                <th>Address</th>
-                                <th>Date Intake</th>
+                                <th class="text-start px-3">Client</th>
+                                <th class="text-start">Address</th>
+                                <th class="text-start px-4">Assistance</th>
+                                <th class="text-start px-4">Sector</th>
+                                <th class="text-start">Date Intake</th>
                                 <th>COE</th>
                                 <th>Action</th>
                             </tr>
@@ -328,39 +327,54 @@ watch(
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    {{
-                                        detail.assistance.name
-                                            .charAt(0)
-                                            .toUpperCase() +
-                                        detail.assistance.name.slice(1)
-                                    }}
-                                </td>
-                                <!-- <td>
-                                    {{
-                                        detail.sex.charAt(0).toUpperCase() +
-                                        detail.sex.slice(1)
-                                    }}
-                                </td> -->
-                                <!-- <td>{{ formatDate(detail.birthdate) }}</td> -->
-                                <td>
+                                <td class="text-start" width="20%">
                                     {{
                                         detail.purok
-                                            ? "Prk. " + detail.purok + ","
+                                            ? "Prk. " +
+                                              detail.purok
+                                                  .split(" ")
+                                                  .map(
+                                                      (word) =>
+                                                          word
+                                                              .charAt(0)
+                                                              .toUpperCase() +
+                                                          word
+                                                              .slice(1)
+                                                              .toLowerCase()
+                                                  )
+                                                  .join(" ") +
+                                              ","
                                             : ""
                                     }}
                                     {{
                                         detail.street
-                                            ? detail.street + " St.,"
+                                            ? detail.street
+                                                  .split(" ")
+                                                  .map(
+                                                      (word) =>
+                                                          word
+                                                              .charAt(0)
+                                                              .toUpperCase() +
+                                                          word
+                                                              .slice(1)
+                                                              .toLowerCase()
+                                                  )
+                                                  .join(" ") + " St.,"
                                             : ""
                                     }}
                                     {{ detail.brgy.barangay }},
                                     {{ detail.municipal.municipality }}
                                 </td>
-                                <td class="text-primary">
+                                <td class="text-start px-4" width="15%">
+                                    {{ detail.assistance.name }}
+                                </td>
+                                <td class="text-start px-4" width="10%">
+                                    {{ detail.sector_name.name }}
+                                </td>
+                                <td class="text-start text-primary">
                                     {{ formatDate(detail.date_intake) }}
                                 </td>
-                                <td>
+                                <td width="5%">
                                     <a
                                         :href="`/intake/print-coe/${detail.id}`"
                                         class="btn btn-sm btn-warning"

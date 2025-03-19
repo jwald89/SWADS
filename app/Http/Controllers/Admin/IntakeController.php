@@ -45,7 +45,7 @@ class IntakeController extends Controller
      */
     public function index()
     {
-        $perInfos = PersonalInformation::with(['assistance', 'municipal', 'brgy'])
+        $perInfos = PersonalInformation::with(['assistance', 'municipal', 'brgy', 'sectorName'])
                     ->when(request()->search !== '', function ($query) {
                         $search = request()->search;
                         $query->where(function ($subQuery) use ($search) {
@@ -674,7 +674,7 @@ class IntakeController extends Controller
      */
     public function filter($assistanceId = '*', $municipalId = '*', $month = '*')
     {
-        $data = PersonalInformation::with(['assistance', 'municipal', 'brgy']);
+        $data = PersonalInformation::with(['assistance', 'municipal', 'brgy', 'sectorName']);
 
         if ($assistanceId !== '*') {
             $data->where('category', $assistanceId);
