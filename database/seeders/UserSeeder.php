@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
             'middle_init' => 'S',
             'last_name' => 'Doe',
             'username' => 'admin',
+            'title' => '',
+            'designation' => 'IT Officer',
             'role_type' => 'ADMIN',
             'password' => bcrypt('password')
         ]);

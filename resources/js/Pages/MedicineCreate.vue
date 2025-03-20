@@ -43,6 +43,7 @@ const resetForm = () => {
     form.assistanceType = "";
     form.beneficiary = "";
     form.relationship = "";
+    form.kinds_of_med = "";
     form.problem_present = "";
     form.assistance_need = "";
 };
@@ -64,6 +65,7 @@ const submitForm = async () => {
         "assistanceType",
         "beneficiary",
         "relationship",
+        "kinds_of_med",
         "problem_present",
         "assistance_need",
     ];
@@ -200,7 +202,7 @@ defineComponent({
                                             >
                                         </div>
                                     </div>
-                                    <div class="row mb-0">
+                                    <div class="row mb-1">
                                         <label
                                             for="middlename"
                                             class="col-sm-3 col-form-label"
@@ -281,12 +283,12 @@ defineComponent({
                                                     }"
                                                 >
                                                 </v-select>
+                                                <small
+                                                    v-if="errors.brgy"
+                                                    class="text-danger"
+                                                    >{{ errors.brgy }}</small
+                                                >
                                             </div>
-                                            <small
-                                                v-if="errors.brgy"
-                                                class="text-danger"
-                                                >{{ errors.brgy }}</small
-                                            >
                                         </div>
                                         <div class="row mb-2">
                                             <label
@@ -333,8 +335,10 @@ defineComponent({
                     <h6><i class="bi bi-file-text-fill"></i> Others</h6>
                     <div class="card">
                         <div class="card-body">
-                            <div class="row mb-3 mt-3">
-                                <div class="col-md-6">
+                            <div
+                                class="d-flex justify-content-between mb-3 mt-3"
+                            >
+                                <div class="col-md-5">
                                     <label for="dateStarted"
                                         >Date Started<span class="text-danger"
                                             >*</span
@@ -355,7 +359,7 @@ defineComponent({
                                         >{{ errors.date_started }}</small
                                     >
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <label for="dateEnded"
                                         >Date Ended<span class="text-danger"
                                             >*</span
@@ -377,8 +381,8 @@ defineComponent({
                                     >
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div class="col-md-5">
                                     <label for="pharmacy"
                                         >Pharmacy<span class="text-danger"
                                             >*</span
@@ -400,7 +404,7 @@ defineComponent({
                                         >{{ errors.pharmacy }}</small
                                     >
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <label for="amount"
                                         >Amount<span class="text-danger"
                                             >*</span
@@ -423,8 +427,8 @@ defineComponent({
                                     >
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
+                            <div class="d-flex justify-content-between mb-4">
+                                <div class="col-md-5">
                                     <label for="beneficiary">Beneficiary</label>
                                     <input
                                         type="text"
@@ -434,7 +438,7 @@ defineComponent({
                                         placeholder="Enter beneficiary.."
                                     />
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                     <label for="relationship"
                                         >Relationship</label
                                     >
@@ -473,7 +477,7 @@ defineComponent({
                                     >{{ errors.problem_present }}</small
                                 >
                             </div>
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <label for="assistanceNeeded"
                                     >Assistance Needed<span class="text-danger"
                                         >*</span
@@ -493,6 +497,27 @@ defineComponent({
                                     v-if="errors.assistance_need"
                                     class="text-danger"
                                     >{{ errors.assistance_need }}</small
+                                >
+                            </div>
+                            <div class="mb-2">
+                                <label for=""
+                                    >Kinds of Medicine<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control fw-bold"
+                                    v-model="form.kinds_of_med"
+                                    placeholder="Enter kinds of medicine.."
+                                    :class="{
+                                        'is-invalid': errors.kinds_of_med,
+                                    }"
+                                />
+                                <small
+                                    v-if="errors.kinds_of_med"
+                                    class="text-danger"
+                                    >{{ errors.kinds_of_med }}</small
                                 >
                             </div>
                         </div>

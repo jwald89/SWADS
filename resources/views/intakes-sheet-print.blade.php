@@ -92,13 +92,11 @@
                 <img src="file:///laragon/www/SWADS/public/assets/img/sds.png" alt="logo">
             </div>
             <div class="text">
-                {{-- <div style="text-align: center; margin-bottom: 2em;"> --}}
                     <h3 style="line-height: 0.8">Republic of the Philippines</h3>
                     <h2 style="line-height: 0">PROVINCE OF SURIGAO DEL SUR</h2>
 
                     <h3 style="line-height: 0.3; font-weight: normal">Capitol Hills, Telaje, Tandag City</h3>
                     <h3 style="line-height: 0.3; font-weight: normal">Telefax No. (086) 211-3656</h3>
-                {{-- </div> --}}
             </div>
             <div class="logo">
                 <img src="file:///laragon/www/SWADS/public/assets/img/pswdo-logo.jpg" alt="logo">

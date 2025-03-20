@@ -24,6 +24,7 @@ class Medicine extends Model
         'type_assistance',
         'beneficiary',
         'relationship',
+        'kinds_of_med',
         'problem_present',
         'assistance_need',
         'created_by',
@@ -36,7 +37,7 @@ class Medicine extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function brgy()
+    public function barangay()
     {
         return $this->belongsTo(Barangay::class, 'brgy', 'id');
     }

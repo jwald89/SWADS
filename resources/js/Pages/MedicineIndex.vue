@@ -156,11 +156,9 @@ const hasAccess = (type) => {
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
                                 <th class="text-start px-3">Client</th>
-                                <th class="text-start">Address</th>
-                                <th>Valid Date</th>
-                                <!-- <th>Pharmacy</th> -->
                                 <th>Amount</th>
-                                <th>Prepared By</th>
+                                <th>Date Created</th>
+                                <th>Print Preview</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -169,10 +167,10 @@ const hasAccess = (type) => {
                                 v-for="(medicine, index) in props.medicines"
                                 :key="index"
                             >
-                                <td>
+                                <td width="5%">
                                     {{ index + 1 }}
                                 </td>
-                                <td class="fw-bold text-start px-3" width="20%">
+                                <td class="fw-bold text-start px-3" width="30%">
                                     {{
                                         medicine.first_name !== null
                                             ? medicine.first_name
@@ -191,10 +189,9 @@ const hasAccess = (type) => {
                                     }}
                                     {{
                                         medicine.middle_name !== null
-                                            ? medicine.middle_name.substr(
-                                                  0,
-                                                  1
-                                              ) + "."
+                                            ? medicine.middle_name
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
                                             : ""
                                     }}
                                     {{
@@ -216,18 +213,27 @@ const hasAccess = (type) => {
                                                   : "")
                                             : ""
                                     }}
-                                    {{}}
+                                    <div class="d-flex flex-column">
+                                        <div class="d-flex align-items-center">
+                                            <small
+                                                class="text-secondary text-center fw-bold"
+                                            >
+                                                Address:
+                                                <span class="text-primary">
+                                                    {{
+                                                        medicine.barangay
+                                                            .barangay
+                                                    }},
+                                                    {{
+                                                        medicine.municipal
+                                                            .municipality
+                                                    }}
+                                                </span>
+                                            </small>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td class="text-start" width="20%">
-                                    {{ medicine.brgy.barangay }},
-                                    {{ medicine.municipal.municipality }}
-                                </td>
-                                <td class="text-primary" width="15%">
-                                    {{ formatDate(medicine.date_started) }} -
-                                    {{ formatDate(medicine.date_ended) }}
-                                </td>
-                                <!-- <td>{{ medicine.pharmacy }}</td> -->
-                                <td class="fw-bold">
+                                <td class="fw-bold" width="15%">
                                     {{
                                         new Intl.NumberFormat("en-US", {
                                             minimumFractionDigits: 2,
@@ -235,11 +241,30 @@ const hasAccess = (type) => {
                                         }).format(medicine.amount)
                                     }}
                                 </td>
-                                <td>
-                                    {{ medicine.user.first_name }}
-                                    {{ medicine.user.last_name }}
+                                <td class="fw-bold" width="20%">
+                                    {{ formatDate(medicine.created_at) }}
                                 </td>
-                                <td>
+                                <td width="20%">
+                                    <a
+                                        :href="`/medicine/print-guarant-letter/${medicine.id}`"
+                                        class="btn btn-sm btn-outline-success me-2"
+                                        target="_blank"
+                                        title="Print"
+                                    >
+                                        <i class="bi bi-printer"></i> Guarante
+                                        Letter
+                                    </a>
+                                    <a
+                                        :href="`/medicine/print-assistance-slip/${medicine.id}`"
+                                        class="btn btn-sm btn-outline-primary"
+                                        target="_blank"
+                                        title="Print"
+                                    >
+                                        <i class="bi bi-printer"></i> Assistance
+                                        Slip
+                                    </a>
+                                </td>
+                                <td width="10%">
                                     <Link
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['admin', 'user'])"
@@ -249,28 +274,12 @@ const hasAccess = (type) => {
                                         <!-- Edit -->
                                     </Link>
                                     <Link
-                                        class="btn btn-sm btn-primary me-2"
-                                        v-if="hasAccess(['municipal'])"
-                                        title="Update"
-                                    >
-                                        <i class="bi bi-pencil-square"></i>
-                                        <!-- Update -->
-                                    </Link>
-                                    <Link
                                         class="btn btn-sm btn-info me-2"
                                         title="Details"
                                     >
                                         <i class="bi bi-eye"></i>
                                         <!-- Details -->
                                     </Link>
-                                    <a
-                                        href="#"
-                                        class="btn btn-sm btn-warning me-2"
-                                        target="_blank"
-                                        title="Print"
-                                    >
-                                        <i class="bi bi-printer"></i>
-                                    </a>
                                 </td>
                             </tr>
                         </tbody>

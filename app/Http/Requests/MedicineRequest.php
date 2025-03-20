@@ -30,6 +30,7 @@ class MedicineRequest extends FormRequest
             'date_ended' => 'required',
             'pharmacy' => 'required',
             'amount' => 'required|integer',
+            'kinds_of_med' => 'required',
             'problem_present' => 'required',
             'assistance_need' => 'required',
         ];

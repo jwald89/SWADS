@@ -28,6 +28,9 @@ const errors = reactive({});
 const userData = reactive({
     last_name: "",
     first_name: "",
+    middle_init: "",
+    title: "",
+    designation: "",
     username: "",
     password: "",
     municipality: "",
@@ -40,6 +43,8 @@ const resetForm = () => {
     userData.last_name = "";
     userData.first_name = "";
     userData.middle_init = "";
+    userData.title = "";
+    userData.designation = "";
     userData.username = "";
     userData.password = "";
     userData.municipality = "";
@@ -107,6 +112,8 @@ const editData = reactive({
     first_name: "",
     middle_init: "",
     last_name: "",
+    title: "",
+    designation: "",
     username: "",
     password: "",
     municipality: "",
@@ -121,6 +128,8 @@ const fetchEditData = async (id) => {
         editData.first_name = response.data.first_name;
         editData.middle_init = response.data.middle_init;
         editData.last_name = response.data.last_name;
+        editData.title = response.data.title;
+        editData.designation = response.data.designation;
         editData.username = response.data.username;
         editData.password = response.data.password;
         editData.municipality = response.data.municipality;
@@ -214,7 +223,7 @@ watch(
                     </div>
                     <div class="card-body px-5 mt-4">
                         <form @submit.prevent="submitUserData">
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <label
                                     for="lastName"
                                     class="col-sm-2 col-form-label"
@@ -241,7 +250,7 @@ watch(
                                     >
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <label
                                     for="firstName"
                                     class="col-sm-2 col-form-label"
@@ -268,7 +277,7 @@ watch(
                                     >
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <label
                                     for="middleName"
                                     class="col-sm-2 col-form-label"
@@ -283,6 +292,40 @@ watch(
                                         id="middle_name"
                                         v-model="userData.middle_init"
                                         placeholder="Middlename"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label
+                                    for="title"
+                                    class="col-sm-2 col-form-label"
+                                    >Title</label
+                                >
+                                <div class="col-sm-10">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="title"
+                                        id="title"
+                                        v-model="userData.title"
+                                        placeholder="Title"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label
+                                    for="designation"
+                                    class="col-sm-2 col-form-label"
+                                    >Designation</label
+                                >
+                                <div class="col-sm-10">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="designation"
+                                        id="designation"
+                                        v-model="userData.designation"
+                                        placeholder="Designation"
                                     />
                                 </div>
                             </div>
@@ -449,9 +492,9 @@ watch(
                             aria-label="Close"
                         ></button>
                     </div>
-                    <div class="card-body px-4 mt-4">
+                    <div class="card-body px-5 mt-4">
                         <form @submit.prevent="updateData">
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <label
                                     for="lastName"
                                     class="col-sm-2 col-form-label"
@@ -469,7 +512,7 @@ watch(
                                     />
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <label
                                     for="firstName"
                                     class="col-sm-2 col-form-label"
@@ -487,13 +530,12 @@ watch(
                                     />
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-1">
                                 <label
                                     for="middleName"
                                     class="col-sm-2 col-form-label"
-                                    >Middle name<span class="text-danger"
-                                        >*</span
-                                    ></label
+                                    >Middle name
+                                    <small>(Optional)</small></label
                                 >
                                 <div class="col-sm-10">
                                     <input
@@ -502,6 +544,41 @@ watch(
                                         name="middle_name"
                                         id="middle_name"
                                         v-model="editData.middle_init"
+                                        placeholder="Middlename"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label
+                                    for="title"
+                                    class="col-sm-2 col-form-label"
+                                    >Title</label
+                                >
+                                <div class="col-sm-10">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="title"
+                                        id="title"
+                                        v-model="editData.title"
+                                        placeholder="Title"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label
+                                    for="designation"
+                                    class="col-sm-2 col-form-label"
+                                    >Designation</label
+                                >
+                                <div class="col-sm-10">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="designation"
+                                        id="designation"
+                                        v-model="editData.designation"
+                                        placeholder="Designation"
                                     />
                                 </div>
                             </div>

@@ -119,6 +119,9 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/medicine', 'index');
                 Route::get('/medicine/create', 'create');
                 Route::post('/medicine/post', 'store')->name('medicine.post');
+
+                Route::get('/medicine/print-guarant-letter/{id}', 'printGuarantLetter');
+                Route::get('/medicine/print-assistance-slip/{id}', 'printAssistantSlip');
             });
 
     // Type Assistance Controller

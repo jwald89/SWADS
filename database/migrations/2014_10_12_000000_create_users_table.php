@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('middle_init')->nullable();
             $table->string('last_name');
             $table->string('username', 50);
+            $table->string('title')->nullable();
+            $table->string('designation')->nullable();
             $table->enum('role_type', UserTypes::values());
             $table->string('password');
             $table->unsignedBigInteger('modified_by')->nullable();

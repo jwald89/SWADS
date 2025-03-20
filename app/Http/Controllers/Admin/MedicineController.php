@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\Month;
+use App\Models\User;
 use App\Models\Barangay;
 use App\Models\Medicine;
 use App\Models\Municipality;
 use Illuminate\Http\Request;
 use App\Models\FamRelationship;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MedicineRequest;
@@ -22,7 +24,7 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        $medicines = Medicine::with(['brgy', 'municipal', 'user'])->get();
+        $medicines = Medicine::with(['barangay', 'municipal', 'user'])->get();
 
         $barangays = BarangayResource::collection(Barangay::all());
         $municipalities = MunicipalityResource::collection(Municipality::all());
@@ -95,5 +97,78 @@ class MedicineController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Print view of guarante letter.
+     */
+    public function printGuarantLetter(string $id)
+    {
+        $medicines = Medicine::with(['barangay', 'municipal', 'user', 'famRelation'])
+                    ->where('id', $id)
+                    ->get();
+
+        $intakeCreatedId = Medicine::with(['user'])->find($id);
+
+        $createdBy = '';
+
+         $createdByUser = null;
+         if ($intakeCreatedId && $intakeCreatedId->created_by !== null) {
+             $createdByUser = User::find($intakeCreatedId->created_by);
+         }
+
+         if ($createdByUser) {
+            $createdBy = strtoupper($createdByUser->first_name) . ' '
+                . ($createdByUser->middle_init === null ? "" : strtoupper(substr($createdByUser->middle_init, 0, 1)) . '. ')
+                . strtoupper($createdByUser->last_name);
+        }
+
+        $pdf = App::make('snappy.pdf.wrapper');
+
+        $pdf->loadView('guarante-letter-print', compact('medicines', 'createdBy'))
+            ->setPaper('letter')
+            ->setOption('enable-local-file-access', true)
+            ->setOrientation('portrait')
+            ->setOption('margin-top', 5)
+            ->setOption('margin-bottom', 0);
+            // ->setOption('viewport-size', '1280x1024')
+            // ->setOption('dpi', 96);
+
+        return $pdf->inline();
+    }
+
+    /**
+     * Print view of assistance slip.
+     */
+    public function printAssistantSlip(string $id)
+    {
+        $medicines = Medicine::with(['barangay', 'municipal', 'user', 'famRelation'])
+                    ->where('id', $id)
+                    ->get();
+
+        $intakeCreatedId = Medicine::with(['user'])->find($id);
+        $createdBy = '';
+
+         $createdByUser = null;
+         if ($intakeCreatedId && $intakeCreatedId->created_by !== null) {
+             $createdByUser = User::find($intakeCreatedId->created_by);
+         }
+
+         if ($createdByUser) {
+            $createdBy = strtoupper($createdByUser->first_name) . ' '
+                . ($createdByUser->middle_init === null ? "" : strtoupper(substr($createdByUser->middle_init, 0, 1)) . '. ')
+                . strtoupper($createdByUser->last_name);
+        }
+
+        $pdf = App::make('snappy.pdf.wrapper');
+
+        $pdf->loadView('assistance-slip-print', compact('medicines'))
+            ->setPaper('letter')
+            ->setOption('enable-local-file-access', true)
+            ->setOrientation('portrait')
+            ->setOption('margin-top', 20)
+            ->setOption('margin-bottom', 0);
+
+        return $pdf->inline();
     }
 }

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('type_assistance')->nullable();
             $table->string('beneficiary')->nullable();
             $table->string('relationship')->nullable();
+            $table->string('kinds_of_med');
             $table->longText('problem_present');
             $table->longText('assistance_need');
             $table->unsignedBigInteger('created_by')->nullable();

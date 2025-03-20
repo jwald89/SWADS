@@ -29,6 +29,8 @@ class User extends Authenticatable
         'first_name',
         'middle_init',
         'username',
+        'title',
+        'designation',
         'email',
         'password',
         'municipality',
