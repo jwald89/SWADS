@@ -158,7 +158,7 @@ const hasAccess = (type) => {
                                 <th class="text-start px-3">Client</th>
                                 <th>Amount</th>
                                 <th>Date Created</th>
-                                <th>Print Preview</th>
+                                <th>Print</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -266,6 +266,7 @@ const hasAccess = (type) => {
                                 </td>
                                 <td width="10%">
                                     <Link
+                                        :href="`/medicine/edit/${medicine.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="hasAccess(['admin', 'user'])"
                                         title="Edit"

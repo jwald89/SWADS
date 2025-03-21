@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Enums\Month;
 use App\Models\User;
 use App\Models\Barangay;
@@ -24,7 +25,9 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        $medicines = Medicine::with(['barangay', 'municipal', 'user'])->get();
+        $medicines = Medicine::with(['barangay', 'municipal', 'user'])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
         $barangays = BarangayResource::collection(Barangay::all());
         $municipalities = MunicipalityResource::collection(Municipality::all());
@@ -80,15 +83,35 @@ class MedicineController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $medicines = Medicine::with(['barangay', 'municipal', 'famRelation'])->find($id);
+
+        $barangays = BarangayResource::collection(Barangay::all());
+        $municipalities = MunicipalityResource::collection(Municipality::all());
+        $famRelationships = FamRelationshipResource::collection(FamRelationship::all());
+
+        return inertia('MedicineEdit', [
+            'medicines' => $medicines,
+            'barangays' => $barangays,
+            'municipalities' => $municipalities,
+            'famRelationships' => $famRelationships,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(MedicineRequest $request, string $id)
     {
-        //
+        $medicine = Medicine::findOrFail($id);
+
+        $medicine->update(array_merge($request->all(),
+            [
+                'modified_by' =>  Auth::id(),
+                'modified_date' => Carbon::now()
+            ])
+        );
+
+        return response()->json($medicine, 200);
     }
 
     /**
@@ -129,10 +152,8 @@ class MedicineController extends Controller
             ->setPaper('letter')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
-            ->setOption('margin-top', 5)
+            ->setOption('margin-top', 10)
             ->setOption('margin-bottom', 0);
-            // ->setOption('viewport-size', '1280x1024')
-            // ->setOption('dpi', 96);
 
         return $pdf->inline();
     }

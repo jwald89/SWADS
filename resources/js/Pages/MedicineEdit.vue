@@ -1,12 +1,16 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, watchEffect, reactive } from "vue";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
 import { toast } from "vue3-toastify";
 import axios from "axios";
 
-defineProps({
+const props = defineProps({
+    medicines: {
+        type: Object,
+        required: true,
+    },
     municipalities: {
         type: Object,
         required: true,
@@ -24,43 +28,8 @@ defineProps({
 
 const errors = reactive({});
 
-const form = reactive({
-    first_name: "",
-    middle_name: "",
-    last_name: "",
-    suffix: "",
-    brgy: "",
-    municipality: "",
-    date_started: "",
-    date_ended: "",
-    pharmacy: "",
-    amount: "",
-    beneficiary: "",
-    relationship: "",
-    kinds_of_med: "",
-    problem_present: "",
-    assistance_need: "",
-});
-
-const resetForm = () => {
-    form.first_name = "";
-    form.middle_name = "";
-    form.last_name = "";
-    form.suffix = "";
-    form.brgy = "";
-    form.municipality = "";
-    form.date_started = "";
-    form.date_ended = "";
-    form.pharmacy = "";
-    form.amount = "";
-    form.beneficiary = "";
-    form.relationship = "";
-    form.kinds_of_med = "";
-    form.problem_present = "";
-    form.assistance_need = "";
-};
-
 const submitForm = async () => {
+    props.medicines.amount = parseInt(props.medicines.amount) || 0; // Ensure amount is an integer
     // Clear previous errors
     const fields = [
         "first_name",
@@ -81,22 +50,22 @@ const submitForm = async () => {
     ];
 
     fields.forEach((field) => {
-        if (form[field]) {
-            errors[field] = "";
+        if (props.medicines[field]) {
+            errors[field] = ""; // Clear the error if the field has a value
         }
     });
 
     // isSubmitting.value = true;
 
     try {
-        const response = await axios.post("/medicine/post", form);
+        const response = await axios.put(
+            `/medicine/update/${props.medicines.id}`,
+            props.medicines
+        );
 
         toast.success("Successfully created.", {
             autoClose: 1000,
         });
-
-        console.log("working..");
-        resetForm();
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
@@ -119,6 +88,15 @@ const submitForm = async () => {
     //     isSubmitting.value = false;
     // }
 };
+
+watchEffect(() => {
+    props.medicines.brgy = parseInt(props.medicines.brgy);
+    props.medicines.municipality = parseInt(props.medicines.municipality);
+
+    if (props.medicines?.relationship) {
+        props.medicines.relationship = parseInt(props.medicines.relationship);
+    }
+});
 
 defineComponent({
     vSelect,
@@ -170,7 +148,7 @@ defineComponent({
                                                 class="form-control fw-bold"
                                                 name="lastname"
                                                 id="lastname"
-                                                v-model="form.last_name"
+                                                v-model="medicines.last_name"
                                                 placeholder="Family name"
                                                 :class="{
                                                     'is-invalid':
@@ -198,7 +176,7 @@ defineComponent({
                                                 class="form-control fw-bold"
                                                 name="firstname"
                                                 id="firstname"
-                                                v-model="form.first_name"
+                                                v-model="medicines.first_name"
                                                 placeholder="Given name"
                                                 :class="{
                                                     'is-invalid':
@@ -225,7 +203,7 @@ defineComponent({
                                                 class="form-control fw-bold"
                                                 name="middlename"
                                                 id="middlename"
-                                                v-model="form.middle_name"
+                                                v-model="medicines.middle_name"
                                                 placeholder="Middle name"
                                             />
                                         </div>
@@ -242,7 +220,7 @@ defineComponent({
                                                 class="form-control fw-bold"
                                                 id="suffix"
                                                 name="suffix"
-                                                v-model="form.suffix"
+                                                v-model="medicines.suffix"
                                             >
                                                 <option value="" disabled>
                                                     Select
@@ -284,7 +262,7 @@ defineComponent({
                                                     id="barangay"
                                                     :options="barangays.data"
                                                     :reduce="(data) => data.id"
-                                                    v-model="form.brgy"
+                                                    v-model="medicines.brgy"
                                                     label="barangay"
                                                     placeholder="Select"
                                                     :class="{
@@ -318,7 +296,9 @@ defineComponent({
                                                         municipalities.data
                                                     "
                                                     :reduce="(data) => data.id"
-                                                    v-model="form.municipality"
+                                                    v-model="
+                                                        medicines.municipality
+                                                    "
                                                     label="municipality"
                                                     placeholder="Select"
                                                     :class="{
@@ -358,7 +338,7 @@ defineComponent({
                                         type="date"
                                         class="form-control"
                                         id="dateStarted"
-                                        v-model="form.date_started"
+                                        v-model="medicines.date_started"
                                         :class="{
                                             'is-invalid': errors.date_started,
                                         }"
@@ -379,7 +359,7 @@ defineComponent({
                                         type="date"
                                         class="form-control"
                                         id="dateEnded"
-                                        v-model="form.date_ended"
+                                        v-model="medicines.date_ended"
                                         :class="{
                                             'is-invalid': errors.date_ended,
                                         }"
@@ -402,7 +382,7 @@ defineComponent({
                                         type="text"
                                         class="form-control fw-bold"
                                         id="pharmacy"
-                                        v-model="form.pharmacy"
+                                        v-model="medicines.pharmacy"
                                         placeholder="Enter pharmacy.."
                                         :class="{
                                             'is-invalid': errors.pharmacy,
@@ -424,7 +404,7 @@ defineComponent({
                                         type="text"
                                         class="form-control fw-bold"
                                         id="amount"
-                                        v-model="form.amount"
+                                        v-model="medicines.amount"
                                         placeholder="Enter amount.."
                                         :class="{
                                             'is-invalid': errors.amount,
@@ -444,7 +424,7 @@ defineComponent({
                                         type="text"
                                         class="form-control fw-bold"
                                         id="beneficiary"
-                                        v-model="form.beneficiary"
+                                        v-model="medicines.beneficiary"
                                         placeholder="Enter beneficiary.."
                                     />
                                 </div>
@@ -458,7 +438,7 @@ defineComponent({
                                         id="relationship"
                                         :options="famRelationships.data"
                                         :reduce="(data) => data.id"
-                                        v-model="form.relationship"
+                                        v-model="medicines.relationship"
                                         label="name"
                                         placeholder="Select"
                                     >
@@ -474,7 +454,7 @@ defineComponent({
                                 <textarea
                                     class="form-control fw-bold"
                                     id="problemPresented"
-                                    v-model="form.problem_present"
+                                    v-model="medicines.problem_present"
                                     placeholder="Enter problem presented.."
                                     rows="3"
                                     :class="{
@@ -496,7 +476,7 @@ defineComponent({
                                 <textarea
                                     class="form-control fw-bold"
                                     id="assistanceNeeded"
-                                    v-model="form.assistance_need"
+                                    v-model="medicines.assistance_need"
                                     placeholder="Enter assistance needed.."
                                     rows="3"
                                     :class="{
@@ -518,7 +498,7 @@ defineComponent({
                                 <input
                                     type="text"
                                     class="form-control fw-bold"
-                                    v-model="form.kinds_of_med"
+                                    v-model="medicines.kinds_of_med"
                                     placeholder="Enter kinds of medicine.."
                                     :class="{
                                         'is-invalid': errors.kinds_of_med,
@@ -536,7 +516,7 @@ defineComponent({
                         type="submit"
                         class="btn btn-success mt-0 float-end"
                     >
-                        <i class="bi bi-save"></i> Save
+                        <i class="bi bi-save"></i> Update
                     </button>
                 </form>
             </div>

@@ -14,7 +14,6 @@
                 font-family: 'Calibri';
                 margin: 20px;
             }
-
         .container-header {
             white-space: nowrap;
             margin: 80px;
@@ -89,18 +88,22 @@
 
         @foreach($medicines as $medicine)
         <p style="text-indent: 70%; font-weight: bold">Date: <span class="fw-normal text-underlined">{{ Carbon::parse($medicine->created_at)->format('F j, Y') }}</span></p>
-        <p class="fw-bold">Name:
+
+        <p class="fw-bold" style="line-height: 0">Name:
             <span class="fw-normal text-underlined">
                 {{ ucwords($medicine->first_name) }}
                 {{ $medicine->middle_name !== NULL ? ucwords(substr($medicine->middle_name, 0, 1)) . "." : "" }}
                 {{ ucwords($medicine->last_name) }}{{ $medicine->suffix !== NULL ? ", " . ucwords($medicine->suffix) : "" }}
             </span>
         </p>
+        <p class="fw-bold" style="line-height: 0.9">Address:
+            <span class="fw-normal text-underlined">
+                {{ $medicine->barangay->barangay . "," }} {{ $medicine->municipal->municipality . ", Surigao del Sur" }}
+            </span>
+        </p>
 
-        <p class="fw-bold">Address: <span class="fw-normal text-underlined">{{ $medicine->barangay->barangay . "," }} {{ $medicine->municipal->municipality . ", Surigao del Sur" }}</span></p>
-
-        <p class="fw-bold">Problem Presented: <span class="fw-normal text-underlined">{{ $medicine->problem_present }}</span></p>
-        <p class="fw-bold">Asistance Needed: <span class="fw-normal text-underlined">{{ $medicine->assistance_need }}</span></p>
+        <p class="fw-bold" style="margin-top: 30px">Problem Presented: <span class="fw-normal text-underlined">{{ $medicine->problem_present }}</span></p>
+        <p class="fw-bold" style="margin-top: 20px">Asistance Needed: <span class="fw-normal text-underlined">{{ $medicine->assistance_need }}</span></p>
         @endforeach
 
 
