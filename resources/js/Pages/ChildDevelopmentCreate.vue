@@ -171,7 +171,17 @@ defineComponent({
                                             type="date"
                                             class="form-control"
                                             name="dateEncoded"
+                                            v-model="childDevForm.date_encoded"
+                                            :class="{
+                                                'is-invalid':
+                                                    errors.date_encoded,
+                                            }"
                                         />
+                                        <small
+                                            v-if="errors.date_encoded"
+                                            class="text-danger"
+                                            >{{ errors.date_encoded }}</small
+                                        >
                                     </div>
                                 </div>
                             </div>

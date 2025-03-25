@@ -311,7 +311,7 @@ class MonitoringController extends Controller
      */
     public function filter($assistanceId = '*', $sectorId = '*', $municipalId = '*', $month = '*')
     {
-        $data = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'chargingOffice']);
+        $data = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'brgy', 'chargingOffice']);
 
         if ($assistanceId !== '*') {
             $data->where('assistance_type', $assistanceId);

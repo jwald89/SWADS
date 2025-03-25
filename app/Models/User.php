@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Medicine::class, 'id', 'created_by');
     }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'id', 'created_by');
+    }
 }

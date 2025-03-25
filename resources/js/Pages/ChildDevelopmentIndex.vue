@@ -164,13 +164,12 @@ watch(
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
-                                <th>CDC</th>
-                                <th>CDW</th>
+                                <th class="text-start px-3">Date Encoded</th>
+                                <th class="text-start">Center's Name</th>
+                                <th class="text-start">Worker's Name</th>
                                 <th>Barangay</th>
                                 <th>Municipality</th>
                                 <th>Status</th>
-                                <th>Recognition Level</th>
-                                <th>Date Encoded</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -180,7 +179,13 @@ watch(
                                 :key="index"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>
+                                <td
+                                    class="text-start px-3 text-primary"
+                                    width="11%"
+                                >
+                                    {{ formatDate(children.date_encoded) }}
+                                </td>
+                                <td class="text-start fw-bold">
                                     {{
                                         children.cdc_name
                                             .split(" ")
@@ -194,7 +199,7 @@ watch(
                                             .join(" ")
                                     }}
                                 </td>
-                                <td>
+                                <td class="text-start">
                                     {{
                                         children.cdw_name
                                             .split(" ")
@@ -223,10 +228,6 @@ watch(
                                             )
                                             .join(" ")
                                     }}
-                                </td>
-                                <td>{{ children.lvl_recognition }}</td>
-                                <td>
-                                    {{ formatDate(children.validity_of_cor) }}
                                 </td>
                                 <td>
                                     <Link

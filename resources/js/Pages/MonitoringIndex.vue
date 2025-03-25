@@ -252,11 +252,12 @@ watch(
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
+                                <th class="text-start px-2" width="11%">
+                                    Date Intake
+                                </th>
+                                <th class="text-start">Claimant</th>
                                 <th>Assistance Type</th>
-                                <th>Claimant</th>
-                                <th>Date Intake</th>
                                 <th>Sector</th>
-                                <th>Municipality</th>
                                 <th>Office Charge</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -276,8 +277,10 @@ watch(
                                 }"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ monitoring.assistance.name }}</td>
-                                <td>
+                                <td class="text-primary text-start px-2">
+                                    {{ formatDate(monitoring.date_intake) }}
+                                </td>
+                                <td class="text-start fw-bold">
                                     {{
                                         monitoring.intake.first_name
                                             .split(" ")
@@ -312,16 +315,52 @@ watch(
                                             ? ", " + monitoring.intake.extn_name
                                             : "")
                                     }}
+                                    <div
+                                        class="d-flex flex-column"
+                                        style="font-size: 0.9rem"
+                                    >
+                                        <!-- <div
+                                            class="d-flex justify-content-between"
+                                            style="line-height: 1.2"
+                                        >
+                                            <div class="text-secondary fw-bold">
+                                                Sex:
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        monitoring.sex
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                        monitoring.sex.slice(1)
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div> -->
+                                        <div
+                                            class="d-flex align-items-center"
+                                            style="line-height: 1.2"
+                                        >
+                                            <div class="text-secondary fw-bold">
+                                                Address:
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        monitoring.brgy
+                                                            .barangay + ","
+                                                    }}
+                                                    {{
+                                                        monitoring.municipal
+                                                            .municipality
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>
-                                    {{ formatDate(monitoring.date_intake) }}
-                                </td>
+                                <td>{{ monitoring.assistance.name }}</td>
                                 <td>{{ monitoring.sector_name.name }}</td>
-                                <td>{{ monitoring.municipal.municipality }}</td>
                                 <td>
                                     {{ monitoring.charging_office.description }}
                                 </td>
-                                <td class="text-primary">
+                                <td class="text-primary fw-bold">
                                     {{
                                         new Intl.NumberFormat("en-US", {
                                             minimumFractionDigits: 2,

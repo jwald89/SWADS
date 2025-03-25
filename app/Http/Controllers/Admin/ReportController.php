@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\Sector;
 use App\Models\Sectoral;
 use App\Models\Monitoring;
+use App\Models\AssistanceType;
 use App\Models\PersonalInformation;
 use App\Http\Controllers\Controller;
-use App\Models\AssistanceType;
 
 class ReportController extends Controller
 {
@@ -105,32 +106,27 @@ class ReportController extends Controller
      */
     public function servedPerSectoral()
     {
-        $getSector = Sectoral::selectRaw('sector as sec, COUNT(*) as total')
-                        ->groupBy('sec')
-                        ->orderBy('sec')
+        $getSector = Sectoral::selectRaw('sector as totalSector, COUNT(*) as total')
+                        ->groupBy('totalSector')
+                        ->orderBy('totalSector')
                         ->get();
 
         $totalSectors = [];
 
-        $sectors = [
-            1 => 'Mens',
-            2 => 'Womens',
-            3 => 'Youth',
-            4 => 'Children',
-            5 => 'Senior Citizen',
-            6 => 'PWD',
-            7 => 'Solo Parent',
-            8 => 'Former Rebel',
-        ];
-
+        $sectors = Sector::pluck('name')->toArray();
 
         // Populate the sector data totals array
         foreach ($getSector as $data) {
-            $totalSectors[$sectors[$data->sec]] = $data->total;
+            $totalSectors[$sectors[$data->totalSector - 1]] = $data->total;
         }
 
-        return inertia('Reports/ServedPerSectoral' , ['totalSectors' => $totalSectors, 'currentYear' => $this->currentYear]);
+        return inertia('Reports/ServedPerSectoral' , [
+            'sectors' => $sectors,
+            'totalSectors' => $totalSectors,
+            'currentYear' => $this->currentYear
+        ]);
     }
+
 
     public function perSectoral()
     {

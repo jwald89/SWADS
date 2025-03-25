@@ -200,17 +200,18 @@ watch(
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
+                                <th class="text-start" width="12%">
+                                    Date Encoded
+                                </th>
+                                <th class="text-start">Client</th>
                                 <th>Sector</th>
-                                <th>Client</th>
-                                <th>Age</th>
-                                <th>Date of Birth</th>
+                                <th>Barangay</th>
                                 <th v-if="hasAccess(['admin', 'user'])">
                                     Municipality
                                 </th>
                                 <th v-if="hasAccess(['municipal'])">
                                     Barangay
                                 </th>
-                                <th>Date Encoded</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -220,8 +221,10 @@ watch(
                                 :key="index"
                             >
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ sectoral.sector.name }}</td>
-                                <td>
+                                <td class="text-primary text-start">
+                                    {{ formatDate(sectoral.date_encoded) }}
+                                </td>
+                                <td class="text-start px-2 fw-bold">
                                     {{
                                         sectoral.first_name
                                             .split(" ")
@@ -247,18 +250,63 @@ watch(
                                             .toUpperCase() +
                                         sectoral.last_name.slice(1)
                                     }}
+                                    <div
+                                        class="d-flex flex-column"
+                                        style="font-size: 0.9rem"
+                                    >
+                                        <div
+                                            class="d-flex align-items-center"
+                                            style="line-height: 1.2"
+                                        >
+                                            <div class="text-secondary fw-bold">
+                                                Sex:
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        sectoral.sex
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                        sectoral.sex.slice(1)
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center"
+                                            style="line-height: 1.2"
+                                        >
+                                            <div class="text-secondary fw-bold">
+                                                Age:
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        sectoral.age +
+                                                        " years old"
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="d-flex align-items-center"
+                                            style="line-height: 1.2"
+                                        >
+                                            <div class="text-secondary fw-bold">
+                                                Birthdate:
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        formatDate(
+                                                            sectoral.birthdate
+                                                        )
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>{{ sectoral.age }}</td>
-                                <td>{{ formatDate(sectoral.birthdate) }}</td>
+                                <td>{{ sectoral.sector.name }}</td>
+                                <td>{{ sectoral.barangay.barangay }}</td>
                                 <td v-if="hasAccess(['admin', 'user'])">
                                     {{ sectoral.municipality.municipality }}
                                 </td>
-                                <td v-if="hasAccess(['municipal'])">
-                                    {{ sectoral.barangay.barangay }}
-                                </td>
-                                <td class="text-primary">
-                                    {{ formatDate(sectoral.date_encoded) }}
-                                </td>
+
                                 <td>
                                     <Link
                                         :href="`/sectoral-data/edit/${sectoral.id}`"

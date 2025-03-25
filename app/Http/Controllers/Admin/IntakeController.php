@@ -698,7 +698,7 @@ class IntakeController extends Controller
     public function destroy($id)
     {
         return DB::transaction(function () use ($id) {
-            $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark'])->find($id);
+            $intakes = PersonalInformation::with(['famCompose', 'referral', 'remark', 'monitoring'])->find($id);
 
             if (!$intakes) {
                 return response()->json(['success' => false, 'message' => 'Record not found'], 404);
@@ -709,9 +709,18 @@ class IntakeController extends Controller
                 $intakes->save();
             }
 
+            foreach($intakes->monitoring as $monitoring)
+            {
+                if ($monitoring->deleted_by === null) {
+                    $monitoring->deleted_by = Auth::id();
+                    $monitoring->save();
+                }
+            }
+
             $intakes->famCompose()->delete();
             $intakes->referral()->delete();
             $intakes->remark()->delete();
+            $intakes->monitoring()->delete();
             $intakes->delete();
 
             return response()->json(['success' => true]);

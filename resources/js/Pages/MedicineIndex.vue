@@ -157,7 +157,7 @@ const hasAccess = (type) => {
                                 <th>No.</th>
                                 <th class="text-start px-3">Client</th>
                                 <th>Amount</th>
-                                <th>Date Created</th>
+                                <th>Date Encoded</th>
                                 <th>Print</th>
                                 <th>Action</th>
                             </tr>
@@ -219,7 +219,7 @@ const hasAccess = (type) => {
                                                 class="text-secondary text-center fw-bold"
                                             >
                                                 Address:
-                                                <span class="text-primary">
+                                                <span class="text-primary ms-1">
                                                     {{
                                                         medicine.barangay
                                                             .barangay
@@ -281,6 +281,13 @@ const hasAccess = (type) => {
                                         <i class="bi bi-eye"></i>
                                         <!-- Details -->
                                     </Link>
+                                    <a
+                                        href="#"
+                                        class="btn btn-sm btn-success me-2"
+                                        title="Download"
+                                    >
+                                        <i class="bi bi-download"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>

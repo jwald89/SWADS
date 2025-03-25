@@ -123,6 +123,7 @@ defineComponent({
                                             type="date"
                                             class="form-control form-control-md"
                                             name="dateEncoded"
+                                            v-model="childData.date_encoded"
                                         />
                                     </div>
                                 </div>

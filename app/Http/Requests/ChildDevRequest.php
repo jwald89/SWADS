@@ -24,6 +24,7 @@ class ChildDevRequest extends FormRequest
         return [
             'cdc_name' => 'required',
             'cdw_name' => 'required',
+            'date_encoded' => 'required',
             'barangay' => 'required',
             'municipality' => 'required',
             'lvl_recognition' => 'required',

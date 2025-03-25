@@ -299,30 +299,36 @@ watch(
                                             ? ", " + detail.extn_name
                                             : "")
                                     }}
-                                    <div class="d-flex flex-column">
+                                    <div
+                                        class="d-flex flex-column"
+                                        style="font-size: 0.9rem"
+                                    >
                                         <div class="d-flex align-items-center">
-                                            <div
-                                                class="text-secondary text-center fw-normal font-monospace"
-                                            >
+                                            <div class="text-secondary fw-bold">
                                                 Sex:
-                                                {{
-                                                    detail.sex
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                    detail.sex.slice(1)
-                                                }}
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        detail.sex
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                        detail.sex.slice(1)
+                                                    }}
+                                                </span>
                                             </div>
                                         </div>
                                         <div
-                                            class="d-flex align-items-center font-monospace"
+                                            class="d-flex align-items-center"
+                                            style="line-height: 0.9"
                                         >
-                                            <div
-                                                class="text-secondary text-center fw-normal"
-                                            >
+                                            <div class="text-secondary fw-bold">
                                                 Birthdate:
-                                                {{
-                                                    formatDate(detail.birthdate)
-                                                }}
+                                                <span class="fw-normal ms-1">
+                                                    {{
+                                                        formatDate(
+                                                            detail.birthdate
+                                                        )
+                                                    }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

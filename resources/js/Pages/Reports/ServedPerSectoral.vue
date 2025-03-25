@@ -4,6 +4,10 @@ import LayoutApp from "/resources/js/Shared//Layout.vue";
 import VueApexCharts from "vue3-apexcharts";
 
 const props = defineProps({
+    sectors: {
+        type: Array,
+        required: true,
+    },
     totalSectors: {
         type: Object,
         required: true,
@@ -14,20 +18,10 @@ const props = defineProps({
 });
 
 const colors = ref();
-
-const sectors = [
-    "Mens",
-    "Womens",
-    "Youth",
-    "Children",
-    "Senior Citizen",
-    "PWD",
-    "Solo Parent",
-    "Former Rebel",
-];
+const sectorData = ref(props.sectors);
 
 // Map intakes data to match the month order
-const sector = sectors.map((sec) => props.totalSectors[sec] || 0);
+const sector = sectorData.value.map((sec) => props.totalSectors[sec] || 0);
 
 const data = ref({
     series: [
@@ -41,9 +35,7 @@ const data = ref({
             height: 350,
             type: "bar",
             events: {
-                click: function (chart, w, e) {
-                    // console.log(chart, w, e)
-                },
+                click: function (chart, w, e) {},
             },
         },
         colors: colors,
@@ -60,7 +52,7 @@ const data = ref({
             show: false,
         },
         xaxis: {
-            categories: sectors,
+            categories: sectorData,
             labels: {
                 style: {
                     colors: colors,

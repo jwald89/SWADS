@@ -25,7 +25,7 @@ class DashboardController extends Controller
                             ->get();
 
         $totalSectors = Sectoral::count();
-        $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
+        $totalMonitors = Monitoring::where('deleted_at', null)->count();
         $sumOfSectors = $totalMonitors + $totalSectors;
 
         $parseTotalAmt = number_format($totalAmt, 2, ".", ",");

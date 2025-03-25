@@ -63,9 +63,10 @@ onMounted(() => {
                         <i class="bi bi-person-circle"></i>
                         <span
                             class="d-none d-md-block dropdown-toggle ps-2 text-uppercase"
-                            >{{ page.props.fullname }}
-                            {{ page.props.middle_init }}</span
                         >
+                            {{ page.props.fullname }}
+                            {{ page.props.middle_init.substr(0, 1) + "." }}
+                        </span>
                     </a>
 
                     <ul
@@ -350,12 +351,19 @@ onMounted(() => {
                                     currentRoute.includes('child-development'),
                             }"
                         ></i>
-                        <span
+                        <!-- <span
                             :class="{
                                 'color-highlight':
                                     currentRoute.includes('child-development'),
                             }"
                             >CDC / CDW</span
+                        > -->
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('child-development'),
+                            }"
+                            >CHILD DEVELOPMENT</span
                         >
                     </Link>
                 </li>
@@ -879,12 +887,19 @@ onMounted(() => {
                                     currentRoute.includes('child-development'),
                             }"
                         ></i>
-                        <span
+                        <!-- <span
                             :class="{
                                 'color-highlight':
                                     currentRoute.includes('child-development'),
                             }"
                             >CDC / CDW</span
+                        > -->
+                        <span
+                            :class="{
+                                'color-highlight':
+                                    currentRoute.includes('child-development'),
+                            }"
+                            >CHILD DEVELOPMENT</span
                         >
                     </Link>
                 </li>
