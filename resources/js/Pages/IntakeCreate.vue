@@ -223,9 +223,11 @@ const submitRem = async () => {
             autoClose: 5000,
         });
 
-        router.visit("/intake", {
-            preserveScroll: true,
-        });
+        setTimeout(() => {
+            router.visit("/intake", {
+                preserveScroll: true,
+            });
+        }, 1000);
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;

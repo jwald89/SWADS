@@ -10,7 +10,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Intakes print</title>
     <style>
-
         table, th, td {
             border: 1px solid black;
             text-align: center;
@@ -60,10 +59,6 @@
             font-style: normal;
         }
 
-        .tree {
-            page-break-inside: avoid;
-        }
-
         .fw-bold {
             font-weight: bold;
         }
@@ -81,6 +76,7 @@
             vertical-align: middle;
             text-indent: 1rem;
         }
+
     </style>
 </head>
 <body >
@@ -117,21 +113,47 @@
         </div>
         {{-- End of Title --}}
 
-        <div id="container-1">
-            <div class="case" style="flex: 1;  margin-right: 20%;">
+        <div style="display: flex; justify-content: space-between">
+            <div style="display: inline-block; width: 55%; text-indent: 1rem">
                 @foreach ($intakes as $intake)
-                    <h3>CASE NO.
-                        &nbsp;<span style="line-height: 0; border-bottom:1px solid #000000; padding-bottom: 0.1px; font-weight: normal">{{ $intake->case_no }}</span>
+                    <h3>
+                        CASE NO.&nbsp;
+                        <span style="line-height: 0;
+                                    border-bottom: 1px solid #000000;
+                                    padding-bottom: 0.1px;
+                                    padding-left: 20px;
+                                    padding-right: 20px;
+                                    font-size: 1.2em;
+                                    font-weight: normal"
+                                    >
+                                    {{ $intake->case_no }}
+                        </span>
                     </h3>
-                    <p class="fw-bold" style="line-height: 0">TYPE OF CASE :
-                        <span style="font-weight: normal; margin-left: 10px; font-size: 1.2rem"> {{ $intake->case }}</span>
+                    <p class="fw-bold" style="line-height: 0">
+                        TYPE OF CASE :
+                        <span style="font-weight: normal;
+                                    margin-left: 5px;
+                                    font-size: 1.2rem"
+                                    >
+                                    {{ $intake->case }}
+                        </span>
                     </p>
                 @endforeach
             </div>
-            <div class="date" style="flex: 1;">
+            <div style="display: inline-block; width: 40%;">
                 @foreach($intakes as $intake)
-                <p class="fw-bold" style="line-height: 1; font-size: 1.1rem">Date Administered: <span style="font-weight: normal">{{ Carbon::parse($intake->date_intake)->format('j F Y') }}</span></p>
-                <p class="fw-bold" style="line-height: 0; font-size: 1.1rem">Category: <span style="font-weight: normal">{{ ucwords($intake->assistance->name) }}</span></p>
+                    <p class="fw-bold" style="line-height: 1; font-size: 1.1rem">
+                        Date Administered:
+                        <span style="font-weight: normal">
+                            {{ Carbon::parse($intake->date_intake)->format('j F Y') }}
+                        </span>
+                    </p>
+                    <p class="fw-bold" style="line-height: 0; font-size: 1.1rem">
+                        Category:
+                        <span style="font-weight: normal">
+                            {{ ucwords($intake->assistance->name) }}
+                        </span>
+                    </p>
                 @endforeach
             </div>
         </div>
@@ -142,9 +164,8 @@
             <div style="margin-top: -10px">
                 <h3 style="text-indent: 2rem">I. <span style="margin-left: 2%">IDENTIFYING DATA</span></h3>
             </div>
-            <div class="roboto-regular d-flex" style="margin-left: 6%; line-height: 0.5; font-size: 1.1rem; margin-top: -10px">
-                @foreach($intakes as $intake)
-                    <div>
+            <div class="roboto-regular d-flex">
+                    <div style="max-width: 30%; margin-left: 6%; line-height: 0.5; font-size: 1.1rem; margin-top: -10px ">
                         <p class="fw-bold">Name </p>
                         <p class="fw-bold">N-name </p>
                         <p class="fw-bold">Age </p>
@@ -156,17 +177,38 @@
                         <p class="fw-bold">Income </p>
                         <p class="fw-bold">Contact # </p>
                     </div>
-                    <div>
-                        <p style="font-weight: normal">: {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}{{ $intake->extn_name ? ', ' . strtoupper($intake->extn_name) : '' }}</p>
-                        <p style="font-weight: normal">: {{ strtoupper($intake->nick_name) }}</p>
-                        <p style="font-weight: normal">: {{ $intake->age }}</p>
-                        <p style="font-weight: normal">: {{ ucwords($intake->sex) }}</p>
-                        <p style="font-weight: normal">: {{ ucwords($intake->civil_stats) }}</p>
-                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->purok)) ? "Purok " . ucwords($intake->purok) . ",": "" ?> <?php echo !empty(trim($intake->street)) ? ucwords($intake->street) . " St., " : "" ?> {{ ucwords($intake->brgy->barangay) }}, {{ ucwords($intake->municipal->municipality) }}, Surigao Del Sur</p style="font-weight: normal">
-                        <p style="font-weight: normal">: {{ Carbon::parse($intake->birthdate)->format('F j, Y') }}</p>
-                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?></p>
-                        <p style="font-weight: normal">: <?php echo !empty(trim($intake->income)) ? $intake->income : "N/A" ?></p>
-                        <p style="font-weight: normal">: {{ $intake->contact_no }}</p>
+                @foreach($intakes as $intake)
+                    <div style="max-width: 80%; margin-left: 2%; line-height: 0.5; font-size: 1.1rem; margin-top: -10px">
+                        <p style="font-weight: normal">:
+                            {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}{{ $intake->extn_name ? ', ' . strtoupper($intake->extn_name) : '' }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            {{ strtoupper($intake->nick_name) }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            {{ $intake->age }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            {{ ucwords($intake->sex) }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            {{ ucwords($intake->civil_stats) }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            <?php echo !empty(trim($intake->purok)) ? "Purok " . ucwords($intake->purok) : "" ?> <?php echo !empty(trim($intake->street)) ? ucwords($intake->street) . " St., " : "" ?> {{ ucwords($intake->brgy->barangay) . "," }} {{ ucwords($intake->municipal->municipality) . ", Surigao del Sur" }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            {{ Carbon::parse($intake->birthdate)->format('F j, Y') }}
+                        </p>
+                        <p style="font-weight: normal">:
+                            <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?>
+                        </p>
+                        <p style="font-weight: normal">:
+                            <?php echo !empty(trim($intake->income)) ? $intake->income : "N/A" ?>
+                        </p>
+                        <p style="font-weight: normal">:
+                            {{ $intake->contact_no }}
+                        </p>
                     </div>
                 @endforeach
             </div>
@@ -254,4 +296,4 @@
     {{-- End of Signatories --}}
 </body>
 </html>
-{{-- END OF 1st PAGE --}}
+

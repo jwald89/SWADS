@@ -422,8 +422,8 @@ class IntakeController extends Controller
             ->setPaper('A4')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
-            ->setOption('margin-top', 5)
-            ->setOption('margin-bottom', 0);
+            ->setOption('margin-top', 8)
+            ->setOption('margin-bottom', 10);
 
         return $pdf->inline();
     }
