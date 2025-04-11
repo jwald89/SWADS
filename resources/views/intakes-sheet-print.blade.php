@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Intakes print</title>
+    <title>Intake Sheet Print</title>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -85,7 +85,7 @@
 
         <div id="container">
             <div class="logo">
-                <img src="file:///laragon/www/SWADS/public/assets/img/sds.png" alt="logo">
+                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/sds.png" alt="logo">
             </div>
             <div class="text">
                     <h3 style="line-height: 0.8">Republic of the Philippines</h3>
@@ -95,7 +95,7 @@
                     <h3 style="line-height: 0.3; font-weight: normal">Telefax No. (086) 211-3656</h3>
             </div>
             <div class="logo">
-                <img src="file:///laragon/www/SWADS/public/assets/img/pswdo-logo.jpg" alt="logo">
+                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
             </div>
         </div>
         {{-- End Header --}}
@@ -204,7 +204,7 @@
                             <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?>
                         </p>
                         <p style="font-weight: normal">:
-                            <?php echo !empty(trim($intake->income)) ? $intake->income : "N/A" ?>
+                            <?php echo !empty(trim($intake->income)) ? number_format($intake->income, 2, '.', ',') : "N/A" ?>
                         </p>
                         <p style="font-weight: normal">:
                             {{ $intake->contact_no }}

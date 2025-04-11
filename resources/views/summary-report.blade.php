@@ -92,7 +92,7 @@
 
         <div id="container">
             <div class="logo">
-                <img src="file:///laragon/www/SWADS/public/assets/img/sds.png" alt="logo">
+                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/sds.png" alt="logo">
             </div>
             <div class="header">
                 <h3 style="line-height: 0.8">Republic of the Philippines</h3>
@@ -102,7 +102,7 @@
                 <h1 style="line-height: 0.3; margin-top: 2rem">SUMMARY REPORT</h1>
             </div>
             <div class="logo">
-                <img src="file:///laragon/www/SWADS/public/assets/img/pswdo-logo.jpg" alt="logo">
+                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
             </div>
         </div>
 

@@ -1084,7 +1084,7 @@
             ><span>Provincial Government of Surigao Del Sur</span></strong
         >. All Rights Reserved
     </div>
-    <div class="credits">Developed by <a href="">PADMO-ITU</a></div>
+    {{-- <div class="credits">Developed by <span></span></div> --}}
 </footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

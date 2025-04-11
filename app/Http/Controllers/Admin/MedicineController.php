@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Barangay;
 use App\Models\Medicine;
 use App\Models\Municipality;
-use Illuminate\Http\Request;
 use App\Models\FamRelationship;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;

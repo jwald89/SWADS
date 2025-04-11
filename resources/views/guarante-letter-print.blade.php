@@ -1,8 +1,5 @@
 <?php
     use Carbon\Carbon;
-
-    // Create a new NumberFormatter instance to speel out the amount in words
-    $formatter = new NumberFormatter('en', NumberFormatter::SPELLOUT);
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Intakes print</title>
+    <title>Guarante Letter Print</title>
     <style>
         body {
                 font-family: 'Calibri';
@@ -55,7 +52,7 @@
 
         <div class="container-header">
             <div class="province-logo logo">
-                <img src="file:///laragon/www/SWADS/public/assets/img/sds.png" alt="logo">
+                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/sds.png" alt="logo">
             </div>
             <div class="header">
                     <h3 style="line-height: 0.8">Republic of the Philippines</h3>
@@ -64,7 +61,7 @@
                     <h3 style="line-height: 0.3; font-weight: normal">Telefax No. (086) 211-3656</h3>
             </div>
             <div class="pswdo-logo logo">
-                <img src="file:///laragon/www/SWADS/public/assets/img/pswdo-logo-2.jpg" alt="logo">
+                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo-2.jpg" alt="logo">
             </div>
         </div>
         {{-- End Header --}}
@@ -75,7 +72,7 @@
         </div>
         {{-- End of Office --}}
 
-        <div style="margin-top: 5%">
+        <div style="margin-top: 5%; font-size: 1.05rem">
             @foreach ($medicines as $medicine)
             <p style="line-height: 0.3">Date: <span style="text-decoration: underline">{{ Carbon::parse($medicine->date_started)->format('F j, Y') }}</span>
                                         &nbsp;Valid Until: <span style="text-decoration: underline">{{ Carbon::parse($medicine->date_ended)->format('F j, Y') }}</span>
@@ -86,13 +83,14 @@
             @endforeach
 
             <p style="margin-top: 40px">Dear Sir/ Ma’am:</p>
+            @inject('formatter', 'App\Utility\Formatter')
 
             <div style="display: flex;">
                 @foreach($medicines as $medicine)
                 <p style="margin-bottom: 2rem">
                     The Provincial Social Welfare and Development guarantees to pay the amount of
                     <span style="margin-bottom: 1em; display: inline-block; border-bottom: 1px solid black; min-width: auto; padding: 1px 5px 0 5px; position: relative; text-align: center;">
-                        {{ ucwords($formatter->format($medicine->amount) . " Pesos Only") }}
+                        {{ ucwords($formatter->amountInWords($medicine->amount) . " Only") }}
                         <span style="font-size: 0.8em; position: absolute; width: 100%; left: 0">Amount in words</span>
                     </span>
                     <span style="display: inline-block; border-bottom: 1px solid black; min-width: auto; padding: 1px 10px 0 10px; text-align: center; margin-top: 0.5em">{{ number_format($medicine->amount, 2, '.', ',') }}</span>
@@ -150,9 +148,9 @@
                 <br>
                 <p style="text-indent: 50%">Approved by:</p>
                 <div style="text-align: right; margin-right: 10%">
-                    <p style="text-align: center; font-weight: bold; min-width: auto; display: inline-block; border-bottom: 1px solid black; padding: 0 8px 0 10px; position: relative; line-height: 1">
+                    <p style="text-align: center; font-weight: bold; min-width: auto; display: inline-block; border-bottom: 1px solid black; padding: 0 30px 0 25px; position: relative; line-height: 1">
                         HERSHE L. NUÑEZ, RSW
-                        <span style="margin-top: 5px; text-decoration: none; margin-right: -50px; position: absolute; width: 155% ; font-weight: normal; font-size: 0.9em; right: 0">Provincial Social Welfare and Development Officer</span>
+                        <span style="margin-top: 5px; text-decoration: none; margin-right: -75px; position: absolute; width: 170% ; font-weight: normal; font-size: 0.9em; right: 0">Provincial Social Welfare and Development Officer</span>
                     </p>
                 </div>
             </div>

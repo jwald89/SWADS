@@ -89,17 +89,17 @@
                     @enderror
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-12 mb-4">
                       <button type="submit" class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                   </form>
                 </div>
               </div>
 
-              <div class="credits">
+              {{-- <div class="credits">
 
-                Developed by <a href="#">PADMO-ITU</a>
-              </div>
+                Developed by <span></span>
+              </div> --}}
 
             </div>
           </div>

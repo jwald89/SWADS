@@ -6,7 +6,7 @@
             <strong><span>Province of Surigao Del Sur</span></strong
             >. All Rights Reserved
         </div>
-        <div class="credits">Developed by <a href="">PADMO-ITU</a></div>
+        <!-- <div class="credits">Developed by <span></span></div> -->
     </footer>
     <!-- End Footer -->
 

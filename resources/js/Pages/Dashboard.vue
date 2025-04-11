@@ -669,42 +669,62 @@ const formatDate = (dateString) => {
                                                             data.status ==
                                                             'PSWDO'
                                                         "
-                                                        class="badge bg-pswdo text-light fw-bold"
                                                     >
-                                                        {{ data.status }}
+                                                        <span
+                                                            class="badge bg-pswdo"
+                                                            >{{
+                                                                data.status
+                                                            }}</span
+                                                        >
                                                     </td>
                                                     <td
                                                         v-if="
                                                             data.status == 'PGO'
                                                         "
-                                                        class="badge bg-pgo text-light fw-bold"
                                                     >
-                                                        {{ data.status }}
+                                                        <span
+                                                            class="badge bg-pgo"
+                                                            >{{
+                                                                data.status
+                                                            }}</span
+                                                        >
                                                     </td>
                                                     <td
                                                         v-if="
                                                             data.status == 'PBO'
                                                         "
-                                                        class="badge bg-pbo text-dark fw-bold"
                                                     >
-                                                        {{ data.status }}
+                                                        <span
+                                                            class="badge bg-pbo"
+                                                            >{{
+                                                                data.status
+                                                            }}</span
+                                                        >
                                                     </td>
                                                     <td
                                                         v-if="
                                                             data.status ==
                                                             'PACCO'
                                                         "
-                                                        class="badge bg-pacco text-dark fw-bold"
                                                     >
-                                                        {{ data.status }}
+                                                        <span
+                                                            class="badge bg-pacco"
+                                                            >{{
+                                                                data.status
+                                                            }}</span
+                                                        >
                                                     </td>
                                                     <td
                                                         v-if="
                                                             data.status == 'PTO'
                                                         "
-                                                        class="badge bg-pto text-light fw-bold"
                                                     >
-                                                        {{ data.status }}
+                                                        <span
+                                                            class="badge bg-pto"
+                                                            >{{
+                                                                data.status
+                                                            }}</span
+                                                        >
                                                     </td>
                                                     <td
                                                         v-if="
@@ -993,7 +1013,7 @@ const formatDate = (dateString) => {
 }
 
 .bg-pbo {
-    background: #f5eded;
+    background: #006a6a;
 }
 
 .bg-pto {

@@ -458,10 +458,10 @@ class IntakeController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
 
         $pdf->loadView('coe-print', compact('intakes', 'createdBy'))
-            ->setPaper('A4')
+            ->setPaper('letter')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
-            ->setOption('margin-top', 5)
+            ->setOption('margin-top', 10)
             ->setOption('margin-bottom', 0);
 
         return $pdf->inline();

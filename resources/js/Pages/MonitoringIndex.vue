@@ -368,35 +368,30 @@ watch(
                                         }).format(monitoring.amount)
                                     }}
                                 </td>
-                                <td
-                                    v-if="monitoring.status == 'PSWDO'"
-                                    class="bg-pswdo text-light fw-bold"
-                                >
-                                    {{ monitoring.status }}
+                                <td v-if="monitoring.status == 'PSWDO'">
+                                    <span class="badge bg-pswdo fs-6">{{
+                                        monitoring.status
+                                    }}</span>
                                 </td>
-                                <td
-                                    v-if="monitoring.status == 'PGO'"
-                                    class="bg-pgo text-light fw-bold"
-                                >
-                                    {{ monitoring.status }}
+                                <td v-if="monitoring.status == 'PGO'">
+                                    <span class="badge bg-pgo fs-6">{{
+                                        monitoring.status
+                                    }}</span>
                                 </td>
-                                <td
-                                    v-if="monitoring.status == 'PBO'"
-                                    class="bg-pbo text-dark fw-bold"
-                                >
-                                    {{ monitoring.status }}
+                                <td v-if="monitoring.status == 'PBO'">
+                                    <span class="badge bg-pbo fs-6">{{
+                                        monitoring.status
+                                    }}</span>
                                 </td>
-                                <td
-                                    v-if="monitoring.status == 'PACCO'"
-                                    class="bg-pacco text-dark fw-bold"
-                                >
-                                    {{ monitoring.status }}
+                                <td v-if="monitoring.status == 'PACCO'">
+                                    <span class="badge bg-pacco fs-6">{{
+                                        monitoring.status
+                                    }}</span>
                                 </td>
-                                <td
-                                    v-if="monitoring.status == 'PTO'"
-                                    class="bg-pto text-light fw-bold"
-                                >
-                                    {{ monitoring.status }}
+                                <td v-if="monitoring.status == 'PTO'">
+                                    <span class="badge bg-pto fs-6">{{
+                                        monitoring.status
+                                    }}</span>
                                 </td>
                                 <td
                                     v-if="monitoring.status == 'CLAIMED'"
@@ -478,11 +473,11 @@ watch(
 }
 
 .bg-pswdo {
-    background: #c300ff;
+    background-color: #c300ff;
 }
 
 .bg-pbo {
-    background: #f5eded;
+    background: #006a6a;
 }
 
 .bg-pto {

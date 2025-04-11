@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Intakes print</title>
+    <title>Certificate of Eligibility Print</title>
     <style>
         .container {
             white-space: nowrap;
@@ -63,7 +63,7 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="file:///laragon/www/SWADS/public/assets/img/sds.png" alt="logo">
+            <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/sds.png" alt="logo">
         </div>
         <div class="text">
             <h3 style="line-height: 0.8">Republic of the Philippines</h3>
@@ -73,7 +73,7 @@
             <h3 style="line-height: 0.2; font-weight: normal">Telefax No. (086) 211-3656</h3>
         </div>
         <div class="logo">
-            <img src="file:///laragon/www/SWADS/public/assets/img/pswdo-logo.jpg" alt="logo">
+            <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
         </div>
     </div>
     {{-- End Header --}}
@@ -91,8 +91,8 @@
     </div>
     {{-- End of Title --}}
 
+    <div style="width: 95%">
     @foreach($intakes as $intake)
-    <div style="margin-top: 5%">
         <div style="margin-left: 4%;">
             <p style="font-size: 1.1rem; text-indent: 3rem; text-align: justify">
                 <strong>THIS IS TO CERTIFY &nbsp;</strong> that
@@ -109,9 +109,7 @@
                 <strong>{{ ucwords($intake->assistance->name) }}</strong> after having been interviewed and a case summary had been made.
             </p>
         </div>
-    </div>
 
-    <div style="margin-top: 3%">
         <div style="margin-left: 4%;">
             @foreach($intakes as $intake)
             <p style="font-size: 1.1rem; text-indent: 3rem; text-align: justify">
@@ -119,7 +117,6 @@
             </p>
             @endforeach
         </div>
-    </div>
 
     <div style="margin-top: 3%">
         <div style="margin-left: 4%;">
@@ -162,6 +159,7 @@
         <p>{{ $intake->chargingOffice->title }}</p>
     </div>
     @endforeach
+    </div>
 </body>
 </html>
 

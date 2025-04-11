@@ -959,9 +959,9 @@ onMounted(() => {
                 ><span>Provincial Government of Surigao Del Sur</span></strong
             >. All Rights Reserved
         </div>
-        <div class="credits">
-            Developed by <span class="text-primary">PADMO-ITU</span>
-        </div>
+        <!-- <div class="credits">
+            Developed by <span class="text-primary"></span>
+        </div> -->
     </footer>
     <!-- End Footer -->
 

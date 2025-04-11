@@ -15,6 +15,9 @@ class FamRelationshipSeeder extends Seeder
     {
         $data = [
             [
+                'name' => 'Self'
+            ],
+            [
                 'name' => 'Grandfather'
             ],
             [
