@@ -32,7 +32,7 @@ class MonitoringController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
+        if (Auth::user()->role_type === 'SUPERVISOR' || Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'LIAISON') {
                 $monitoringData = Monitoring::with(['intake', 'sectorName', 'assistance', 'brgy', 'municipal', 'chargingOffice'])
                     ->when(Auth::user()->role_type === 'LIAISON', function ($query) {
                         $query->where('liaison', Auth::user()->id)

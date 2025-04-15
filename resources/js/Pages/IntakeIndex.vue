@@ -110,11 +110,6 @@ const delData = async (id) => {
                 function () {
                     axios
                         .delete(`/api/intake/delete/${id}`, {
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem(
-                                    "token"
-                                )}`,
-                            },
                             data: {
                                 id: id,
                             },
@@ -423,7 +418,9 @@ watch(
                                     <button
                                         type="submit"
                                         class="btn btn-sm btn-danger"
-                                        v-if="hasAccess(['admin'])"
+                                        v-if="
+                                            hasAccess(['admin', 'supervisor'])
+                                        "
                                         title="Delete"
                                         @click="delData(detail.id)"
                                     >

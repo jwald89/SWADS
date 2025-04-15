@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\ValidateClientRecord;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
 class Kernel extends HttpKernel
 {
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'validate.client.record' => ValidateClientRecord::class,
+        'features.active' => EnsureFeaturesAreActive::class,
     ];
 }

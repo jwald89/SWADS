@@ -30,7 +30,7 @@ class SectoralDataController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
+        if (Auth::user()->role_type == 'SUPERVISOR' || Auth::user()->role_type === 'ADMIN' || Auth::user()->role_type === 'USER' || Auth::user()->role_type === 'MUNICIPAL')
         {
             $sectoral = Sectoral::with(['sector', 'municipality', 'barangay'])
                 ->when(Auth::user()->role_type === 'MUNICIPAL', function($query) {

@@ -22,15 +22,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Feature::purge();
+        // Feature::purge();
 
+        Feature::define('supervisor', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_SUPERVISOR));
         Feature::define('administrator', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_ADMIN));
-        Feature::define('liaison', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_LIAISON));
-        Feature::define('municipal', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_MUNICIPAL));
         Feature::define('user', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_USER));
+        Feature::define('municipal', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_MUNICIPAL));
+        Feature::define('liaison', fn (User $user) => $this->roleHasAccess($user, UserTypes::IS_LIAISON));
 
-        Feature::define('allowed-multiple-roles', fn (User $user) => $this->checkAccess($user, [
-            UserTypes::IS_ADMIN->value, UserTypes::IS_USER->value,
+        Feature::define('supervisor-admin', fn (User $user) => $this->checkAccess($user, [
+            UserTypes::IS_ADMIN->value, UserTypes::IS_SUPERVISOR->value
+        ]));
+
+        Feature::define('supervisor-admin-user', fn (User $user) => $this->checkAccess($user, [
+            UserTypes::IS_ADMIN->value, UserTypes::IS_SUPERVISOR->value, UserTypes::IS_USER->value
         ]));
     }
 

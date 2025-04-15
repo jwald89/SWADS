@@ -94,11 +94,6 @@ const delData = async (id) => {
                 function () {
                     axios
                         .delete(`/api/monitoring/delete/${id}`, {
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem(
-                                    "token"
-                                )}`,
-                            },
                             data: {
                                 id: id,
                             },
@@ -154,7 +149,7 @@ watch(
                     <div class="col-lg-6">Monitoring List</div>
                     <div
                         class="col-lg-6 text-end"
-                        v-if="hasAccess(['admin', 'user'])"
+                        v-if="hasAccess(['supervisor', 'admin', 'user'])"
                     >
                         <Link
                             :href="`/monitoring/create`"

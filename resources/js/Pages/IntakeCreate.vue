@@ -282,11 +282,6 @@ const removeRecords = () => {
             function () {
                 axios
                     .delete(`/api/remove-records`, {
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem(
-                                "token"
-                            )}`,
-                        },
                         data: {
                             id: applicant,
                         },

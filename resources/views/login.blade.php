@@ -81,7 +81,9 @@
                     <div class="col-12">
                       <label for="password" class="form-label">Password</label>
                       <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password">
-
+                    <div class="float-end mt-1">
+                        <input type="checkbox" class="form-check-input" id="togglePassword"> Show
+                    </div>
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -124,6 +126,18 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+     const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+            togglePassword.addEventListener('change', function() {
+                if (this.checked) {
+                    passwordInput.type = 'text';
+                } else {
+                    passwordInput.type = 'password';
+                }
+            });
+  </script>
 
 </body>
 

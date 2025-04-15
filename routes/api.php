@@ -36,15 +36,15 @@ Route::get('/fetch-beneficiaries', [MonitoringController::class, 'fetchBeneficia
 /**
  * Discard the process in intake module and delete data on database table
  */
-Route::middleware(['auth:sanctum'])->group(function() {
+Route::middleware(['auth'])->group(function() {
     Route::delete('/remove-records', [IntakeController::class, 'deleteRecords']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function() {
+Route::middleware(['auth'])->group(function() {
     Route::delete('/intake/delete/{id}', [IntakeController::class, 'destroy']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function() {
+Route::middleware(['auth'])->group(function() {
     Route::delete('/monitoring/delete/{id}', [MonitoringController::class, 'destroy']);
 });
 

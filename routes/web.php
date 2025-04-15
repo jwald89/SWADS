@@ -23,6 +23,8 @@ use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 Route::redirect('/login', '/login-page')->name('login');
 Route::get('/login-page', fn() => view('login'));
 
+Route::get('/page-error', fn() => view('error.page-error'))->name('page.error');
+
 Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])->name('logout.post');
 Route::post('/login-post', [AuthController::class, 'login'])->name('login.post');
 
@@ -40,20 +42,28 @@ Route::group(['middleware' => 'auth'], function() {
     // Register User Controller
     Route::controller(UserRegisterController::class)
             ->group(function() {
-                Route::get('/user-registration/index', 'index')->name('user.index');
-                Route::get('/user-registration/create', 'create')->name('user.create');
+                Route::get('/user-registration/index', 'index')->name('user.index')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::get('/user-registration/create', 'create')->name('user.create')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/user/post', 'store')->name('user.store');
-                Route::get('/user/edit/{id}', 'edit');
+
+                Route::get('/user/edit/{id}', 'edit')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/user/update/{id}', 'update');
-    })->middleware([EnsureFeaturesAreActive::using('administrator')]);
+    });
 
     // Intake Controller
     Route::controller(IntakeController::class)
             ->group(function() {
-                Route::get('/intake', 'index')->middleware([
-                    EnsureFeaturesAreActive::using('allowed-multiple-roles'),
-                ]);
-                Route::get('/intake/create', 'create')->name('intake.create');
+                Route::get('/intake', 'index')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
+
+                Route::get('/intake/create', 'create')->name('intake.create')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
 
                 // Store the data from the form
                 Route::post('/intake/create-post/p1', 'storeP1')->name('intake.post1')->middleware('validate.client.record');
@@ -62,20 +72,28 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::post('/intake/create-post/p4', 'storeP4')->name('intake.post4');
 
                 // Display the data
-                Route::get('/intake/show/{id}', 'show')->name('intake.show');
+                Route::get('/intake/show/{id}', 'show')->name('intake.show')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
 
                 // Display the data in edit-form
-                Route::get('/intake/edit/{id}', 'edit')->name('intake.edit');
+                Route::get('/intake/edit/{id}', 'edit')->name('intake.edit')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
 
                 // Update data in edit-form
                 Route::put('/intake/update/{id}', 'update');
 
                 // Print and download process
-                Route::get('/intake/intake-sheet-print/{id}', 'intakeSheetPrint')->name('intake.print');
-                Route::get('/intake/export/{id}', 'export')->name('intake.export');
-                Route::get('/intake/print-coe/{id}', 'coePrint');
+                Route::get('/intake/intake-sheet-print/{id}', 'intakeSheetPrint')->name('intake.print')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
 
-                Route::get('/intake/filter/{assistanceId?}/{municipalId?}/{month?}', 'filter');
+                Route::get('/intake/export/{id}', 'export')->name('intake.export')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
+
+                Route::get('/intake/print-coe/{id}', 'coePrint')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
+
+                Route::get('/intake/filter/{assistanceId?}/{municipalId?}/{month?}', 'filter')
+                        ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
     });
 
     // Monitoring Controller

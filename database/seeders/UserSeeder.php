@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'title' => '',
             'designation' => 'IT Officer',
-            'role_type' => 'ADMIN',
+            'role_type' => 'SUPERVISOR',
             'password' => bcrypt('p@ssw0rd')
         ]);
     }

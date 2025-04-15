@@ -115,16 +115,16 @@ class IntakeController extends Controller
 
        // Fetch the highest current case_no
         $lastCaseNo = PersonalInformation::orderBy('case_no', 'desc')->first();
-        $nextCaseNoNumber = 1;
+        $nextCaseNumber = 1;
 
         if ($lastCaseNo) {
             // Extract the number from the last case_no
             preg_match('/(\d+)/', $lastCaseNo->case_no, $matches);
-            $nextCaseNoNumber = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
+            $nextCaseNumber = isset($matches[1]) ? intval($matches[1]) + 1 : 1;
         }
 
         // Create the new case_no
-        $caseNo = '' . $nextCaseNoNumber;
+        $caseNo = $nextCaseNumber;
 
         // Create the personal information record
         $personalInformation = PersonalInformation::create(

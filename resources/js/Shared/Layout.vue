@@ -111,7 +111,7 @@ onMounted(() => {
 
         <ul class="sidebar-nav" id="sidebar-nav">
             <!-- Admin Dashboard -->
-            <li class="nav-item" v-if="hasAccess(['admin'])">
+            <li class="nav-item" v-if="hasAccess(['admin', 'supervisor'])">
                 <Link
                     class="nav-link"
                     :href="`/dashboard`"
@@ -195,7 +195,7 @@ onMounted(() => {
 
             <!-- AICS MODULE -->
             <!-- ADMIN ROLE ACCESS -->
-            <div v-if="hasAccess(['admin'])">
+            <div v-if="hasAccess(['admin', 'supervisor'])">
                 <li class="nav-heading">AICS</li>
 
                 <li class="nav-item">
@@ -332,7 +332,7 @@ onMounted(() => {
             <!-- END MUNICIPAL ROLE -->
 
             <!-- OTHERS SECTION -->
-            <div v-if="hasAccess(['admin'])">
+            <div v-if="hasAccess(['admin', 'supervisor'])">
                 <li class="nav-heading">OTHERS</li>
                 <!-- CHILD DEVELOPMENT MODULE -->
                 <li class="nav-item">
@@ -598,7 +598,7 @@ onMounted(() => {
             <!-- END OF MAINTENANCE MODULE -->
 
             <!-- REPORT MODULE -->
-            <div v-if="hasAccess(['admin'])">
+            <div v-if="hasAccess(['admin', 'supervisor'])">
                 <li class="nav-heading">REPORTS</li>
                 <li class="nav-item">
                     <Link

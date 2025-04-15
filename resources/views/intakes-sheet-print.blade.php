@@ -204,7 +204,11 @@
                             <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?>
                         </p>
                         <p style="font-weight: normal">:
-                            <?php echo !empty(trim($intake->income)) ? number_format($intake->income, 2, '.', ',') : "N/A" ?>
+                            <?php
+                            $income = !empty(trim($intake->income)) ? str_replace(',', '', trim($intake->income)) : null;
+
+                            echo $income !== null ? number_format((float)$income, 2, '.', ',') : "N/A";
+                            ?>
                         </p>
                         <p style="font-weight: normal">:
                             {{ $intake->contact_no }}
@@ -290,7 +294,7 @@
             <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">HERSHE LORENZANA-NUÑEZ, RSW</p>
             <p>Provincial Social Welfare and Development Officer</p>
             <p style="font-style: italic">PRC Lic No. 0009119</p>
-            <p style="font-style: italic">Valid until November 28, 2024</p>
+            <p style="font-style: italic">Valid until November 28, 2027</p>
         </div>
     </div>
     {{-- End of Signatories --}}

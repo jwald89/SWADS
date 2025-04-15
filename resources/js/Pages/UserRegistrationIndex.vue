@@ -1,5 +1,6 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
+import { usePage } from "@inertiajs/vue3";
 import { ref, watch, reactive } from "vue";
 import { debounce } from "lodash";
 import { router } from "@inertiajs/vue3";
@@ -37,7 +38,14 @@ const userData = reactive({
     role_type: "",
 });
 
-const roleTypes = ["USER", "ADMIN", "LIAISON", "MUNICIPAL"];
+const roleTypes = ["SUPERVISOR", "USER", "ADMIN", "LIAISON", "MUNICIPAL"];
+
+const page = usePage();
+
+const hasAccess = (type) => {
+    type = type.map((t) => t.toUpperCase());
+    return type.includes(page.props.role_type);
+};
 
 const resetForm = () => {
     userData.last_name = "";
@@ -219,6 +227,7 @@ watch(
                             class="btn-close bg-white"
                             data-bs-dismiss="modal"
                             aria-label="Close"
+                            v-if="hasAccess(['supervisor'])"
                         ></button>
                     </div>
                     <div class="card-body px-5 mt-4">
@@ -719,6 +728,7 @@ watch(
                             class="btn btn-success"
                             data-bs-toggle="modal"
                             data-bs-target="#addUser"
+                            v-if="hasAccess(['supervisor'])"
                         >
                             <i class="bi bi-journal-plus"></i>
                             Add User
@@ -726,7 +736,10 @@ watch(
                     </div>
                 </div>
                 <div class="table-responsive mt-4">
-                    <table class="table table-hover">
+                    <table
+                        class="table table-hover"
+                        v-if="hasAccess(['supervisor'])"
+                    >
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
@@ -741,6 +754,7 @@ watch(
                             class="text-center"
                             v-for="(user, index) in users.data"
                             :key="index"
+                            has=""
                         >
                             <tr>
                                 <td>{{ index + 1 }}</td>
@@ -797,6 +811,70 @@ watch(
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
                                     </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table
+                        class="table table-hover"
+                        v-if="hasAccess(['admin'])"
+                    >
+                        <thead class="text-center">
+                            <tr class="bg-primary text-white">
+                                <th>No.</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Municipality</th>
+                                <th>Role Type</th>
+                            </tr>
+                        </thead>
+                        <tbody
+                            class="text-center"
+                            v-for="(user, index) in users.data"
+                            :key="index"
+                        >
+                            <tr>
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    {{
+                                        user.first_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                    {{
+                                        user.middle_init === null
+                                            ? ""
+                                            : user.middle_init
+                                                  .substr(0, 1)
+                                                  .toUpperCase() + "."
+                                    }}
+                                    {{
+                                        user.last_name
+                                            .split(" ")
+                                            .map(
+                                                (word) =>
+                                                    word
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    word.slice(1).toLowerCase()
+                                            )
+                                            .join(" ")
+                                    }}
+                                </td>
+                                <td>{{ user.municipality.municipality }}</td>
+                                <td>{{ user.role_type }}</td>
+                                <td
+                                    class="badge rounded-pill text-bg-warning mt-2"
+                                >
+                                    {{ user.status }}
                                 </td>
                             </tr>
                         </tbody>
