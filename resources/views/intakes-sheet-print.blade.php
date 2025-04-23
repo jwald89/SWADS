@@ -195,7 +195,10 @@
                             {{ ucwords($intake->civil_stats) }}
                         </p>
                         <p style="font-weight: normal">:
-                            <?php echo !empty(trim($intake->purok)) ? "Purok " . ucwords($intake->purok) : "" ?> <?php echo !empty(trim($intake->street)) ? ucwords($intake->street) . " St., " : "" ?> {{ ucwords($intake->brgy->barangay) . "," }} {{ ucwords($intake->municipal->municipality) . ", Surigao del Sur" }}
+                            {{ !empty(trim($intake->purok)) ? "Purok " . ucwords($intake->purok) : "" }}
+                            {{ !empty(trim($intake->street)) ? ucwords($intake->street) . " St., " : "" }}
+                            {{ ucwords($intake->brgy->barangay) . "," }}
+                            {{ ucwords($intake->municipal->municipality) . ", Surigao del Sur" }}
                         </p>
                         <p style="font-weight: normal">:
                             {{ Carbon::parse($intake->birthdate)->format('F j, Y') }}
@@ -204,11 +207,19 @@
                             <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?>
                         </p>
                         <p style="font-weight: normal">:
-                            <?php
-                            $income = !empty(trim($intake->income)) ? str_replace(',', '', trim($intake->income)) : null;
+                            @php
+                                $income = !empty(trim($intake->income)) ? str_replace(',', '', trim($intake->income)) : null;
 
-                            echo $income !== null ? number_format((float)$income, 2, '.', ',') : "N/A";
-                            ?>
+                                if(is_numeric($income) && $income !== null) {
+                                    echo number_format((float)$income, 2, '.', ',');
+                                }else {
+                                    if($intake->income !== null){
+                                        echo $intake->income;
+                                    }else {
+                                        echo "N/A";
+                                    }
+                                }
+                            @endphp
                         </p>
                         <p style="font-weight: normal">:
                             {{ $intake->contact_no }}

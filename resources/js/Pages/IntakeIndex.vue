@@ -62,19 +62,41 @@ watch([selectedAssistance, selectedMunicipal, selectedMonth], () => {
     filterData();
 });
 
+const formatDay = (day) => {
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+
+    const date = new Date(day);
+
+    return days[date.getDay()];
+};
+
+const formatTime = (time) => {
+    const date = new Date(time);
+
+    let hr = date.getHours();
+    let min = date.getMinutes();
+
+    const minute = min < 10 ? "0" + min : min;
+    const ampm = hr >= 12 ? "pm" : "am";
+    const hour = hr % 12 || 12;
+
+    return `${hour}:${minute}${ampm}`;
+};
+
 const formatDate = (dateString) => {
     const date = new Date(dateString);
-
-    // Custom formatting: Day, 3-letter month, and year
     const options = { year: "numeric", month: "short", day: "numeric" };
-
-    // Format the date using toLocaleDateString
     let formattedDate = date.toLocaleDateString("en-US", options);
 
-    // Add a period after the 3-letter month
-    formattedDate = formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
-
-    return formattedDate;
+    return formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
 };
 
 const getData = async () => {
@@ -152,6 +174,7 @@ watch(
 
 <template>
     <LayoutApp>
+        <!-- <span class="spinner-border spinner-border-sm me-2"></span> -->
         <div class="card">
             <div
                 class="card-header text-white fw-bold"
@@ -374,6 +397,23 @@ watch(
                                 </td>
                                 <td class="text-start text-primary">
                                     {{ formatDate(detail.date_intake) }}
+                                    <div
+                                        class="d-flex flex-column"
+                                        style="font-size: 0.9rem"
+                                    >
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-secondary fw-bold">
+                                                {{
+                                                    formatDay(detail.created_at)
+                                                }}
+                                                <span class="fw-normal ms-1">{{
+                                                    formatTime(
+                                                        detail.created_at
+                                                    )
+                                                }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td width="5%">
                                     <a
@@ -449,5 +489,13 @@ watch(
 .alertify .ajs-header {
     background-color: #ff0000;
     color: #fff;
+}
+
+#nprogress .bar {
+    background: #faae2b; /* Your desired color */
+}
+#nprogress .spinner-icon {
+    border-top-color: #faae2b; /* Your desired spinner color */
+    border-left-color: #faae2b; /* Your desired spinner color */
 }
 </style>

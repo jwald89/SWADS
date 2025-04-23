@@ -61,7 +61,7 @@ class IntakeController extends Controller
                             });
                         });
                     })
-                    ->orderBy('created_at', 'DESC')
+                    ->orderBy('date_intake', 'DESC')
                     ->paginate(10);
 
         $famComps = FamilyComposition::get();
@@ -688,7 +688,7 @@ class IntakeController extends Controller
             $data->whereMonth('date_intake', $month);
         }
 
-        return response()->json($data->get());
+        return response()->json($data->orderBy('date_intake', 'DESC')->get());
     }
 
 
