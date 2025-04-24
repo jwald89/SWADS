@@ -404,7 +404,9 @@ watch(
                                         <div class="d-flex align-items-center">
                                             <div class="text-secondary fw-bold">
                                                 {{
-                                                    formatDay(detail.created_at)
+                                                    formatDay(
+                                                        detail.date_intake
+                                                    )
                                                 }}
                                                 <span class="fw-normal ms-1">{{
                                                     formatTime(

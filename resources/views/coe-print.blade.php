@@ -145,6 +145,7 @@
         <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">HERSHE LORENZANA-NUÑEZ, RSW</p>
         <p>Provincial Social Welfare and Development Officer</p>
         <p style="font-style: italic">PRC Lic No. 0009119</p>
+        <p style="font-style: italic">Valid until November 28, 2027</p>
     </div>
 
     {{-- Signatories --}}

@@ -204,7 +204,7 @@
                             {{ Carbon::parse($intake->birthdate)->format('F j, Y') }}
                         </p>
                         <p style="font-weight: normal">:
-                            <?php echo !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" ?>
+                            {{ !empty(trim($intake->job)) ? ucwords($intake->job) : "N/A" }}
                         </p>
                         <p style="font-weight: normal">:
                             @php
@@ -213,7 +213,7 @@
                                 if(is_numeric($income) && $income !== null) {
                                     echo number_format((float)$income, 2, '.', ',');
                                 }else {
-                                    if($intake->income !== null){
+                                    if($intake->income !== null && !str_contains($intake->income, '0')){
                                         echo $intake->income;
                                     }else {
                                         echo "N/A";
@@ -246,9 +246,22 @@
                 @foreach ($famCompose as $data)
                 <tr>
                     <td>{{ ucwords($data->firstname) }} {{ $data->middlename != null ? strtoupper(substr($data->middlename, 0, 1)) . '.' : "" }} {{ ucwords($data->lastname) }}</td>
-                    <td>{{ $data->age != null ? $data->age . " years old" : "" }} </td>
-                    <td>{{ $data->relationship !== null ? ucfirst($data->famRelation->name) : "" }}</td>
-                    <td><?php echo !empty(trim($data->educ_attainment)) ? ucwords($data->educ_attainment) : "" ?></td>
+                    <td>{{ $data->age != null ? $data->age . " years old" : "" }}</td>
+                    <td>
+                        @php
+                            if ($data->relationship !== null) {
+                                $relationship = str_replace('-', ' ', $data->famRelation->name);
+                                $rel = ucwords($relationship);
+
+                                if(str_contains($data->famRelation->name, '-')) {
+                                    echo str_replace(' ', '-', $rel);
+                                }else {
+                                    echo ucwords($data->famRelation->name);
+                                }
+                            }
+                        @endphp
+                    </td>
+                    <td>{{ !empty(trim($data->educ_attainment)) ? ucwords($data->educ_attainment) : "" }}</td>
                     <td>{{ ucfirst($data->remarks) }}</td>
                 </tr>
                 @endforeach

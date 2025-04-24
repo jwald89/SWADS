@@ -413,10 +413,9 @@ onMounted(() => {
                         'bg-highlight':
                             currentRoute.includes('user-registration/index') ||
                             currentRoute.includes('type-assistance') ||
-                            currentRoute.includes('municipality') ||
-                            currentRoute.includes('barangay') ||
                             currentRoute.includes('sectors') ||
-                            currentRoute.includes('office-charges'),
+                            currentRoute.includes('office-charges') ||
+                            currentRoute.includes('relationship'),
                     }"
                 >
                     <i
@@ -427,10 +426,9 @@ onMounted(() => {
                                     'user-registration/index'
                                 ) ||
                                 currentRoute.includes('type-assistance') ||
-                                currentRoute.includes('municipality') ||
-                                currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
-                                currentRoute.includes('office-charges'),
+                                currentRoute.includes('office-charges') ||
+                                currentRoute.includes('relationship'),
                         }"
                     ></i>
                     <span
@@ -440,10 +438,9 @@ onMounted(() => {
                                     'user-registration/index'
                                 ) ||
                                 currentRoute.includes('type-assistance') ||
-                                currentRoute.includes('municipality') ||
-                                currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
-                                currentRoute.includes('office-charges'),
+                                currentRoute.includes('office-charges') ||
+                                currentRoute.includes('relationship'),
                         }"
                         >MAINTENANCE</span
                     >
@@ -455,10 +452,9 @@ onMounted(() => {
                                     'user-registration/index'
                                 ) ||
                                 currentRoute.includes('type-assistance') ||
-                                currentRoute.includes('municipality') ||
-                                currentRoute.includes('barangay') ||
                                 currentRoute.includes('sectors') ||
-                                currentRoute.includes('office-charges'),
+                                currentRoute.includes('office-charges') ||
+                                currentRoute.includes('relationship'),
                         }"
                     ></i>
                 </a>
@@ -469,10 +465,9 @@ onMounted(() => {
                         show:
                             currentRoute.includes('user-registration/index') ||
                             currentRoute.includes('type-assistance') ||
-                            currentRoute.includes('municipality') ||
-                            currentRoute.includes('barangay') ||
                             currentRoute.includes('sectors') ||
-                            currentRoute.includes('office-charges'),
+                            currentRoute.includes('office-charges') ||
+                            currentRoute.includes('relationship'),
                     }"
                     data-bs-parent="#sidebar-nav"
                 >
@@ -500,63 +495,41 @@ onMounted(() => {
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link" :href="`/type-assistance`">
+                        <Link class="nav-link" :href="`/relationship`">
                             <i
                                 class="bi bi-circle"
                                 :class="{
                                     'icon-highlight':
-                                        currentRoute.includes(
-                                            'type-assistance'
-                                        ),
+                                        currentRoute.includes('relationship'),
                                 }"
                             ></i>
                             <span
                                 :class="{
                                     'color-highlight':
-                                        currentRoute.includes(
-                                            'type-assistance'
-                                        ),
+                                        currentRoute.includes('relationship'),
                                 }"
-                                >Types of Assistance
+                                >Family Relations
                             </span>
                         </Link>
                     </li>
-                    <!-- <li>
-                        <Link class="nav-link" :href="`/municipality`">
+                    <li>
+                        <Link class="nav-link" :href="`/office-charges`">
                             <i
                                 class="bi bi-circle"
                                 :class="{
                                     'icon-highlight':
-                                        currentRoute.includes('municipality'),
+                                        currentRoute.includes('office-charges'),
                                 }"
                             ></i>
                             <span
                                 :class="{
                                     'color-highlight':
-                                        currentRoute.includes('municipality'),
+                                        currentRoute.includes('office-charges'),
                                 }"
-                                >Municipality
+                                >Office Charges
                             </span>
                         </Link>
-                    </li> -->
-                    <!-- <li>
-                        <Link class="nav-link" :href="`/barangay`">
-                            <i
-                                class="bi bi-circle"
-                                :class="{
-                                    'icon-highlight':
-                                        currentRoute.includes('barangay'),
-                                }"
-                            ></i>
-                            <span
-                                :class="{
-                                    'color-highlight':
-                                        currentRoute.includes('barangay'),
-                                }"
-                                >Barangay
-                            </span>
-                        </Link>
-                    </li> -->
+                    </li>
                     <li>
                         <Link class="nav-link" :href="`/sectors`">
                             <i
@@ -576,20 +549,24 @@ onMounted(() => {
                         </Link>
                     </li>
                     <li>
-                        <Link class="nav-link" :href="`/office-charges`">
+                        <Link class="nav-link" :href="`/type-assistance`">
                             <i
                                 class="bi bi-circle"
                                 :class="{
                                     'icon-highlight':
-                                        currentRoute.includes('office-charges'),
+                                        currentRoute.includes(
+                                            'type-assistance'
+                                        ),
                                 }"
                             ></i>
                             <span
                                 :class="{
                                     'color-highlight':
-                                        currentRoute.includes('office-charges'),
+                                        currentRoute.includes(
+                                            'type-assistance'
+                                        ),
                                 }"
-                                >Office Charges
+                                >Types of Assistance
                             </span>
                         </Link>
                     </li>

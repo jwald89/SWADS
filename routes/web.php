@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\SummaryReportController;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 use App\Http\Controllers\Admin\TypeAssistanceController;
 use App\Http\Controllers\Admin\ChildDevelopmentController;
+use App\Http\Controllers\Admin\FamilyRelationController;
 use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 Route::redirect('/login', '/login-page')->name('login');
@@ -123,83 +124,148 @@ Route::group(['middleware' => 'auth'], function() {
     // Child Development Controller
     Route::controller(ChildDevelopmentController::class)
             ->group(function() {
-                Route::get('/child-development', 'index');
-                Route::get('/child-development/create', 'create');
+                Route::get('/child-development', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::get('/child-development/create', 'create')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/child-development/post', 'store');
-                Route::get('/child-development/edit/{id}', 'edit');
+
+                Route::get('/child-development/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/child-development/update/{id}', 'update');
-                Route::get('/child-development/filter/{brgyId?}/{municipalId?}/{month?}', 'filter');
+
+                Route::get('/child-development/filter/{brgyId?}/{municipalId?}/{month?}', 'filter')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
     });
 
     // Medicine Controller
     Route::controller(MedicineController::class)
             ->group(function() {
-                Route::get('/medicine', 'index');
-                Route::get('/medicine/create', 'create');
+                Route::get('/medicine', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::get('/medicine/create', 'create')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/medicine/post', 'store')->name('medicine.post');
-                Route::get('/medicine/edit/{id}', 'edit');
+
+                Route::get('/medicine/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/medicine/update/{id}', 'update')->name('medicine.update');
 
-                Route::get('/medicine/print-guarant-letter/{id}', 'printGuarantLetter');
-                Route::get('/medicine/print-assistance-slip/{id}', 'printAssistantSlip');
+                Route::get('/medicine/print-guarant-letter/{id}', 'printGuarantLetter')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::get('/medicine/print-assistance-slip/{id}', 'printAssistantSlip')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
             });
 
     // Type Assistance Controller
     Route::controller(TypeAssistanceController::class)
             ->group(function() {
-                Route::get('/type-assistance', 'index');
+                Route::get('/type-assistance', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/type-assistance/post', 'store')->name('assistance.post');
-                Route::get('/type-assistance/edit/{id}', 'edit');
+
+                Route::get('/type-assistance/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/type-assistance/update/{id}', 'update')->name('assistance.update');
     });
 
     // Municipality Controller
     Route::controller(MunicipalityController::class)
             ->group(function() {
-                Route::get('/municipality', 'index');
+                Route::get('/municipality', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/municipality/post', 'store')->name('municipality.post');
-                Route::get('/municipality/edit/{id}', 'edit');
+
+                Route::get('/municipality/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/municipality/edit/{id}', 'update')->name('municipality.update');
             });
 
     // Barangay Controller
     Route::controller(BarangayController::class)
             ->group(function() {
-                Route::get('/barangay', 'index');
+                Route::get('/barangay', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/barangay/post', 'store')->name('barangay.post');
     });
 
     // Sector Controller
     Route::controller(SectorController::class)
             ->group(function() {
-                Route::get('/sectors', 'index');
+                Route::get('/sectors', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/sectors/post', 'store')->name('sector.post');
-                Route::get('/sectors/edit/{id}', 'edit');
+
+                Route::get('/sectors/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/sectors/edit/{id}', 'update');
     });
 
     // Office Charges Controller
     Route::controller(OfficeChargesController::class)
             ->group(function() {
-                Route::get('/office-charges', 'index');
+                Route::get('/office-charges', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::post('/office-charges/post', 'store')->name('office.post');
-                Route::get('/office-charges/edit/{id}', 'edit');
+
+                Route::get('/office-charges/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
                 Route::put('/office-charges/edit/{id}', 'update');
+    });
+
+    // Family Relationship Controller
+    Route::controller(FamilyRelationController::class)
+            ->group(function() {
+                Route::get('/relationship', 'index')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::post('/relationship/post', 'store')->name('relationship.post');
+
+                Route::get('/relationship/edit/{id}', 'edit')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::put('/relationship/update/{id}', 'update');
     });
 
     // Chart Reports
     Route::controller(ReportController::class)
         ->group(function() {
-            Route::get('/aics-coe-served', 'intakeSheetServed');
-            Route::get('/aics-per-municipal', 'perMunicipality');
-            Route::get('/aics-served-per-sectoral', 'servedPerSectoral');
-            Route::get('/aics-per-sectoral-group', 'perSectoral');
+            Route::get('/aics-coe-served', 'intakeSheetServed')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+            Route::get('/aics-per-municipal', 'perMunicipality')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+            Route::get('/aics-served-per-sectoral', 'servedPerSectoral')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+            Route::get('/aics-per-sectoral-group', 'perSectoral')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
         });
 
     Route::controller(SummaryReportController::class)
         ->group(function() {
-            Route::get('/summary-report', 'index');
-            Route::get('/summary-report/filter/{assistanceId?}/{sectorId?}/{municipalId?}/{officeId?}/{dateFrom?}/{dateTo?}', 'filter');
+            Route::get('/summary-report', 'index')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+            Route::get('/summary-report/filter/{assistanceId?}/{sectorId?}/{municipalId?}/{officeId?}/{dateFrom?}/{dateTo?}', 'filter')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
         });
 });
 

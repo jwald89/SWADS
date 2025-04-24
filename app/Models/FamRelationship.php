@@ -9,6 +9,8 @@ class FamRelationship extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['id', 'name', 'modified_by', 'modified_date'];
+
     public function famCompose()
     {
         return $this->hasMany(FamilyComposition::class, 'id', 'relationship');
