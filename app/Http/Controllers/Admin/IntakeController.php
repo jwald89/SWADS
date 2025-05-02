@@ -62,6 +62,7 @@ class IntakeController extends Controller
                         });
                     })
                     ->orderBy('date_intake', 'DESC')
+                    ->orderBy('created_at', 'DESC')
                     ->paginate(10);
 
         $famComps = FamilyComposition::get();
@@ -101,7 +102,7 @@ class IntakeController extends Controller
             'officeCharge' => $officeCharge,
             'classType' => $classType,
             'famRelation' => $famRelation,
-            'civilStatus' => CivilStatus::names(),
+            'civilStatus' => CivilStatus::values(),
             'gender' => GenderTypes::names(),
         ]);
     }

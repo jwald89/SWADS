@@ -126,7 +126,7 @@
         </div>
     </div>
 
-    <div class="text-centered" style="margin-top: 10%; margin-left: 70%; line-height: 0.5">
+    <div class="text-centered" style="margin-top: 10%; margin-left: 65%; line-height: 0.5">
         <p class="fw-bold" style="text-decoration: underline; font-size: 1.1rem">
             {{ strtoupper($intake->first_name) }} {{ $intake->middle_name ? strtoupper(substr($intake->middle_name, 0, 1)) . "." : "" }} {{ strtoupper($intake->last_name) }}{{ $intake->extn_name ? ", " . strtoupper($intake->extn_name) : "" }}
         </p>

@@ -399,7 +399,13 @@ watch(
                                     <Link
                                         :href="`/monitoring/edit/${monitoring.id}`"
                                         class="btn btn-sm btn-primary me-2"
-                                        v-if="hasAccess(['admin', 'user'])"
+                                        v-if="
+                                            hasAccess([
+                                                'supervisor',
+                                                'admin',
+                                                'user',
+                                            ])
+                                        "
                                         title="Edit"
                                     >
                                         <i class="bi bi-pencil-square"></i>
@@ -421,6 +427,7 @@ watch(
                                         class="btn btn-sm btn-info me-2"
                                         v-if="
                                             hasAccess([
+                                                'supervisor',
                                                 'admin',
                                                 'user',
                                                 'liaison',
@@ -434,7 +441,9 @@ watch(
                                     <button
                                         type="submit"
                                         class="btn btn-sm btn-danger"
-                                        v-if="hasAccess(['admin', 'user'])"
+                                        v-if="
+                                            hasAccess(['supervisor', 'admin'])
+                                        "
                                         title="Delete"
                                         @click="delData(monitoring.id)"
                                     >

@@ -98,7 +98,7 @@ class SectoralDataController extends Controller
         return inertia('CreateSectoral', [
             'municipality' => $municipality,
             'barangays' => $barangays,
-            'civilStatus' => CivilStatus::names(),
+            'civilStatus' => CivilStatus::values(),
             'gender' => GenderTypes::names(),
             'sectors' => $sectors,
             'indigents' => $indigents,
