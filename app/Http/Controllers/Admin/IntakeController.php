@@ -689,7 +689,16 @@ class IntakeController extends Controller
             $data->whereMonth('date_intake', $month);
         }
 
-        return response()->json($data->orderBy('date_intake', 'DESC')->get());
+        // return response()->json($data->orderBy('date_intake', 'DESC')->get());
+
+
+        $paginatedData = $data->orderBy('created_at', 'DESC')->paginate(10);
+
+        if ($paginatedData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return $paginatedData;
     }
 
 

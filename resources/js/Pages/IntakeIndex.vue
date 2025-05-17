@@ -37,6 +37,9 @@ const props = defineProps({
 
 const search = ref(props.search || "");
 
+// Initialize intakeData with props.intake.data
+let intakeData = ref([]);
+
 const selectedAssistance = ref({ id: "*", name: "All" });
 const selectedMunicipal = ref({ id: "*", municipality: "All" });
 const selectedMonth = ref({ id: "*", name: "All" });
@@ -51,11 +54,34 @@ const filterData = async () => {
             `/intake/filter/${assistanceId}/${municipalId}/${monthId}`
         );
         // console.log("API Response:", response.data);
-        props.intake.data = response.data;
+        intakeData.value = response.data.data;
     } catch (error) {
         console.error("Error fetching filtered data:", error);
     }
 };
+
+// Watch for changes in intake prop to update intakeData
+watch(
+    () => props.intake.data,
+    (newData) => {
+        intakeData.value = newData || []; // Update with new data
+    }
+);
+
+const getData = async () => {
+    try {
+        const response = await axios.get("/intake");
+        props.intake = response.data.data;
+        // console.log("INTAKE DATA: ", props.intake);
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
+
+onMounted(() => {
+    intakeData.value = props.intake.data || []; // Set initial data
+    getData();
+});
 
 // Watch for changes in props.data and update filteredData accordingly
 watch([selectedAssistance, selectedMunicipal, selectedMonth], () => {
@@ -99,21 +125,8 @@ const formatDate = (dateString) => {
     return formattedDate.replace(/([a-zA-Z]{3})/, "$1.");
 };
 
-const getData = async () => {
-    try {
-        const response = await axios.get("/intake");
-        props.value = response.data.data;
-    } catch (error) {
-        console.error("Error submitting form:", error);
-    }
-};
-
 defineComponent({
     Pagination,
-});
-
-onMounted(() => {
-    getData();
 });
 
 const page = usePage();
@@ -276,9 +289,9 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center" v-if="intake.data.length">
+                        <tbody class="text-center" v-if="intakeData.length">
                             <tr
-                                v-for="(detail, index) in intake.data"
+                                v-for="(detail, index) in intakeData"
                                 :key="index"
                             >
                                 <td>{{ index + 1 }}</td>
