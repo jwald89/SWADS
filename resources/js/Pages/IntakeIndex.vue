@@ -38,7 +38,7 @@ const props = defineProps({
 const search = ref(props.search || "");
 
 // Initialize intakeData with props.intake.data
-let intakeData = ref([]);
+//let intakeData = ref([]);
 
 const selectedAssistance = ref({ id: "*", name: "All" });
 const selectedMunicipal = ref({ id: "*", municipality: "All" });
@@ -54,24 +54,26 @@ const filterData = async () => {
             `/intake/filter/${assistanceId}/${municipalId}/${monthId}`
         );
         // console.log("API Response:", response.data);
-        intakeData.value = response.data.data;
+        // intakeData.value = response.data.data;
+        props.intake.data = response.data;
     } catch (error) {
         console.error("Error fetching filtered data:", error);
     }
 };
 
 // Watch for changes in intake prop to update intakeData
-watch(
+/**watch(
     () => props.intake.data,
     (newData) => {
-        intakeData.value = newData || []; // Update with new data
+        intakeData.value = newData || [];
     }
-);
+);*/
 
 const getData = async () => {
     try {
         const response = await axios.get("/intake");
-        props.intake = response.data.data;
+        // props.intake = response.data.data;
+        props.value = response.data.data;
         // console.log("INTAKE DATA: ", props.intake);
     } catch (error) {
         console.error("Error submitting form:", error);
@@ -79,7 +81,7 @@ const getData = async () => {
 };
 
 onMounted(() => {
-    intakeData.value = props.intake.data || []; // Set initial data
+    //intakeData.value = props.intake.data || [];
     getData();
 });
 
@@ -289,9 +291,9 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center" v-if="intakeData.length">
+                        <tbody class="text-center" v-if="intake.data.length">
                             <tr
-                                v-for="(detail, index) in intakeData"
+                                v-for="(detail, index) in intake.data"
                                 :key="index"
                             >
                                 <td>{{ index + 1 }}</td>
