@@ -2,8 +2,8 @@
     use Carbon\Carbon;
 
     date_default_timezone_set("Asia/Manila");
-    $formattedDate = date("M. d, Y", strtotime("Feb. 14, 2025"));
     $currentTime = date("h:i A"); // Uppercase 'A' for AM/PM
+    $formattedDate = date("M d, Y", strtotime($currentTime));
 ?>
 
 <!DOCTYPE html>
@@ -118,7 +118,7 @@
                         <th style="text-align: center">Sector</th>
                         <th style="text-align: center">Municipality</th>
                         <th style="text-align: center">Office Charge</th>
-                        <th style="text-align: center">Amount</th>
+                        {{-- <th style="text-align: center">Amount</th> --}}
                         <th style="text-align: center">Status</th>
                     </tr>
                 </thead>
@@ -131,11 +131,11 @@
                         <td style="text-align: center">{{ $data->sectorName->name }}</td>
                         <td style="text-align: center">{{ $data->municipal->municipality }}</td>
                         <td style="text-align: center">{{ $data->chargingOffice->description }}</td>
-                        <td style="text-align: center">{{ number_format($data->amount, 2) }}</td>
+                        {{-- <td style="text-align: center">{{ number_format($data->amount, 2) }}</td> --}}
                         <td style="text-align: center">{{ $data->status }}</td>
                     </tr>
                     @endforeach
-                    @if($totalAmt <= 0)
+                    {{-- @if($totalAmt <= 0)
                         <tr>
                             <td colspan="10" style="font-family: sans-serif; text-align: center">NO RECORD FOUND</td>
                         </tr>
@@ -144,14 +144,16 @@
                             <td colspan="6" style="text-align: right">TOTAL &nbsp; </td>
                             <td colspan="2">&nbsp; {{ number_format($totalAmt, 2) }}</td>
                         </tr>
-                    @endif
+                    @endif --}}
                 </tbody>
             </table>
         </div>
     </div>
 
     <div class="">
-        <p style="margin-top: 3rem; font-family: Arial, Helvetica, sans-serif;"><?php echo "Date Generated: &nbsp;&nbsp;&nbsp;" . $formattedDate . "&nbsp;&nbsp;" .$currentTime ?></p>
+        <p style="margin-top: 3rem; font-family: Arial, Helvetica, sans-serif; font-style: italic">
+            Date Generated: &nbsp;{{ $formattedDate }} &nbsp;&nbsp; {{ $currentTime }}
+        </p>
     </div>
 </body>
 </html>

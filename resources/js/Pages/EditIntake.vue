@@ -20,6 +20,7 @@ const props = defineProps({
     barangays: Object,
     classType: Object,
     relationships: Object,
+    // civilStatus: Object
 });
 
 // initialize to inherit the data to the child file
@@ -294,6 +295,7 @@ provide("submitFormP4", submitRemark);
                         :officeCharge="officeCharge"
                         :municipality="municipality"
                         :barangays="barangays"
+                        :civilStatus="civilStatus"
                     />
                     <EditIntake2 :relationships="relationships" />
                     <EditIntake3 />

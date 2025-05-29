@@ -38,7 +38,7 @@ defineComponent({
                 class="card-header text-white fw-bold"
                 style="background-color: #581b98"
             >
-                Cash Assistance Report
+                Intake Sheet Report
             </div>
 
             <div class="card-body mt-3">

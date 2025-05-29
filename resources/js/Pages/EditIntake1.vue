@@ -13,6 +13,7 @@ defineProps({
     municipality: Object,
     barangays: Object,
     classType: Object,
+    civilStatus: Object,
 });
 
 const birthdate = ref(intakes.birthdate);
@@ -484,14 +485,28 @@ defineComponent({
                                         name="civil_stats"
                                         v-model="intakes.civil_stats"
                                     >
-                                        <option value="single">Single</option>
-                                        <option value="married">Married</option>
-                                        <option value="widowed">Widowed</option>
-                                        <option value="divorced">
-                                            Divorced
+                                        <option disabled value="">
+                                            Please select
                                         </option>
-                                        <option value="separated">
-                                            Separated
+                                        <option
+                                            v-for="civil in civilStatus"
+                                            :key="civil"
+                                            :value="civil"
+                                        >
+                                            {{
+                                                civil
+                                                    .split(" ")
+                                                    .map(
+                                                        (word) =>
+                                                            word
+                                                                .charAt(0)
+                                                                .toUpperCase() +
+                                                            word
+                                                                .slice(1)
+                                                                .toLowerCase()
+                                                    )
+                                                    .join(" ")
+                                            }}
                                         </option>
                                     </select>
                                 </div>

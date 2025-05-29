@@ -371,6 +371,7 @@ class IntakeController extends Controller
             'barangays' => $barangays,
             'municipality' => $municipality,
             'relationships' => $famRelation,
+            'civilStatus' => CivilStatus::values(),
         ]);
     }
 

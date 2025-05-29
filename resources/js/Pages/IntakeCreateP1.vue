@@ -609,7 +609,20 @@ defineComponent({
                                             v-for="civil in civilStatus"
                                             :key="civil"
                                         >
-                                            {{ civil }}
+                                            {{
+                                                civil
+                                                    .split(" ")
+                                                    .map(
+                                                        (word) =>
+                                                            word
+                                                                .charAt(0)
+                                                                .toUpperCase() +
+                                                            word
+                                                                .slice(1)
+                                                                .toLowerCase()
+                                                    )
+                                                    .join(" ")
+                                            }}
                                         </option>
                                     </select>
                                     <small
