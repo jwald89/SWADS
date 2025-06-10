@@ -205,6 +205,7 @@ provide("submitFormP3", submitRef);
 const remForm = reactive({
     applicant_id: "",
     content: "",
+    cash_assistance: "",
 });
 
 // create a store method for Remark form

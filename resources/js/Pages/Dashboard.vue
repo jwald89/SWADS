@@ -8,7 +8,7 @@ const props = defineProps({
     totalAmt: String,
     monitorings: Object,
     monitorStatus: {
-        type: Array,
+        type: Object,
         required: true,
     },
     sectorAvg: Object,
@@ -23,11 +23,11 @@ const municipalData = ref([]);
 watch(
     () => props.monitorStatus,
     (newValue) => {
-        if (newValue && Array.isArray(newValue)) {
+        if (newValue) {
             sectorData.value = newValue
                 .map((data) => ({
                     name: data.sector_name.name,
-                    y: parseFloat(data.amount), // Ensure this is a number
+                    y: parseFloat(data.remarkable?.cash_assistance),
                 }))
                 .filter((item) => !isNaN(item.y))
                 .reduce((acc, current) => {
@@ -106,11 +106,11 @@ const renderSerctorChart = () => {
 watch(
     () => props.monitorStatus,
     (newValue) => {
-        if (newValue && Array.isArray(newValue)) {
+        if (newValue) {
             assistanceData.value = newValue
                 .map((data) => ({
                     name: data.assistance.name,
-                    y: parseFloat(data.amount), // Ensure this is a number
+                    y: parseFloat(data.remarkable?.cash_assistance),
                 }))
                 .filter((item) => !isNaN(item.y))
                 .reduce((acc, current) => {
@@ -185,11 +185,12 @@ const renderAnalyticChart = () => {
 watch(
     () => props.monitorStatus,
     (newValue) => {
-        if (newValue && Array.isArray(newValue)) {
+        // if (newValue && Array.isArray(newValue)) {
+        if (newValue) {
             municipalData.value = newValue
                 .map((data) => ({
                     name: data.municipal.municipality,
-                    y: parseFloat(data.amount),
+                    y: parseFloat(data.remarkable?.cash_assistance),
                 }))
                 .filter((item) => !isNaN(item.y)) // Filter out any NaN values
                 .reduce((acc, current) => {
@@ -284,7 +285,7 @@ const formatDate = (dateString) => {
                 <div class="col-lg-8">
                     <div class="row">
                         <!-- Sector served Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <!-- <div class="col-xxl-4 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="filter">
                                     <a
@@ -341,11 +342,11 @@ const formatDate = (dateString) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End Sector served Card -->
 
                         <!-- Cash Assistance Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-6 col-md-12">
                             <div class="card info-card revenue-card">
                                 <div class="filter">
                                     <a
@@ -407,7 +408,7 @@ const formatDate = (dateString) => {
                         <!-- End Cash Assistance Card -->
 
                         <!-- Total Assistance Card -->
-                        <div class="col-xxl-4 col-xl-12">
+                        <div class="col-xxl-6 col-md-12">
                             <div class="card info-card customers-card">
                                 <div class="filter">
                                     <a
@@ -590,7 +591,7 @@ const formatDate = (dateString) => {
                                                     </td>
                                                     <td>
                                                         {{
-                                                            data.intake.first_name
+                                                            data.first_name
                                                                 .split(" ")
                                                                 .map(
                                                                     (word) =>
@@ -608,11 +609,10 @@ const formatDate = (dateString) => {
                                                                 .join(" ")
                                                         }}
                                                         {{
-                                                            data.intake
-                                                                .middle_name ===
+                                                            data.middle_name ===
                                                             null
                                                                 ? ""
-                                                                : data.intake.middle_name
+                                                                : data.middle_name
                                                                       .substr(
                                                                           0,
                                                                           1
@@ -621,7 +621,7 @@ const formatDate = (dateString) => {
                                                                   "."
                                                         }}
                                                         {{
-                                                            data.intake.last_name
+                                                            data.last_name
                                                                 .split(" ")
                                                                 .map(
                                                                     (word) =>
@@ -653,15 +653,8 @@ const formatDate = (dateString) => {
                                                     </td>
                                                     <td class="fw-bold">
                                                         {{
-                                                            new Intl.NumberFormat(
-                                                                "en-US",
-                                                                {
-                                                                    minimumFractionDigits: 2,
-                                                                    maximumFractionsDigits: 2,
-                                                                }
-                                                            ).format(
-                                                                data.amount
-                                                            )
+                                                            data.remarkable
+                                                                ?.cash_assistance
                                                         }}
                                                     </td>
                                                     <td
@@ -809,7 +802,7 @@ const formatDate = (dateString) => {
                                                 <tr>
                                                     <td scope="row">
                                                         {{
-                                                            monitoring.intake.first_name
+                                                            monitoring.first_name
                                                                 .split(" ")
                                                                 .map(
                                                                     (word) =>
@@ -827,11 +820,10 @@ const formatDate = (dateString) => {
                                                                 .join(" ")
                                                         }}
                                                         {{
-                                                            monitoring.intake
-                                                                .middle_name ===
+                                                            monitoring.middle_name ===
                                                             null
                                                                 ? ""
-                                                                : monitoring.intake.middle_name
+                                                                : monitoring.middle_name
                                                                       .substr(
                                                                           0,
                                                                           1
@@ -840,7 +832,7 @@ const formatDate = (dateString) => {
                                                                   "."
                                                         }}
                                                         {{
-                                                            monitoring.intake.last_name
+                                                            monitoring.last_name
                                                                 .split(" ")
                                                                 .map(
                                                                     (word) =>

@@ -17,6 +17,7 @@ class Remark extends Model
         'id',
         'applicant_id',
         'content',
+        'cash_assistance',
         'created_by',
         'modified_by',
         'modified_date',
@@ -26,5 +27,10 @@ class Remark extends Model
     public function personalInfo()
     {
         return $this->belongsTo(PersonalInformation::class, 'id', 'applicant_id');
+    }
+
+    public function personal()
+    {
+        return $this->hasMany(PersonalInformation::class, 'applicant_id', 'id');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Remark;
 use App\Models\AssistanceType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -62,6 +63,11 @@ class PersonalInformation extends Model
     public function remark()
     {
         return $this->hasMany(Remark::class, 'applicant_id', 'id');
+    }
+
+    public function remarkable()
+    {
+        return $this->belongsTo(Remark::class, 'id', 'applicant_id');
     }
 
     public function monitoring()

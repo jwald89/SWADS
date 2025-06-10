@@ -8,7 +8,7 @@ const props = defineProps({
     totalAmt: String,
     monitorings: Object,
     monitorStatus: {
-        type: Array,
+        type: Object,
         required: true,
     },
     sectorAvg: Object,
@@ -21,11 +21,11 @@ const municipalData = ref([]);
 watch(
     () => props.monitorStatus,
     (newValue) => {
-        if (newValue && Array.isArray(newValue)) {
+        if (newValue) {
             assistanceData.value = newValue
                 .map((data) => ({
                     name: data.assistance.name,
-                    y: parseFloat(data.amount), // Ensure this is a number
+                    y: parseFloat(data.remarkable?.cash_assistance), // Ensure this is a number
                 }))
                 .filter((item) => !isNaN(item.y))
                 .reduce((acc, current) => {
@@ -100,11 +100,11 @@ const renderAnalyticChart = () => {
 watch(
     () => props.monitorStatus,
     (newValue) => {
-        if (newValue && Array.isArray(newValue)) {
+        if (newValue) {
             municipalData.value = newValue
                 .map((data) => ({
                     name: data.municipal.municipality,
-                    y: parseFloat(data.amount),
+                    y: parseFloat(data.remarkable?.cash_assistance),
                 }))
                 .filter((item) => !isNaN(item.y)) // Filter out any NaN values
                 .reduce((acc, current) => {
@@ -203,7 +203,7 @@ const formatDate = (dateString) => {
                 <div class="col-lg-8">
                     <div class="row">
                         <!-- Sales Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <!-- <div class="col-xxl-4 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="filter">
                                     <a
@@ -260,11 +260,11 @@ const formatDate = (dateString) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End Sales Card -->
 
                         <!-- Revenue Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
                             <div class="card info-card revenue-card">
                                 <div class="filter">
                                     <a
@@ -334,7 +334,7 @@ const formatDate = (dateString) => {
                         <!-- End Revenue Card -->
 
                         <!-- Customers Card -->
-                        <div class="col-xxl-4 col-xl-12">
+                        <div class="col-xxl-6 col-xl-12">
                             <div class="card info-card customers-card">
                                 <div class="filter">
                                     <a
@@ -606,37 +606,30 @@ const formatDate = (dateString) => {
                                                     </td>
                                                     <td>
                                                         {{
-                                                            data.intake
-                                                                .first_name ===
+                                                            data.first_name ===
                                                             null
                                                                 ? ""
                                                                 : formatName(
-                                                                      data
-                                                                          .intake
-                                                                          .first_name
+                                                                      data.first_name
                                                                   )
                                                         }}
                                                         {{
-                                                            data.intake
-                                                                .middle_name ===
+                                                            data.middle_name ===
                                                             null
                                                                 ? ""
                                                                 : formatName(
-                                                                      data.intake.middle_name.substr(
+                                                                      data.middle_name.substr(
                                                                           0,
                                                                           1
                                                                       )
                                                                   )
                                                         }}.
                                                         {{
-                                                            data.intake
-                                                                .last_name ===
+                                                            data.last_name ===
                                                             null
                                                                 ? ""
                                                                 : formatName(
-                                                                      data
-                                                                          .intake
-                                                                          .last_name
+                                                                      data.last_name
                                                                   )
                                                         }}
                                                     </td>

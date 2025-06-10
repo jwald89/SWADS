@@ -7,6 +7,7 @@ use App\Models\Sectoral;
 use App\Models\Monitoring;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\PersonalInformation;
 
 class DashboardController extends Controller
 {
@@ -16,7 +17,8 @@ class DashboardController extends Controller
     public function index()
     {
         $totalAssistance = DB::table('personal_information')->whereNull('deleted_at')->count();
-        $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
+        // $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
+        $totalAmt = DB::table('remarks')->where('deleted_at', null)->sum('cash_assistance');
         $monitorData = Monitoring::with(['intake', 'assistance', 'municipal'])
                             ->whereHas('intake', function($query) {
                                 $query->where('deleted_at', null);
@@ -30,12 +32,17 @@ class DashboardController extends Controller
 
         $parseTotalAmt = number_format($totalAmt, 2, ".", ",");
 
-        $status = Monitoring::with(['intake', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])
-                ->whereHas('intake', function($query) {
-                    $query->where('deleted_at', null);
-                })
+        // $status = Monitoring::with(['intake', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])
+        //         ->whereHas('intake', function($query) {
+        //             $query->where('deleted_at', null);
+        //         })
+        //         ->orderByDesc('date_intake')
+        //         ->get()]
+        $status = PersonalInformation::with(['remarkable', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])
+                ->whereNull('deleted_at')
                 ->orderByDesc('date_intake')
                 ->get();
+
 
         return inertia('Dashboard', [
             'totalNums' => $totalAssistance,

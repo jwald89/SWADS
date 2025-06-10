@@ -255,7 +255,8 @@ class IntakeController extends Controller
     public function storeP4(Request $request)
     {
         $request->validate([
-            'content' => 'required'
+            'content' => 'required',
+            'cash_assistance' => 'required'
         ]);
 
         $userId = Auth::id();
@@ -265,6 +266,7 @@ class IntakeController extends Controller
         if ($existingRemark) {
             $existingRemark->update([
                 'content' => $request->content,
+                'cash_assistance' => $request->cash_assistance,
                 'created_by' => $userId
             ]);
 

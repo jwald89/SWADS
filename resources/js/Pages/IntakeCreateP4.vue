@@ -38,6 +38,35 @@ const tabIndex = 3;
                         <small v-if="errors.content" class="text-danger">{{
                             errors.content
                         }}</small>
+
+                        <div class="col-md-3">
+                            <label for="cash_assistance"
+                                >Amount of Financial Assistance</label
+                            >
+                            <span class="text-danger">*</span>
+                            <div class="input-group">
+                                <span
+                                    class="input-group-text fw-bold fs-2 text-secondary"
+                                    >₱</span
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control fw-bold fs-2"
+                                    id="cash_assistance"
+                                    name="cash_assistance"
+                                    v-model="form.cash_assistance"
+                                    placeholder="0.00"
+                                    :class="{
+                                        'is-invalid': errors.cash_assistance,
+                                    }"
+                                />
+                            </div>
+                            <small
+                                v-if="errors.cash_assistance"
+                                class="text-danger"
+                                >{{ errors.cash_assistance }}</small
+                            >
+                        </div>
                         <div class="mt-4">
                             <button
                                 v-if="!tabs[tabIndex].saved"

@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use App\Models\Sectoral;
 use App\Models\Monitoring;
 use Illuminate\Support\Facades\DB;
+use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\Route;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
 
@@ -13,7 +14,8 @@ Route::group(['prefix' => 'user','middleware' => [
 ], function () {
     Route::get('/dashboard', function () {
         $totalAssistance = DB::table('personal_information')->whereNull('deleted_at')->count();
-        $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
+        // $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
+        $totalAmt = DB::table('remarks')->where('deleted_at', null)->sum('cash_assistance');
         $monitorData = Monitoring::with(['intake', 'assistance', 'municipal'])
                         ->whereHas('intake', function($query) {
                             $query->where('deleted_at', null);
@@ -25,12 +27,17 @@ Route::group(['prefix' => 'user','middleware' => [
         $totalMonitors = Monitoring::where('deleted_at', NULL)->count();
         $sumOfSectors = $totalMonitors + $totalSectors;
 
-        $status = Monitoring::with(['intake', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])->orderByDesc('date_intake')
-                            ->whereHas('intake', function($query) {
-                                $query->where('deleted_at', null);
-                            })
-                            ->orderByDesc('date_intake')
-                            ->get();
+        // $status = Monitoring::with(['intake', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])->orderByDesc('date_intake')
+        //                     ->whereHas('intake', function($query) {
+        //                         $query->where('deleted_at', null);
+        //                     })
+        //                     ->orderByDesc('date_intake')
+        //                     ->get();
+
+        $status = PersonalInformation::with(['remarkable', 'sectorName', 'assistance', 'municipal', 'chargingOffice'])
+                ->whereNull('deleted_at')
+                ->orderByDesc('date_intake')
+                ->get();
 
         return inertia('User/Dashboard', [
             'totalNums' => $totalAssistance,
