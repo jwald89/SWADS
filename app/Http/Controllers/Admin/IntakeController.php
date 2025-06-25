@@ -415,7 +415,7 @@ class IntakeController extends Controller
             ->get();
 
         $remarks = DB::table('remarks')
-            ->select('id', 'content')
+            ->select('id', 'content', 'cash_assistance')
             ->where('applicant_id', $id)
             ->orderBy('created_at', 'desc')
             ->get();

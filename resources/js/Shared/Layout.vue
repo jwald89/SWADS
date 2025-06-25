@@ -397,12 +397,12 @@ onMounted(() => {
                 <!-- END OF MEDICAL MODULE -->
 
                 <!-- TRANSACTION MODULE -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <Link class="nav-link">
                         <i class="bi bi-file-post-fill"></i>
                         <span>TRANSACTION</span>
                     </Link>
-                </li>
+                </li> -->
                 <!-- END OF TRANSACTION MODULE -->
 
                 <a
@@ -910,12 +910,12 @@ onMounted(() => {
                 <!-- END OF MEDICAL MODULE -->
 
                 <!-- TRANSACTION MODULE -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <Link class="nav-link">
                         <i class="bi bi-file-post-fill"></i>
                         <span>TRANSACTION</span>
                     </Link>
-                </li>
+                </li> -->
                 <!-- END OF TRANSACTION MODULE -->
             </div>
         </ul>

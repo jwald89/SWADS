@@ -82,7 +82,7 @@ const renderSerctorChart = () => {
                 borderWidth: 0,
                 dataLabels: {
                     enabled: true,
-                    format: "{point.y:.2f}", // Adjusted to show actual amounts
+                    format: "₱ {point.y:,.2f}",
                 },
             },
         },
@@ -90,7 +90,7 @@ const renderSerctorChart = () => {
             headerFormat:
                 '<span style="font-size:11px">{series.name}</span><br>',
             pointFormat:
-                '<span style="color:{point.color}">{point.name}</span>: <b>₱{point.y:.2f}</b><br/>',
+                '<span style="color:{point.color}">{point.name}</span>: <b>₱ {point.y:,.2f}</b><br/>',
         },
         series: [
             {
@@ -229,9 +229,11 @@ const renderMunicipality = () => {
             text: "Cash amount served per municipality",
         },
         plotOptions: {
-            pie: {
-                innerSize: 100,
-                depth: 45,
+            series: {
+                pie: {
+                    innerSize: 100,
+                    depth: 45,
+                },
             },
         },
         series: [
@@ -653,8 +655,16 @@ const formatDate = (dateString) => {
                                                     </td>
                                                     <td class="fw-bold">
                                                         {{
-                                                            data.remarkable
-                                                                ?.cash_assistance
+                                                            new Intl.NumberFormat(
+                                                                "en-US",
+                                                                {
+                                                                    minimumFractionDigits: 2,
+                                                                    maximumFractionDigits: 2,
+                                                                }
+                                                            ).format(
+                                                                data.remarkable
+                                                                    ?.cash_assistance
+                                                            )
                                                         }}
                                                     </td>
                                                     <td

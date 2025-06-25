@@ -287,7 +287,14 @@
             <h3 style="text-indent: 2rem">IV. <span style="margin-left: 2%">REMARKS/ RECOMMENDATIONS</span></h3>
             @foreach ($remarks as $remark)
             <div style="margin-left: 8%; margin-top: -10px">
-                <p class="roboto-regular" style="text-indent: 3rem; font-size: 1.09rem; text-align: justify">{{ $remark->content }}</p>
+                {{-- <p class="roboto-regular" style="text-indent: 3rem; font-size: 1.09rem; text-align: justify">{{ $remark->content }} {{ $remark->cash_assistance == 0 ? "" : $remark->cash_assistance }}.</p> --}}
+                @php
+                    if($remark->cash_assistance > 0) {
+                        echo "<p class='roboto-regular' style='text-indent: 3rem; font-size: 1.09rem; text-align: justify'>" . $remark->content . " (" .number_format((float)$remark->cash_assistance, 2, ".", ",") . ")." . "</p>";
+                    }else {
+                        echo "<p class='roboto-regular' style='text-indent: 3rem; font-size: 1.09rem; text-align: justify'>" .$remark->content . "</p>";
+                    }
+                @endphp
             </div>
             @endforeach
         </div>

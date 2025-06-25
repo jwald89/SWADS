@@ -61,7 +61,7 @@ const hasAccess = (type) => {
                     <div class="col-lg-6">Medicine List</div>
                     <div
                         class="col-lg-6 text-end"
-                        v-if="hasAccess(['admin', 'user'])"
+                        v-if="hasAccess(['supervisor', 'admin', 'user'])"
                     >
                         <Link
                             :href="`/medicine/create`"
