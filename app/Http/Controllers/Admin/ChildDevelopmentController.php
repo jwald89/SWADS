@@ -44,11 +44,11 @@ class ChildDevelopmentController extends Controller
     public function create()
     {
         $barangays = BarangayResource::collection(Barangay::all());
-        $municipalities = MunicipalityResource::collection(Municipality::all());
+        $municipality = MunicipalityResource::collection(Municipality::all());
 
         return inertia('ChildDevelopmentCreate', [
             'barangays' => $barangays,
-            'municipalities' => $municipalities,
+            'municipality' => $municipality,
         ]);
     }
 

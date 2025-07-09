@@ -16,6 +16,7 @@ class BarangayResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'municipality_id' => $this->municipality_id,
             'barangay' => $this->barangay
         ];
     }

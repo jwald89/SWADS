@@ -1,12 +1,12 @@
 <script setup>
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref, computed, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
 import { toast } from "vue3-toastify";
 
-defineProps({
+const props = defineProps({
     municipality: {
         type: Object,
         required: true,
@@ -72,6 +72,25 @@ const sectoralForm = reactive({
     fam_members: "",
     position: "",
 });
+
+const barangayOptions = computed(() => {
+    if (!sectoralForm.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) => Number(b.municipality_id) === Number(sectoralForm.municipality)
+    );
+});
+
+watch(
+    () => sectoralForm.municipality,
+    () => {
+        sectoralForm.barangay = null;
+    }
+);
 
 const resetForm = () => {
     sectoralForm.sector = "";
@@ -495,33 +514,6 @@ defineComponent({
                                         >
                                     </div>
                                     <div class="col-12 col-md-3 mb-2">
-                                        <label for="barangay"
-                                            >Barangay<span class="text-danger"
-                                                >*</span
-                                            ></label
-                                        >
-                                        <v-select
-                                            class="fw-bold"
-                                            name="barangay"
-                                            id="barangay"
-                                            label="barangay"
-                                            v-model="sectoralForm.barangay"
-                                            :options="barangays.data"
-                                            :reduce="(data) => data.id"
-                                            :class="{
-                                                'form-control is-invalid':
-                                                    errors.barangay,
-                                            }"
-                                            placeholder="Select"
-                                        >
-                                        </v-select>
-                                        <small
-                                            v-if="errors.barangay"
-                                            class="text-danger"
-                                            >{{ errors.barangay }}</small
-                                        >
-                                    </div>
-                                    <div class="col-12 col-md-3 mb-2">
                                         <label for="municipal"
                                             >Municipality<span
                                                 class="text-danger"
@@ -532,10 +524,10 @@ defineComponent({
                                             class="fw-bold"
                                             name="municipality"
                                             id="municipality"
-                                            label="municipality"
-                                            v-model="sectoralForm.municipality"
                                             :options="municipality.data"
                                             :reduce="(data) => data.id"
+                                            v-model="sectoralForm.municipality"
+                                            label="municipality"
                                             :class="{
                                                 'form-control is-invalid':
                                                     errors.municipality,
@@ -547,6 +539,36 @@ defineComponent({
                                             v-if="errors.municipality"
                                             class="text-danger"
                                             >{{ errors.municipality }}</small
+                                        >
+                                    </div>
+                                    <div class="col-12 col-md-3 mb-2">
+                                        <label for="barangay"
+                                            >Barangay<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <v-select
+                                            class="fw-bold"
+                                            name="barangay"
+                                            id="barangay"
+                                            label="barangay"
+                                            :options="barangayOptions"
+                                            v-model="sectoralForm.barangay"
+                                            :reduce="(data) => data.id"
+                                            :class="{
+                                                'form-control is-invalid':
+                                                    errors.barangay,
+                                            }"
+                                            placeholder="Select"
+                                            :disabled="
+                                                !sectoralForm.municipality
+                                            "
+                                        >
+                                        </v-select>
+                                        <small
+                                            v-if="errors.barangay"
+                                            class="text-danger"
+                                            >{{ errors.barangay }}</small
                                         >
                                     </div>
                                     <div class="col-12 col-md-3">

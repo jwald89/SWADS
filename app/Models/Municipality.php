@@ -23,7 +23,7 @@ class Municipality extends Model
         return $this->hasMany(User::class, 'municipality', 'id');
     }
 
-    public function barangay()
+    public function brgy()
     {
         return $this->hasMany(Barangay::class, 'municipality_id', 'id');
     }

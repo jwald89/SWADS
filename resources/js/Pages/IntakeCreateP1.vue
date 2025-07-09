@@ -1,5 +1,12 @@
 <script setup>
-import { defineComponent, inject, ref, computed, watchEffect } from "vue";
+import {
+    defineComponent,
+    inject,
+    ref,
+    computed,
+    watchEffect,
+    watch,
+} from "vue";
 import vSelect from "vue-select";
 
 const form = inject("personalData");
@@ -21,6 +28,28 @@ const props = defineProps({
     errors: Object,
     index: Number,
 });
+
+/* ---------- Barangay options scoped to the selected municipality -------- */
+const barangayOptions = computed(() => {
+    if (!form.municipality) return [];
+
+    // props.barangays can be either an array or { data: [...] }
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) => Number(b.municipality_id) === Number(form.municipality)
+    );
+});
+
+/*  Reset the chosen barangay every time the municipality changes  */
+watch(
+    () => form.municipality,
+    () => {
+        form.barangay = null;
+    }
+);
 
 // Initialize refs
 const birthdate = ref(form.birthdate);
@@ -420,40 +449,6 @@ defineComponent({
                                         </div>
                                         <div class="row mb-2">
                                             <label
-                                                for="barangay"
-                                                class="col-sm-2 col-form-label"
-                                                >Barangay<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
-                                            <div class="col-sm-10">
-                                                <v-select
-                                                    class="fw-bold"
-                                                    name="barangay"
-                                                    id="barangay"
-                                                    :options="barangays.data"
-                                                    v-model="form.barangay"
-                                                    :reduce="(data) => data.id"
-                                                    label="barangay"
-                                                    :class="{
-                                                        'form-control is-invalid':
-                                                            errors.barangay,
-                                                    }"
-                                                    placeholder="Select"
-                                                >
-                                                </v-select>
-                                                <small
-                                                    v-if="errors.barangay"
-                                                    class="text-danger"
-                                                    >{{
-                                                        errors.barangay
-                                                    }}</small
-                                                >
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <label
                                                 for="municipal"
                                                 class="col-sm-2 col-form-label"
                                                 >Municipality<span
@@ -482,6 +477,43 @@ defineComponent({
                                                     class="text-danger"
                                                     >{{
                                                         errors.municipality
+                                                    }}</small
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label
+                                                for="barangay"
+                                                class="col-sm-2 col-form-label"
+                                                >Barangay<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <div class="col-sm-10">
+                                                <v-select
+                                                    class="fw-bold"
+                                                    name="barangay"
+                                                    id="barangay"
+                                                    :options="barangayOptions"
+                                                    v-model="form.barangay"
+                                                    :reduce="(data) => data.id"
+                                                    label="barangay"
+                                                    :class="{
+                                                        'form-control is-invalid':
+                                                            errors.barangay,
+                                                    }"
+                                                    placeholder="Select"
+                                                    :disabled="
+                                                        !form.municipality
+                                                    "
+                                                >
+                                                </v-select>
+                                                <small
+                                                    v-if="errors.barangay"
+                                                    class="text-danger"
+                                                    >{{
+                                                        errors.barangay
                                                     }}</small
                                                 >
                                             </div>

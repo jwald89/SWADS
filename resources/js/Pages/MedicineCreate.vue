@@ -1,12 +1,12 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref, reactive, computed, watch } from "vue";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
 import { toast } from "vue3-toastify";
 import axios from "axios";
 
-defineProps({
+const props = defineProps({
     municipalities: {
         type: Object,
         required: true,
@@ -41,6 +41,25 @@ const form = reactive({
     problem_present: "",
     assistance_need: "",
 });
+
+const barangayOptions = computed(() => {
+    if (!form.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) => Number(b.municipality_id) === Number(form.municipality)
+    );
+});
+
+watch(
+    () => form.municipality,
+    () => {
+        form.brgy = null;
+    }
+);
 
 const resetForm = () => {
     form.first_name = "";
@@ -268,38 +287,6 @@ defineComponent({
                             <div class="card">
                                 <div class="card-body p-4">
                                     <form>
-                                        <div class="row mb-4">
-                                            <label
-                                                for="barangay"
-                                                class="col-sm-3 col-form-label"
-                                                >Barangay<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
-                                            <div class="col-sm-9">
-                                                <v-select
-                                                    class="fw-bold"
-                                                    name="barangay"
-                                                    id="barangay"
-                                                    :options="barangays.data"
-                                                    :reduce="(data) => data.id"
-                                                    v-model="form.brgy"
-                                                    label="barangay"
-                                                    placeholder="Select"
-                                                    :class="{
-                                                        'is-invalid form-control':
-                                                            errors.brgy,
-                                                    }"
-                                                >
-                                                </v-select>
-                                                <small
-                                                    v-if="errors.brgy"
-                                                    class="text-danger"
-                                                    >{{ errors.brgy }}</small
-                                                >
-                                            </div>
-                                        </div>
                                         <div class="row mb-2">
                                             <label
                                                 for="municipal"
@@ -333,6 +320,41 @@ defineComponent({
                                                     >{{
                                                         errors.municipality
                                                     }}</small
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label
+                                                for="barangay"
+                                                class="col-sm-3 col-form-label"
+                                                >Barangay<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <div class="col-sm-9">
+                                                <v-select
+                                                    class="fw-bold"
+                                                    name="barangay"
+                                                    id="barangay"
+                                                    :options="barangayOptions"
+                                                    :reduce="(data) => data.id"
+                                                    v-model="form.brgy"
+                                                    label="barangay"
+                                                    placeholder="Select"
+                                                    :class="{
+                                                        'is-invalid form-control':
+                                                            errors.brgy,
+                                                    }"
+                                                    :disabled="
+                                                        !form.municipality
+                                                    "
+                                                >
+                                                </v-select>
+                                                <small
+                                                    v-if="errors.brgy"
+                                                    class="text-danger"
+                                                    >{{ errors.brgy }}</small
                                                 >
                                             </div>
                                         </div>

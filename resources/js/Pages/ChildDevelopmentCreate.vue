@@ -1,10 +1,24 @@
 <script setup>
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref, computed, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 import axios from "axios";
 import { toast } from "vue3-toastify";
 import vSelect from "vue-select";
+
+const props = defineProps({
+    barangays: {
+        type: Object,
+        required: true,
+    },
+    municipality: {
+        type: Object,
+        required: true,
+    },
+});
+
+const errors = reactive({});
+const isSubmitting = ref(false);
 
 const childDevForm = reactive({
     cdc_name: "",
@@ -21,10 +35,24 @@ const childDevForm = reactive({
     no_feed_recepients: "",
 });
 
-defineProps({
-    barangays: Object,
-    municipalities: Object,
+const barangayOptions = computed(() => {
+    if (!childDevForm.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) => Number(b.municipality_id) === Number(childDevForm.municipality)
+    );
 });
+
+watch(
+    () => childDevForm.municipality,
+    () => {
+        childDevForm.barangay == null;
+    }
+);
 
 const resetForm = () => {
     childDevForm.cdc_name = "";
@@ -40,8 +68,6 @@ const resetForm = () => {
     childDevForm.no_feed_recepients = "";
     childDevForm.sitio = "";
 };
-
-const errors = reactive({});
 
 const submitForm = async () => {
     // Clear previous errors
@@ -65,6 +91,8 @@ const submitForm = async () => {
             errors[field] = "";
         }
     });
+
+    isSubmitting.value = true;
 
     try {
         const response = await axios.post(
@@ -91,6 +119,8 @@ const submitForm = async () => {
             });
         }
         console.error("Error submitting form:", error);
+    } finally {
+        isSubmitting.value = false;
     }
 };
 
@@ -216,15 +246,15 @@ defineComponent({
                                         <v-select
                                             name="municipality"
                                             id="municipality"
-                                            :options="municipalities.data"
+                                            :options="municipality.data"
                                             :reduce="(data) => data.id"
                                             v-model="childDevForm.municipality"
                                             label="municipality"
-                                            placeholder="Select"
                                             :class="{
                                                 'is-invalid':
                                                     errors.municipality,
                                             }"
+                                            placeholder="Select"
                                         />
                                         <small
                                             v-if="errors.municipality"
@@ -243,7 +273,7 @@ defineComponent({
                                         <v-select
                                             name="barangay"
                                             id="barangay"
-                                            :options="barangays.data"
+                                            :options="barangayOptions"
                                             :reduce="(data) => data.id"
                                             v-model="childDevForm.barangay"
                                             label="barangay"
@@ -251,6 +281,9 @@ defineComponent({
                                             :class="{
                                                 'is-invalid': errors.barangay,
                                             }"
+                                            :disabled="
+                                                !childDevForm.municipality
+                                            "
                                         />
                                         <small
                                             v-if="errors.barangay"

@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, watchEffect, reactive } from "vue";
+import { defineComponent, watchEffect, reactive, computed, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 import axios from "axios";
@@ -33,6 +33,20 @@ const props = defineProps({
         required: true,
     },
 });
+
+const barangayOptions = computed(() => {
+    if (!props.sectoral.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) => Number(b.municipality_id) === Number(props.sectoral.municipality)
+    );
+});
+
+watch(() => props.sectoral);
 
 const errors = reactive({});
 
@@ -381,28 +395,6 @@ defineComponent({
                                         >
                                     </div>
                                     <div class="col-12 col-md-3 mb-2">
-                                        <label for="barangay"
-                                            >Barangay<span class="text-danger"
-                                                >*</span
-                                            ></label
-                                        >
-                                        <v-select
-                                            class="fw-bold"
-                                            name="barangay"
-                                            :options="barangays.data"
-                                            :reduce="(data) => data.id"
-                                            id="barangay"
-                                            label="barangay"
-                                            v-model="sectoral.barangay"
-                                        >
-                                        </v-select>
-                                        <small
-                                            v-if="errors.barangay"
-                                            class="text-danger"
-                                            >{{ errors.barangay }}</small
-                                        >
-                                    </div>
-                                    <div class="col-12 col-md-3 mb-2">
                                         <label for="municipal"
                                             >Municipality<span
                                                 class="text-danger"
@@ -425,6 +417,29 @@ defineComponent({
                                             >{{ errors.municipality }}</small
                                         >
                                     </div>
+                                    <div class="col-12 col-md-3 mb-2">
+                                        <label for="barangay"
+                                            >Barangay<span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <v-select
+                                            class="fw-bold"
+                                            name="barangay"
+                                            :options="barangayOptions"
+                                            :reduce="(data) => data.id"
+                                            id="barangay"
+                                            label="barangay"
+                                            v-model="sectoral.barangay"
+                                        >
+                                        </v-select>
+                                        <small
+                                            v-if="errors.barangay"
+                                            class="text-danger"
+                                            >{{ errors.barangay }}</small
+                                        >
+                                    </div>
+
                                     <div class="col-12 col-md-3">
                                         <label for="contactNo"
                                             >Contact No.<span

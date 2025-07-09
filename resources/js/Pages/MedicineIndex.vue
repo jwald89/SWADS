@@ -268,7 +268,13 @@ const hasAccess = (type) => {
                                     <Link
                                         :href="`/medicine/edit/${medicine.id}`"
                                         class="btn btn-sm btn-primary me-2"
-                                        v-if="hasAccess(['admin', 'user'])"
+                                        v-if="
+                                            hasAccess([
+                                                'supervisor',
+                                                'admin',
+                                                'user',
+                                            ])
+                                        "
                                         title="Edit"
                                     >
                                         <i class="bi bi-pencil-square"></i>

@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, watchEffect, reactive } from "vue";
+import { defineComponent, watchEffect, reactive, computed, watch } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 import axios from "axios";
@@ -14,6 +14,21 @@ const props = defineProps({
 
 const errors = reactive({});
 
+const barangayOptions = computed(() => {
+    if (!props.childData.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) =>
+            Number(b.municipality_id) === Number(props.childData.municipality)
+    );
+});
+
+watch(() => props.childData);
+
 const submitForm = async () => {
     try {
         const response = await axios.put(
@@ -24,8 +39,6 @@ const submitForm = async () => {
         toast.success("Record successfully updated.", {
             autoClose: 1000,
         });
-
-        console.log("working..");
     } catch (error) {
         if (error.response && error.response.status === 422) {
             const validationErrors = error.response.data.errors;
@@ -178,7 +191,7 @@ defineComponent({
                                         <v-select
                                             name="barangay"
                                             id="barangay"
-                                            :options="barangays.data"
+                                            :options="barangayOptions"
                                             :reduce="(data) => data.id"
                                             v-model="childData.barangay"
                                             label="barangay"

@@ -1,6 +1,6 @@
 <script setup>
 import LayoutApp from "../Shared/Layout.vue";
-import { defineComponent, watchEffect, reactive } from "vue";
+import { defineComponent, watchEffect, reactive, computed, watch } from "vue";
 import { Link } from "@inertiajs/vue3";
 import vSelect from "vue-select";
 import { toast } from "vue3-toastify";
@@ -25,6 +25,21 @@ const props = defineProps({
     },
     errors: Object,
 });
+
+const barangayOptions = computed(() => {
+    if (!props.medicines.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) =>
+            Number(b.municipality_id) === Number(props.medicines.municipality)
+    );
+});
+
+watch(props.medicines);
 
 const errors = reactive({});
 
@@ -246,38 +261,6 @@ defineComponent({
                             <div class="card">
                                 <div class="card-body p-4">
                                     <form>
-                                        <div class="row mb-4">
-                                            <label
-                                                for="barangay"
-                                                class="col-sm-3 col-form-label"
-                                                >Barangay<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
-                                            <div class="col-sm-9">
-                                                <v-select
-                                                    class="fw-bold"
-                                                    name="barangay"
-                                                    id="barangay"
-                                                    :options="barangays.data"
-                                                    :reduce="(data) => data.id"
-                                                    v-model="medicines.brgy"
-                                                    label="barangay"
-                                                    placeholder="Select"
-                                                    :class="{
-                                                        'is-invalid form-control':
-                                                            errors.brgy,
-                                                    }"
-                                                >
-                                                </v-select>
-                                                <small
-                                                    v-if="errors.brgy"
-                                                    class="text-danger"
-                                                    >{{ errors.brgy }}</small
-                                                >
-                                            </div>
-                                        </div>
                                         <div class="row mb-2">
                                             <label
                                                 for="municipal"
@@ -313,6 +296,38 @@ defineComponent({
                                                     >{{
                                                         errors.municipality
                                                     }}</small
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <label
+                                                for="barangay"
+                                                class="col-sm-3 col-form-label"
+                                                >Barangay<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <div class="col-sm-9">
+                                                <v-select
+                                                    class="fw-bold"
+                                                    name="barangay"
+                                                    id="barangay"
+                                                    :options="barangayOptions"
+                                                    :reduce="(data) => data.id"
+                                                    v-model="medicines.brgy"
+                                                    label="barangay"
+                                                    placeholder="Select"
+                                                    :class="{
+                                                        'is-invalid form-control':
+                                                            errors.brgy,
+                                                    }"
+                                                >
+                                                </v-select>
+                                                <small
+                                                    v-if="errors.brgy"
+                                                    class="text-danger"
+                                                    >{{ errors.brgy }}</small
                                                 >
                                             </div>
                                         </div>

@@ -1,11 +1,18 @@
 <script setup>
-import { defineComponent, inject, watchEffect, ref } from "vue";
+import {
+    defineComponent,
+    inject,
+    watchEffect,
+    ref,
+    computed,
+    watch,
+} from "vue";
 import vSelect from "vue-select";
 
 const submitForm = inject("submitFormP1");
 const intakes = inject("intakeData");
 
-defineProps({
+const props = defineProps({
     assistances: Object,
     sectorType: Object,
     indigents: Object,
@@ -15,6 +22,20 @@ defineProps({
     classType: Object,
     civilStatus: Object,
 });
+
+const barangayOptions = computed(() => {
+    if (!intakes.municipality) return [];
+
+    const list = Array.isArray(props.barangays)
+        ? props.barangays
+        : props.barangays?.data ?? [];
+
+    return list.filter(
+        (b) => Number(b.municipality_id) === Number(intakes.municipality)
+    );
+});
+
+watch(() => intakes.municipality);
 
 const birthdate = ref(intakes.birthdate);
 const age = ref(intakes.age);
@@ -355,28 +376,6 @@ defineComponent({
                                         </div>
                                         <div class="row mb-2">
                                             <label
-                                                for="barangay"
-                                                class="col-sm-2 col-form-label"
-                                                >Barangay<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
-                                            <div class="col-sm-10">
-                                                <v-select
-                                                    class="fw-bold"
-                                                    name="barangay"
-                                                    :options="barangays.data"
-                                                    :reduce="(data) => data.id"
-                                                    id="barangay"
-                                                    label="barangay"
-                                                    v-model="intakes.barangay"
-                                                >
-                                                </v-select>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <label
                                                 for="municipal"
                                                 class="col-sm-2 col-form-label"
                                                 >Municipality<span
@@ -395,6 +394,28 @@ defineComponent({
                                                     v-model="
                                                         intakes.municipality
                                                     "
+                                                >
+                                                </v-select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label
+                                                for="barangay"
+                                                class="col-sm-2 col-form-label"
+                                                >Barangay<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></label
+                                            >
+                                            <div class="col-sm-10">
+                                                <v-select
+                                                    class="fw-bold"
+                                                    name="barangay"
+                                                    :options="barangayOptions"
+                                                    :reduce="(data) => data.id"
+                                                    id="barangay"
+                                                    label="barangay"
+                                                    v-model="intakes.barangay"
                                                 >
                                                 </v-select>
                                             </div>

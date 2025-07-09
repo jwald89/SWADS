@@ -91,8 +91,8 @@
             </div>
             <div style="display: inline-block; vertical-align: middle; margin-left: 30%">
                 <p>Approved:</p>
-                <p class="fw-bold" style="line-height: 0; margin-top: 20%">ALEXANDER T. PIMENTEL</p>
-                <p style="line-height: 0.8; text-indent: 12%">Provincial Governor</p>
+                <p class="fw-bold" style="line-height: 0; margin-top: 20%">JOHNNY T. PIMENTEL</p>
+                <p style="line-height: 0.8; text-indent: 4%">Provincial Governor</p>
             </div>
         </div>
     </div>
