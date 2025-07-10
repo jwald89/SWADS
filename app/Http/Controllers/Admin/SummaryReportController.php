@@ -23,7 +23,8 @@ class SummaryReportController extends Controller
      */
     public function index()
     {
-        $monitorings = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'chargingOffice'])->get();
+        // $monitorings = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'chargingOffice'])->get();
+        $intakes = PersonalInformation::with(['remark', 'assistance', 'sectorName', 'municipal', 'chargingOffice'])->get();
 
         $assistance = AssistanceResource::collection(AssistanceType::all());
         $sectorType = SectorResource::collection(Sector::all());
@@ -31,7 +32,7 @@ class SummaryReportController extends Controller
         $offCharges = OfficeResource::collection(Office::all());
 
         return inertia('Reports/SummaryReport', [
-                        'monitorings' => $monitorings,
+                        'intakes' => $intakes,
                         'assistanceType' => $assistance,
                         'sectorType' => $sectorType,
                         'municipalities' => $municipalities,

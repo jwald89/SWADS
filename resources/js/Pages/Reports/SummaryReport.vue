@@ -4,7 +4,7 @@ import { defineComponent, ref } from "vue";
 import vSelect from "vue-select";
 
 const props = defineProps({
-    monitorings: {
+    intakes: {
         type: Object,
         required: true,
     },
