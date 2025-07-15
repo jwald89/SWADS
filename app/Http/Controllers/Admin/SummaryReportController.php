@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Log;
 use Carbon\Carbon;
 use App\Models\Office;
 use App\Models\Sector;
 use App\Models\Monitoring;
 use App\Models\Municipality;
 use App\Models\AssistanceType;
+use App\Models\PersonalInformation;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OfficeResource;
 use App\Http\Resources\SectorResource;
 use App\Http\Resources\AssistanceResource;
 use App\Http\Resources\MunicipalityResource;
-use App\Models\PersonalInformation;
 
 class SummaryReportController extends Controller
 {
@@ -45,8 +46,8 @@ class SummaryReportController extends Controller
      */
     public function filter($assistanceId = '*', $sectorId = '*', $municipalId = '*', $officeId = '*', $dateFrom = null, $dateTo = null)
     {
+        $query = PersonalInformation::with(['remarkable', 'assistance', 'sectorName', 'municipal', 'chargingOffice']);
         // $query = Monitoring::with(['intake', 'assistance', 'sectorName', 'municipal', 'chargingOffice']);
-        $query = PersonalInformation::with(['assistance', 'sectorName', 'municipal', 'chargingOffice']);
 
         $printFrom = Carbon::parse($dateFrom)->format('Y-m-d');
         $printTo = Carbon::parse($dateTo)->format('Y-m-d');
@@ -68,17 +69,24 @@ class SummaryReportController extends Controller
         }
 
         // Apply date range filter //
-        $query->whereBetween('date_intake', [$printFrom, $printTo]);
-
-        // Get filtered results //
+        $query->where('deleted_at', null)->whereBetween('date_intake', [$printFrom, $printTo]);
         $summary = $query->orderBy('date_intake', 'asc')->get();
-        // $totalAmt = $query->sum('amount');
+
+        $totalAmt = 0;
+        foreach($summary as $sum)
+        {
+            $data = $sum->remarkable->sum('cash_assistance');
+            $totalAmt =+ $data;
+        }
 
         // Generate PDF //
         $pdf = App::make('snappy.pdf.wrapper');
-        // $pdf->loadView('summary-report', compact('summary', 'totalAmt', 'printFrom', 'printTo'))
-        $pdf->loadView('summary-report', compact('summary', 'printFrom', 'printTo'))
+        $pdf->loadView('summary-report', compact('summary', 'totalAmt', 'printFrom', 'printTo'))
+        // $pdf->loadView('summary-report', compact('summary', 'printFrom', 'printTo'))
             ->setPaper('legal')
+            ->setOption('footer-center', 'Page [page] of [toPage]')
+            ->setOption('footer-font-size', 8)
+            ->setOption('margin-bottom', 10)
             ->setOption('enable-local-file-access', true)
             ->setOrientation('landscape');
 

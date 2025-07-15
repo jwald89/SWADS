@@ -88,73 +88,62 @@
 
 </head>
 <body>
-    <div>
-
-        <div id="container">
-            <div class="logo">
-                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/sds.png" alt="logo">
-            </div>
-            <div class="header">
-                <h3 style="line-height: 0.8">Republic of the Philippines</h3>
-                <h2 style="line-height: 0">PROVINCE OF SURIGAO DEL SUR</h2>
-                <h3 style="font-weight: normal">Capitol Hills, Tandag City</h3>
-                <h2 style="line-height: 0.3">Provincial Social Welfare and Development Office</h2>
-                <h1 style="line-height: 0.3; margin-top: 2rem">SUMMARY REPORT</h1>
-            </div>
-            <div class="logo">
-                <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
-            </div>
+    <div id="container">
+        <div class="logo">
+            <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/sds.png" alt="logo">
         </div>
-
-        <h4 style="font-family: Arial, Helvetica, sans-serif;">Covered Period: <span>{{ Carbon::parse($printFrom)->format('F j, Y') }}   -  {{ Carbon::parse($printTo)->format('F j, Y') }}</span></span></h3>
-
-        <div class="table-responsive">
-            <table id="tableData">
-                <thead>
-                    <tr>
-                        <th style="text-align: center">No.</th>
-                        <th>Assistance Type</th>
-                        <th style="text-align: center">Date Intake</th>
-                        <th style="text-align: center">Sector</th>
-                        <th style="text-align: center">Municipality</th>
-                        <th style="text-align: center">Office Charge</th>
-                        {{-- <th style="text-align: center">Amount</th> --}}
-                        <th style="text-align: center">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($summary as $key => $data)
-                    <tr>
-                        <td style="text-align: center">{{ $key + 1 }}</td>
-                        <td>{{ $data->assistance->name }}</td>
-                        <td style="text-align: center">{{ Carbon::parse($data->date_intake)->format('m/d/Y') }}</td>
-                        <td style="text-align: center">{{ $data->sectorName->name }}</td>
-                        <td style="text-align: center">{{ $data->municipal->municipality }}</td>
-                        <td style="text-align: center">{{ $data->chargingOffice->description }}</td>
-                        {{-- <td style="text-align: center">{{ number_format($data->amount, 2) }}</td> --}}
-                        <td style="text-align: center">{{ $data->status }}</td>
-                    </tr>
-                    @endforeach
-                    {{-- @if($totalAmt <= 0)
-                        <tr>
-                            <td colspan="10" style="font-family: sans-serif; text-align: center">NO RECORD FOUND</td>
-                        </tr>
-                    @else
-                        <tr style="background-color: rgb(255, 255, 255); color: #474747; font-size: 1.5rem; font-weight: bold">
-                            <td colspan="6" style="text-align: right">TOTAL &nbsp; </td>
-                            <td colspan="2">&nbsp; {{ number_format($totalAmt, 2) }}</td>
-                        </tr>
-                    @endif --}}
-                </tbody>
-            </table>
+        <div class="header">
+            <h3 style="line-height: 0.8">Republic of the Philippines</h3>
+            <h2 style="line-height: 0">PROVINCE OF SURIGAO DEL SUR</h2>
+            <h3 style="font-weight: normal">Capitol Hills, Tandag City</h3>
+            <h2 style="line-height: 0.3">Provincial Social Welfare and Development Office</h2>
+            <h1 style="line-height: 0.3; margin-top: 2rem">SUMMARY REPORT</h1>
+        </div>
+        <div class="logo">
+            <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
         </div>
     </div>
 
-    <div class="">
-        <p style="margin-top: 3rem; font-family: Arial, Helvetica, sans-serif; font-style: italic">
-            Date Generated: &nbsp;{{ $formattedDate }} &nbsp;&nbsp; {{ $currentTime }}
-        </p>
+    <h4 style="font-family: Arial, Helvetica, sans-serif;">Covered Period: <span>{{ Carbon::parse($printFrom)->format('F j, Y') }}   -  {{ Carbon::parse($printTo)->format('F j, Y') }}</span></span></h3>
+
+    <div class="table-responsive">
+        <table id="tableData">
+            <thead>
+                <tr>
+                    <th style="text-align: center">No.</th>
+                    <th>Assistance Type</th>
+                    <th style="text-align: center">Date Intake</th>
+                    <th style="text-align: center">Sector</th>
+                    <th style="text-align: center">Municipality</th>
+                    <th style="text-align: center">Office Charge</th>
+                    <th style="text-align: center">Amount</th>
+                    {{-- <th style="text-align: center">Status</th> --}}
+                </tr>
+            </thead>
+            <tbody>
+            @foreach ($summary as $key => $data)
+                <tr>
+                    <td style="text-align: center">{{ $key + 1 }}</td>
+                    <td>{{ $data->assistance->name }}</td>
+                    <td style="text-align: center">{{ Carbon::parse($data->date_intake)->format('m/d/Y') }}</td>
+                    <td style="text-align: center">{{ $data->sectorName->name }}</td>
+                    <td style="text-align: center">{{ $data->municipal->municipality }}</td>
+                    <td style="text-align: center">{{ $data->chargingOffice->description }}</td>
+                    <td style="text-align: center">{{ number_format($data->remarkable->cash_assistance, 2) }}</td>
+                    {{-- <td style="text-align: center">{{ $data->status }}</td> --}}
+                </tr>
+                @endforeach
+            </tbody>
+            <tr style="background-color: rgb(255, 255, 255); color: #474747; font-size: 1.5rem; font-weight: bold">
+                <td colspan="6" style="text-align: right">TOTAL &nbsp; </td>
+                <td colspan="2" style="text-align: center">&nbsp; {{ number_format($totalAmt, 2) }}</td>
+            </tr>
+        </table>
     </div>
+
+    <p style="margin-top: 3rem; font-family: Arial, Helvetica, sans-serif; font-style: italic">
+        Date Generated: &nbsp;{{ $formattedDate }} &nbsp;&nbsp; {{ $currentTime }}
+    </p>
 </body>
 </html>
 

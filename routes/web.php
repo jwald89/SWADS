@@ -162,6 +162,9 @@ Route::group(['middleware' => 'auth'], function() {
 
                 Route::get('/medicine/print-assistance-slip/{id}', 'printAssistantSlip')
                     ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::get('/medicine/export/{id}', 'export')->name('medicine.export')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
             });
 
     // Type Assistance Controller

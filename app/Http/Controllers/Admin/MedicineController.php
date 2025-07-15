@@ -14,8 +14,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MedicineRequest;
 use App\Http\Resources\BarangayResource;
+use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\MunicipalityResource;
 use App\Http\Resources\FamRelationshipResource;
+use App\Utility\Formatter;
 
 class MedicineController extends Controller
 {
@@ -190,5 +192,61 @@ class MedicineController extends Controller
             ->setOption('margin-bottom', 0);
 
         return $pdf->inline();
+    }
+
+    public function export($id)
+    {
+        $medicines = Medicine::with(['barangay', 'municipal', 'famRelation'])->findOrFail($id);
+
+        $createdBy = '';
+        $userDesignation = '';
+
+        $createdByUser = null;
+        $byDesignation = null;
+        if ($medicines && $medicines->created_by !== null) {
+            $createdByUser = User::find($medicines->created_by);
+        }
+
+        if ($createdByUser) {
+            $createdBy = strtoupper($createdByUser->first_name) . ' '
+                . ($createdByUser->middle_init === null ? "" : strtoupper(substr($createdByUser->middle_init, 0, 1)) . ". ")
+                . strtoupper($createdByUser->last_name);
+        }
+
+        if ($medicines && $medicines->created_by !== null) {
+            $byDesignation = User::find($medicines->created_by);
+        }
+
+        if ($byDesignation) {
+            $userDesignation = $byDesignation->title;
+        }
+
+        $formatter = new Formatter;
+
+        $templateProcessor = new TemplateProcessor('word-template/medicine-sheet.docx');
+        $templateProcessor->setValue('date_started', Carbon::parse($medicines?->date_started)->format('F j, Y') ?? '');
+        $templateProcessor->setValue('date_ended', Carbon::parse($medicines?->date_ended)->format('F j, Y') ?? '');
+        $templateProcessor->setValue('first_name', strtoupper($medicines?->first_name) ?? '');
+        $templateProcessor->setValue('middle_name', strtoupper(substr($medicines?->middle_name, 0, 1)) .'.' ?? '');
+        $templateProcessor->setValue('last_name', strtoupper($medicines?->last_name) ?? '');
+        $templateProcessor->setValue('suffix', strtoupper($medicines?->suffix) ?? '');
+        $templateProcessor->setValue('brgy', $medicines?->barangay->barangay ?? '');
+        $templateProcessor->setValue('municipality', $medicines?->municipal->municipality ?? '');
+        $templateProcessor->setValue('amt', number_format($medicines?->amount, 2, '.', ',') ?? '');
+        $templateProcessor->setValue('type_assistance', $medicines?->type_assistance ?? '');
+        $templateProcessor->setValue('beneficiary', ucwords($medicines?->beneficiary) ?? '');
+        $templateProcessor->setValue('relationship', $medicines?->famRelation->name ?? '');
+        $templateProcessor->setValue('kinds_of_med', ucwords($medicines?->kinds_of_med) ?? '');
+        $templateProcessor->setValue('problem_present', $medicines?->problem_present ?? '');
+        $templateProcessor->setValue('assistance_need', $medicines?->assistance_need ?? '');
+        $templateProcessor->setValue('created_by', strtoupper($createdBy) ?? '');
+        $templateProcessor->setValue('amt_in_words', ucwords($formatter->amountInWords($medicines->amount)) ?? '');
+        $templateProcessor->setValue('created_at', Carbon::parse($medicines?->created_at)->format('F j, Y') ?? '');
+        $templateProcessor->setValue('designation', strtoupper($userDesignation) ?? '');
+
+        $fileName = $medicines->last_name;
+        $templateProcessor->saveAs($fileName. '.docx');
+
+        return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
     }
 }

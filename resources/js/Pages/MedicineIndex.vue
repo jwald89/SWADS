@@ -269,11 +269,7 @@ const hasAccess = (type) => {
                                         :href="`/medicine/edit/${medicine.id}`"
                                         class="btn btn-sm btn-primary me-2"
                                         v-if="
-                                            hasAccess([
-                                                'supervisor',
-                                                'admin',
-                                                'user',
-                                            ])
+                                            hasAccess(['supervisor', 'admin'])
                                         "
                                         title="Edit"
                                     >
@@ -288,8 +284,11 @@ const hasAccess = (type) => {
                                         <!-- Details -->
                                     </Link>
                                     <a
-                                        href="#"
+                                        :href="`/medicine/export/${medicine.id}`"
                                         class="btn btn-sm btn-success me-2"
+                                        v-if="
+                                            hasAccess(['supervisor', 'admin'])
+                                        "
                                         title="Download"
                                     >
                                         <i class="bi bi-download"></i>
