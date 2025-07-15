@@ -159,7 +159,7 @@ watch(
                     </div>
                 </div>
 
-                <div class="table-responsive mt-5">
+                <div class="table-responsive mt-3">
                     <table class="table">
                         <thead class="text-center">
                             <tr class="bg-primary text-white">

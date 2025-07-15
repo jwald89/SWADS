@@ -77,6 +77,7 @@ const renderSerctorChart = () => {
         legend: {
             enabled: false,
         },
+        colors: ["#808080", "#0000FF", "#8bbc21", "#FFD700", "#FFFF00"],
         plotOptions: {
             series: {
                 borderWidth: 0,

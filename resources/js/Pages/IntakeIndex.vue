@@ -38,7 +38,7 @@ const props = defineProps({
 const search = ref(props.search || "");
 
 // Initialize intakeData with props.intake.data
-//let intakeData = ref([]);
+let intakeData = ref([]);
 
 const selectedAssistance = ref({ id: "*", name: "All" });
 const selectedMunicipal = ref({ id: "*", municipality: "All" });
@@ -54,34 +54,35 @@ const filterData = async () => {
             `/intake/filter/${assistanceId}/${municipalId}/${monthId}`
         );
         // console.log("API Response:", response.data);
-        // intakeData.value = response.data.data;
-        props.intake.data = response.data;
+        intakeData.value = response.data.data;
+        props.intake.data = intakeData.value;
+        // props.intake.data = response.data;
+        // console.log("RESULT: ", props.intake.data.length);
     } catch (error) {
         console.error("Error fetching filtered data:", error);
     }
 };
 
 // Watch for changes in intake prop to update intakeData
-/**watch(
+watch(
     () => props.intake.data,
     (newData) => {
         intakeData.value = newData || [];
     }
-);*/
+);
 
 const getData = async () => {
     try {
         const response = await axios.get("/intake");
         // props.intake = response.data.data;
         props.value = response.data.data;
-        // console.log("INTAKE DATA: ", props.intake);
     } catch (error) {
         console.error("Error submitting form:", error);
     }
 };
 
 onMounted(() => {
-    //intakeData.value = props.intake.data || [];
+    // intakeData.value = props.intake.data || [];
     getData();
 });
 
@@ -277,11 +278,11 @@ watch(
                     </div>
                 </div>
 
-                <div class="table-responsive mt-5">
+                <div class="table-responsive mt-3">
                     <table class="table">
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
-                                <th>No.</th>
+                                <th>Case No.</th>
                                 <th class="text-start px-3">Client</th>
                                 <th class="text-start">Address</th>
                                 <th class="text-start px-4">Assistance</th>
@@ -291,12 +292,12 @@ watch(
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center" v-if="intake.data.length">
+                        <tbody class="text-center" v-if="intake.data">
                             <tr
                                 v-for="(detail, index) in intake.data"
                                 :key="index"
                             >
-                                <td>{{ index + 1 }}</td>
+                                <td width="6%">{{ detail.case_no }}</td>
                                 <td class="text-start fw-bold px-3" width="20%">
                                     {{
                                         detail.first_name
@@ -404,7 +405,7 @@ watch(
                                     {{ detail.brgy.barangay }},
                                     {{ detail.municipal.municipality }}
                                 </td>
-                                <td class="text-start px-4" width="15%">
+                                <td class="text-start px-4" width="9%">
                                     {{ detail.assistance.name }}
                                 </td>
                                 <td class="text-start px-4" width="10%">
