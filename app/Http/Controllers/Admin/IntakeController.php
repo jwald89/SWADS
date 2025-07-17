@@ -266,7 +266,7 @@ class IntakeController extends Controller
         if ($existingRemark) {
             $existingRemark->update([
                 'content' => $request->content,
-                'cash_assistance' => $request->cash_assistance,
+                'cash_assistance' => str_replace(',', '', $request->cash_assistance),
                 'created_by' => $userId
             ]);
 
@@ -605,7 +605,11 @@ class IntakeController extends Controller
                 $remark = Remark::find($remarkData['id']);
                 $remark->update(array_merge(
                     $remarkData,
-                    ['modified_by' => $userId, 'modified_date' => $currentDate]
+                    [
+                        'modified_by' => $userId,
+                        'modified_date' => $currentDate,
+                        'cash_assistance' => str_replace(',', '', $remarkData['cash_assistance'])
+                    ]
                 ));
             }
 

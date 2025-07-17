@@ -9,14 +9,21 @@ const props = defineProps({
     link: {
         required: true,
     },
+    onPageChange: {
+        required: true,
+    },
 });
 
 const fetchRecords = (url) => {
     if (url) {
+        const pageMatch = url.match(/page=(\d+)/);
+        const page = pageMatch ? pageMatch[1] : 1;
+
         router.visit(url, {
             preserveScroll: true,
             preserveState: true,
         });
+        props.onPageChange(page); // Call to update the table
     }
 };
 
@@ -92,12 +99,17 @@ const getDisplayedPages = (currentPage, lastPage) => {
                 </li>
                 <li
                     class="page-item"
-                    :class="{ disabled: !records.next_page_url }"
+                    :class="{
+                        disabled:
+                            !records.next_page_url ||
+                            records.current_page === records.last_page,
+                    }"
                 >
                     <a
                         class="page-link"
                         href="#"
                         @click="fetchRecords(records.next_page_url)"
+                        :disabled="records.current_page === records.last_page"
                     >
                         Next
                     </a>

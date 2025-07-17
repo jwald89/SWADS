@@ -44,20 +44,19 @@ const selectedAssistance = ref({ id: "*", name: "All" });
 const selectedMunicipal = ref({ id: "*", municipality: "All" });
 const selectedMonth = ref({ id: "*", name: "All" });
 
-const filterData = async () => {
+const filterData = async (page = 1) => {
     try {
         const assistanceId = selectedAssistance.value.id || "*";
         const municipalId = selectedMunicipal.value.id || "*";
         const monthId = selectedMonth.value.id || "*";
 
         const response = await axios.get(
-            `/intake/filter/${assistanceId}/${municipalId}/${monthId}`
+            `/intake/filter/${assistanceId}/${municipalId}/${monthId}?page=${page}`
         );
         // console.log("API Response:", response.data);
         intakeData.value = response.data.data;
         props.intake.data = intakeData.value;
-        // props.intake.data = response.data;
-        // console.log("RESULT: ", props.intake.data.length);
+        props.intake.last_page = response.data.last_page;
     } catch (error) {
         console.error("Error fetching filtered data:", error);
     }
@@ -75,7 +74,7 @@ const getData = async () => {
     try {
         const response = await axios.get("/intake");
         // props.intake = response.data.data;
-        props.value = response.data.data;
+        props.intake.value = response.data.data;
     } catch (error) {
         console.error("Error submitting form:", error);
     }
@@ -496,7 +495,11 @@ watch(
                             </tr>
                         </tbody>
                     </table>
-                    <pagination :records="intake" :link="intake.path" />
+                    <pagination
+                        :records="intake"
+                        :link="intake.path"
+                        :on-page-change="filterData"
+                    />
                 </div>
             </div>
         </div>

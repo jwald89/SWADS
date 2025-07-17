@@ -1,20 +1,32 @@
 <script setup>
-import { inject } from "vue";
+import { inject, watchEffect } from "vue";
 
 const intakes = inject("intakeData");
 const submitFormP4 = inject("submitFormP4");
 
-const unformat = (val) => {
-    const numeric = parseFloat(val.replace(/,/g, ""));
-    return isNaN(numeric) ? 0 : numeric;
+const formatMoney = (value) => {
+    if (isNaN(value) || value === null) return "₱0.00";
+
+    const number = parseFloat(value);
+    const formatted = number.toFixed(2);
+    const parts = formatted.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return `${parts.join(".")}`;
 };
 
-const moneyFormat = (amount) => {
-    return new Intl.NumberFormat("en-US", {
-        style: "decimal",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    }).format(amount);
+// Watch effect to initialize cash assistance
+watchEffect(() => {
+    intakes.remark.forEach((remarks) => {
+        if (remarks && typeof remarks.cash_assistance !== "undefined") {
+            remarks.cash_assistance = remarks.cash_assistance || 0;
+        }
+    });
+});
+
+// Handle input changes
+const handleInput = (event, remarks) => {
+    const rawValue = event.target.value.replace(/₱/g, "").replace(/,/g, "");
+    remarks.cash_assistance = parseFloat(rawValue) || 0;
 };
 </script>
 
@@ -58,17 +70,10 @@ const moneyFormat = (amount) => {
                                     id="cash_assistance"
                                     name="cash_assistance"
                                     :value="
-                                        moneyFormat(remarks.cash_assistance)
+                                        formatMoney(remarks.cash_assistance)
                                     "
                                     @input="
-                                        remarks.cash_assistance = unformat(
-                                            $event.target.value
-                                        )
-                                    "
-                                    @blur="
-                                        $event.target.value = moneyFormat(
-                                            remarks.cash_assistance
-                                        )
+                                        (event) => handleInput(event, remarks)
                                     "
                                     placeholder="0.00"
                                 />
