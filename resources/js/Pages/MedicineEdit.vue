@@ -23,6 +23,18 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    sectorType: {
+        type: Object,
+        required: true,
+    },
+    classType: {
+        type: Object,
+        required: true,
+    },
+    indigents: {
+        type: Object,
+        required: true,
+    },
     errors: Object,
 });
 
@@ -44,9 +56,11 @@ watch(props.medicines);
 const errors = reactive({});
 
 const submitForm = async () => {
-    props.medicines.amount = parseInt(props.medicines.amount) || 0; // Ensure amount is an integer
     // Clear previous errors
     const fields = [
+        "classification",
+        "sector_type",
+        "indigent_people",
         "first_name",
         "middle_name",
         "last_name",
@@ -107,9 +121,15 @@ const submitForm = async () => {
 watchEffect(() => {
     props.medicines.brgy = parseInt(props.medicines.brgy);
     props.medicines.municipality = parseInt(props.medicines.municipality);
+    props.medicines.classification = parseInt(props.medicines.classification);
+    props.medicines.sector_type = parseInt(props.medicines.sector_type);
 
     if (props.medicines?.relationship) {
         props.medicines.relationship = parseInt(props.medicines.relationship);
+    }
+
+    if (props.medicines?.ips) {
+        props.medicines.ips = parseInt(props.medicines.ips);
     }
 });
 
@@ -142,6 +162,67 @@ defineComponent({
             </div>
             <div class="card-body p-4">
                 <form @submit.prevent="submitForm">
+                    <h6>
+                        <i class="bi bi-filter-circle-fill"></i> Filter Section
+                    </h6>
+                    <div class="card">
+                        <div class="card-body row g-2 mt-3">
+                            <div class="col-md-4">
+                                <label for="classification"
+                                    >Classification<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <v-select
+                                    class="fw-bold"
+                                    name="classification"
+                                    id="classification"
+                                    :options="classType.data"
+                                    :reduce="(data) => data.id"
+                                    v-model="medicines.classification"
+                                    label="name"
+                                >
+                                </v-select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="sector_type"
+                                    >Sector
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    class="fw-bold"
+                                    name="sector_type"
+                                    id="sector_type"
+                                    :options="sectorType.data"
+                                    :reduce="(data) => data.id"
+                                    v-model="medicines.sector_type"
+                                    label="name"
+                                >
+                                </v-select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="ips"
+                                    >Ethnicity
+                                    <small class="font-monospace"
+                                        >(IPs Affiliates)</small
+                                    ></label
+                                >
+                                <v-select
+                                    class="fw-bold"
+                                    name="ips"
+                                    id="ips"
+                                    :options="indigents.data"
+                                    v-model="medicines.ips"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <h6>

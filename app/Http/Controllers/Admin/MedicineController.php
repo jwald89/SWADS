@@ -5,19 +5,25 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Enums\Month;
 use App\Models\User;
+use App\Models\Sector;
 use App\Models\Barangay;
 use App\Models\Medicine;
+use App\Utility\Formatter;
 use App\Models\Municipality;
+use App\Models\Classification;
+use App\Models\IndigentPeople;
 use App\Models\FamRelationship;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\MedicineRequest;
+use App\Http\Resources\SectorResource;
 use App\Http\Resources\BarangayResource;
+use App\Http\Resources\IndigentResource;
 use PhpOffice\PhpWord\TemplateProcessor;
 use App\Http\Resources\MunicipalityResource;
+use App\Http\Resources\ClassificationResource;
 use App\Http\Resources\FamRelationshipResource;
-use App\Utility\Formatter;
 
 class MedicineController extends Controller
 {
@@ -49,8 +55,14 @@ class MedicineController extends Controller
         $barangays = BarangayResource::collection(Barangay::all());
         $municipalities = MunicipalityResource::collection(Municipality::all());
         $famRelationships = FamRelationshipResource::collection(FamRelationship::all());
+        $sectorType = SectorResource::collection(Sector::all());
+        $classType = ClassificationResource::collection(Classification::all());
+        $indigents = IndigentResource::collection(IndigentPeople::all());
 
         return inertia('MedicineCreate', [
+            'sectorType' => $sectorType,
+            'classType' => $classType,
+            'indigents' => $indigents,
             'barangays' => $barangays,
             'municipalities' => $municipalities,
             'famRelationships' => $famRelationships,
@@ -65,7 +77,10 @@ class MedicineController extends Controller
         $userId = Auth::id();
 
         $medicine = Medicine::create(
-            array_merge($request->all(), ['created_by' => $userId])
+            array_merge($request->all(), [
+                'created_by' => $userId,
+                'amount' => str_replace(',', '', $request->input('amount', $request->amount))
+            ])
         );
 
         return response()->json($medicine, 201);
@@ -89,8 +104,14 @@ class MedicineController extends Controller
         $barangays = BarangayResource::collection(Barangay::all());
         $municipalities = MunicipalityResource::collection(Municipality::all());
         $famRelationships = FamRelationshipResource::collection(FamRelationship::all());
+        $sectorType = SectorResource::collection(Sector::all());
+        $classType = ClassificationResource::collection(Classification::all());
+        $indigents = IndigentResource::collection(IndigentPeople::all());
 
         return inertia('MedicineEdit', [
+            'sectorType' => $sectorType,
+            'classType' => $classType,
+            'indigents' => $indigents,
             'medicines' => $medicines,
             'barangays' => $barangays,
             'municipalities' => $municipalities,
@@ -108,7 +129,8 @@ class MedicineController extends Controller
         $medicine->update(array_merge($request->all(),
             [
                 'modified_by' =>  Auth::id(),
-                'modified_date' => Carbon::now()
+                'modified_date' => Carbon::now(),
+                'amount' => str_replace(',', '', $request->input('amount', $medicine->amount))
             ])
         );
 
@@ -128,7 +150,7 @@ class MedicineController extends Controller
      */
     public function printGuarantLetter(string $id)
     {
-        $medicines = Medicine::with(['barangay', 'municipal', 'user', 'famRelation'])
+        $medicines = Medicine::with(['barangay', 'municipal', 'user', 'famRelation', 'sectorName'])
                     ->where('id', $id)
                     ->get();
 
@@ -150,10 +172,10 @@ class MedicineController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
 
         $pdf->loadView('guarante-letter-print', compact('medicines', 'createdBy'))
-            ->setPaper('letter')
+            ->setPaper('legal')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
-            ->setOption('margin-top', 10)
+            ->setOption('margin-top', 8)
             ->setOption('margin-bottom', 0);
 
         return $pdf->inline();
@@ -184,7 +206,7 @@ class MedicineController extends Controller
 
         $pdf = App::make('snappy.pdf.wrapper');
 
-        $pdf->loadView('assistance-slip-print', compact('medicines'))
+        $pdf->loadView('assistance-slip-print', compact('medicines', 'createdBy'))
             ->setPaper('letter')
             ->setOption('enable-local-file-access', true)
             ->setOrientation('portrait')
@@ -196,7 +218,7 @@ class MedicineController extends Controller
 
     public function export($id)
     {
-        $medicines = Medicine::with(['barangay', 'municipal', 'famRelation'])->findOrFail($id);
+        $medicines = Medicine::with(['barangay', 'municipal', 'famRelation', 'sectorName'])->findOrFail($id);
 
         $createdBy = '';
         $userDesignation = '';
@@ -226,6 +248,7 @@ class MedicineController extends Controller
         $templateProcessor = new TemplateProcessor('word-template/medicine-sheet.docx');
         $templateProcessor->setValue('date_started', Carbon::parse($medicines?->date_started)->format('F j, Y') ?? '');
         $templateProcessor->setValue('date_ended', Carbon::parse($medicines?->date_ended)->format('F j, Y') ?? '');
+        $templateProcessor->setValue('sector_type', $medicines?->sectorName->name ?? '');
         $templateProcessor->setValue('first_name', strtoupper($medicines?->first_name) ?? '');
         $templateProcessor->setValue('middle_name', strtoupper(substr($medicines?->middle_name, 0, 1)) .'.' ?? '');
         $templateProcessor->setValue('last_name', strtoupper($medicines?->last_name) ?? '');

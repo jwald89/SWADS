@@ -22,6 +22,9 @@ class MedicineRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'classification' => 'required',
+            'sector_type' => 'required',
+            'indigent_people' => 'nullable',
             'first_name' => 'required',
             'last_name' => 'required',
             'brgy' => 'required',
@@ -29,7 +32,7 @@ class MedicineRequest extends FormRequest
             'date_started' => 'required',
             'date_ended' => 'required',
             'pharmacy' => 'required',
-            'amount' => 'required|integer',
+            'amount' => 'required',
             'kinds_of_med' => 'required',
             'problem_present' => 'required',
             'assistance_need' => 'required',

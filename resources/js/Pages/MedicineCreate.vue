@@ -19,12 +19,27 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    classType: {
+        type: Object,
+        required: true,
+    },
+    indigents: {
+        type: Object,
+        required: true,
+    },
+    sectorType: {
+        type: Object,
+        required: true,
+    },
     errors: Object,
 });
 
 const errors = reactive({});
 
 const form = reactive({
+    classification: "",
+    sector_type: "",
+    p: "",
     first_name: "",
     middle_name: "",
     last_name: "",
@@ -62,6 +77,9 @@ watch(
 );
 
 const resetForm = () => {
+    form.classification = "";
+    form.sector_type = "";
+    form.p = "";
     form.first_name = "";
     form.middle_name = "";
     form.last_name = "";
@@ -82,6 +100,9 @@ const resetForm = () => {
 const submitForm = async () => {
     // Clear previous errors
     const fields = [
+        "classification",
+        "sector_type",
+        "p",
         "first_name",
         "middle_name",
         "last_name",
@@ -168,6 +189,86 @@ defineComponent({
             </div>
             <div class="card-body p-4">
                 <form @submit.prevent="submitForm">
+                    <h6>
+                        <i class="bi bi-filter-circle-fill"></i> Filter Section
+                    </h6>
+                    <div class="card">
+                        <div class="card-body row g-2 mt-3">
+                            <div class="col-md-4">
+                                <label for="classification"
+                                    >Classification<span class="text-danger"
+                                        >*</span
+                                    ></label
+                                >
+                                <v-select
+                                    class="fw-bold"
+                                    name="classification"
+                                    id="classification"
+                                    :options="classType.data"
+                                    v-model="form.classification"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    :class="{
+                                        'form-control is-invalid':
+                                            errors.classification,
+                                    }"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                                <small
+                                    v-if="errors.classification"
+                                    class="text-danger"
+                                    >{{ errors.classification }}</small
+                                >
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="sector_type"
+                                    >Sector
+                                    <span class="text-danger">*</span></label
+                                >
+                                <v-select
+                                    class="fw-bold"
+                                    name="sector_type"
+                                    id="sector_type"
+                                    :options="sectorType.data"
+                                    v-model="form.sector_type"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    :class="{
+                                        'form-control is-invalid':
+                                            errors.sector_type,
+                                    }"
+                                    placeholder="Select"
+                                >
+                                </v-select>
+                                <small
+                                    v-if="errors.sector_type"
+                                    class="text-danger"
+                                    >{{ errors.sector_type }}</small
+                                >
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="ips"
+                                    >Ethnicity
+                                    <small class="font-monospace"
+                                        >(IPs Affiliates)</small
+                                    ></label
+                                >
+                                <v-select
+                                    class="fw-bold"
+                                    name="ips"
+                                    id="ips"
+                                    :options="indigents.data"
+                                    v-model="form.indigent_people"
+                                    :reduce="(data) => data.id"
+                                    label="name"
+                                    placeholder="Select"
+                                ></v-select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <h6>

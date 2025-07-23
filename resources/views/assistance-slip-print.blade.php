@@ -84,15 +84,17 @@
 
 
         <div style="display: flex; justify-content: space-between; margin-top: 40px">
-            <div style="display: inline-block; vertical-align: middle;">
-                <p>Recommeding Approval:</p>
-                <p class="fw-bold" style="line-height: 0; text-indent: 20%; margin-top: 10%">HERSHE L. NUÑEZ, RSW</p>
-                <p style="line-height: 0.8">Provincial Social Welfare and Development Officer</p>
+            <div style="display: inline-block">
+                <p style="margin-bottom: 5px">Prepared by:</p>
+                <p class="fw-bold" style="line-height: 1.4; border-bottom: solid black 1px;">{{ $createdBy }}</p>
+                @foreach ($medicines as $medicine)
+                    <p style="line-height: 0; text-align: center">{{ strtoupper($medicine->user->designation) }}</p>
+                @endforeach
             </div>
-            <div style="display: inline-block; vertical-align: middle; margin-left: 30%">
-                <p>Approved:</p>
-                <p class="fw-bold" style="line-height: 0; margin-top: 20%">JOHNNY T. PIMENTEL</p>
-                <p style="line-height: 0.8; text-indent: 4%">Provincial Governor</p>
+            <div style="display: inline-block; margin-left: 35%">
+                <p style="margin-bottom: 5px">Noted by:</p>
+                <p class="fw-bold" style="line-height: 1.4; text-indent: 25%; border-bottom: solid black 1px;">HERSHE L. NUÑEZ, RSW</p>
+                <p style="line-height: 0;">Provincial Social Werlfare and Development Officer</p>
             </div>
         </div>
     </div>

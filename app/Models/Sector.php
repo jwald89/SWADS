@@ -32,4 +32,9 @@ class Sector extends Model
     {
         return $this->hasMany(PersonalInformation::class, 'id', 'sector_type');
     }
+
+    public function medicine()
+    {
+        return $this->hasMany(Medicine::class, 'id', 'sector_type');
+    }
 }

@@ -10,6 +10,9 @@ class Medicine extends Model
     use HasFactory;
 
     protected $fillable = [
+        'classification',
+        'sector_type',
+        'indigent_people',
         'first_name',
         'middle_name',
         'last_name',
@@ -50,5 +53,10 @@ class Medicine extends Model
     public function famRelation()
     {
         return $this->belongsTo(FamRelationship::class, 'relationship', 'id');
+    }
+
+    public function sectorName()
+    {
+        return $this->belongsTo(Sector::class, 'sector_type', 'id');
     }
 }
