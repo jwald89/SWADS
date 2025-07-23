@@ -45,7 +45,7 @@ class IntakeController extends Controller
      */
     public function index()
     {
-        $perInfos = PersonalInformation::with(['assistance', 'municipal', 'brgy', 'sectorName'])
+        $perInfos = PersonalInformation::with(['assistance', 'municipal', 'brgy', 'sectorName', 'chargingOffice'])
                     ->when(request()->search !== '', function ($query) {
                         $search = request()->search;
                         $query->where(function ($subQuery) use ($search) {
@@ -68,6 +68,7 @@ class IntakeController extends Controller
         $famComps = FamilyComposition::get();
         $assistance = AssistanceResource::collection(AssistanceType::all());
         $municipalName = MunicipalityResource::collection(Municipality::all());
+        $officeCharge = OfficeResource::collection(Office::all());
 
         return inertia('IntakeIndex', [
             'intake' => $perInfos,
@@ -75,7 +76,8 @@ class IntakeController extends Controller
             'famComps' => $famComps,
             'assistance' => $assistance,
             'months' => Month::names(),
-            'municipalName' => $municipalName
+            'municipalName' => $municipalName,
+            'officeCharge' => $officeCharge
         ]);
     }
 
@@ -680,12 +682,16 @@ class IntakeController extends Controller
     /**
      * Filter the specified assistance, municipality, month and year
      */
-    public function filter($assistanceId = '*', $municipalId = '*', $month = '*')
+    public function filter($assistanceId = '*', $municipalId = '*', $month = '*', $officeId = '*')
     {
-        $data = PersonalInformation::with(['assistance', 'municipal', 'brgy', 'sectorName']);
+        $data = PersonalInformation::with(['assistance', 'municipal', 'brgy', 'sectorName', 'chargingOffice']);
 
         if ($assistanceId !== '*') {
             $data->where('category', $assistanceId);
+        }
+
+        if ($officeId !== '*') {
+            $data->where('ofis_charge', $officeId);
         }
 
         if ($municipalId !== '*') {

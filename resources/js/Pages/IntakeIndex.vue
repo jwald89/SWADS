@@ -33,6 +33,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    officeCharge: {
+        type: Object,
+        required: true,
+    },
 });
 
 const search = ref(props.search || "");
@@ -43,15 +47,17 @@ let intakeData = ref([]);
 const selectedAssistance = ref({ id: "*", name: "All" });
 const selectedMunicipal = ref({ id: "*", municipality: "All" });
 const selectedMonth = ref({ id: "*", name: "All" });
+const selectedOffice = ref({ id: "*", description: "All" });
 
 const filterData = async (page = 1) => {
     try {
         const assistanceId = selectedAssistance.value.id || "*";
         const municipalId = selectedMunicipal.value.id || "*";
         const monthId = selectedMonth.value.id || "*";
+        const officeId = selectedOffice.value.id || "*";
 
         const response = await axios.get(
-            `/intake/filter/${assistanceId}/${municipalId}/${monthId}?page=${page}`
+            `/intake/filter/${assistanceId}/${municipalId}/${monthId}/${officeId}?page=${page}`
         );
         // console.log("API Response:", response.data);
         intakeData.value = response.data.data;
@@ -86,9 +92,12 @@ onMounted(() => {
 });
 
 // Watch for changes in props.data and update filteredData accordingly
-watch([selectedAssistance, selectedMunicipal, selectedMonth], () => {
-    filterData();
-});
+watch(
+    [selectedAssistance, selectedMunicipal, selectedMonth, selectedOffice],
+    () => {
+        filterData();
+    }
+);
 
 const formatDay = (day) => {
     const days = [
@@ -262,6 +271,18 @@ watch(
                                 placeholder="All"
                             ></v-select>
                         </div>
+                        <div class="col-12 col-md-2 mb-2">
+                            <label class="fw-bold" for="">Office Charge</label>
+                            <v-select
+                                :options="[
+                                    { id: '*', description: 'All' },
+                                    ...officeCharge.data,
+                                ]"
+                                v-model="selectedOffice"
+                                label="description"
+                                placeholder="All"
+                            ></v-select>
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <label class="fw-bold" for=""
@@ -285,7 +306,8 @@ watch(
                                 <th class="text-start px-3">Client</th>
                                 <th class="text-start">Address</th>
                                 <th class="text-start px-4">Assistance</th>
-                                <th class="text-start px-4">Sector</th>
+                                <!-- <th class="text-start px-4">Sector</th> -->
+                                <th class="text-start px-4">Charging Office</th>
                                 <th class="text-start">Date Intake</th>
                                 <th>COE</th>
                                 <th>Action</th>
@@ -407,8 +429,11 @@ watch(
                                 <td class="text-start px-4" width="9%">
                                     {{ detail.assistance.name }}
                                 </td>
-                                <td class="text-start px-4" width="10%">
+                                <!-- <td class="text-start px-4" width="10%">
                                     {{ detail.sector_name.name }}
+                                </td> -->
+                                <td class="text-start px-4" width="10%">
+                                    {{ detail.charging_office.description }}
                                 </td>
                                 <td class="text-start text-primary">
                                     {{ formatDate(detail.date_intake) }}

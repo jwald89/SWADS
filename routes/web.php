@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function() {
                 Route::get('/intake/print-coe/{id}', 'coePrint')
                         ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
 
-                Route::get('/intake/filter/{assistanceId?}/{municipalId?}/{month?}', 'filter')
+                Route::get('/intake/filter/{assistanceId?}/{municipalId?}/{month?}/{officeId?}', 'filter')
                         ->middleware([EnsureFeaturesAreActive::using('supervisor-admin-user')]);
     });
 
