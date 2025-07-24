@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Office;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,5 +19,6 @@ class OfficeResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description
         ];
+
     }
 }

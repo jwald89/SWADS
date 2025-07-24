@@ -270,6 +270,11 @@ Route::group(['middleware' => 'auth'], function() {
             Route::get('/summary-report/filter/{assistanceId?}/{sectorId?}/{municipalId?}/{officeId?}/{dateFrom?}/{dateTo?}', 'filter')
                 ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
         });
+
+
+
+    Route::get('/municipality-data', [DashboardController::class, 'getMunicipalityData']);
+    Route::get('/assistance-data',[DashboardController::class, 'getAssistanceData']);
 });
 
 

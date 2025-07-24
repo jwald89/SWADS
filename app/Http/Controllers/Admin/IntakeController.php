@@ -68,7 +68,7 @@ class IntakeController extends Controller
         $famComps = FamilyComposition::get();
         $assistance = AssistanceResource::collection(AssistanceType::all());
         $municipalName = MunicipalityResource::collection(Municipality::all());
-        $officeCharge = OfficeResource::collection(Office::all());
+        $officeCharge = OfficeResource::collection(Office::orderByRaw("CASE WHEN `description` = 'Provincial Governor\'s Office - PGO' THEN 0 ELSE 1 END")->get());
 
         return inertia('IntakeIndex', [
             'intake' => $perInfos,
@@ -91,9 +91,14 @@ class IntakeController extends Controller
         $barangays = BarangayResource::collection(Barangay::all());
         $municipality = MunicipalityResource::collection(Municipality::all());
         $indigents = IndigentResource::collection(IndigentPeople::all());
-        $officeCharge = OfficeResource::collection(Office::all());
         $classType = ClassificationResource::collection(Classification::all());
         $famRelation = FamRelationshipResource::collection(FamRelationship::all());
+
+        $excludedOfis = [1]; // Replace with the actual IDs you want to exclude
+
+        $officeCharge = OfficeResource::collection(Office::orderByRaw("CASE WHEN `description` = 'Provincial Governor\'s Office - PGO' THEN 0 ELSE 1 END")
+            ->whereNotIn('id', $excludedOfis)
+            ->orderBy('created_at', 'DESC')->get());
 
         return inertia('IntakeCreate', [
             'assistances' => $assistances,
@@ -357,13 +362,18 @@ class IntakeController extends Controller
 
         $assistances = AssistanceResource::collection(AssistanceType::all());
         $sectorType = SectorResource::collection(Sector::all());
-        $officeCharge = OfficeResource::collection(Office::all());
         $assistances = AssistanceResource::collection(AssistanceType::all());
         $municipality = MunicipalityResource::collection(Municipality::all());
         $barangays = BarangayResource::collection(Barangay::all());
         $indigents = IndigentResource::collection(IndigentPeople::all());
         $classType = ClassificationResource::collection(Classification::all());
         $famRelation = FamRelationshipResource::collection(FamRelationship::all());
+
+        $excludedOfis = [1]; // Replace with the actual IDs you want to exclude
+
+         $officeCharge = OfficeResource::collection(Office::orderByRaw("CASE WHEN `description` = 'Provincial Governor\'s Office - PGO' THEN 0 ELSE 1 END")
+            ->whereNotIn('id', $excludedOfis)
+            ->orderBy('created_at', 'DESC')->get());
 
         return inertia('EditIntake', [
             'intakes' => $intakes,

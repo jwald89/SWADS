@@ -2,6 +2,7 @@
 import LayoutApp from "../Shared/Layout.vue";
 import Highcharts from "highcharts";
 import { ref, watch, onMounted } from "vue";
+import axios from "axios";
 
 const props = defineProps({
     totalNums: String,
@@ -17,6 +18,9 @@ const props = defineProps({
 const sectorData = ref([]);
 const assistanceData = ref([]);
 const municipalData = ref([]);
+
+const currentMunicipalFilter = ref("Year");
+const currentAssistanceFilter = ref("Year");
 
 // Watch for changes in monitorStatus //
 // Client data
@@ -104,6 +108,22 @@ const renderSerctorChart = () => {
 };
 
 // Type assistance data
+const fetchAssistanceData = async (filter) => {
+    currentAssistanceFilter.value =
+        filter.charAt(0).toUpperCase() + filter.slice(1);
+    try {
+        const response = await axios.get(`/assistance-data?filter=${filter}`);
+        const data = response.data.data;
+        assistanceData.value = data.map((item) => ({
+            name: item.name,
+            y: parseFloat(item.cash_assistance) || 0,
+        }));
+        renderAnalyticChart();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
 watch(
     () => props.monitorStatus,
     (newValue) => {
@@ -182,7 +202,27 @@ const renderAnalyticChart = () => {
     });
 };
 
+onMounted(() => {
+    fetchAssistanceData("year");
+});
+
 // Municipality data
+const fetchMunicipalData = async (filter) => {
+    currentMunicipalFilter.value =
+        filter.charAt(0).toUpperCase() + filter.slice(1);
+    try {
+        const response = await axios.get(`/municipality-data?filter=${filter}`);
+        const data = response.data.data;
+        municipalData.value = data.map((item) => ({
+            name: item.municipality,
+            y: parseFloat(item.cash_assistance) || 0,
+        }));
+        renderMunicipality();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
 watch(
     () => props.monitorStatus,
     (newValue) => {
@@ -245,6 +285,10 @@ const renderMunicipality = () => {
         ],
     });
 };
+
+onMounted(() => {
+    fetchMunicipalData("year"); // Fetch initial data
+});
 
 // Render the chart whenever sectorData changes //
 watch(
@@ -785,7 +829,8 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Recent Assistance <span>| Today</span>
+                                        Recent Assistance
+                                        <span>| Year</span>
                                     </h5>
 
                                     <div class="table-scroll">
@@ -915,15 +960,26 @@ const formatDate = (dateString) => {
                                 </li>
 
                                 <li>
-                                    <a class="dropdown-item" href="#">Today</a>
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchAssistanceData('today')"
+                                        >Today</a
+                                    >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchAssistanceData('month')"
                                         >This Month</a
                                     >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchAssistanceData('year')"
                                         >This Year</a
                                     >
                                 </li>
@@ -931,7 +987,10 @@ const formatDate = (dateString) => {
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Assistance Report</h5>
+                            <h5 class="card-title">
+                                Assistance Report
+                                <span>| {{ currentAssistanceFilter }}</span>
+                            </h5>
 
                             <div id="assistanceChartReport"></div>
                         </div>
@@ -952,15 +1011,26 @@ const formatDate = (dateString) => {
                                 </li>
 
                                 <li>
-                                    <a class="dropdown-item" href="#">Today</a>
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchMunicipalData('today')"
+                                        >Today</a
+                                    >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchMunicipalData('month')"
                                         >This Month</a
                                     >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchMunicipalData('year')"
                                         >This Year</a
                                     >
                                 </li>
@@ -970,7 +1040,7 @@ const formatDate = (dateString) => {
                         <div class="card-body pb-0">
                             <h5 class="card-title">
                                 Municipalities Report
-                                <span>| Today</span>
+                                <span>| {{ currentMunicipalFilter }}</span>
                             </h5>
 
                             <div id="municipalChartReport"></div>
