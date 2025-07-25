@@ -275,6 +275,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/municipality-data', [DashboardController::class, 'getMunicipalityData']);
     Route::get('/assistance-data',[DashboardController::class, 'getAssistanceData']);
+    Route::get('/sector-data', [DashboardController::class, 'getSectorData']);
 });
 
 

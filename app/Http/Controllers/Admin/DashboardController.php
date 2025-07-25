@@ -54,7 +54,7 @@ class DashboardController extends Controller
         ]);
     }
 
-
+    // Display the data in municipal chart when it selected
     public function getMunicipalityData(Request $request)
     {
         $filter = $request->input('filter');
@@ -88,6 +88,7 @@ class DashboardController extends Controller
         return response()->json(['data' => $data]);
     }
 
+    // Display the data in assistance chart when it selected
     public function getAssistanceData(Request $request)
     {
         $filter = $request->input('filter');
@@ -116,6 +117,39 @@ class DashboardController extends Controller
                 ];
             })
             ->values();
+
+        return response()->json(['data' => $data]);
+    }
+
+
+    // Display the data in sector chart when it selected
+    public function getSectorData(Request $request)
+    {
+        $filter = $request->input('filter');
+
+        $startDate = null;
+        $endDate = Carbon::now();
+
+        if($filter === 'today') {
+            $startDate = Carbon::now()->startOfDay();
+        }elseif ($filter === 'month') {
+            $startDate = Carbon::now()->startOfMonth();
+        }elseif ($filter === 'year') {
+            $startDate = Carbon::now()->startOfYear();
+        }
+
+        // Fetch data based on the date range
+        $data = PersonalInformation::with(['remarkable', 'sectorName'])
+                ->whereNull('deleted_at')
+                ->whereBetween('date_intake', [$startDate, $endDate])
+                ->get()
+                ->groupBy('sectorName.name')
+                ->map(function($items, $key) {
+                    return [
+                        'name' => $key,
+                        'cash_assistance' => $items->sum('remarkable.cash_assistance'),
+                    ];
+                })->values();
 
         return response()->json(['data' => $data]);
     }

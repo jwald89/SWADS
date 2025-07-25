@@ -21,6 +21,24 @@ const municipalData = ref([]);
 
 const currentMunicipalFilter = ref("Year");
 const currentAssistanceFilter = ref("Year");
+const currentSectorFilter = ref("Year");
+
+// Type sector data
+const fetchSectorData = async (filter) => {
+    currentSectorFilter.value =
+        filter.charAt(0).toUpperCase() + filter.slice(1);
+    try {
+        const response = await axios.get(`/sector-data?filter=${filter}`);
+        const data = response.data.data;
+        sectorData.value = data.map((item) => ({
+            name: item.name,
+            y: parseFloat(item.cash_assistance) || 0,
+        }));
+        renderSerctorChart();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
 
 // Watch for changes in monitorStatus //
 // Client data
@@ -106,6 +124,10 @@ const renderSerctorChart = () => {
         ],
     });
 };
+
+onMounted(() => {
+    fetchSectorData("year");
+});
 
 // Type assistance data
 const fetchAssistanceData = async (filter) => {
@@ -529,17 +551,30 @@ const formatDate = (dateString) => {
                                         </li>
 
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                href="#"
+                                                @click="
+                                                    fetchSectorData('today')
+                                                "
                                                 >Today</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                href="#"
+                                                @click="
+                                                    fetchSectorData('month')
+                                                "
                                                 >This Month</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                href="#"
+                                                @click="fetchSectorData('year')"
                                                 >This Year</a
                                             >
                                         </li>
@@ -548,7 +583,8 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Sectors Report <span>/Today</span>
+                                        Sectors Report
+                                        <span>| {{ currentSectorFilter }}</span>
                                     </h5>
 
                                     <!-- Line Chart -->
