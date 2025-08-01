@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
-use App\Enums\Month;
 use App\Models\User;
 use App\Models\Sector;
 use App\Models\Barangay;
@@ -32,18 +31,29 @@ class MedicineController extends Controller
      */
     public function index()
     {
-        $medicines = Medicine::with(['barangay', 'municipal', 'user'])
+        $medicines = Medicine::with(['sectorName', 'barangay', 'municipal', 'user'])
+                    ->when(request()->search !== '', function($query) {
+                        $search = request()->search;
+                            $query->where('first_name', 'like', '%' . $search . '%')
+                                ->orWhere('middle_name', 'like', '%' . $search . '%')
+                                ->orWhere('last_name', 'like', '%' . $search . '%')
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name) like ?", ['%' . $search . '%'])
+                                ->orWhereRaw("CONCAT(first_name, ' ', last_name) like ?", ['%' . $search . '%'])
+                                ->orWhereRaw("CONCAT(first_name, ' ', middle_name, ' ', last_name) like ?", ['%' . $search . '%']);
+                    })
                     ->orderBy('created_at', 'desc')
-                    ->get();
+                    ->paginate(10);
 
+        $sectors = SectorResource::collection(Sector::all());
         $barangays = BarangayResource::collection(Barangay::all());
         $municipalities = MunicipalityResource::collection(Municipality::all());
 
         return inertia('MedicineIndex', [
-            'medicines' => $medicines,
+            'search' => request()->search ?? '',
+            'sectors' => $sectors,
+            'medicine' => $medicines,
             'barangays' => $barangays,
             'municipalities' => $municipalities,
-            'months' => Month::names(),
         ]);
     }
 
@@ -271,5 +281,31 @@ class MedicineController extends Controller
         $templateProcessor->saveAs($fileName. '.docx');
 
         return response()->download($fileName.'.docx')->deleteFileAfterSend(true);
+    }
+
+
+    public function filter($sectorId = '*', $municipalId = '*', $month = '*')
+    {
+        $data = Medicine::with(['sectorName', 'barangay', 'municipal', 'user']);
+
+        if ($municipalId !== '*') {
+            $data->where('municipality', $municipalId);
+        }
+
+        if ($sectorId !== '*') {
+            $data->where('sector_type', $sectorId);
+        }
+
+        if ($month !== '*') {
+            $data->whereMonth('created_at', $month);
+        }
+
+        $paginatedData = $data->orderBy('created_at', 'DESC')->paginate(10);
+
+        if ($paginatedData->isEmpty()) {
+            return response()->json(['message' => 'No data found']);
+        }
+
+        return $paginatedData;
     }
 }

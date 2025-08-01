@@ -1,5 +1,5 @@
 <script setup>
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch, watchEffect } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -59,6 +59,7 @@ const filterData = async (page = 1) => {
         const response = await axios.get(
             `/intake/filter/${assistanceId}/${municipalId}/${monthId}/${officeId}?page=${page}`
         );
+
         // console.log("API Response:", response.data);
         intakeData.value = response.data.data;
         props.intake.data = intakeData.value;
@@ -69,7 +70,7 @@ const filterData = async (page = 1) => {
 };
 
 // Watch for changes in intake prop to update intakeData
-watch(
+watchEffect(
     () => props.intake.data,
     (newData) => {
         intakeData.value = newData || [];

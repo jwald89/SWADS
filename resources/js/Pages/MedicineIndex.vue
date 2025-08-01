@@ -1,12 +1,18 @@
 <script setup>
+import { defineComponent, ref, onMounted, watch, watchEffect } from "vue";
 import LayoutApp from "../Shared/Layout.vue";
-import { ref } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { Link, router, usePage } from "@inertiajs/vue3";
+import { debounce } from "lodash";
 import Pagination from "../components/Pagination.vue";
+import axios from "axios";
 import vSelect from "vue-select";
 
 const props = defineProps({
-    medicines: {
+    medicine: {
+        type: Object,
+        required: true,
+    },
+    sectors: {
         type: Object,
         required: true,
     },
@@ -18,16 +24,66 @@ const props = defineProps({
         type: Object,
         required: true,
     },
-    months: {
-        type: Object,
+    search: {
+        type: String,
+        default: "",
     },
 });
 
-const selectedBrgy = ref({ id: "*", barangay: "All" });
+const search = ref(props.search || "");
+let medicineData = ref([]);
+const page = usePage();
+
+const selectedSector = ref({ id: "*", name: "All" });
 const selectedMunicipal = ref({ id: "*", municipality: "All" });
 const selectedMonth = ref({ id: "*", name: "All" });
 
-const page = usePage();
+const filterMedicineData = async (page = 1) => {
+    try {
+        const sectorId = selectedSector.value.id || "*";
+        const municipalId = selectedMunicipal.value.id || "*";
+        const monthId = selectedMonth.value.id || "*";
+
+        const response = await axios.get(
+            `/medicine/filter/${sectorId}/${municipalId}/${monthId}?page=${page}`
+        );
+
+        // console.log("API Response:", response.data);
+        medicineData.value = response.data.data;
+        props.medicine.data = medicineData.value;
+        props.medicine.last_page = response.data.last_page;
+    } catch (error) {
+        console.error("Error fetching filtered data:", error);
+    }
+};
+
+watchEffect(() => {
+    props.medicine.data,
+        (newMedData) => {
+            medicineData.value = newMedData || [];
+        };
+});
+
+const takeData = async () => {
+    try {
+        const response = await axios.get("/medicine");
+        props.medicine.value = response.data.data;
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
+
+onMounted(() => {
+    takeData();
+});
+
+watch([selectedSector, selectedMunicipal, selectedMonth], () => {
+    filterMedicineData();
+});
+
+defineComponent({
+    Pagination,
+});
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -48,6 +104,45 @@ const hasAccess = (type) => {
     type = type.map((t) => t.toUpperCase());
     return type.includes(page.props.role_type);
 };
+
+const formatDay = (day) => {
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+
+    const date = new Date(day);
+
+    return days[date.getDay()];
+};
+
+const formatTime = (time) => {
+    const date = new Date(time);
+
+    let hr = date.getHours();
+    let min = date.getMinutes();
+
+    const minute = min < 10 ? "0" + min : min;
+    const ampm = hr >= 12 ? "pm" : "am";
+    const hour = hr % 12 || 12;
+
+    return `${hour}:${minute}${ampm}`;
+};
+
+watch(
+    search,
+    debounce(() => {
+        router.visit(`/medicine?search=${search.value}`, {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    }, 500)
+);
 </script>
 
 <template>
@@ -79,14 +174,17 @@ const hasAccess = (type) => {
                 >
                     <div class="row col-md-10">
                         <div class="col-12 col-md-3 mb-2">
-                            <label class="fw-bold" for="">Barangay</label>
+                            <label class="fw-bold" for="">Sector</label>
                             <v-select
                                 :options="[
-                                    { id: '*', barangays: 'All' },
-                                    ...barangays.data,
+                                    {
+                                        id: '*',
+                                        name: 'All',
+                                    },
+                                    ...sectors.data,
                                 ]"
-                                v-model="selectedBrgy"
-                                label="barangay"
+                                v-model="selectedSector"
+                                label="name"
                             ></v-select>
                         </div>
                         <div class="col-12 col-md-3 mb-2">
@@ -104,7 +202,7 @@ const hasAccess = (type) => {
                             ></v-select>
                         </div>
                         <div class="col-12 col-md-3 mb-2">
-                            <label class="fw-bold" for="">Month</label>
+                            <label class="fw-bold" for="month">Month</label>
                             <v-select
                                 :options="[
                                     { id: '*', name: 'All' },
@@ -123,6 +221,7 @@ const hasAccess = (type) => {
                                 ]"
                                 v-model="selectedMonth"
                                 label="name"
+                                placeholder="All"
                             ></v-select>
                         </div>
                         <div class="col-12 col-md-2 mb-2">
@@ -157,20 +256,21 @@ const hasAccess = (type) => {
                                 <th>No.</th>
                                 <th class="text-start px-3">Client</th>
                                 <th>Amount</th>
+                                <th>Sector</th>
                                 <th>Date Encoded</th>
                                 <th>Print</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" v-if="medicine.data">
                             <tr
-                                v-for="(medicine, index) in props.medicines"
+                                v-for="(medicine, index) in medicine.data"
                                 :key="index"
                             >
                                 <td width="5%">
                                     {{ index + 1 }}
                                 </td>
-                                <td class="fw-bold text-start px-3" width="30%">
+                                <td class="fw-bold text-start px-3" width="25%">
                                     {{
                                         medicine.first_name !== null
                                             ? medicine.first_name
@@ -233,7 +333,9 @@ const hasAccess = (type) => {
                                         </div>
                                     </div>
                                 </td>
-                                <td class="fw-bold" width="15%">
+
+                                <td class="fw-bold fs-5" width="10%">
+                                    ₱
                                     {{
                                         new Intl.NumberFormat("en-US", {
                                             minimumFractionDigits: 2,
@@ -241,8 +343,30 @@ const hasAccess = (type) => {
                                         }).format(medicine.amount)
                                     }}
                                 </td>
-                                <td class="fw-bold" width="20%">
+                                <td class="fw-bold" width="15%">
+                                    {{ medicine.sector_name.name }}
+                                </td>
+                                <td class="fw-bold" width="15%">
                                     {{ formatDate(medicine.created_at) }}
+                                    <div
+                                        class="d-flex flex-column"
+                                        style="font-size: 0.9rem"
+                                    >
+                                        <div class="align-items-center">
+                                            <div class="text-secondary fw-bold">
+                                                {{
+                                                    formatDay(
+                                                        medicine.created_at
+                                                    )
+                                                }}
+                                                <span class="fw-normal ms-1">{{
+                                                    formatTime(
+                                                        medicine.created_at
+                                                    )
+                                                }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td width="20%">
                                     <a
@@ -276,13 +400,14 @@ const hasAccess = (type) => {
                                         <i class="bi bi-pencil-square"></i>
                                         <!-- Edit -->
                                     </Link>
-                                    <Link
+                                    <a
+                                        href="#"
                                         class="btn btn-sm btn-info me-2"
                                         title="Details"
                                     >
                                         <i class="bi bi-eye"></i>
                                         <!-- Details -->
-                                    </Link>
+                                    </a>
                                     <a
                                         :href="`/medicine/export/${medicine.id}`"
                                         class="btn btn-sm btn-success me-2"
@@ -296,11 +421,19 @@ const hasAccess = (type) => {
                                 </td>
                             </tr>
                         </tbody>
+                        <tbody v-else>
+                            <tr>
+                                <td colspan="9" class="text-center">
+                                    No record found.
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <!-- <pagination
-                        :records="monitorings"
-                        :link="monitorings.path"
-                    /> -->
+                    <pagination
+                        :records="medicine"
+                        :link="medicine.path"
+                        :on-page-change="filterMedicineData"
+                    />
                 </div>
             </div>
         </div>

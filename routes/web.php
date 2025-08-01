@@ -165,6 +165,10 @@ Route::group(['middleware' => 'auth'], function() {
 
                 Route::get('/medicine/export/{id}', 'export')->name('medicine.export')
                     ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+                Route::get('/medicine/filter/{sectorId?}/{municipalId?}/{month?}', 'filter')
+                    ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
             });
 
     // Type Assistance Controller

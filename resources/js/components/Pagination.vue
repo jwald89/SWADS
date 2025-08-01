@@ -23,7 +23,9 @@ const fetchRecords = (url) => {
             preserveScroll: true,
             preserveState: true,
         });
-        props.onPageChange(page); // Call to update the table
+
+        // Call the parent function with the page number
+        props.onPageChange(page);
     }
 };
 
@@ -102,14 +104,19 @@ const getDisplayedPages = (currentPage, lastPage) => {
                     :class="{
                         disabled:
                             !records.next_page_url ||
-                            records.current_page === records.last_page,
+                            records.current_page === records.last_page ||
+                            records.total === 0,
                     }"
                 >
                     <a
                         class="page-link"
                         href="#"
                         @click="fetchRecords(records.next_page_url)"
-                        :disabled="records.current_page === records.last_page"
+                        :disabled="
+                            !records.next_page_url ||
+                            records.current_page === records.last_page ||
+                            records.total === 0
+                        "
                     >
                         Next
                     </a>
