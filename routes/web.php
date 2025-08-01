@@ -279,7 +279,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/chart/municipality/data', [DashboardController::class, 'getMunicipalityData']);
     Route::get('/chart/assistance/data',[DashboardController::class, 'getAssistanceData']);
-    // Route::get('/chart/sector/data', [DashboardController::class, 'getSectorData']);
+    Route::get('/chart/sector/data', [DashboardController::class, 'getSectorData']);
 });
 
 
