@@ -2,6 +2,7 @@
 import LayoutApp from "../../Shared/Layout.vue";
 import Highcharts from "highcharts";
 import { ref, watch, onMounted } from "vue";
+import axios from "axios";
 
 const props = defineProps({
     totalNums: String,
@@ -14,10 +15,141 @@ const props = defineProps({
     sectorAvg: Object,
 });
 
+const sectorData = ref([]);
 const assistanceData = ref([]);
 const municipalData = ref([]);
 
+const currentSectorFilter = ref("Year");
+const currentAssistanceFilter = ref("Year");
+const currentMunicipalFilter = ref("Year");
+
+// Type sector data
+const fetchSectorData = async (filter) => {
+    currentSectorFilter.value =
+        filter.charAt(0).toUpperCase() + filter.slice(1);
+    try {
+        const response = await axios.get(
+            `/user/chart/sector/data?filter=${filter}`
+        );
+        const data = response.data.data;
+        sectorData.value = data.map((item) => ({
+            name: item.name,
+            y: parseFloat(item.cash_assistance) || 0,
+        }));
+        renderSerctorChart();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
+// Watch for changes in monitorStatus //
+// Client data
+watch(
+    () => props.monitorStatus,
+    (newValue) => {
+        if (newValue) {
+            sectorData.value = newValue
+                .map((data) => ({
+                    name: data.sector_name.name,
+                    y: parseFloat(data.remarkable?.cash_assistance),
+                }))
+                .filter((item) => !isNaN(item.y))
+                .reduce((acc, current) => {
+                    const existing = acc.find(
+                        (item) => item.name === current.name
+                    );
+                    if (existing) {
+                        existing.y += current.y; // Aggregate the amounts
+                    } else {
+                        acc.push({ ...current }); // Add new municipality
+                    }
+                    return acc;
+                }, []);
+        } else {
+            sectorData.value = [];
+        }
+    },
+    { immediate: true }
+);
+
+const renderSerctorChart = () => {
+    if (sectorData.value.length === 0) {
+        document.getElementById("sectorsChartReport").innerHTML = ""; // Clear previous chart
+        return; // Prevent rendering if no data
+    }
+
+    Highcharts.chart("sectorsChartReport", {
+        chart: {
+            type: "column",
+        },
+        title: {
+            text: "Cash amount served per sector",
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true,
+            },
+        },
+        xAxis: {
+            type: "category",
+        },
+        yAxis: {
+            title: {
+                text: "",
+            },
+        },
+        legend: {
+            enabled: false,
+        },
+        colors: ["#808080", "#0000FF", "#8bbc21", "#FFD700", "#FFFF00"],
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: "₱ {point.y:,.2f}",
+                },
+            },
+        },
+        tooltip: {
+            headerFormat:
+                '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat:
+                '<span style="color:{point.color}">{point.name}</span>: <b>₱ {point.y:,.2f}</b><br/>',
+        },
+        series: [
+            {
+                name: "Amount",
+                colorByPoint: true,
+                data: sectorData.value,
+            },
+        ],
+    });
+};
+
+onMounted(() => {
+    fetchSectorData("year");
+});
+
 // Type assistance data
+const fetchAssistanceData = async (filter) => {
+    currentAssistanceFilter.value =
+        filter.charAt(0).toUpperCase() + filter.slice(1);
+    try {
+        const response = await axios.get(
+            `/user/chart/assistance/data?filter=${filter}`
+        );
+        const data = response.data.data;
+        assistanceData.value = data.map((item) => ({
+            name: item.name,
+            y: parseFloat(item.cash_assistance) || 0,
+        }));
+        renderAnalyticChart();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
 watch(
     () => props.monitorStatus,
     (newValue) => {
@@ -96,7 +228,29 @@ const renderAnalyticChart = () => {
     });
 };
 
+onMounted(() => {
+    fetchAssistanceData("year");
+});
+
 // Municipality data
+const fetchMunicipalData = async (filter) => {
+    currentMunicipalFilter.value =
+        filter.charAt(0).toUpperCase() + filter.slice(1);
+    try {
+        const response = await axios.get(
+            `/user/chart/municipality/data?filter=${filter}`
+        );
+        const data = response.data.data;
+        municipalData.value = data.map((item) => ({
+            name: item.municipality,
+            y: parseFloat(item.cash_assistance) || 0,
+        }));
+        renderMunicipality();
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
 watch(
     () => props.monitorStatus,
     (newValue) => {
@@ -157,11 +311,23 @@ const renderMunicipality = () => {
     });
 };
 
+onMounted(() => {
+    fetchMunicipalData("year");
+});
+
 // Render the chart whenever sectorData changes //
-watch(assistanceData, municipalData, renderAnalyticChart, renderMunicipality);
+watch(
+    sectorData,
+    assistanceData,
+    municipalData,
+    renderSerctorChart,
+    renderAnalyticChart,
+    renderMunicipality
+);
 
 // Render the chart when the component is mounted //
 onMounted(() => {
+    renderSerctorChart();
     renderAnalyticChart();
     renderMunicipality();
 });
@@ -202,68 +368,7 @@ const formatDate = (dateString) => {
                 <!-- Left side columns -->
                 <div class="col-lg-8">
                     <div class="row">
-                        <!-- Sales Card -->
-                        <!-- <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card sales-card">
-                                <div class="filter">
-                                    <a
-                                        class="icon"
-                                        href="#"
-                                        data-bs-toggle="dropdown"
-                                        ><i class="bi bi-three-dots"></i
-                                    ></a>
-                                    <ul
-                                        class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                                    >
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li>
-                                            <a class="dropdown-item" href="#"
-                                                >Today</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#"
-                                                >This Month</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#"
-                                                >This Year</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        Total sector served
-                                    </h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                                        >
-                                            <i
-                                                class="bi bi-file-spreadsheet-fill"
-                                            ></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>{{ sectorAvg }}</h6>
-                                            <span
-                                                class="text-muted small pt-2 ps-1"
-                                                >This Year</span
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- End Sales Card -->
-
-                        <!-- Revenue Card -->
+                        <!-- Intake Total Amount Card -->
                         <div class="col-xxl-6 col-md-6">
                             <div class="card info-card revenue-card">
                                 <div class="filter">
@@ -300,7 +405,7 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Total amount of assistance
+                                        Total amount of intake assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -369,7 +474,9 @@ const formatDate = (dateString) => {
                                 </div>
 
                                 <div class="card-body">
-                                    <h5 class="card-title">Total assistance</h5>
+                                    <h5 class="card-title">
+                                        Total no. of intake assistance
+                                    </h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -390,9 +497,9 @@ const formatDate = (dateString) => {
                         </div>
                         <!-- End Customers Card -->
 
-                        <!-- Recent Assistance -->
+                        <!-- Sector Reports -->
                         <div class="col-12">
-                            <div class="card top-selling overflow-auto">
+                            <div class="card">
                                 <div class="filter">
                                     <a
                                         class="icon"
@@ -408,17 +515,30 @@ const formatDate = (dateString) => {
                                         </li>
 
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                href="#"
+                                                @click="
+                                                    fetchSectorData('today')
+                                                "
                                                 >Today</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                href="#"
+                                                @click="
+                                                    fetchSectorData('month')
+                                                "
                                                 >This Month</a
                                             >
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="#"
+                                            <a
+                                                class="dropdown-item"
+                                                href="#"
+                                                @click="fetchSectorData('year')"
                                                 >This Year</a
                                             >
                                         </li>
@@ -427,105 +547,19 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Recent Assistance <span>| Today</span>
+                                        Intake Sectors Report
+                                        <span>| {{ currentSectorFilter }}</span>
                                     </h5>
 
-                                    <div class="table-scroll">
-                                        <table class="table table-borderless">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">
-                                                        Claimant
-                                                    </th>
-                                                    <th scope="col">
-                                                        Municipality
-                                                    </th>
-                                                    <th scope="col">
-                                                        Type Assistance
-                                                    </th>
-                                                    <th scope="col">Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody
-                                                v-for="(
-                                                    monitoring, index
-                                                ) in monitorings"
-                                                :key="index"
-                                            >
-                                                <tr>
-                                                    <td scope="row">
-                                                        {{
-                                                            monitoring.intake
-                                                                .first_name ===
-                                                            null
-                                                                ? ""
-                                                                : formatName(
-                                                                      monitoring
-                                                                          .intake
-                                                                          .first_name
-                                                                  )
-                                                        }}
-                                                        {{
-                                                            monitoring.intake
-                                                                .middle_name ===
-                                                            null
-                                                                ? ""
-                                                                : formatName(
-                                                                      monitoring.intake.middle_name.substr(
-                                                                          0,
-                                                                          1
-                                                                      )
-                                                                  )
-                                                        }}.
-                                                        {{
-                                                            monitoring.intake
-                                                                .last_name ===
-                                                            null
-                                                                ? ""
-                                                                : formatName(
-                                                                      monitoring
-                                                                          .intake
-                                                                          .last_name
-                                                                  )
-                                                        }}
-                                                    </td>
-                                                    <td>
-                                                        {{
-                                                            monitoring.municipal
-                                                                .municipality
-                                                        }}
-                                                    </td>
-                                                    <td>
-                                                        {{
-                                                            monitoring
-                                                                .assistance.name
-                                                        }}
-                                                    </td>
-                                                    <td class="fw-bold">
-                                                        ₱
-                                                        {{
-                                                            new Intl.NumberFormat(
-                                                                "en-US",
-                                                                {
-                                                                    minimumFractionDigits: 2,
-                                                                    maximumFractionsDigits: 2,
-                                                                }
-                                                            ).format(
-                                                                monitoring.amount
-                                                            )
-                                                        }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <!-- Line Chart -->
+                                    <div id="sectorsChartReport"></div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Recent Assistance -->
+                        <!-- End Sector Reports -->
 
                         <!-- Assistance Status -->
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="card recent-sales overflow-auto">
                                 <div class="filter">
                                     <a
@@ -715,7 +749,7 @@ const formatDate = (dateString) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End Assistance Status -->
                     </div>
                 </div>
@@ -737,15 +771,26 @@ const formatDate = (dateString) => {
                                 </li>
 
                                 <li>
-                                    <a class="dropdown-item" href="#">Today</a>
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchAssistanceData('today')"
+                                        >Today</a
+                                    >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchAssistanceData('month')"
                                         >This Month</a
                                     >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchAssistanceData('year')"
                                         >This Year</a
                                     >
                                 </li>
@@ -753,7 +798,13 @@ const formatDate = (dateString) => {
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Assistance Report</h5>
+                            <h5 class="card-title">
+                                Intake Assistance Report
+                                <span
+                                    >|
+                                    {{ currentAssistanceFilter }}
+                                </span>
+                            </h5>
 
                             <div id="assistanceChartReport"></div>
                         </div>
@@ -774,15 +825,26 @@ const formatDate = (dateString) => {
                                 </li>
 
                                 <li>
-                                    <a class="dropdown-item" href="#">Today</a>
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchMunicipalData('today')"
+                                        >Today</a
+                                    >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchMunicipalData('month')"
                                         >This Month</a
                                     >
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
+                                    <a
+                                        class="dropdown-item"
+                                        href="#"
+                                        @click="fetchMunicipalData('year')"
                                         >This Year</a
                                     >
                                 </li>
@@ -791,8 +853,8 @@ const formatDate = (dateString) => {
 
                         <div class="card-body pb-0">
                             <h5 class="card-title">
-                                Municipality Report
-                                <span>| Today</span>
+                                Intake Municipality Report
+                                <span>| {{ currentMunicipalFilter }}</span>
                             </h5>
 
                             <div id="municipalChartReport"></div>

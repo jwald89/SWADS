@@ -313,7 +313,7 @@ const renderMunicipality = () => {
 };
 
 onMounted(() => {
-    fetchMunicipalData("year"); // Fetch initial data
+    fetchMunicipalData("year");
 });
 
 // Render the chart whenever sectorData changes //
@@ -455,7 +455,7 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Total amount of assistance
+                                        Total amount of intake assistance
                                     </h5>
 
                                     <div class="d-flex align-items-center">
@@ -516,7 +516,9 @@ const formatDate = (dateString) => {
                                 </div>
 
                                 <div class="card-body">
-                                    <h5 class="card-title">Total assistance</h5>
+                                    <h5 class="card-title">
+                                        Total no. of intake assistance
+                                    </h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -587,7 +589,7 @@ const formatDate = (dateString) => {
 
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Sectors Report
+                                        Intake Sectors Report
                                         <span>| {{ currentSectorFilter }}</span>
                                     </h5>
 
@@ -599,7 +601,7 @@ const formatDate = (dateString) => {
                         <!-- End Sector Reports -->
 
                         <!-- Assistance Status -->
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="card recent-sales overflow-auto">
                                 <div class="filter">
                                     <a
@@ -829,11 +831,11 @@ const formatDate = (dateString) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End Assistance Status -->
 
                         <!-- Recent Assistance -->
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div class="card top-selling overflow-auto">
                                 <div class="filter">
                                     <a
@@ -978,7 +980,7 @@ const formatDate = (dateString) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- End Recent Assistance -->
                     </div>
                 </div>
@@ -1028,7 +1030,7 @@ const formatDate = (dateString) => {
 
                         <div class="card-body">
                             <h5 class="card-title">
-                                Assistance Report
+                                Intake Assistance Report
                                 <span>| {{ currentAssistanceFilter }}</span>
                             </h5>
 
@@ -1079,7 +1081,7 @@ const formatDate = (dateString) => {
 
                         <div class="card-body pb-0">
                             <h5 class="card-title">
-                                Municipalities Report
+                                Intake Municipality Report
                                 <span>| {{ currentMunicipalFilter }}</span>
                             </h5>
 
