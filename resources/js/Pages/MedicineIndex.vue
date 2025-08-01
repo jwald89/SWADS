@@ -254,10 +254,10 @@ watch(
                         <thead class="text-center">
                             <tr class="bg-primary text-white">
                                 <th>No.</th>
-                                <th class="text-start px-3">Client</th>
-                                <th>Amount</th>
-                                <th>Sector</th>
-                                <th>Date Encoded</th>
+                                <th class="text-start px-1">Client</th>
+                                <th class="text-start px-3">Amount</th>
+                                <th class="text-start px-5">Sector</th>
+                                <th class="text-start px-3">Date Encoded</th>
                                 <th>Print</th>
                                 <th>Action</th>
                             </tr>
@@ -270,7 +270,7 @@ watch(
                                 <td width="5%">
                                     {{ index + 1 }}
                                 </td>
-                                <td class="fw-bold text-start px-3" width="25%">
+                                <td class="fw-bold text-start px-1" width="25%">
                                     {{
                                         medicine.first_name !== null
                                             ? medicine.first_name
@@ -334,7 +334,10 @@ watch(
                                     </div>
                                 </td>
 
-                                <td class="fw-bold fs-5" width="10%">
+                                <td
+                                    class="fw-bold fs-5 text-start px-3"
+                                    width="10%"
+                                >
                                     ₱
                                     {{
                                         new Intl.NumberFormat("en-US", {
@@ -343,10 +346,10 @@ watch(
                                         }).format(medicine.amount)
                                     }}
                                 </td>
-                                <td class="fw-bold" width="15%">
+                                <td class="fw-bold text-start px-5" width="15%">
                                     {{ medicine.sector_name.name }}
                                 </td>
-                                <td class="fw-bold" width="15%">
+                                <td class="fw-bold text-start px-3" width="15%">
                                     {{ formatDate(medicine.created_at) }}
                                     <div
                                         class="d-flex flex-column"

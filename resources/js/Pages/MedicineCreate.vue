@@ -39,7 +39,7 @@ const errors = reactive({});
 const form = reactive({
     classification: "",
     sector_type: "",
-    p: "",
+    ips: "",
     first_name: "",
     middle_name: "",
     last_name: "",
@@ -79,7 +79,7 @@ watch(
 const resetForm = () => {
     form.classification = "";
     form.sector_type = "";
-    form.p = "";
+    form.ips = "";
     form.first_name = "";
     form.middle_name = "";
     form.last_name = "";
@@ -102,7 +102,7 @@ const submitForm = async () => {
     const fields = [
         "classification",
         "sector_type",
-        "p",
+        "ips",
         "first_name",
         "middle_name",
         "last_name",
@@ -261,7 +261,7 @@ defineComponent({
                                     name="ips"
                                     id="ips"
                                     :options="indigents.data"
-                                    v-model="form.indigent_people"
+                                    v-model="form.ips"
                                     :reduce="(data) => data.id"
                                     label="name"
                                     placeholder="Select"

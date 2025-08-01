@@ -12,7 +12,7 @@ class Medicine extends Model
     protected $fillable = [
         'classification',
         'sector_type',
-        'indigent_people',
+        'ips',
         'first_name',
         'middle_name',
         'last_name',

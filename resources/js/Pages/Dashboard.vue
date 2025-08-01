@@ -28,7 +28,7 @@ const fetchSectorData = async (filter) => {
     currentSectorFilter.value =
         filter.charAt(0).toUpperCase() + filter.slice(1);
     try {
-        const response = await axios.get(`/sector-data?filter=${filter}`);
+        const response = await axios.get(`/chart/sector/data?filter=${filter}`);
         const data = response.data.data;
         sectorData.value = data.map((item) => ({
             name: item.name,
@@ -134,7 +134,9 @@ const fetchAssistanceData = async (filter) => {
     currentAssistanceFilter.value =
         filter.charAt(0).toUpperCase() + filter.slice(1);
     try {
-        const response = await axios.get(`/assistance-data?filter=${filter}`);
+        const response = await axios.get(
+            `/chart/assistance/data?filter=${filter}`
+        );
         const data = response.data.data;
         assistanceData.value = data.map((item) => ({
             name: item.name,
@@ -233,7 +235,9 @@ const fetchMunicipalData = async (filter) => {
     currentMunicipalFilter.value =
         filter.charAt(0).toUpperCase() + filter.slice(1);
     try {
-        const response = await axios.get(`/municipality-data?filter=${filter}`);
+        const response = await axios.get(
+            `/chart/municipality/data?filter=${filter}`
+        );
         const data = response.data.data;
         municipalData.value = data.map((item) => ({
             name: item.municipality,

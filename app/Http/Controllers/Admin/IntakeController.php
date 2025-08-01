@@ -61,8 +61,8 @@ class IntakeController extends Controller
                             });
                         });
                     })
-                    ->orderBy('date_intake', 'DESC')
                     ->orderBy('created_at', 'DESC')
+                    ->orderBy('date_intake', 'DESC')
                     ->paginate(10);
 
         $famComps = FamilyComposition::get();
