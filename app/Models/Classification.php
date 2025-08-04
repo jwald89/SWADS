@@ -9,8 +9,18 @@ class Classification extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'name',
+    ];
+
     public function intake()
     {
         return $this->hasMany(PersonalInformation::class, 'id', 'classification');
+    }
+
+    public function medicine()
+    {
+        return $this->hasMany(Medicine::class, 'id', 'classification');
     }
 }

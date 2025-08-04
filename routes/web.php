@@ -268,14 +268,18 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::controller(SummaryReportController::class)
         ->group(function() {
-            Route::get('/summary-report', 'index')
+            Route::get('/intake-summary-report', 'intakeIndex')
                 ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
 
-            Route::get('/summary-report/filter/{assistanceId?}/{sectorId?}/{municipalId?}/{officeId?}/{dateFrom?}/{dateTo?}', 'filter')
+            Route::get('/intake-summary-report/filter/{assistanceId?}/{sectorId?}/{municipalId?}/{officeId?}/{dateFrom?}/{dateTo?}', 'intakeFilter')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+            Route::get('/medicine-summary-report', 'medicineIndex')
+                ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
+
+            Route::get('/medicine-summary-report/filter/{sectorId?}/{municipalId?}/{classTypeId?}/{dateFrom?}/{dateTo?}', 'medicineFilter')
                 ->middleware([EnsureFeaturesAreActive::using('supervisor-admin')]);
         });
-
-
 
     Route::get('/chart/municipality/data', [DashboardController::class, 'getMunicipalityData']);
     Route::get('/chart/assistance/data',[DashboardController::class, 'getAssistanceData']);

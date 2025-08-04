@@ -23,7 +23,7 @@ const dateFrom = ref("");
 const dateTo = ref("");
 
 const generateReportUrl = () => {
-    return `/summary-report/filter/${selectedAssistance.value.id}/${selectedSector.value.id}/${selectedMunicipal.value.id}/${selectedOffice.value.id}/${dateFrom.value}/${dateTo.value}`;
+    return `/intake-summary-report/filter/${selectedAssistance.value.id}/${selectedSector.value.id}/${selectedMunicipal.value.id}/${selectedOffice.value.id}/${dateFrom.value}/${dateTo.value}`;
 };
 
 defineComponent({

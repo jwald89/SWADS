@@ -19,7 +19,7 @@ class DashboardController extends Controller
     {
         $totalAssistance = DB::table('personal_information')->whereNull('deleted_at')->count();
         // $totalAmt = DB::table('monitorings')->where('deleted_at', null)->sum('amount');
-        $totalAmt = DB::table('remarks')->where('deleted_at', null)->sum('cash_assistance');
+        $totalAmt = DB::table('remarks')->whereNull('deleted_at')->sum('cash_assistance');
         $monitorData = Monitoring::with(['intake', 'assistance', 'municipal'])
                             ->whereHas('intake', function($query) {
                                 $query->where('deleted_at', null);

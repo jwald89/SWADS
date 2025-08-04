@@ -570,31 +570,113 @@ onMounted(() => {
             <!-- REPORT MODULE -->
             <div v-if="hasAccess(['admin', 'supervisor'])">
                 <li class="nav-heading">REPORTS</li>
-                <li class="nav-item">
-                    <Link
-                        class="nav-link"
-                        :href="`/summary-report`"
+                <a
+                    class="nav-link collapsed"
+                    :class="{
+                        'bg-highlight':
+                            currentRoute.includes('intake-summary-report') ||
+                            currentRoute.includes('medicine-summary-report'),
+                    }"
+                    data-bs-target="#component-nav-4"
+                    data-bs-toggle="collapse"
+                >
+                    <i
+                        class="bi bi-bar-chart-line"
                         :class="{
-                            'bg-highlight':
-                                currentRoute.includes('summary-report'),
+                            'text-primary':
+                                currentRoute.includes(
+                                    'intake-summary-report'
+                                ) ||
+                                currentRoute.includes(
+                                    'medicine-summary-report'
+                                ),
                         }"
+                    ></i
+                    ><span
+                        :class="{
+                            'color-highlight':
+                                currentRoute.includes(
+                                    'intake-summary-report'
+                                ) ||
+                                currentRoute.includes(
+                                    'medicine-summary-report'
+                                ),
+                        }"
+                        >SUMMARY REPORT</span
                     >
-                        <i
-                            class="bi bi-newspaper"
-                            :class="{
-                                'color-highlight':
-                                    currentRoute.includes('summary-report'),
-                            }"
-                        ></i>
-                        <span
-                            :class="{
-                                'color-highlight':
-                                    currentRoute.includes('summary-report'),
-                            }"
-                            >SUMMARY REPORT</span
+                    <i
+                        class="bi bi-chevron-down ms-auto"
+                        :class="{
+                            'text-primary':
+                                currentRoute.includes(
+                                    'intake-summary-report'
+                                ) ||
+                                currentRoute.includes(
+                                    'medicine-summary-report'
+                                ),
+                        }"
+                    ></i>
+                </a>
+                <ul
+                    id="component-nav-4"
+                    class="nav-content collapse"
+                    :class="{
+                        show:
+                            currentRoute.includes('intake-summary-report') ||
+                            currentRoute.includes('medicine-summary-report'),
+                    }"
+                    data-bs-parent="#sidebar-nav"
+                >
+                    <li>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/intake-summary-report`"
                         >
-                    </Link>
-                </li>
+                            <i
+                                class="bi bi-card-list"
+                                :class="{
+                                    'icon-highlight': currentRoute.includes(
+                                        'intake-summary-report'
+                                    ),
+                                }"
+                            ></i>
+                            <span
+                                :class="{
+                                    'color-highlight': currentRoute.includes(
+                                        'intake-summary-report'
+                                    ),
+                                }"
+                                >Intake Report</span
+                            >
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            class="nav-link collapsed"
+                            :href="`/medicine-summary-report`"
+                        >
+                            <i
+                                class="bi bi-card-list"
+                                :class="{
+                                    'icon-highlight': currentRoute.includes(
+                                        'medicine-summary-report'
+                                    ),
+                                }"
+                            ></i>
+                            <span
+                                :class="{
+                                    'color-highlight': currentRoute.includes(
+                                        'medicine-summary-report'
+                                    ),
+                                }"
+                                >Medicine Report</span
+                            >
+                        </Link>
+                    </li>
+                </ul>
+                <!-- END SUMMARY REPORT -->
+
+                <!-- START CHART REPORT -->
                 <a
                     class="nav-link collapsed"
                     :class="{

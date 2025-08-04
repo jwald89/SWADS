@@ -59,4 +59,9 @@ class Medicine extends Model
     {
         return $this->belongsTo(Sector::class, 'sector_type', 'id');
     }
+
+    public function classificationName()
+    {
+        return $this->belongsTo(Classification::class, 'classification', 'id');
+    }
 }
