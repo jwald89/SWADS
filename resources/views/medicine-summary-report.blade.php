@@ -97,7 +97,7 @@
             <h2 style="line-height: 0">PROVINCE OF SURIGAO DEL SUR</h2>
             <h3 style="font-weight: normal">Capitol Hills, Tandag City</h3>
             <h2 style="line-height: 0.3">Provincial Social Welfare and Development Office</h2>
-            <h1 style="line-height: 0.3; margin-top: 2rem">SUMMARY REPORT</h1>
+            <h1 style="line-height: 0.3; margin-top: 2rem">MEDICINE SUMMARY REPORT</h1>
         </div>
         <div class="logo">
             <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
@@ -111,6 +111,8 @@
             <thead>
                 <tr>
                     <th style="text-align: center">No.</th>
+                    <th style="text-align: left">Client</th>
+                    <th style="text-align: center">Date Encoded</th>
                     <th style="text-align: center">Sector</th>
                     <th style="text-align: center">Municipality</th>
                     <th style="text-align: center">Classification</th>
@@ -120,17 +122,19 @@
             <tbody>
             @foreach ($summary as $key => $data)
                 <tr>
-                    <td style="text-align: center">{{ $key + 1 }}</td>
-                    <td style="text-align: center">{{ $data->sectorName->name }}</td>
-                    <td style="text-align: center">{{ $data->municipal->municipality }}</td>
-                    <td style="text-align: center">{{ $data->classificationName->name }}</td>
-                    <td style="text-align: center">{{ number_format($data->amount, 2) }}</td>
+                    <td style="text-align: center" width="5%">{{ $key + 1 }}</td>
+                    <td style="text-align: left" width="25%">{{ strtoupper($data->last_name) . "," }} {{ strtoupper($data->first_name) }} {{ $data->middle_name ? strtoupper($data->middle_name) : null }}</td>
+                    <td style="text-align: center" width="10%">{{ Carbon::parse($data->created_at)->format('m/d/Y') }}</td>
+                    <td style="text-align: center" width="18%">{{ $data->sectorName->name }}</td>
+                    <td style="text-align: center" width="17%">{{ $data->municipal->municipality }}</td>
+                    <td style="text-align: center" width="10%">{{ $data->classificationName->name }}</td>
+                    <td style="text-align: center" width="15%">{{ number_format($data->amount, 2) }}</td>
                 </tr>
                 @endforeach
             </tbody>
             <tr style="background-color: rgb(255, 255, 255); color: #474747; font-size: 1.5rem; font-weight: bold">
-                <td colspan="4" style="text-align: right">TOTAL &nbsp; </td>
-                <td colspan="2" style="text-align: center">&nbsp; {{ number_format($totalAmt, 2) }}</td>
+                <td colspan="6" style="text-align: right">TOTAL &nbsp; </td>
+                <td colspan="1" style="text-align: center">&nbsp; {{ number_format($totalAmt, 2) }}</td>
             </tr>
         </table>
     </div>

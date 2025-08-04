@@ -97,7 +97,7 @@
             <h2 style="line-height: 0">PROVINCE OF SURIGAO DEL SUR</h2>
             <h3 style="font-weight: normal">Capitol Hills, Tandag City</h3>
             <h2 style="line-height: 0.3">Provincial Social Welfare and Development Office</h2>
-            <h1 style="line-height: 0.3; margin-top: 2rem">SUMMARY REPORT</h1>
+            <h1 style="line-height: 0.3; margin-top: 2rem">INTAKE SUMMARY REPORT</h1>
         </div>
         <div class="logo">
             <img src="C:/nginx-1.26.2/html/swads-app/public/assets/img/pswdo-logo.jpg" alt="logo">
