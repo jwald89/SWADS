@@ -139,9 +139,10 @@ const fetchEditData = async (id) => {
         editData.title = response.data.title;
         editData.designation = response.data.designation;
         editData.username = response.data.username;
-        editData.password = response.data.password;
         editData.municipality = response.data.municipality;
         editData.role_type = response.data.role_type;
+
+        editData.password = "";
     } catch (error) {
         toast.error("Failed to fetch data for editing.", { autoClose: 2000 });
         console.error(error);
@@ -385,6 +386,7 @@ watch(
                                             'is-invalid': errors.password,
                                         }"
                                         placeholder="Password"
+                                        autocomplete="new-password"
                                     />
                                     <small
                                         v-if="errors.password"
@@ -625,6 +627,7 @@ watch(
                                         name="password"
                                         id="password"
                                         v-model="editData.password"
+                                        autocomplete="new-password"
                                     />
                                 </div>
                             </div>

@@ -73,7 +73,7 @@ class SummaryReportController extends Controller
         $query->whereNull('deleted_at')->whereBetween('date_intake', [$printFrom, $printTo]);
 
         // Get the filtered results
-        $summary = $query->get();
+        $summary = $query->orderBy('date_intake', 'ASC')->get();
 
         // Initialize total amount
         $totalAmt = 0;

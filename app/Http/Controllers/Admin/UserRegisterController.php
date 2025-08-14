@@ -139,13 +139,20 @@ class UserRegisterController extends Controller
     public function update(Request $request, $id)
     {
         $users = User::findOrFail($id);
-        $users->update(
-            array_merge($request->all(),
-            [
-                'modified_by' =>  Auth::id(),
-                'modified_date' => Carbon::now()
-            ])
-        );
+
+        // Prepare an array for fields to be updated
+        $dataToUpdate = [
+            'modified_by' => Auth::id(),
+            'modified_date' => Carbon::now(),
+        ];
+
+        // Check if a new password is provided
+        if ($request->filled('password')) {
+            $dataToUpdate['password'] = Hash::make($request->input('password'));
+        }
+
+        // Update the user with the provided data excluding the password if not set
+        $users->update(array_merge($request->except('password'), $dataToUpdate));
 
         return $users;
     }
