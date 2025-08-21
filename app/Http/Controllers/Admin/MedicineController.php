@@ -12,6 +12,7 @@ use App\Models\Municipality;
 use App\Models\Classification;
 use App\Models\IndigentPeople;
 use App\Models\FamRelationship;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +87,15 @@ class MedicineController extends Controller
     {
         $userId = Auth::id();
 
+        // Check for duplicate medicine entry
+        // $existingMedicine = Medicine::where('name', $request->input('name'))
+        //     ->where('amount', str_replace(',', '', $request->input('amount')))
+        //     ->first();
+
+        // if ($existingMedicine) {
+        //     return response()->json(['message' => 'Duplicate entry.'], 409);
+        // }
+
         $medicine = Medicine::create(
             array_merge($request->all(), [
                 'created_by' => $userId,
@@ -147,13 +157,6 @@ class MedicineController extends Controller
         return response()->json($medicine, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
     /**
      * Print view of guarante letter.
@@ -308,4 +311,29 @@ class MedicineController extends Controller
 
         return $paginatedData;
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        return DB::transaction(function () use ($id) {
+            $medicines = Medicine::with(['sectorName', 'barangay', 'municipal', 'user'])->find($id);
+
+            if(!$medicines) {
+                return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+            }
+
+            if($medicines->deleted_by === null) {
+                $medicines->deleted_by = Auth::id();
+                $medicines->save();
+            }
+
+            $medicines->delete();
+
+            return response()->json(['success' => true]);
+        });
+    }
+
 }

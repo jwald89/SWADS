@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\IntakeController;
+use App\Http\Controllers\Admin\MedicineController;
 use App\Http\Controllers\Admin\MonitoringController;
 
 /*
@@ -51,3 +52,7 @@ Route::middleware(['auth'])->group(function() {
 Route::delete('/family-member/{id}', [IntakeController::class, 'deleteFamilyMember']);
 
 // Route::get('/sectoral-data/filter/{sector?}/{municipality?}', [SectoralDataController::class, 'filter']);
+
+Route::middleware(['auth'])->group(function() {
+    Route::delete('/medicine/delete/{id}', [MedicineController::class, 'destroy']);
+});

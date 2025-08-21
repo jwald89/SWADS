@@ -57,6 +57,8 @@ const form = reactive({
     assistance_need: "",
 });
 
+const isSubmitting = ref(false); // Loading state
+
 const barangayOptions = computed(() => {
     if (!form.municipality) return [];
 
@@ -98,6 +100,9 @@ const resetForm = () => {
 };
 
 const submitForm = async () => {
+    if (isSubmitting.value) return;
+    isSubmitting.value = true;
+
     // Clear previous errors
     const fields = [
         "classification",
@@ -126,16 +131,12 @@ const submitForm = async () => {
         }
     });
 
-    // isSubmitting.value = true;
-
     try {
         const response = await axios.post("/medicine/post", form);
 
         toast.success("Successfully created.", {
             autoClose: 1000,
         });
-
-        console.log("working..");
         resetForm();
     } catch (error) {
         if (error.response && error.response.status === 422) {
@@ -154,10 +155,9 @@ const submitForm = async () => {
             });
         }
         console.error("Error submitting form:", error);
+    } finally {
+        isSubmitting.value = false;
     }
-    //  finally {
-    //     isSubmitting.value = false;
-    // }
 };
 
 defineComponent({
@@ -658,11 +658,29 @@ defineComponent({
                     <button
                         type="submit"
                         class="btn btn-success mt-0 float-end"
+                        :disabled="isSubmitting"
                     >
-                        <i class="bi bi-save"></i> Save
+                        <span
+                            v-if="isSubmitting"
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
+                        <span v-if="!isSubmitting">
+                            <i class="bi bi-save"></i> Save
+                        </span>
+                        <span v-else>Saving...</span>
                     </button>
                 </form>
             </div>
         </div>
     </LayoutApp>
 </template>
+
+<style>
+.spinner-border {
+    margin-right: 5px; /* Space between spinner and text */
+    width: 1rem; /* Spinner size */
+    height: 1rem; /* Spinner size */
+}
+</style>

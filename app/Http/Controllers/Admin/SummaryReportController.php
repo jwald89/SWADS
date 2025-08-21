@@ -70,10 +70,10 @@ class SummaryReportController extends Controller
         }
 
         // Apply date range filter //
-        $query->whereNull('deleted_at')->whereBetween('date_intake', [$printFrom, $printTo]);
+        $query->whereBetween('date_intake', [$printFrom, $printTo]);
 
         // Get the filtered results
-        $summary = $query->orderBy('date_intake', 'ASC')->get();
+        $summary = $query->orderBy('date_intake', 'ASC')->whereNull('deleted_at')->get();
 
         // Initialize total amount
         $totalAmt = 0;
@@ -144,7 +144,7 @@ class SummaryReportController extends Controller
         $query->whereBetween('created_at', [$printFrom, $printTo]);
 
         // Get the filtered results
-        $summary = $query->get();
+        $summary = $query->orderBy('created_at', 'ASC')->whereNull(['deleted_at'])->get();
 
         // Initialize total amount
         $totalAmt = 0;
